@@ -1,0 +1,67 @@
+
+import Renderer from "../Renderer";
+import ObjectGPU from "../core/ObjectGPU";
+import { TextureDimension, TextureFormat} from "../WebGPUConstants";
+
+
+export type TextureOptions= {
+    width?: GPUIntegerCoordinate;
+    height?: GPUIntegerCoordinate;
+    depthOrArrayLayers?:GPUIntegerCoordinate;
+    format?:GPUTextureFormat;
+    sampleCount?:1|4;
+    mipLevelCount?:GPUIntegerCoordinate
+    usage?:GPUTextureUsageFlags;
+    dimension?:GPUTextureDimension;
+
+}
+export const  TextureOptionsDefault:TextureOptions ={
+    width :1,
+    height : 1,
+    depthOrArrayLayers :1,
+    format :TextureFormat.RGBA8Unorm,
+    usage :16,
+    sampleCount:1,
+    mipLevelCount:1,
+    dimension:TextureDimension.TwoD
+
+}
+
+export default class Texture extends ObjectGPU{
+    public textureGPU!: GPUTexture;
+    protected options:TextureOptions;
+    public isDirty:boolean =true;
+    constructor(renderer:Renderer,label:string ="",options:  Partial<TextureOptions> ) {
+      super(renderer,label);
+
+        this.options = { ...TextureOptionsDefault, ...options};
+
+        this.renderer.addTexture(this);
+
+    }
+    public make()
+    {
+        if(!this.isDirty)return
+        if (this.textureGPU) this.textureGPU.destroy();
+        this.textureGPU = this.device.createTexture({
+            label:this.label,
+            size: [this.options.width, this.options.height,this.options.depthOrArrayLayers],
+            sampleCount: this.options.sampleCount,
+            format: this.options.format,
+            usage: this.options.usage,
+            mipLevelCount: this.options.mipLevelCount,
+            dimension:this.options.dimension,
+            ///viewformats
+        });
+
+    }
+
+    writeTexture(f: Uint8ClampedArray,width,height,bytesPerRow) {
+        this.renderer.device.queue.writeTexture(
+            { texture: this.textureGPU },
+            f,
+            { bytesPerRow: bytesPerRow },
+            [width,height]
+        );
+    }
+}

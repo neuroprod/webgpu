@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "type-check": "tsc",
+    "format": "prettier \"./src/**/*.{js,jsx,ts,tsx,scss,md}\" --write --loglevel warn"
+  },
+  "dependencies": {
+    "@math.gl/types": "^3.6.3",
+    "@types/draco3d": "^1.4.7",
+    "@webgpu/types": "latest",
+    "draco3d": "^1.5.6",
+    "gl-matrix": "^3.4.3",
+    "math.gl": "^3.6.3",
+    "next": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "typescript": "^5.0.4"
+  }
+}
