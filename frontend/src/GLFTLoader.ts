@@ -1,12 +1,12 @@
-import PreLoader from "../PreLoader";
-import Mesh from "../core/Mesh";
-import Renderer from "../Renderer";
-import Object3D from "../core/Object3D";
-import Model from "../model/Model";
-import TestShader from "../../shaders/TestShader";
-import Material from "../core/Material";
-import ImagePreloader from "../../ImagePreloader";
-import Texture from "../textures/Texture";
+import PreLoader from "./lib/PreLoader";
+import Mesh from "./lib/core/Mesh";
+import Renderer from "./lib/Renderer";
+import Object3D from "./lib/core/Object3D";
+import Model from "./lib/model/Model";
+import TestShader from "./shaders/TestShader";
+import Material from "./lib/core/Material";
+import ImagePreloader from "./ImagePreloader";
+
 
 type Accessor = {
     accessor: any;
@@ -35,7 +35,7 @@ export default class GLFTLoader {
 
         this.root = new Object3D(renderer, "sceneRoot");
         this.mainShader =new TestShader(this.renderer,"testShader");
-       // this.material =new Material(this.renderer,"testmaterial",testShader);
+
 
         preLoader.startLoad();
         this.loadURL(url).then(() => {

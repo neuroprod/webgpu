@@ -25,7 +25,7 @@ export const DepthStencilAttachmentOptionsDefault: DepthStencilAttachmentOptions
 }
 export default class DepthStencilAttachment {
     public options: DepthStencilAttachmentOptions
-    private renderTexture: RenderTexture;
+    public renderTexture: RenderTexture;
 
     constructor(renderTexture: RenderTexture, options: Partial<DepthStencilAttachmentOptions>=DepthStencilAttachmentOptionsDefault) {
         this.renderTexture =renderTexture;

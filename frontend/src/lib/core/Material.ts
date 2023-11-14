@@ -2,7 +2,7 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import Shader from "./Shader";
 import RenderPass from "./RenderPass";
-import {TextureFormat} from "../WebGPUConstants";
+import {CompareFunction} from "../WebGPUConstants";
 import UniformGroup from "./UniformGroup";
 import ModelTransform from "../model/ModelTransform";
 import Camera from "../Camera";
@@ -11,10 +11,14 @@ export default class Material extends ObjectGPU {
     shader: Shader;
     pipeLine: GPURenderPipeline;
     private pipeLineLayout: GPUPipelineLayout;
-    //private renderPass: RenderPass;
+
     private colorTargets:Array<GPUColorTargetState>=[];
+    private depthStencilState:GPUDepthStencilState;
     private needsDepth: boolean =true;
     public uniforms:UniformGroup;
+    public depthWrite: boolean =true;
+    public depthCompare: GPUCompareFunction=CompareFunction.Less;
+
     constructor(renderer: Renderer, label: string, shader: Shader) {
         super(renderer, label);
         this.shader = shader;
@@ -29,7 +33,19 @@ export default class Material extends ObjectGPU {
 
         if(this.pipeLine)return;
         this.colorTargets =[]
-        this.colorTargets.push({ format:  TextureFormat.BGRA8Unorm as GPUTextureFormat });
+
+        for(let a of pass.colorAttachments){
+
+            this.colorTargets.push({ format:  a.renderTexture.options.format });
+        }
+        if(pass.depthStencilAttachment){
+            this.needsDepth =true;
+            this.depthStencilState={
+                depthWriteEnabled: this.depthWrite,
+                depthCompare: this.depthCompare,
+                format: pass.depthStencilAttachment.renderTexture.options.format,
+            }
+        }
         this.makePipeLineLayout()
 
 
@@ -64,23 +80,22 @@ export default class Material extends ObjectGPU {
             },
         };
         if (this.needsDepth) {
-            desc.depthStencil = {
-                depthWriteEnabled: true,
-                depthCompare: "less",
-                format: "depth16unorm",
-            };
+            desc.depthStencil =this.depthStencilState;
         }
         return desc;
     }
 
     private makePipeLineLayout() {
+        let layouts =[]
+        if(this.shader.needsCamera)layouts.push(Camera.getBindGroupLayout())
+        if(this.shader.needsTransform)layouts.push(ModelTransform.getBindGroupLayout())
+        layouts.push(this.uniforms.bindGroupLayout)
+
         this.pipeLineLayout= this.device.createPipelineLayout({
             label: "Material_pipelineLayout_" + this.label,
-            bindGroupLayouts: [Camera.getBindGroupLayout(),ModelTransform.getBindGroupLayout(),this.uniforms.bindGroupLayout],
+            bindGroupLayouts: layouts,
         });
     }
 
-    /*setRenderPass(renderPass: RenderPass) {
-        this.renderPass =renderPass;
-    }*/
+
 }

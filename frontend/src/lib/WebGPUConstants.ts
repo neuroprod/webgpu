@@ -6,25 +6,25 @@ export const GPUPrimitiveTopology = {
     TriangleStrip: 'triangle-strip',
 };
 
-export const GPUCompareFunction = {
-    Never: 'never',
-    Less: 'less',
-    Equal: 'equal',
-    LessEqual: 'less-equal',
-    Greater: 'greater',
-    NotEqual: 'not-equal',
-    GreaterEqual: 'greater-equal',
-    Always: 'always'
+export const CompareFunction = {
+    Never: 'never' as GPUCompareFunction,
+    Less: 'less' as GPUCompareFunction,
+    Equal: 'equal' as GPUCompareFunction,
+    LessEqual: 'less-equal' as GPUCompareFunction,
+    Greater: 'greater' as GPUCompareFunction,
+    NotEqual: 'not-equal' as GPUCompareFunction,
+    GreaterEqual: 'greater-equal' as GPUCompareFunction,
+    Always: 'always' as GPUCompareFunction,
 };
 
 export const StoreOp = {
-    Store: 'store'as GPUStoreOp,
-    Discard: 'discard'as GPUStoreOp
+    Store: 'store' as GPUStoreOp,
+    Discard: 'discard' as GPUStoreOp
 };
 
 export const LoadOp = {
     Load: 'load' as GPULoadOp,
-    Clear: 'clear'as GPULoadOp
+    Clear: 'clear' as GPULoadOp
 };
 
 export const GPUFrontFace = {
@@ -40,7 +40,7 @@ export const GPUCullMode = {
 
 export const IndexFormat = {
     Uint16: 'uint16' as GPUIndexFormat,
-    Uint32: 'uint32'as GPUIndexFormat
+    Uint32: 'uint32' as GPUIndexFormat
 };
 
 export const GPUVertexFormat = {
@@ -81,19 +81,19 @@ export const TextureFormat = {
     // 8-bit formats
 
     R8Unorm: 'r8unorm' as GPUTextureFormat,
-    R8Snorm: 'r8snorm'as GPUTextureFormat,
-    R8Uint: 'r8uint'as GPUTextureFormat,
-    R8Sint: 'r8sint'as GPUTextureFormat,
+    R8Snorm: 'r8snorm' as GPUTextureFormat,
+    R8Uint: 'r8uint' as GPUTextureFormat,
+    R8Sint: 'r8sint' as GPUTextureFormat,
 
     // 16-bit formats
 
-    R16Uint: 'r16uint'as GPUTextureFormat,
-    R16Sint: 'r16sint'as GPUTextureFormat,
-    R16Float: 'r16float'as GPUTextureFormat,
-    RG8Unorm: 'rg8unorm'as GPUTextureFormat,
-    RG8Snorm: 'rg8snorm'as GPUTextureFormat,
-    RG8Uint: 'rg8uint'as GPUTextureFormat,
-    RG8Sint: 'rg8sint'as GPUTextureFormat,
+    R16Uint: 'r16uint' as GPUTextureFormat,
+    R16Sint: 'r16sint' as GPUTextureFormat,
+    R16Float: 'r16float' as GPUTextureFormat,
+    RG8Unorm: 'rg8unorm' as GPUTextureFormat,
+    RG8Snorm: 'rg8snorm' as GPUTextureFormat,
+    RG8Uint: 'rg8uint' as GPUTextureFormat,
+    RG8Sint: 'rg8sint' as GPUTextureFormat,
 
     // 32-bit formats
 
@@ -114,7 +114,7 @@ export const TextureFormat = {
     // Packed 32-bit formats
     RGB9E5UFloat: 'rgb9e5ufloat' as GPUTextureFormat,//hdr
     RGB10A2Unorm: 'rgb10a2unorm' as GPUTextureFormat,
-    RG11B10uFloat: 'rgb10a2unorm'as GPUTextureFormat,
+    RG11B10uFloat: 'rgb10a2unorm' as GPUTextureFormat,
 
     // 64-bit formats
 
@@ -289,12 +289,12 @@ export const TextureDimension = {
 };
 
 export const TextureViewDimension = {
-    OneD: '1d' as  GPUTextureViewDimension,
-    TwoD: '2d' as  GPUTextureViewDimension,
-    TwoDArray: '2d-array' as  GPUTextureViewDimension,
-    Cube: 'cube' as  GPUTextureViewDimension,
-    CubeArray: 'cube-array' as  GPUTextureViewDimension,
-    ThreeD: '3d' as  GPUTextureViewDimension
+    OneD: '1d' as GPUTextureViewDimension,
+    TwoD: '2d' as GPUTextureViewDimension,
+    TwoDArray: '2d-array' as GPUTextureViewDimension,
+    Cube: 'cube' as GPUTextureViewDimension,
+    CubeArray: 'cube-array' as GPUTextureViewDimension,
+    ThreeD: '3d' as GPUTextureViewDimension
 };
 
 export const GPUTextureAspect = {

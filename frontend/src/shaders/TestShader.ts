@@ -7,6 +7,7 @@ import ModelTransform from "../lib/model/ModelTransform";
 
 export default class TestShader extends Shader{
 
+
     init(){
 
         if(this.attributes.length==0) {
@@ -23,6 +24,8 @@ export default class TestShader extends Shader{
         this.addSampler("mySampler")
       // this.addVertexOutput("normal",3);
        // this.addVertexOutput("uv0",2);
+        this.needsTransform =true;
+        this.needsCamera=true;
     }
     getShaderCode(): string {
         return /* wgsl */ `
@@ -39,7 +42,7 @@ struct VertexOutput
 }
 ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
-${this.getShaderUniforms()}
+${this.getShaderUniforms(2)}
 const PI = 3.14159265359;
 
 fn fresnelSchlick(cosTheta:f32, F0:vec3f)-> vec3f

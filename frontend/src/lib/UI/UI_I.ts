@@ -17,7 +17,7 @@ import EventCenter, {
 } from "./components/internal/EventCenter";
 import RendererGPU from "./GPU/RendererGPU";
 import Rect from "./math/Rect";
-import Renderer from "../lib/Renderer";
+import Renderer from "../Renderer";
 
 export default class UI_I {
   public static currentComponent: Component;

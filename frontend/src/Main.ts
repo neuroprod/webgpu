@@ -5,7 +5,7 @@ import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
 
 import Camera from "./lib/Camera";
-import GLFTLoader from "./lib/loaders/GLFTLoader";
+import GLFTLoader from "./GLFTLoader";
 
 import ImagePreloader from "./ImagePreloader";
 import {Vector2, Vector3} from "math.gl";
@@ -13,7 +13,7 @@ import MouseListener from "./lib/MouseListener";
 import Object3D from "./lib/core/Object3D";
 import CanvasRenderPass from "./CanvasRenderPass";
 import TimeStampQuery from "./lib/TimeStampQuery";
-import UI from "./UI/UI";
+import UI from "./lib/UI/UI";
 
 
 export default class Main {

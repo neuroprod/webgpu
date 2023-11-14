@@ -29,7 +29,7 @@ export const  TextureOptionsDefault:TextureOptions ={
 
 export default class Texture extends ObjectGPU{
     public textureGPU!: GPUTexture;
-    protected options:TextureOptions;
+    public options:TextureOptions;
     public isDirty:boolean =true;
     constructor(renderer:Renderer,label:string ="",options:  Partial<TextureOptions> ) {
       super(renderer,label);

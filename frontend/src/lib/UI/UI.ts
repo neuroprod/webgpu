@@ -27,8 +27,8 @@ import { UI_COLOR, UI_VEC2, UI_VEC3, UI_VEC4 } from "./UI_Types";
 import LVector, { LVectorSettings } from "./components/LVector";
 import LList, { LListSettings } from "./components/LList";
 import LListItem, { LListItemSettings } from "./components/LListItem";
-import WebGPU from "../../components/WebGPU";
-import Renderer from "../lib/Renderer";
+import WebGPU from "../../../components/WebGPU";
+import Renderer from "../Renderer";
 
 export default class UI {
   private static viewPort: Viewport | null;

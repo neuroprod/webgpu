@@ -15,7 +15,7 @@ export const ColorAttachmentOptionsDefault: ColorAttachmentOptions = {
 }
 export default class ColorAttachment {
     public options: ColorAttachmentOptions
-    private renderTexture: RenderTexture;
+    public renderTexture: RenderTexture;
     private target: GPUTextureView =null;
     private dirty: boolean;
 
