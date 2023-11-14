@@ -1,4 +1,4 @@
-import UniformGroup from "./UniformGroup";
+import UniformGroup from "../core/UniformGroup";
 import Renderer from "../Renderer";
 import {Matrix3, Matrix4} from "math.gl";
 

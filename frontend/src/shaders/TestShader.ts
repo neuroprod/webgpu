@@ -3,7 +3,7 @@ import Shader from "../lib/core/Shader";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
-import ModelTransform from "../lib/core/ModelTransform";
+import ModelTransform from "../lib/model/ModelTransform";
 
 export default class TestShader extends Shader{
 

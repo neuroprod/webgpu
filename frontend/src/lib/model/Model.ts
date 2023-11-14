@@ -1,8 +1,8 @@
 
 import Renderer from "../Renderer";
-import Material from "./Material";
-import Mesh from "./Mesh";
-import Object3D from "./Object3D";
+import Material from "../core/Material";
+import Mesh from "../core/Mesh";
+import Object3D from "../core/Object3D";
 import ModelTransform from "./ModelTransform";
 
 

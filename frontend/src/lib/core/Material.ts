@@ -4,14 +4,14 @@ import Shader from "./Shader";
 import RenderPass from "./RenderPass";
 import {TextureFormat} from "../WebGPUConstants";
 import UniformGroup from "./UniformGroup";
-import ModelTransform from "./ModelTransform";
+import ModelTransform from "../model/ModelTransform";
 import Camera from "../Camera";
 
 export default class Material extends ObjectGPU {
     shader: Shader;
     pipeLine: GPURenderPipeline;
     private pipeLineLayout: GPUPipelineLayout;
-    private renderPass: RenderPass;
+    //private renderPass: RenderPass;
     private colorTargets:Array<GPUColorTargetState>=[];
     private needsDepth: boolean =true;
     public uniforms:UniformGroup;
@@ -24,7 +24,7 @@ export default class Material extends ObjectGPU {
 
     }
 
-    makePipeLine() {
+    makePipeLine(pass:RenderPass) {
 
 
         if(this.pipeLine)return;
@@ -67,7 +67,7 @@ export default class Material extends ObjectGPU {
             desc.depthStencil = {
                 depthWriteEnabled: true,
                 depthCompare: "less",
-                format: "depth24plus",
+                format: "depth16unorm",
             };
         }
         return desc;
@@ -80,7 +80,7 @@ export default class Material extends ObjectGPU {
         });
     }
 
-    setRenderPass(renderPass: RenderPass) {
+    /*setRenderPass(renderPass: RenderPass) {
         this.renderPass =renderPass;
-    }
+    }*/
 }

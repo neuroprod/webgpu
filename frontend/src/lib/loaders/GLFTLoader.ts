@@ -2,7 +2,7 @@ import PreLoader from "../PreLoader";
 import Mesh from "../core/Mesh";
 import Renderer from "../Renderer";
 import Object3D from "../core/Object3D";
-import Model from "../core/Model";
+import Model from "../model/Model";
 import TestShader from "../../shaders/TestShader";
 import Material from "../core/Material";
 import ImagePreloader from "../../ImagePreloader";
