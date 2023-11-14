@@ -14,6 +14,7 @@ export default class TimeStampQuery {
     private useTimeStampQuery: boolean;
     private stampIndex = 0;
 
+
     constructor(renderer: Renderer, numStamps: number) {
 
         this.renderer = renderer;
@@ -67,21 +68,20 @@ export default class TimeStampQuery {
         arrayBuffer.then((value) => {
             const timingsNanoseconds = new BigInt64Array(value);
             this.totalTime = (Number((timingsNanoseconds[this.capacity - 1] - timingsNanoseconds[0])) / 1000000);
-            // console.log( timingsNanoseconds)
+
             for (let i = 0; i < this.capacity - 1; i++) {
 
                 this.timeArray[i] = (Number((timingsNanoseconds[i + 1] - timingsNanoseconds[i])) / 1000000);
 
             }
         })
-        //const timingsNanoseconds = new BigInt64Array(arrayBuffer);
+
 
     }
 
     async readBuffer(device: GPUDevice, buffer: GPUBuffer) {
         const size = buffer.size;
-
-        const gpuReadBuffer = device.createBuffer({size, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ});
+       const gpuReadBuffer = device.createBuffer({size, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ});
         const copyEncoder = device.createCommandEncoder();
         copyEncoder.copyBufferToBuffer(buffer, 0, gpuReadBuffer, 0, size);
         const copyCommands = copyEncoder.finish();

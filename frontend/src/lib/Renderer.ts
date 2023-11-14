@@ -18,7 +18,7 @@ export default class Renderer {
     private context: GPUCanvasContext;
     presentationFormat: GPUTextureFormat;
     public useTimeStampQuery: boolean = false;
-    private canvas: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
     public width: number = 1;
     public height: number = 1;
     private materials: Array<Material> = [];

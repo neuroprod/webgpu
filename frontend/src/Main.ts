@@ -13,6 +13,7 @@ import MouseListener from "./lib/MouseListener";
 import Object3D from "./lib/core/Object3D";
 import CanvasRenderPass from "./CanvasRenderPass";
 import TimeStampQuery from "./lib/TimeStampQuery";
+import UI from "./UI/UI";
 
 
 export default class Main {
@@ -54,31 +55,15 @@ export default class Main {
         this.renderer.camera = this.camera;
         ImagePreloader.load(this.renderer, this.preloader);
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
-
+        UI.setWebGPU(this.renderer)
 
     }
 
-    onDraw() {
-        this.timeStampQuery.start()//
-        this.mainRenderPass.add()
-        this.timeStampQuery.setStamp("mainPass")
-        this.timeStampQuery.setStamp("test")
-        this.timeStampQuery.stop()
-    }
 
     private loadProgress() {
 
     }
-    private tick() {
 
-        window.requestAnimationFrame(() => this.tick());
-
-
-        this.update();
-        this.renderer.update(this.onDraw.bind(this));
-        this.timeStampQuery.getData();
-        // console.log(this.timeStampQuery.timeArray, this.timeStampQuery.names, this.timeStampQuery.totalTime)
-    }
     private init() {
         this.mainRenderPass = new CanvasRenderPass(this.renderer);
         this.renderer.setCanvasColorAttachment(this.mainRenderPass.canvasColorAttachment)
@@ -93,7 +78,17 @@ export default class Main {
 
         this.tick()
     }
+    private tick() {
 
+        window.requestAnimationFrame(() => this.tick());
+
+
+        this.update();
+        UI.updateGPU();
+        this.renderer.update(this.onDraw.bind(this));
+        this.timeStampQuery.getData();
+        // console.log(this.timeStampQuery.timeArray, this.timeStampQuery.names, this.timeStampQuery.totalTime)
+    }
     private update() {
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
@@ -116,6 +111,16 @@ export default class Main {
         this.camera.lensShift.x = -cameraPositionMap.x / (screenLocal.x / 2);
         this.camera.lensShift.y = -cameraPositionMap.y / (screenLocal.y / 2);
         this.camera.isDirty = true;
+        UI.pushWindow("test")
+        UI.LText("hello");
+        UI.popWindow()
+    }
+    onDraw() {
+        this.timeStampQuery.start()//
+        this.mainRenderPass.add()
+        this.timeStampQuery.setStamp("mainPass")
+        this.timeStampQuery.setStamp("test")
+        this.timeStampQuery.stop()
     }
 
 

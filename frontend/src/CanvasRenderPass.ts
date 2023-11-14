@@ -5,6 +5,7 @@ import DepthStencilAttachment from "./lib/textures/DepthStencilAttachment";
 import RenderPass from "./lib/core/RenderPass";
 import Renderer from "./lib/Renderer";
 import ModelRenderer from "./lib/model/ModelRenderer";
+import UI from "./UI/UI";
 
 export default class  extends RenderPass {
     private canvasColorTarget: RenderTexture;
@@ -41,6 +42,7 @@ export default class  extends RenderPass {
     }
     draw() {
         this.modelRenderer.draw(this);
+        UI.drawGPU(this.passEncoder,true)
     }
 
 }
