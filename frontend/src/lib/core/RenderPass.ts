@@ -34,6 +34,7 @@ export default class RenderPass extends ObjectGPU {
             model.material.makePipeLine();
 
             passEncoder.setPipeline(model.material.pipeLine);
+
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
             passEncoder.setBindGroup(2,model.material.uniforms.bindGroup);
 

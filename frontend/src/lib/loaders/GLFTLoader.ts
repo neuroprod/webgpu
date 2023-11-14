@@ -5,6 +5,8 @@ import Object3D from "../core/Object3D";
 import Model from "../core/Model";
 import TestShader from "../../shaders/TestShader";
 import Material from "../core/Material";
+import ImagePreloader from "../../ImagePreloader";
+import Texture from "../textures/Texture";
 
 type Accessor = {
     accessor: any;
@@ -13,23 +15,27 @@ type Accessor = {
 export default class GLFTLoader {
     public root: Object3D;
     public models:Array<Model>=[]
-
+    public modelsByName:{ [name: string]: Model } = {};
+    public objects:Array<Object3D>=[]
+    public objectsByName:{ [name: string]: Object3D } = {};
     public meshes: Array<Mesh> = []
+    public materials: Array<Material> = []
 
     private meshBuffer: SharedArrayBuffer | ArrayBuffer;
     private byteLength: any;
     private json: any;
     private accessors: Array<Accessor> = []
     private renderer: Renderer;
-    public material: Material;
+
+    private mainShader: TestShader;
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
         this.renderer = renderer;
 
         this.root = new Object3D(renderer, "sceneRoot");
-        let testShader =new TestShader(this.renderer,"testShader");
-        this.material =new Material(this.renderer,"testmaterial",testShader);
+        this.mainShader =new TestShader(this.renderer,"testShader");
+       // this.material =new Material(this.renderer,"testmaterial",testShader);
 
         preLoader.startLoad();
         this.loadURL(url).then(() => {
@@ -65,11 +71,14 @@ export default class GLFTLoader {
             if (nodeData.mesh != undefined) {
                 node = new Model(this.renderer, nodeData.name)
                 node.mesh = this.meshes[nodeData.mesh]
-                node.material =this.material;
+                node.material =this.materials[nodeData.mesh]
                this.models.push(node);
+                this.modelsByName[node.label] =node;
             } else {
                 node = new Object3D(this.renderer, nodeData.name)
             }
+            this.objects.push(node);
+            this.objectsByName[node.label] =node;
             parent.addChild(node);
             let translation = nodeData.translation;
             if (translation) {
@@ -109,12 +118,28 @@ export default class GLFTLoader {
             this.accessors.push({accessor: accessor, bufferView: bufferView});
         }
     }
+private makeMaterial(name:string){
+    let material =new Material(this.renderer,name,this.mainShader);
 
+    let colorTexture = ImagePreloader.getTexture(name+"_Color");
+    if(colorTexture) material.uniforms.setTexture("colorTexture",colorTexture)
+
+    let normalTexture = ImagePreloader.getTexture(name+"_Normal");
+    if(normalTexture) material.uniforms.setTexture("normalTexture",normalTexture)
+
+    let mraTexture = ImagePreloader.getTexture(name+"_MRA");
+    if(mraTexture) material.uniforms.setTexture("mraTexture",mraTexture)
+
+
+    this.materials.push(material)
+}
     private parseMeshes() {
 
         for (let m of this.json.meshes) {
             let primitive = m.primitives[0];
 
+
+            this.makeMaterial(m.name)
 
             let mesh = new Mesh(this.renderer, m.name);
 

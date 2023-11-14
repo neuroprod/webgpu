@@ -52,27 +52,27 @@ export default class DefaultTextures {
         f[1]=128;
         f[2]=255;
         f[3]=255;
-        this.white.writeTexture(f,1,1,4);
+        this.normal.writeTexture(f,1,1,4);
 
-        return this.white;
+        return this.normal;
     }
     static getGrid(render: Renderer) {
         if (this.grid) return this.grid;
 
         this.grid= new Texture(render, "defaultGrid", {
-            width:4,
-            height:4,
+            width:20,
+            height:20,
             format: TextureFormat.RGBA8Unorm,
             usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
         })
         this.grid.make()
 
-        let f = new Uint8ClampedArray(4*4*4);
+        let f = new Uint8ClampedArray(20*20*4);
         let count=0;
 
-        for(let x=0;x<4;x++)
+        for(let x=0;x<20;x++)
         {
-            for(let y=0;y<4;y++)
+            for(let y=0;y<20;y++)
             {
                 let countColor =x+y;
                 let s =Math.floor(((countColor%2)*0.5+0.3)*256);
@@ -84,7 +84,7 @@ export default class DefaultTextures {
             }
         }
 
-        this.grid.writeTexture(f,4,4,16);
+        this.grid.writeTexture(f,20,20,4*20);
 
         return this.grid;
     }

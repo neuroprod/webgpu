@@ -20,8 +20,8 @@ export default class Renderer {
     private presentationFormat: GPUTextureFormat;
     private useTimeStampQuery: boolean = false;
     private canvas: HTMLCanvasElement;
-    private width: number = 1;
-    private height: number = 1;
+    public width: number = 1;
+    public height: number = 1;
     private materials: Array<Material> = [];
     private textures: Array<Texture> = [];
     private models: Array<Model> = [];
@@ -63,6 +63,8 @@ export default class Renderer {
         });
 
 
+
+            this.ratio = this.canvas.width / this.canvas.height;
     }
 
     init() {
@@ -137,10 +139,12 @@ export default class Renderer {
     }
 
     private updateSize() {
+
         if (this.width != this.canvas.width || this.height != this.canvas.height) {
             this.width = this.canvas.width;
             this.height = this.canvas.height;
             this.ratio = this.width / this.height;
+
             for (let t of this.scaleToCanvasTextures) {
                 t.resize(this.width, this.height);
             }

@@ -62,8 +62,10 @@ export default class Shader extends ObjectGPU
 
     }
     public getShaderAttributes() {
+
         let a = "";
         for (let atr of this.attributes) {
+
             a += atr.getShaderText();
         }
         return a;

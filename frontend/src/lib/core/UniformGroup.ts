@@ -76,7 +76,7 @@ export default class UniformGroup extends ObjectGPU {
 
     }
     addSampler(name: string) {
-        let sampler =this.renderer.device.createSampler({})
+        let sampler =this.renderer.device.createSampler({magFilter:"linear",minFilter:"linear" })
         this.samplerUniforms.push({name:name,sampler:sampler,usage:GPUShaderStage.FRAGMENT})
     }
     setUniform(name: string, value: MathArray | number) {

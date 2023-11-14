@@ -23,7 +23,7 @@ export default class TextureLoader extends Texture{
             { texture: this.textureGPU },
             [imageBitmap.width, imageBitmap.height]
         );
-        console.log("textureLoadeede");
+
     }
 
 }
