@@ -32,5 +32,6 @@ export default class ModelTransform extends UniformGroup{
 
         this.setUniform("modelMatrix",this.modelMatrix)
         this.setUniform("normalMatrix",this.normalMatrixTemp)
+
     }
 }

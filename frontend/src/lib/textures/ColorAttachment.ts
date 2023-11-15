@@ -16,30 +16,36 @@ export const ColorAttachmentOptionsDefault: ColorAttachmentOptions = {
 export default class ColorAttachment {
     public options: ColorAttachmentOptions
     public renderTexture: RenderTexture;
-    private target: GPUTextureView =null;
+    private target: GPUTextureView = null;
     private dirty: boolean;
 
-    constructor(renderTexture: RenderTexture, options: Partial<ColorAttachmentOptions>=ColorAttachmentOptionsDefault) {
-        this.renderTexture =renderTexture;
+    constructor(renderTexture: RenderTexture, options: Partial<ColorAttachmentOptions> = ColorAttachmentOptionsDefault) {
+        this.renderTexture = renderTexture;
         this.options = {...ColorAttachmentOptionsDefault, ...options};
     }
-    setTarget(target:GPUTextureView){
-        this.dirty =true;
-        this.target =target;
+
+    setTarget(target: GPUTextureView) {
+        this.dirty = true;
+        this.target = target;
     }
-    getAttachment():GPURenderPassColorAttachment{
-        return {
-            view: this.renderTexture.textureGPU.createView(),
-            resolveTarget: this.target,
+
+    getAttachment(): GPURenderPassColorAttachment {
+
+        let p: GPURenderPassColorAttachment = {
+            view: this.renderTexture.getView(),//.textureGPU.createView(),
+
             clearValue: this.options.clearValue,
             loadOp: this.options.loadOp,
             storeOp: this.options.storeOp,
         }
+        if (this.target) {
+            p.resolveTarget = this.target;
+        }
+        return p;
     }
 
-    public isDirty():boolean
-    {
-        if(this.dirty)return true;
+    public isDirty(): boolean {
+        if (this.dirty) return true;
         return this.renderTexture.isDirty;
     }
 

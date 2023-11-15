@@ -9,34 +9,38 @@ import ColorAttachment from "./textures/ColorAttachment";
 import UniformGroup from "./core/UniformGroup";
 import Camera from "./Camera";
 import Model from "./model/Model";
+import {IResizable} from "./IResizable";
+import {Vector2} from "math.gl";
 
 export default class Renderer {
     public device: GPUDevice;
 
-    public ratio: number;
+    public ratio: number=1;
     public camera: Camera;
-    private context: GPUCanvasContext;
     presentationFormat: GPUTextureFormat;
     public useTimeStampQuery: boolean = false;
     canvas: HTMLCanvasElement;
     public width: number = 1;
     public height: number = 1;
+    public size =new Vector2(1,1);
+    public texturesByLabel: { [label: string]: Texture } = {};
+    commandEncoder: GPUCommandEncoder;
+    private context: GPUCanvasContext;
     private materials: Array<Material> = [];
     private textures: Array<Texture> = [];
     private models: Array<Model> = [];
     private scaleToCanvasTextures: Array<RenderTexture> = [];
     private uniformGroups: Array<UniformGroup> = [];
-
     private canvasColorAttachment: ColorAttachment;
-
-    commandEncoder: GPUCommandEncoder;
-
+    private canvasTextureView: GPUTexture;
+    private first: boolean = true;
+    private resizables:Array<IResizable>=[];
     constructor() {
     }
 
     async setup(canvas: HTMLCanvasElement, needsDepth: boolean = true) {
         this.canvas = canvas;
-        const adapter = await navigator.gpu.requestAdapter();
+        const adapter = await navigator.gpu.requestAdapter({powerPreference:"high-performance"});
         //--enable-dawn-features=allow_unsafe_apis
         // on mac: /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --enable-dawn-features=allow_unsafe_apis
 
@@ -61,20 +65,21 @@ export default class Renderer {
             device: this.device,
             format: this.presentationFormat,
             alphaMode: "premultiplied",
+
         });
 
 
-
-            this.ratio = this.canvas.width / this.canvas.height;
+        //this.ratio = this.canvas.width / this.canvas.height;
     }
 
     init() {
 
     }
-    public setCanvasColorAttachment(canvasColorAttachment: ColorAttachment)
-    {
-        this.canvasColorAttachment =canvasColorAttachment
+
+    public setCanvasColorAttachment(canvasColorAttachment: ColorAttachment) {
+        this.canvasColorAttachment = canvasColorAttachment
     }
+
     public update(setCommands: () => void) {
         this.updateSize();
         this.updateModels();
@@ -82,23 +87,26 @@ export default class Renderer {
 
 
         //
-        let canvasTextureView = this.context.getCurrentTexture().createView();
-        this.canvasColorAttachment.setTarget(canvasTextureView)
+
+        this.canvasTextureView = this.context.getCurrentTexture();
+
+        this.first = false;
+        this.canvasColorAttachment.setTarget(this.canvasTextureView.createView())
 
 
         this.commandEncoder = this.device.createCommandEncoder();
 
 
-
-
         setCommands();
 
-        //this.mainRenderPass.draw(commandEncoder)
 
         this.device.queue.submit([this.commandEncoder.finish()]);
         for (let t of this.textures) {
+
             t.isDirty = false;
+
         }
+
     }
 
     updateModels() {
@@ -109,6 +117,7 @@ export default class Renderer {
 
     addTexture(texture: Texture) {
         this.textures.push(texture);
+        this.texturesByLabel[texture.label] = texture;
     }
 
     addModel(model: Model) {
@@ -134,11 +143,13 @@ export default class Renderer {
             this.width = this.canvas.width;
             this.height = this.canvas.height;
             this.ratio = this.width / this.height;
-
+            this.size.x =this.width;
+            this.size.y =this.height;
             for (let t of this.scaleToCanvasTextures) {
                 t.resize(this.width, this.height);
             }
         }
+        this.notifyResizables()
         for (let t of this.scaleToCanvasTextures) {
             t.make()
 
@@ -148,6 +159,17 @@ export default class Renderer {
     private updateUniformGroups() {
         for (let u of this.uniformGroups) {
             u.update()
+        }
+    }
+
+    public registerResizable(r:IResizable){
+        this.resizables.push(r)
+        r.onScreenResize(this.size)
+    }
+    private notifyResizables() {
+        for(let a of this.resizables)
+        {
+            a.onScreenResize(this.size)
         }
     }
 }

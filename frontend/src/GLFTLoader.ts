@@ -6,6 +6,7 @@ import Model from "./lib/model/Model";
 import TestShader from "./shaders/TestShader";
 import Material from "./lib/core/Material";
 import ImagePreloader from "./ImagePreloader";
+import GBufferShader from "./shaders/GBufferShader";
 
 
 type Accessor = {
@@ -34,7 +35,7 @@ export default class GLFTLoader {
         this.renderer = renderer;
 
         this.root = new Object3D(renderer, "sceneRoot");
-        this.mainShader =new TestShader(this.renderer,"testShader");
+        this.mainShader =new GBufferShader(this.renderer,"gBufferShader");
 
 
         preLoader.startLoad();

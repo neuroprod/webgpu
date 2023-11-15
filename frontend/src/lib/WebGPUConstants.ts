@@ -114,7 +114,7 @@ export const TextureFormat = {
     // Packed 32-bit formats
     RGB9E5UFloat: 'rgb9e5ufloat' as GPUTextureFormat,//hdr
     RGB10A2Unorm: 'rgb10a2unorm' as GPUTextureFormat,
-    RG11B10uFloat: 'rgb10a2unorm' as GPUTextureFormat,
+    RG11B10UFloat: 'rg11b10ufloat' as GPUTextureFormat,
 
     // 64-bit formats
 
@@ -123,7 +123,7 @@ export const TextureFormat = {
     RG32Float: 'rg32float',
     RGBA16Uint: 'rgba16uint',
     RGBA16Sint: 'rgba16sint',
-    RGBA16Float: 'rgba16float',
+    RGBA16Float: 'rgba16float' as GPUTextureFormat,
 
     // 128-bit formats
 

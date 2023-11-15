@@ -20,10 +20,13 @@ export default class Model extends Object3D
     }
     public update()
     {
-        if(this._dirty)this.updateMatrices()
+        if(!this._dirty)return;
+            this.updateMatrices()
+
     }
     protected updateMatrices(){
         super.updateMatrices();
+
         this.modelTransform.setWorldMatrix(this.worldMatrix);
     }
 

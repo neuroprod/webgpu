@@ -6,8 +6,10 @@ export default class ModelRenderer{
 
     public models: Array<Model>=[];
     private renderer: Renderer;
-    constructor(renderer:Renderer)
+    private label: string;
+    constructor(renderer:Renderer,label ="")
     {
+        this.label = label;
         this.renderer =renderer;
 
     }

@@ -10,7 +10,7 @@ class Vector {
 export default class Sphere extends Mesh {
   constructor(
     renderer:Renderer,
-    radius = 0.5,
+    radius = 1.0,
     widthSegments = 32,
     heightSegments = 24,
     phiStart = 0,

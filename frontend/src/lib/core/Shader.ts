@@ -37,9 +37,9 @@ export default class Shader extends ObjectGPU {
 
     }
 
-    public addTexture(name: string, value: Texture, dimension: GPUTextureViewDimension = TextureDimension.TwoD, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT) {
+    public addTexture(name: string, value: Texture,sampleType:GPUTextureSampleType="float", dimension: GPUTextureViewDimension = TextureDimension.TwoD, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
-        this.tempMaterial.uniforms.addTexture(name, value, dimension, usage);
+        this.tempMaterial.uniforms.addTexture(name, value,sampleType, dimension, usage);
 
     }
 

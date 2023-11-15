@@ -50,12 +50,12 @@ export default class Material extends ObjectGPU {
 
 
         this.pipeLine = this.device.createRenderPipeline(
-            this.getPipeLineDescriptor());
+            this.getPipeLineDescriptor(pass));
 
     }
 
 
-    private getPipeLineDescriptor(): GPURenderPipelineDescriptor {
+    private getPipeLineDescriptor(pass:RenderPass): GPURenderPipelineDescriptor {
 
 
         let desc: GPURenderPipelineDescriptor = {
@@ -76,7 +76,7 @@ export default class Material extends ObjectGPU {
                 cullMode: "back",
             },
             multisample: {
-                count: 4,
+                count: pass.sampleCount,
             },
         };
         if (this.needsDepth) {

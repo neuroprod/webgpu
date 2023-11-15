@@ -8,53 +8,90 @@ import ModelRenderer from "./lib/model/ModelRenderer";
 import UI from "./lib/UI/UI";
 import Blit from "./lib/Blit";
 import Material from "./lib/core/Material";
-import BlitShader from "./shaders/BlitShader";
-import ImagePreloader from "./ImagePreloader";
+import DebugTextureShader from "./shaders/DebugTextureShader";
+import SelectItem from "./lib/UI/math/SelectItem";
+import {Vector2} from "math.gl";
+import {IResizable} from "./lib/IResizable";
 
-export default class  extends RenderPass {
-    private canvasColorTarget: RenderTexture;
+export default class extends RenderPass implements IResizable {
     public canvasColorAttachment: ColorAttachment;
-    private canvasDepthTarget: RenderTexture;
     public modelRenderer: ModelRenderer;
+    private canvasColorTarget: RenderTexture;
+    private canvasDepthTarget: RenderTexture;
     private blitMaterial: Material;
     private blitTest: Blit;
 
+    private passSelect: Array<SelectItem> = []
+    private currentValue = {texture: "kka", type: 0}
 
+    constructor(renderer: Renderer) {
 
-    constructor(renderer:Renderer) {
+        super(renderer, "canvasRenderPass");
+        this.sampleCount = 4
 
-        super(renderer,"canvasRenderPass");
-
-        this.modelRenderer =new ModelRenderer(renderer)
+        this.modelRenderer = new ModelRenderer(renderer)
 
         this.canvasColorTarget = new RenderTexture(renderer, "canvasColor", {
             format: renderer.presentationFormat,
-            sampleCount: 4,
+            sampleCount: this.sampleCount,
             scaleToCanvas: true,
+
             usage: GPUTextureUsage.RENDER_ATTACHMENT
         });
         this.canvasColorAttachment = new ColorAttachment(this.canvasColorTarget);
-        this.colorAttachments =[this.canvasColorAttachment];
+        this.colorAttachments = [this.canvasColorAttachment];
 
-       this.canvasDepthTarget = new RenderTexture(renderer, "canvasDepth", {
+        this.canvasDepthTarget = new RenderTexture(renderer, "canvasDepth", {
             format: TextureFormat.Depth16Unorm,
-            sampleCount: 4,
+            sampleCount: this.sampleCount,
             scaleToCanvas: true,
             usage: GPUTextureUsage.RENDER_ATTACHMENT
         });
         this.depthStencilAttachment = new DepthStencilAttachment(this.canvasDepthTarget);
 
-        this.blitMaterial =new Material(this.renderer,"blit", new BlitShader(this.renderer,"blit"))
-        this.blitMaterial.uniforms.setTexture("colorTexture",ImagePreloader.getTexture("chair_Color"))
-        this.blitTest =new Blit(renderer,'blit',this.blitMaterial)
+        this.blitMaterial = new Material(this.renderer, "blit", new DebugTextureShader(this.renderer, "blit"))
+        // this.blitMaterial.uniforms.setTexture("colorTexture",ImagePreloader.getTexture("chair_Color"))
 
+
+        this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
+
+        this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
+        this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
+        this.passSelect.push(new SelectItem("GMRA", {texture: "GMRA", type: 0}));
+        this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
+        this.passSelect.push(new SelectItem("GPosition", {texture: "GPosition", type: 0}));
+        this.passSelect.push(new SelectItem("GDepth", {texture: "GDepth", type: 0}));
+
+        let value = this.passSelect[0].value;
+        this.currentValue = value;
+        let texture = this.renderer.texturesByLabel[value.texture] as RenderTexture;
+        this.blitMaterial.uniforms.setTexture("colorTexture", texture)
+        this.blitMaterial.uniforms.setUniform("textureSize", new Vector2(texture.options.width, texture.options.height))
 
     }
-    draw() {
-        this.blitTest.draw(this);
-        this.modelRenderer.draw(this);
+    onScreenResize(size:Vector2)
+    {
+        this.blitMaterial.uniforms.setUniform("textureSize", size)
+    }
+    onUI() {
+        let value = UI.LSelect("pass", this.passSelect)
+        if (value != this.currentValue) {
+            this.currentValue = value;
 
-        UI.drawGPU(this.passEncoder,true)
+            let texture = this.renderer.texturesByLabel[value.texture] as RenderTexture;
+            this.blitMaterial.uniforms.setTexture("colorTexture", texture)
+
+        }
+
+    }
+
+    draw() {
+
+
+        this.blitTest.draw(this);
+
+
+        UI.drawGPU(this.passEncoder, true)
     }
 
 }

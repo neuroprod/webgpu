@@ -1,10 +1,10 @@
 import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
-import Camera from "../lib/Camera";
-import ModelTransform from "../lib/model/ModelTransform";
+import {Vector2} from "math.gl";
 
-export default class BlitShader extends Shader{
+
+export default class DebugTextureShader extends Shader{
 
 
     init(){
@@ -14,9 +14,9 @@ export default class BlitShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-this.addUniform("test",1)
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        this.addSampler("mySampler");
+this.addUniform("textureSize",new Vector2(100,100))
+        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+       // this.addSampler("mySampler");
 
     }
     getShaderCode(): string {
@@ -51,7 +51,9 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
-     return textureSample(colorTexture, mySampler,  uv0) ;
+      let uvPos = vec2<i32>(floor(uv0*uniforms.textureSize.xy));
+     let color=textureLoad(colorTexture,  uvPos ,0).xyz; ;
+     return vec4(color,1.0) ;
 }
 ///////////////////////////////////////////////////////////
         

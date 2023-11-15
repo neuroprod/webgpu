@@ -16,6 +16,7 @@ type TextureUniform = {
     name: string,
     texture: Texture;
     usage:GPUShaderStageFlags,
+    sampleType:GPUTextureSampleType
     dimension:GPUTextureViewDimension,
 }
 type SamplerUniform = {
@@ -28,7 +29,8 @@ export default class UniformGroup extends ObjectGPU {
     public static instance:UniformGroup
     public bindGroupLayout: GPUBindGroupLayout;
     public bindGroup: GPUBindGroup;
-    public isDirty: boolean = true;
+    public isBufferDirty: boolean = true;
+    public isBindGroupDirty: boolean = true;
     public uniforms: Array<Uniform> = [];
     public textureUniforms: Array<TextureUniform> = [];
     public samplerUniforms: Array<SamplerUniform> = [];
@@ -60,6 +62,7 @@ export default class UniformGroup extends ObjectGPU {
         } else {
             size = value.length;
         }
+
         let u = {
             name: name,
             data: value,
@@ -71,8 +74,8 @@ export default class UniformGroup extends ObjectGPU {
 
         this.uniforms.push(u);
     }
-    addTexture(name: string, value: Texture,dimension:GPUTextureViewDimension,usage:GPUShaderStageFlags ) {
-        this.textureUniforms.push({name:name,texture:value,usage:usage,dimension:dimension})
+    addTexture(name: string, value: Texture,sampleType:GPUTextureSampleType,dimension:GPUTextureViewDimension,usage:GPUShaderStageFlags ) {
+        this.textureUniforms.push({name:name,sampleType:sampleType,texture:value,usage:usage,dimension:dimension})
 
     }
     addSampler(name: string) {
@@ -83,7 +86,9 @@ export default class UniformGroup extends ObjectGPU {
         const found = this.uniforms.find((element) => element.name == name);
 
         if (found) {
+            this.bufferIsDirty =true;
             found.data = value;
+
             if (this.bufferData) {
                 if (found.size == 1) {
                     this.bufferData[found.offset] = found.data as number;
@@ -91,13 +96,13 @@ export default class UniformGroup extends ObjectGPU {
                     this.bufferData.set(found.data as MathArray, found.offset)
 
                 }
-                this.bufferIsDirty =true;
+
             }
 
         } else {
-
+            console.log("uniform not found", name,value)
         }
-        this.isDirty = true;
+
     }
     setTexture(name:string,value:Texture)
     {
@@ -105,24 +110,49 @@ export default class UniformGroup extends ObjectGPU {
 
         if (found) {
             found.texture=value;
-
+            this.isBindGroupDirty =true;
+        }else
+        {
+            console.log("uniform not found", name,value)
         }
+
     }
     update() {
 
-        this.updateData();
-        if (!this.isDirty) return;
+     this.updateData();
+        for (let t of this.textureUniforms)
+        {
+            if(t.texture.isDirty)this.isBindGroupDirty =true;
+        }
+
+
+
+        if (!this.isBufferDirty) {
+            if(this.isBindGroupDirty){
+                this.updateBindGroup();
+                this.isBindGroupDirty =false;
+            }
+
+
+        }
         if (!this.buffer) {
             this.makeBuffer();
+            this.updateBindGroup()
         } else {
+           if(  this.isBufferDirty) this.updateBuffer();
             this.updateBuffer();
 
         }
-        this.isDirty = false;
+       // this.updateBindGroup()
+        this.isBufferDirty= false;
+        this.isBindGroupDirty =false;
 
     }
 
     updateBuffer() {
+/*if(this.label =="lightShader"){
+    console.log(this.bufferData)
+        }*/
         this.device.queue.writeBuffer(
             this.buffer,
             0,
@@ -130,16 +160,20 @@ export default class UniformGroup extends ObjectGPU {
             this.bufferData.byteOffset,
             this.bufferData.byteLength
         );
-        this.isDirty = false;
+
     }
 
 
 
     private makeBuffer() {
         let dataSize = 0;
+        console.log(this.label)
         for (let u of this.uniforms) {
+
             u.offset = dataSize;
+
             dataSize += u.size;
+            console.log(u.size*4 )
         }
 
         dataSize =Math.ceil(dataSize/16)*16
@@ -150,6 +184,7 @@ export default class UniformGroup extends ObjectGPU {
                 this.bufferData[u.offset] = u.data as number;
             } else {
                 this.bufferData.set(u.data as MathArray, u.offset);
+
             }
         }
 
@@ -181,7 +216,7 @@ export default class UniformGroup extends ObjectGPU {
                 binding:  bindingCount,
                 visibility: t.usage,
                 texture: {
-                    sampleType:"float",
+                    sampleType:t.sampleType,
                     viewDimension:  t.dimension,
                     multisampled:false,
 
@@ -211,13 +246,14 @@ export default class UniformGroup extends ObjectGPU {
 
 
 
-        this.updateBindGroup()
+
 
 
 
 
     }
     private updateBindGroup() {
+
         let entries:Array<GPUBindGroupEntry>=[]
         let bindingCount =0;
         entries.push(
@@ -238,7 +274,7 @@ export default class UniformGroup extends ObjectGPU {
 
                 }
             )
-            console.log("TextureAdded")
+
             bindingCount++;
         }
         for (let t of this.samplerUniforms){

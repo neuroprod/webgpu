@@ -1,15 +1,16 @@
 import UniformGroup from "./core/UniformGroup";
 import Renderer from "./Renderer";
-import {lerp, Matrix4, Vector2, Vector3} from "math.gl";
+import {lerp, Matrix4, Vector2, Vector3, Vector4} from "math.gl";
 
 export default class Camera extends UniformGroup {
     public static instance: Camera;
     public cameraWorld: Vector3 = new Vector3(1, 1.5, 5);
+    public cameraWorldU: Vector4 = new Vector4(1, 1.5, 5,1.0);
     public cameraLookAt: Vector3 = new Vector3(0, 1.5, 0);
     public cameraUp: Vector3 = new Vector3(0, 1, 0);
     public fovy = 0.9
     public near =3
-    public far = 20
+    public far = 15
     public lensShift = new Vector2(1, 0)
     private view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
@@ -19,7 +20,7 @@ export default class Camera extends UniformGroup {
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
         this.addUniform("viewProjectionMatrix", this.viewProjection)
-        this.addUniform("worldPosition", this.cameraWorld)
+        this.addUniform("worldPosition", this.cameraWorldU)
         if (!Camera.instance) Camera.instance = this;
     }
 
@@ -124,6 +125,7 @@ export default class Camera extends UniformGroup {
 
 
         this.setUniform("viewProjectionMatrix", this.viewProjection)
-        this.setUniform("worldPosition", this.cameraWorld)
+        this.cameraWorldU.set(this.cameraWorld.x,this.cameraWorld.y,this.cameraWorld.z,1)
+        this.setUniform("worldPosition", this.cameraWorldU)
     }
 }

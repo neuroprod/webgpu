@@ -33,8 +33,18 @@ export default class DepthStencilAttachment {
     }
 
     getAttachment():GPURenderPassDepthStencilAttachment{
+
+        if(this.options.depthReadOnly)
+        {
+            return{
+                view:this.renderTexture.getView(),
+                depthReadOnly:  this.options.depthReadOnly,
+            }
+        }
+
+
         return{
-            view:this.renderTexture.textureGPU.createView(),
+            view:this.renderTexture.getView(),
             depthClearValue: this.options.depthClearValue,
             depthLoadOp:  this.options.depthLoadOp,
             depthStoreOp:  this.options.depthStoreOp,
