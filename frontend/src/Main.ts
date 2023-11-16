@@ -17,6 +17,9 @@ import UI from "./lib/UI/UI";
 import GBufferRenderPass from "./GBufferRenderPass";
 import Timer from "./lib/Timer";
 import LightRenderPass from "./LightRenderPass";
+import PostRenderPass from "./PostRenderPass";
+import JSONLoader from "./JSONLoader";
+import AORenderPass from "./AORenderPass";
 
 
 export default class Main {
@@ -37,6 +40,9 @@ export default class Main {
     private gBufferPass: GBufferRenderPass;
     private timeStampQuery: TimeStampQuery;
     private lightPass:LightRenderPass;
+    private postPass: PostRenderPass;
+    private lightJson: JSONLoader;
+    private aoPass: AORenderPass;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -55,11 +61,15 @@ export default class Main {
         );
 
         this.renderer.init()
-        this.timeStampQuery = new TimeStampQuery(this.renderer, 3)
+        this.timeStampQuery = new TimeStampQuery(this.renderer, 5)
+
+
         this.camera = new Camera(this.renderer, "mainCamera")
         this.renderer.camera = this.camera;
+
         ImagePreloader.load(this.renderer, this.preloader);
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
+        this.lightJson  =new JSONLoader("light",this.preloader);
         UI.setWebGPU(this.renderer)
 
     }
@@ -75,8 +85,11 @@ export default class Main {
 
 
         this.gBufferPass = new GBufferRenderPass(this.renderer)
+        this.aoPass =new AORenderPass(this.renderer)
+        this.lightPass = new LightRenderPass(this.renderer,this.lightJson.data);
 
-        this.lightPass = new LightRenderPass(this.renderer);
+        this.postPass =new PostRenderPass(this.renderer)
+
         this.renderer.registerResizable( this.lightPass)
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
         this.renderer.registerResizable( this.canvasRenderPass)
@@ -125,24 +138,34 @@ export default class Main {
 
         this.camera.lensShift.x = -cameraPositionMap.x / (screenLocal.x / 2);
         this.camera.lensShift.y = -cameraPositionMap.y / (screenLocal.y / 2);
-        this.lightPass.update()
-        UI.pushWindow("debug")
 
+        UI.pushWindow("Render Setting")
+        this.aoPass.onUI()
+        UI.popWindow()
+
+
+        this.lightPass.onUI();
+
+
+        UI.pushWindow("Debug/Performance")
         this.canvasRenderPass.onUI();
         Timer.onUI()
         this.timeStampQuery.onUI();
         UI.popWindow()
-
     }
     onDraw() {
-        this.timeStampQuery.start()//
+        this.timeStampQuery.start();
         this.gBufferPass.add();
-        this.timeStampQuery.setStamp("GBufferPass")
+        this.timeStampQuery.setStamp("GBufferPass");
+        this.aoPass.add()
+        this.timeStampQuery.setStamp("AOPass");
         this.lightPass.add();
-        this.timeStampQuery.setStamp("LightPass")
-        this.canvasRenderPass.add()
-        this.timeStampQuery.setStamp("CanvasPass")
-        this.timeStampQuery.stop()
+        this.timeStampQuery.setStamp("LightPass");
+        this.postPass.add()
+        this.timeStampQuery.setStamp("PostPass");
+        this.canvasRenderPass.add();
+        this.timeStampQuery.setStamp("CanvasPass");
+        this.timeStampQuery.stop();
     }
 
 

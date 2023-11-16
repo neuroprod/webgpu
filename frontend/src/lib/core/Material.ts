@@ -18,6 +18,7 @@ export default class Material extends ObjectGPU {
     public uniforms:UniformGroup;
     public depthWrite: boolean =true;
     public depthCompare: GPUCompareFunction=CompareFunction.Less;
+    public blendModes: Array<GPUBlendState>;
 
     constructor(renderer: Renderer, label: string, shader: Shader) {
         super(renderer, label);
@@ -33,10 +34,15 @@ export default class Material extends ObjectGPU {
 
         if(this.pipeLine)return;
         this.colorTargets =[]
-
+        let count =0
         for(let a of pass.colorAttachments){
 
-            this.colorTargets.push({ format:  a.renderTexture.options.format });
+            let s:GPUColorTargetState ={ format:  a.renderTexture.options.format }
+            if(this.blendModes){
+                s.blend=this.blendModes[count];
+            }
+            count++
+            this.colorTargets.push(s);
         }
         if(pass.depthStencilAttachment){
             this.needsDepth =true;

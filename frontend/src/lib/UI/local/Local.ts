@@ -15,7 +15,7 @@ export default class Local {
       // @ts-ignore
       this.uiData["dockData"] = this.dockData;
     }
-    if (UI_I.rendererGPU) return;
+  
     let data = localStorage.getItem("uiData");
 
     if (data) {
@@ -53,7 +53,7 @@ export default class Local {
 
   static saveData() {
     if (!this.isDirty) return;
-    if (UI_I.rendererGPU) return;
+
     if (UI_I.crashed) return;
     let s = JSON.stringify(this.uiData);
     localStorage.setItem("uiData", s);

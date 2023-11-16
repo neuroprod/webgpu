@@ -176,10 +176,10 @@ export default class RendererGPU {
     for (let batch of this.drawArray) {
       if (batch.needsClipping) {
         passEncoder.setScissorRect(
-          batch.clipRect.pos.x,
-          batch.clipRect.pos.y,
-          batch.clipRect.size.x,
-          batch.clipRect.size.y,
+          batch.clipRect.pos.x*window.devicePixelRatio,
+          batch.clipRect.pos.y*window.devicePixelRatio,
+          batch.clipRect.size.x*window.devicePixelRatio,
+          batch.clipRect.size.y*window.devicePixelRatio,
         );
       } else {
         passEncoder.setScissorRect(0, 0, this.width*window.devicePixelRatio, this.height*window.devicePixelRatio);

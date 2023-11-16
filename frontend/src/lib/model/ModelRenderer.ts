@@ -20,7 +20,7 @@ export default class ModelRenderer{
         passEncoder.setBindGroup(0,this.renderer.camera.bindGroup);
 
         for (let model of this.models) {
-
+            if(!model.visible)continue
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);
@@ -59,5 +59,12 @@ export default class ModelRenderer{
     public addModel(model: Model) {
 
         this.models.push(model);
+    }
+
+    removeModel(model: Model) {
+        const index =  this.models.indexOf(model, 0);
+        if (index > -1) {
+            this.models.splice(index, 1);
+        }
     }
 }

@@ -150,9 +150,7 @@ export default class UniformGroup extends ObjectGPU {
     }
 
     updateBuffer() {
-/*if(this.label =="lightShader"){
-    console.log(this.bufferData)
-        }*/
+
         this.device.queue.writeBuffer(
             this.buffer,
             0,
@@ -167,13 +165,13 @@ export default class UniformGroup extends ObjectGPU {
 
     private makeBuffer() {
         let dataSize = 0;
-        console.log(this.label)
+
         for (let u of this.uniforms) {
 
             u.offset = dataSize;
 
             dataSize += u.size;
-            console.log(u.size*4 )
+
         }
 
         dataSize =Math.ceil(dataSize/16)*16

@@ -13,7 +13,7 @@ import SelectItem from "./lib/UI/math/SelectItem";
 import {Vector2} from "math.gl";
 import {IResizable} from "./lib/IResizable";
 
-export default class extends RenderPass implements IResizable {
+export default class CanvasRenderPass extends RenderPass implements IResizable {
     public canvasColorAttachment: ColorAttachment;
     public modelRenderer: ModelRenderer;
     private canvasColorTarget: RenderTexture;
@@ -50,11 +50,12 @@ export default class extends RenderPass implements IResizable {
         this.depthStencilAttachment = new DepthStencilAttachment(this.canvasDepthTarget);
 
         this.blitMaterial = new Material(this.renderer, "blit", new DebugTextureShader(this.renderer, "blit"))
-        // this.blitMaterial.uniforms.setTexture("colorTexture",ImagePreloader.getTexture("chair_Color"))
+
 
 
         this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
-
+        this.passSelect.push(new SelectItem("OA", {texture: "OAPass", type: 0}));
+        this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
         this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
         this.passSelect.push(new SelectItem("GMRA", {texture: "GMRA", type: 0}));
@@ -89,8 +90,6 @@ export default class extends RenderPass implements IResizable {
 
 
         this.blitTest.draw(this);
-
-
         UI.drawGPU(this.passEncoder, true)
     }
 

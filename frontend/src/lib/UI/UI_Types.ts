@@ -1,5 +1,6 @@
 import { Vector2, Vector3, Vector4 } from "math.gl";
-import ColorV from "../shared/ColorV";
+import ColorV from "../ColorV";
+
 
 export type UI_VEC2 = Vector2;
 export function getUI_VEC2() {

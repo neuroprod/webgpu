@@ -7,10 +7,12 @@ import {CompareFunction} from "./WebGPUConstants";
 export default class Blit{
     private material: Material;
     private mesh: Quad;
+    private renderer: Renderer;
 
 
     constructor(renderer:Renderer,label:string, material:Material)
     {
+        this.renderer=renderer;
         this.material =material;
         this.material.depthWrite =false
         this.material.depthCompare=CompareFunction.Always
@@ -22,9 +24,13 @@ export default class Blit{
         this.material.makePipeLine(pass);
 
         passEncoder.setPipeline(this.material.pipeLine);
+        if(this.material.shader.needsCamera){
+            passEncoder.setBindGroup(0,this.renderer.camera.bindGroup);
+            passEncoder.setBindGroup(1,this.material.uniforms.bindGroup);
+        }else{
+            passEncoder.setBindGroup(0,this.material.uniforms.bindGroup);
+        }
 
-
-        passEncoder.setBindGroup(0,this.material.uniforms.bindGroup);
 
         for (let attribute of this.material.shader.attributes) {
             passEncoder.setVertexBuffer(
