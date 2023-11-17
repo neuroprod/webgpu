@@ -26,7 +26,7 @@ export default class AORenderPass extends RenderPass{
 
         super(renderer, "OAPass");
         this.target = new RenderTexture(renderer, "OAPass", {
-            format: TextureFormat.RGBA8Unorm,
+            format: TextureFormat.R8Unorm,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
             sizeMultiplier:0.5,

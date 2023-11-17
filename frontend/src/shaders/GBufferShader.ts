@@ -44,7 +44,7 @@ struct GBufferOutput {
   @location(0) color : vec4f,
   @location(1) normal : vec4f,
     @location(2) mra : vec4f,
-     @location(3) world : vec4f,
+   
 }
 
 ${Camera.getShaderText(0)}
@@ -74,7 +74,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz;
     output.normal =vec4(normalize(normal)*0.5+0.5,1.0);//vec4( mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText),1.0);
-    output.world =vec4( world,0.0);
+   
    
     output.mra =textureSample(mraTexture, mySampler,  uv0) ;
  

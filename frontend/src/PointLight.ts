@@ -84,7 +84,7 @@ export default class PointLight extends ObjectGPU {
         this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, 0))
         this.material.uniforms.setUniform("position", new Vector4(this.position.x, this.position.y, this.position.z, this.size))
         this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
-        this.material.uniforms.setTexture("gPosition", this.renderer.texturesByLabel["GPosition"])
+        this.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
         this.material.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"])
         this.material.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"])
         this.material.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"])

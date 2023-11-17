@@ -61,7 +61,7 @@ export default class CanvasRenderPass extends RenderPass implements IResizable {
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
         this.passSelect.push(new SelectItem("GMRA", {texture: "GMRA", type: 0}));
         this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
-        this.passSelect.push(new SelectItem("GPosition", {texture: "GPosition", type: 0}));
+
         this.passSelect.push(new SelectItem("GDepth", {texture: "GDepth", type: 0}));
 
         let value = this.passSelect[0].value;

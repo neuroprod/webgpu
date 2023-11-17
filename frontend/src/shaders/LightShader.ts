@@ -5,6 +5,7 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {Vector2, Vector3, Vector4} from "math.gl";
+import {getWorldFromUVDepth} from "./ShaderChunks";
 
 export default class LightShader extends Shader{
 
@@ -24,7 +25,7 @@ export default class LightShader extends Shader{
 
 
 
-        this.addTexture("gPosition",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+        this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gMRA",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -47,12 +48,11 @@ struct VertexOutput
 ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
 ${this.getShaderUniforms(2)}
-
+${getWorldFromUVDepth()}
 fn rand(n:vec2f )->f32 { 
   return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
 }
 const PI = 3.14159265359;
-
 fn fresnelSchlick(cosTheta:f32, F0:vec3f)-> vec3f
 {
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
@@ -116,10 +116,10 @@ fn mainFragment(@location(0) projPos: vec4f) -> @location(0) vec4f
     
     var uv0 = (projPos.xy/projPos.w)*0.5+0.5;
     uv0.y =1.0-uv0.y;
-let textureSize =vec2<f32>( textureDimensions(gPosition));
+    let textureSize =vec2<f32>( textureDimensions(gDepth));
     let uvPos = vec2<i32>(floor(uv0*textureSize));
 
-    let world=textureLoad(gPosition,  uvPos ,0).xyz; 
+    let world=getWorldFromUVDepth(uv0 ,textureLoad(gDepth,  uvPos ,0).x); 
     let dist=distance (uniforms.position.xyz,world)/uniforms.position.w;
     
     
@@ -143,7 +143,11 @@ if( uniforms.shadow.x>0.5){
         screenUV.y= 1.0-screenUV.y;
        
         let screenUVi = vec2<i32>(floor( screenUV*textureSize));
-        let worldS=textureLoad(gPosition,  screenUVi ,0).xyz; 
+        //let worldS=textureLoad(gPosition,  screenUVi ,0).xyz; 
+        
+        let worldS =getWorldFromUVDepth(screenUV ,textureLoad(gDepth,  screenUVi ,0).x); 
+        
+        
         if(worldS.z==0) {continue;}
         let worldDist = distance(worldS,camera.worldPosition.xyz);
      

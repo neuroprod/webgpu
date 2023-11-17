@@ -18,8 +18,7 @@ export default class extends RenderPass {
     private colorAttachment: ColorAttachment;
     private normalAttachment: ColorAttachment;
     private mraAttachment: ColorAttachment;
-    private positionTarget: RenderTexture;
-    private positionAttachment: ColorAttachment;
+
 
 
     constructor(renderer: Renderer) {
@@ -58,16 +57,9 @@ export default class extends RenderPass {
 
 
 
-        this.positionTarget = new RenderTexture(renderer, "GPosition", {
-            format: TextureFormat.RGBA16Float,
-            sampleCount: this.sampleCount,
-            scaleToCanvas: true,
 
-            usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
-        });
-        this.positionAttachment = new ColorAttachment(this.positionTarget);
 
-        this.colorAttachments = [this.colorAttachment, this.normalAttachment, this.mraAttachment, this.positionAttachment];
+        this.colorAttachments = [this.colorAttachment, this.normalAttachment, this.mraAttachment];
 
 
         this.depthTarget = new RenderTexture(renderer, "GDepth", {
