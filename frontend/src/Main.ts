@@ -22,6 +22,7 @@ import JSONLoader from "./JSONLoader";
 import AORenderPass from "./AORenderPass";
 
 
+
 export default class Main {
     private canvasManager: CanvasManager;
     private renderer: Renderer;
@@ -44,6 +45,7 @@ export default class Main {
     private lightJson: JSONLoader;
     private aoPass: AORenderPass;
 
+
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -61,7 +63,7 @@ export default class Main {
         );
 
         this.renderer.init()
-        this.timeStampQuery = new TimeStampQuery(this.renderer, 5)
+        this.timeStampQuery = new TimeStampQuery(this.renderer, 6)
 
 
         this.camera = new Camera(this.renderer, "mainCamera")
@@ -86,6 +88,7 @@ export default class Main {
 
         this.gBufferPass = new GBufferRenderPass(this.renderer)
         this.aoPass =new AORenderPass(this.renderer)
+
         this.lightPass = new LightRenderPass(this.renderer,this.lightJson.data);
 
         this.postPass =new PostRenderPass(this.renderer)
@@ -140,7 +143,8 @@ export default class Main {
         this.camera.lensShift.y = -cameraPositionMap.y / (screenLocal.y / 2);
 
         UI.pushWindow("Render Setting")
-        this.aoPass.onUI()
+        this.postPass.onUI();
+        this.aoPass.onUI();
         UI.popWindow()
 
 
@@ -159,6 +163,8 @@ export default class Main {
         this.timeStampQuery.setStamp("GBufferPass");
         this.aoPass.add()
         this.timeStampQuery.setStamp("AOPass");
+
+        this.timeStampQuery.setStamp("AOPass2");
         this.lightPass.add();
         this.timeStampQuery.setStamp("LightPass");
         this.postPass.add()

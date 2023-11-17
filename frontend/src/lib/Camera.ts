@@ -9,7 +9,7 @@ export default class Camera extends UniformGroup {
     public cameraLookAt: Vector3 = new Vector3(0, 1.5, 0);
     public cameraUp: Vector3 = new Vector3(0, 1, 0);
     public fovy = 0.9
-    public near =0.1
+    public near =4;
     public far = 15
     public lensShift = new Vector2(1, 0)
     private view: Matrix4 = new Matrix4();
@@ -20,6 +20,7 @@ export default class Camera extends UniformGroup {
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
         this.addUniform("viewProjectionMatrix", this.viewProjection)
+        this.addUniform("inverseViewProjectionMatrix", this.viewProjection)
         this.addUniform("worldPosition", this.cameraWorldU)
         if (!Camera.instance) Camera.instance = this;
     }
@@ -123,7 +124,7 @@ export default class Camera extends UniformGroup {
         this.viewProjectionInv = this.viewProjection.clone();
         this.viewProjectionInv.invert();
 
-
+        this.setUniform("inverseViewProjectionMatrix", this.viewProjectionInv)
         this.setUniform("viewProjectionMatrix", this.viewProjection)
         this.cameraWorldU.set(this.cameraWorld.x,this.cameraWorld.y,this.cameraWorld.z,1)
         this.setUniform("worldPosition", this.cameraWorldU)

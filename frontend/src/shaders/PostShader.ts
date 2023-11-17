@@ -14,7 +14,14 @@ export default class PostShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("dd",1)
+        this.addUniform( "exposure",0);
+        this.addUniform("contrast" ,0);
+        this.addUniform("brightness",0);
+        this.addUniform("vibrance",0);
+        this.addUniform("saturation",0);
+
+        this.addUniform("falloff",0.0);
+        this.addUniform("amount",0.0);
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         // this.addSampler("mySampler");
 
@@ -73,9 +80,32 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
     let textureSize =vec2<f32>( textureDimensions(colorTexture));
     let uvPos = vec2<i32>(floor(uv0*textureSize));
-    let color=textureLoad(colorTexture,  uvPos ,0).xyz; ;
+    var color=textureLoad(colorTexture,  uvPos ,0).xyz; ;
     
-    return vec4(acestonemap(color),1.0) ;
+     color = color * pow( uniforms.exposure,2.0);
+    
+    color =acestonemap(color);
+    
+    color=  color * uniforms.contrast;
+     color =  color + vec3(uniforms.brightness);
+    
+    
+    
+    let luminance = color.r*0.299 + color.g*0.587 + color.b*0.114;
+    let mn = min(min(color.r, color.g), color.b);
+    let mx = max(max(color.r, color.g), color.b);
+    let sat = (1.0-(mx - mn)) * (1.0-mx) * luminance * 5.0;
+    let lightness = vec3((mn + mx)/2.0);
+
+    
+    color = mix(color, mix(color, lightness, -uniforms.vibrance), sat);
+    color = mix(color, lightness, (1.0-lightness)*(1.0-uniforms.vibrance)/2.0*abs(uniforms.vibrance));
+    color = mix(color, vec3(luminance), -uniforms.saturation);
+   let dist = distance( uv0, vec2(0.5, 0.5));
+    color =color* smoothstep(0.8, uniforms.falloff * 0.799, dist * (uniforms.amount + uniforms.falloff));
+    
+    
+    return vec4(color,1.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

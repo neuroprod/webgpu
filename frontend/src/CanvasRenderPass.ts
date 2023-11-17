@@ -56,6 +56,7 @@ export default class CanvasRenderPass extends RenderPass implements IResizable {
         this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
         this.passSelect.push(new SelectItem("OA", {texture: "OAPass", type: 0}));
         this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
+       // this.passSelect.push(new SelectItem("OA", {texture: "OAPass", type: 0}));
         this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
         this.passSelect.push(new SelectItem("GMRA", {texture: "GMRA", type: 0}));

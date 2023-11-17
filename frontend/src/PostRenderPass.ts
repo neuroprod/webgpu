@@ -10,6 +10,7 @@ import Renderer from "./lib/Renderer";
 import {TextureFormat} from "./lib/WebGPUConstants";
 import DebugTextureShader from "./shaders/DebugTextureShader";
 import PostShader from "./shaders/PostShader";
+import UI from "./lib/UI/UI";
 
 export default class PostRenderPass extends RenderPass {
     public colorAttachment: ColorAttachment;
@@ -19,7 +20,13 @@ export default class PostRenderPass extends RenderPass {
     private blitMaterial: Material;
     private blit: Blit;
 
-
+    private exposure=1;
+    private contrast =1;
+    private brightness:number =0;
+    private vibrance:number=0;
+    private saturation:number =0
+    private vin_falloff: number = 0.5;
+    private vin_amount: number=0.4;
     constructor(renderer: Renderer) {
 
         super(renderer, "PostPass");
@@ -32,11 +39,42 @@ export default class PostRenderPass extends RenderPass {
         });
         this.colorAttachment= new ColorAttachment(this.target);
         this.colorAttachments = [this.colorAttachment];
+
         this.blitMaterial = new Material(this.renderer, "blitPost", new PostShader(this.renderer, "post"))
         this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["LightPass"])
-
+        this.blitMaterial.uniforms.setUniform( "exposure",this.exposure);
+        this.blitMaterial.uniforms.setUniform( "contrast" ,this.contrast);
+        this.blitMaterial.uniforms.setUniform( "brightness",this.brightness);
+        this.blitMaterial.uniforms.setUniform( "vibrance",this.vibrance);
+        this.blitMaterial.uniforms.setUniform( "saturation",this.saturation)
 
         this.blit = new Blit(renderer, 'blitPost', this.blitMaterial)
+    }
+    onUI(){
+
+        UI.separator("Post");
+        this.exposure=UI.LFloatSlider("Exposure",this.exposure,0,10);
+        this.brightness=UI.LFloatSlider("Brightness",this.brightness,-1,1);
+        this.contrast=UI.LFloatSlider("Contrast",this.contrast,0,2);
+
+        this.vibrance=UI.LFloatSlider("Vibrance",this.vibrance,-1,1);
+        this.saturation=UI.LFloatSlider("Saturation",this.saturation,-1,1);
+
+        UI.separator("Vignette");
+        this.vin_amount=UI.LFloatSlider("Amount",this.vin_amount,0,1);
+        this.vin_falloff=UI.LFloatSlider("Falloff",this.vin_falloff,0,1);
+
+
+
+
+        this.blitMaterial.uniforms.setUniform( "falloff",this.vin_falloff);
+        this.blitMaterial.uniforms.setUniform( "amount",this.vin_amount);
+
+        this.blitMaterial.uniforms.setUniform( "exposure",this.exposure);
+        this.blitMaterial.uniforms.setUniform( "contrast" ,this.contrast);
+        this.blitMaterial.uniforms.setUniform( "brightness",this.brightness);
+        this.blitMaterial.uniforms.setUniform( "vibrance",this.vibrance);
+        this.blitMaterial.uniforms.setUniform( "saturation",this.saturation)
     }
     draw() {
 
