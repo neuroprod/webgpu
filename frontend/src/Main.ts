@@ -136,6 +136,9 @@ export default class Main {
 
         }
         for (let m of this.glFTLoader.modelsGlass) {
+
+            m.material.uniforms.setTexture("gDepth",this.renderer.texturesByLabel["GDepth"])
+            m.material.uniforms.setTexture("background",this.renderer.texturesByLabel["LightPass"])
             this.glassPass.modelRenderer.addModel(m)
 
         }

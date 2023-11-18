@@ -55,19 +55,17 @@ export default class CanvasRenderPass extends RenderPass {
 
         this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
 
-        this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
+
         this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
 
         this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));
-
+        this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
         this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 0}));
         this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 0}));
         this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
         this.passSelect.push(new SelectItem("GMRE", {texture: "GMRA", type: 0}));
         this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
-
-
         this.passSelect.push(new SelectItem("GDepth", {texture: "GDepth", type: 0}));
 
         let value = this.passSelect[0].value;
