@@ -8,6 +8,28 @@ export default class DefaultTextures {
     private static black: Texture;
     private static grid: Texture;
     private static normal: Texture;
+    private static mre: Texture;
+
+
+    static getMRE(render: Renderer) {
+        if (this.mre) return this.mre;
+
+        this.mre = new Texture(render, "defaultWhite", {
+            format: TextureFormat.RGBA8Unorm,
+            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+        })
+        this.mre.make()
+
+        let f = new Uint8ClampedArray(4);
+        f[0]=0;
+        f[1]=250;
+        f[2]=0;
+        f[3]=255;
+        this.mre.writeTexture(f,1,1,4);
+
+        return this.mre;
+    }
+
     static getWhite(render: Renderer) {
         if (this.white) return this.white;
 

@@ -1,6 +1,6 @@
 import RenderPass from "./lib/core/RenderPass";
 import ColorAttachment from "./lib/textures/ColorAttachment";
-import RenderTexture from "./lib/textures/RenderTexture";
+import RenderTexture, {BaseRenderTextureOptions} from "./lib/textures/RenderTexture";
 import Material from "./lib/core/Material";
 import Blit from "./lib/Blit";
 import Renderer from "./lib/Renderer";
@@ -22,6 +22,7 @@ export default class AORenderPass extends RenderPass{
     private aoRadius =1;
     private  aoStrength=1.3;
     private aoNumSamples =16;
+    private halfSize: boolean =true;
     constructor(renderer: Renderer) {
 
         super(renderer, "OAPass");
@@ -46,7 +47,16 @@ export default class AORenderPass extends RenderPass{
     }
     onUI(){
         UI.separator("SSAO")
-
+        if(    UI.LBool("Half Size",this.halfSize) !=this.halfSize){
+            this.halfSize =!this.halfSize;
+            let options=this.target.options as BaseRenderTextureOptions
+            if(this.halfSize){
+                options.sizeMultiplier =0.5;
+            }else{
+                options.sizeMultiplier =1;
+            }
+this.renderer.forceRescaleTextures()
+        }
         this.aoRadius =UI.LFloatSlider("radius",this.aoRadius,0.01,2)
         this.aoStrength = UI.LFloatSlider("strength",this.aoStrength,0,5)
         this.aoNumSamples =Math.round( UI.LFloatSlider("numSamples", this.aoNumSamples,1,64));

@@ -165,10 +165,11 @@ export default class Main {
         let mp = this.mouseListener.mousePos.clone()
         mp.scale(new Vector2(1 / this.renderer.width, 1 / this.renderer.height))
         mp.x -= 0.5
+        mp.x*=2.0;
         mp.y -= 0.5
-        mp.y *= 2.0
+        mp.y *= 3.0
         this.mouseTarget.lerp(mp, 0.1);
-        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 1.5 + this.mouseTarget.y*2.0, 7);
+        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 2.0 + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraLookAt = new Vector3(cameraPositionMap.x, cameraPositionMap.y, 0);
         let screenLocal = new Vector2(this.renderer.ratio * 3, 3)

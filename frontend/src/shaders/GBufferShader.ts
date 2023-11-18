@@ -19,7 +19,7 @@ export default class GBufferShader extends Shader{
         }
         this.addUniform("scale",1);
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("mraTexture",DefaultTextures.getWhite(this.renderer))
+        this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
         this.addSampler("mySampler")
 

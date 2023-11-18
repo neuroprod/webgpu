@@ -136,7 +136,11 @@ export default class Renderer {
     addUniformGroup(uniformGroup: UniformGroup) {
         this.uniformGroups.push(uniformGroup)
     }
-
+    forceRescaleTextures() {
+        for (let t of this.scaleToCanvasTextures) {
+            t.resize(this.width, this.height);
+        }
+    }
     private updateSize() {
 
         if (this.width != this.canvas.width || this.height != this.canvas.height) {
@@ -172,5 +176,7 @@ export default class Renderer {
             a.onScreenResize(this.size)
         }
     }
+
+
 }
 

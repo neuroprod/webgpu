@@ -33,8 +33,9 @@ export default class RenderTexture extends Texture {
     }
     resize(width,height)
     {
-
         let options=this.options as BaseRenderTextureOptions
+        if( this.options.width ==width*options.sizeMultiplier && this.options.height ==height*options.sizeMultiplier)return;
+
         this.options.width =width*options.sizeMultiplier;
         this.options.height =height*options.sizeMultiplier;
 
