@@ -23,7 +23,7 @@ export default class AOShader extends Shader {
         this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         // this.addSampler("mySampler");
         this.needsCamera = true;
-        this.logShaderCode = true;
+
     }
 
     getNiceKernel() {

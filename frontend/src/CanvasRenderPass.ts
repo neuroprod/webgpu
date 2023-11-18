@@ -11,9 +11,9 @@ import Material from "./lib/core/Material";
 import DebugTextureShader from "./shaders/DebugTextureShader";
 import SelectItem from "./lib/UI/math/SelectItem";
 import {Vector2} from "math.gl";
-import {IResizable} from "./lib/IResizable";
 
-export default class CanvasRenderPass extends RenderPass implements IResizable {
+
+export default class CanvasRenderPass extends RenderPass {
     public canvasColorAttachment: ColorAttachment;
     public modelRenderer: ModelRenderer;
     private canvasColorTarget: RenderTexture;
@@ -54,13 +54,17 @@ export default class CanvasRenderPass extends RenderPass implements IResizable {
 
 
         this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
-        this.passSelect.push(new SelectItem("OA", {texture: "OAPass", type: 0}));
         this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
-       // this.passSelect.push(new SelectItem("OA", {texture: "OAPass", type: 0}));
+
+        this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));
+
+        this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 0}));
+        this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 0}));
         this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
-        this.passSelect.push(new SelectItem("GMRA", {texture: "GMRA", type: 0}));
+        this.passSelect.push(new SelectItem("GMRE", {texture: "GMRA", type: 0}));
         this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
+
 
         this.passSelect.push(new SelectItem("GDepth", {texture: "GDepth", type: 0}));
 
@@ -71,10 +75,7 @@ export default class CanvasRenderPass extends RenderPass implements IResizable {
         this.blitMaterial.uniforms.setUniform("textureSize", new Vector2(texture.options.width, texture.options.height))
 
     }
-    onScreenResize(size:Vector2)
-    {
-        this.blitMaterial.uniforms.setUniform("textureSize", size)
-    }
+
     onUI() {
         let value = UI.LSelect("pass", this.passSelect)
         if (value != this.currentValue) {

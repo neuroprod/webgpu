@@ -20,7 +20,9 @@ import LightRenderPass from "./LightRenderPass";
 import PostRenderPass from "./PostRenderPass";
 import JSONLoader from "./JSONLoader";
 import AORenderPass from "./AORenderPass";
-
+import AOBlurRenderPass from "./AOBlurRenderPass";
+import ReflectionRenderPass from "./ReflectionRenderPass";
+import TextureLoader from "./lib/loaders/TextureLoader";
 
 
 export default class Main {
@@ -40,10 +42,12 @@ export default class Main {
     private canvasRenderPass: CanvasRenderPass
     private gBufferPass: GBufferRenderPass;
     private timeStampQuery: TimeStampQuery;
-    private lightPass:LightRenderPass;
+    private lightPass: LightRenderPass;
     private postPass: PostRenderPass;
     private lightJson: JSONLoader;
     private aoPass: AORenderPass;
+    private aoBlurPass: AOBlurRenderPass;
+    private reflectionPass: ReflectionRenderPass;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -63,19 +67,39 @@ export default class Main {
         );
 
         this.renderer.init()
-        this.timeStampQuery = new TimeStampQuery(this.renderer, 6)
+        this.timeStampQuery = new TimeStampQuery(this.renderer, 7)
 
 
         this.camera = new Camera(this.renderer, "mainCamera")
         this.renderer.camera = this.camera;
-
+        new TextureLoader(this.renderer,this.preloader,"brdf_lut.png",{});
         ImagePreloader.load(this.renderer, this.preloader);
+
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
-        this.lightJson  =new JSONLoader("light",this.preloader);
+        this.lightJson = new JSONLoader("light", this.preloader);
         UI.setWebGPU(this.renderer)
 
     }
 
+    onDraw() {
+        this.timeStampQuery.start();
+        this.gBufferPass.add();
+        this.timeStampQuery.setStamp("GBufferPass");
+        this.aoPass.add();
+        this.timeStampQuery.setStamp("AOPass");
+        this.aoBlurPass.add();
+        this.timeStampQuery.setStamp("AOBlurPass");
+        this.lightPass.add();
+        this.timeStampQuery.setStamp("LightPass");
+        this.reflectionPass.add()
+        this.timeStampQuery.setStamp("ReflectionPass");
+
+        this.postPass.add()
+        this.timeStampQuery.setStamp("PostPass");
+        this.canvasRenderPass.add();
+        this.timeStampQuery.setStamp("CanvasPass");
+        this.timeStampQuery.stop();
+    }
 
     private loadProgress() {
 
@@ -84,18 +108,16 @@ export default class Main {
     private init() {
 
 
-
-
         this.gBufferPass = new GBufferRenderPass(this.renderer)
-        this.aoPass =new AORenderPass(this.renderer)
+        this.aoPass = new AORenderPass(this.renderer)
+        this.aoBlurPass = new AOBlurRenderPass(this.renderer);
+        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data);
+        this.reflectionPass = new ReflectionRenderPass(this.renderer);
+        this.postPass = new PostRenderPass(this.renderer)
 
-        this.lightPass = new LightRenderPass(this.renderer,this.lightJson.data);
 
-        this.postPass =new PostRenderPass(this.renderer)
-
-        this.renderer.registerResizable( this.lightPass)
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
-        this.renderer.registerResizable( this.canvasRenderPass)
+
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
 
@@ -109,6 +131,7 @@ export default class Main {
 
         this.tick()
     }
+
     private tick() {
 
         window.requestAnimationFrame(() => this.tick());
@@ -120,10 +143,11 @@ export default class Main {
         this.timeStampQuery.getData();
         // console.log(this.timeStampQuery.timeArray, this.timeStampQuery.names, this.timeStampQuery.totalTime)
     }
+
     private update() {
-       this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
+        this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
-       this.glFTLoader.root.setPosition(0, -1.5, 0)
+        this.glFTLoader.root.setPosition(0, -1.5, 0)
 
         let mp = this.mouseListener.mousePos.clone()
         mp.scale(new Vector2(1 / this.renderer.width, 1 / this.renderer.height))
@@ -131,7 +155,7 @@ export default class Main {
         mp.y -= 0.5
         mp.y *= 2.0
         this.mouseTarget.lerp(mp, 0.1);
-        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 1.5 + this.mouseTarget.y, 7);
+        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 1.5 + this.mouseTarget.y*2.0, 7);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraLookAt = new Vector3(cameraPositionMap.x, cameraPositionMap.y, 0);
         let screenLocal = new Vector2(this.renderer.ratio * 3, 3)
@@ -145,6 +169,7 @@ export default class Main {
         UI.pushWindow("Render Setting")
         this.postPass.onUI();
         this.aoPass.onUI();
+        this.reflectionPass.onUI();
         UI.popWindow()
 
 
@@ -157,24 +182,6 @@ export default class Main {
         this.timeStampQuery.onUI();
         UI.popWindow()
     }
-    onDraw() {
-        this.timeStampQuery.start();
-        this.gBufferPass.add();
-        this.timeStampQuery.setStamp("GBufferPass");
-        this.aoPass.add()
-        this.timeStampQuery.setStamp("AOPass");
-
-        this.timeStampQuery.setStamp("AOPass2");
-        this.lightPass.add();
-        this.timeStampQuery.setStamp("LightPass");
-        this.postPass.add()
-        this.timeStampQuery.setStamp("PostPass");
-        this.canvasRenderPass.add();
-        this.timeStampQuery.setStamp("CanvasPass");
-        this.timeStampQuery.stop();
-    }
-
-
 
 
 }

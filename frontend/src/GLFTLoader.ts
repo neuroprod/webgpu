@@ -73,7 +73,12 @@ export default class GLFTLoader {
                 node = new Model(this.renderer, nodeData.name)
                 node.mesh = this.meshes[nodeData.mesh]
                 node.material =this.materials[nodeData.mesh]
+                if(nodeData.name.includes("_ggg")){
+
+                }else{
+                    console.log(nodeData.name)
                this.models.push(node);
+                }
                 this.modelsByName[node.label] =node;
             } else {
                 node = new Object3D(this.renderer, nodeData.name)
