@@ -22,6 +22,7 @@ export default class PostShader extends Shader{
 
         this.addUniform("falloff",0.0);
         this.addUniform("amount",0.0);
+        this.addTexture("glassTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("refTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         // this.addSampler("mySampler");
@@ -83,7 +84,10 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let uvPos = vec2<i32>(floor(uv0*textureSize));
     var color=textureLoad(colorTexture,  uvPos ,0).xyz; ;
     color+=textureLoad(refTexture,  uvPos/2 ,0).xyz; ;
-     color = color * pow( uniforms.exposure,2.0);
+    let glass  =textureLoad(glassTexture,  uvPos ,0);
+    color =mix(color,glass.xyz,vec3(glass.w));
+    
+    color = color * pow( uniforms.exposure,2.0);
     
     color =acestonemap(color);
     

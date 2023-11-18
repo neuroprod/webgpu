@@ -43,6 +43,7 @@ export default class PostRenderPass extends RenderPass {
         this.blitMaterial = new Material(this.renderer, "blitPost", new PostShader(this.renderer, "post"))
         this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["LightPass"])
         this.blitMaterial.uniforms.setTexture("refTexture",this.renderer.texturesByLabel["ReflectionPass"])
+        this.blitMaterial.uniforms.setTexture("glassTexture",this.renderer.texturesByLabel["GlassPass"])
 
         this.blitMaterial.uniforms.setUniform( "exposure",this.exposure);
         this.blitMaterial.uniforms.setUniform( "contrast" ,this.contrast);

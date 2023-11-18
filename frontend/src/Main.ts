@@ -23,6 +23,7 @@ import AORenderPass from "./AORenderPass";
 import AOBlurRenderPass from "./AOBlurRenderPass";
 import ReflectionRenderPass from "./ReflectionRenderPass";
 import TextureLoader from "./lib/loaders/TextureLoader";
+import GlassRenderPass from "./GlassRenderPass";
 
 
 export default class Main {
@@ -48,6 +49,7 @@ export default class Main {
     private aoPass: AORenderPass;
     private aoBlurPass: AOBlurRenderPass;
     private reflectionPass: ReflectionRenderPass;
+    private glassPass: GlassRenderPass;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -86,14 +88,16 @@ export default class Main {
         this.gBufferPass.add();
         this.timeStampQuery.setStamp("GBufferPass");
         this.aoPass.add();
-        this.timeStampQuery.setStamp("AOPass");
         this.aoBlurPass.add();
-        this.timeStampQuery.setStamp("AOBlurPass");
+        this.timeStampQuery.setStamp("AOPass");
+
+
         this.lightPass.add();
         this.timeStampQuery.setStamp("LightPass");
         this.reflectionPass.add()
         this.timeStampQuery.setStamp("ReflectionPass");
-
+        this.glassPass.add();
+        this.timeStampQuery.setStamp("GlassPass");
         this.postPass.add()
         this.timeStampQuery.setStamp("PostPass");
         this.canvasRenderPass.add();
@@ -113,6 +117,7 @@ export default class Main {
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
         this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
+        this.glassPass =new GlassRenderPass(this.renderer)
         this.postPass = new PostRenderPass(this.renderer)
 
 
@@ -124,11 +129,16 @@ export default class Main {
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.leftHolder = this.glFTLoader.objectsByName["left"]
         this.rightHolder = this.glFTLoader.objectsByName["right"]
+
+
         for (let m of this.glFTLoader.models) {
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
+        for (let m of this.glFTLoader.modelsGlass) {
+            this.glassPass.modelRenderer.addModel(m)
 
+        }
         this.tick()
     }
 

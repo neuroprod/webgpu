@@ -7,6 +7,7 @@ import TestShader from "./shaders/TestShader";
 import Material from "./lib/core/Material";
 import ImagePreloader from "./ImagePreloader";
 import GBufferShader from "./shaders/GBufferShader";
+import GlassShader from "./shaders/GlassShader";
 
 
 type Accessor = {
@@ -16,6 +17,7 @@ type Accessor = {
 export default class GLFTLoader {
     public root: Object3D;
     public models:Array<Model>=[]
+    public modelsGlass:Array<Model>=[]
     public modelsByName:{ [name: string]: Model } = {};
     public objects:Array<Object3D>=[]
     public objectsByName:{ [name: string]: Object3D } = {};
@@ -29,6 +31,7 @@ export default class GLFTLoader {
     private renderer: Renderer;
 
     private mainShader: TestShader;
+    private glassShader: GlassShader;
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
@@ -36,7 +39,7 @@ export default class GLFTLoader {
 
         this.root = new Object3D(renderer, "sceneRoot");
         this.mainShader =new GBufferShader(this.renderer,"gBufferShader");
-
+        this.glassShader =new GlassShader(this.renderer,"glassShader");
 
         preLoader.startLoad();
         this.loadURL(url).then(() => {
@@ -73,11 +76,11 @@ export default class GLFTLoader {
                 node = new Model(this.renderer, nodeData.name)
                 node.mesh = this.meshes[nodeData.mesh]
                 node.material =this.materials[nodeData.mesh]
-                if(nodeData.name.includes("_ggg")){
-
+                if(nodeData.name.includes("_G")){
+                    this.modelsGlass.push(node);
                 }else{
-                    console.log(nodeData.name)
-               this.models.push(node);
+
+                    this.models.push(node);
                 }
                 this.modelsByName[node.label] =node;
             } else {
@@ -125,7 +128,15 @@ export default class GLFTLoader {
         }
     }
 private makeMaterial(name:string){
-    let material =new Material(this.renderer,name,this.mainShader);
+    let material:Material;
+    if(name.includes("_G")){
+        material=new Material(this.renderer,name,this.glassShader);
+        material.depthWrite =false;
+
+    }else{
+        material =new Material(this.renderer,name,this.mainShader);
+    }
+
 
     let colorTexture = ImagePreloader.getTexture(name+"_Color");
     if(colorTexture) material.uniforms.setTexture("colorTexture",colorTexture)

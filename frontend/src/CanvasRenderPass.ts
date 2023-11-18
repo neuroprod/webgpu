@@ -54,6 +54,8 @@ export default class CanvasRenderPass extends RenderPass {
 
 
         this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
+
+        this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
         this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
 
         this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));

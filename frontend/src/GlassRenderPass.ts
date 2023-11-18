@@ -27,8 +27,8 @@ export default class extends RenderPass {
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
-        this.colorAttachment = new ColorAttachment(this.colorTarget);
-
+        this.colorAttachment = new ColorAttachment(this.colorTarget, {clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 0.0}});
+        this.colorAttachments =[this.colorAttachment]
 
         this.depthStencilAttachment = new DepthStencilAttachment(this.renderer.texturesByLabel["GDepth"] as RenderTexture, {
             depthLoadOp: LoadOp.Load,
