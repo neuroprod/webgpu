@@ -24,6 +24,7 @@ import AOBlurRenderPass from "./AOBlurRenderPass";
 import ReflectionRenderPass from "./ReflectionRenderPass";
 import TextureLoader from "./lib/loaders/TextureLoader";
 import GlassRenderPass from "./GlassRenderPass";
+import BlurLight from "./BlurLight";
 
 
 export default class Main {
@@ -50,6 +51,7 @@ export default class Main {
     private aoBlurPass: AOBlurRenderPass;
     private reflectionPass: ReflectionRenderPass;
     private glassPass: GlassRenderPass;
+    private blurLightPass: BlurLight;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -69,7 +71,7 @@ export default class Main {
         );
 
         this.renderer.init()
-        this.timeStampQuery = new TimeStampQuery(this.renderer, 7)
+        this.timeStampQuery = new TimeStampQuery(this.renderer, 8)
 
 
         this.camera = new Camera(this.renderer, "mainCamera")
@@ -83,27 +85,7 @@ export default class Main {
 
     }
 
-    onDraw() {
-        this.timeStampQuery.start();
-        this.gBufferPass.add();
-        this.timeStampQuery.setStamp("GBufferPass");
-        this.aoPass.add();
-        this.aoBlurPass.add();
-        this.timeStampQuery.setStamp("AOPass");
 
-
-        this.lightPass.add();
-        this.timeStampQuery.setStamp("LightPass");
-        this.reflectionPass.add()
-        this.timeStampQuery.setStamp("ReflectionPass");
-        this.glassPass.add();
-        this.timeStampQuery.setStamp("GlassPass");
-        this.postPass.add()
-        this.timeStampQuery.setStamp("PostPass");
-        this.canvasRenderPass.add();
-        this.timeStampQuery.setStamp("CanvasPass");
-        this.timeStampQuery.stop();
-    }
 
     private loadProgress() {
 
@@ -116,6 +98,7 @@ export default class Main {
         this.aoPass = new AORenderPass(this.renderer)
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
         this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data);
+        this.blurLightPass =new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
         this.glassPass =new GlassRenderPass(this.renderer)
         this.postPass = new PostRenderPass(this.renderer)
@@ -144,7 +127,27 @@ export default class Main {
         }
         this.tick()
     }
-
+    onDraw() {
+        this.timeStampQuery.start();
+        this.gBufferPass.add();
+        this.timeStampQuery.setStamp("GBufferPass");
+        this.aoPass.add();
+        this.aoBlurPass.add();
+       this.timeStampQuery.setStamp("AOPass");
+        this.lightPass.add();
+        this.timeStampQuery.setStamp("LightPass");
+        this.blurLightPass.add()
+        this.timeStampQuery.setStamp("blurLight");
+        this.reflectionPass.add()
+        this.timeStampQuery.setStamp("ReflectionPass");
+        this.glassPass.add();
+        this.timeStampQuery.setStamp("GlassPass");
+        this.postPass.add()
+        this.timeStampQuery.setStamp("PostPass");
+        this.canvasRenderPass.add();
+        this.timeStampQuery.setStamp("CanvasPass");
+        this.timeStampQuery.stop();
+    }
     private tick() {
 
         window.requestAnimationFrame(() => this.tick());

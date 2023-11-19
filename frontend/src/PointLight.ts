@@ -3,12 +3,13 @@ import ObjectGPU from "./lib/core/ObjectGPU";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import UI from "./lib/UI/UI";
 import {Vector3, Vector4} from "math.gl";
-import LightShader from "./shaders/LightShader";
+import KawaseDownShader from "./shaders/KawaseDownShader";
 import Sphere from "./lib/meshes/Sphere";
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
 import ColorV from "./lib/ColorV";
 import LightMeshShader from "./shaders/LightMeshShader";
+import LightShader from "./shaders/LightShader";
 
 
 export default class PointLight extends ObjectGPU {
@@ -16,7 +17,7 @@ export default class PointLight extends ObjectGPU {
 
 
     private mesh: Sphere;
-    private shader: LightShader;
+    private shader: KawaseDownShader;
     private material: Material;
     private model: Model;
 
@@ -35,6 +36,7 @@ export default class PointLight extends ObjectGPU {
 
     private sizeMesh = 0.05;
     private showLightMesh: boolean = true;
+    private maxDistance: number=0.5;
 
     constructor(renderer: Renderer, label: string, modelRenderer: ModelRenderer,data:any=null) {
 
@@ -81,7 +83,7 @@ export default class PointLight extends ObjectGPU {
         this.model.material = this.material;
         this.model.mesh = this.mesh;
 
-        this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, 0))
+        this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, this.maxDistance))
         this.material.uniforms.setUniform("position", new Vector4(this.position.x, this.position.y, this.position.z, this.size))
         this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
         this.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
@@ -152,6 +154,7 @@ export default class PointLight extends ObjectGPU {
 
             this.numShadowSamples = Math.round(UI.LFloatSlider("numSamples", this.numShadowSamples, 1, 50));
             this.shadowScale = UI.LFloatSlider("scale", this.shadowScale, 0, 1);
+            this.maxDistance = UI.LFloatSlider("maxDistance", this.maxDistance, 0, 1);
         }
         this.showLightMesh = UI.LBool("Show Light mesh", this.showLightMesh)
         if (this.showLightMesh) {
@@ -160,7 +163,7 @@ export default class PointLight extends ObjectGPU {
         }
         UI.setIndent(0)
         UI.popID();
-        this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, 0))
+        this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, this.maxDistance))
         this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
         this.material.uniforms.setUniform("position", new Vector4(this.position.x, this.position.y, this.position.z, this.size))
         this.model.setPosition(this.position.x, this.position.y, this.position.z)

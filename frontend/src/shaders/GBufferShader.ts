@@ -73,7 +73,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     output.color = textureSample(colorTexture, mySampler,  uv0);
     
 
-    //output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
+ 
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;
     let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText);
     output.normal =vec4(normalize(N)*0.5+0.5,1.0);

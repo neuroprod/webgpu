@@ -48,7 +48,7 @@ export default class ReflectionRenderPass extends RenderPass {
         this.reflectMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"])
         this.reflectMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"])
         this.reflectMaterial.uniforms.setTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"])
-        this.reflectMaterial.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["LightPass"])
+        this.reflectMaterial.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["BlurLightPass"])
 
 
         this.blitReflect = new Blit(renderer, 'reflectBlit', this.reflectMaterial)

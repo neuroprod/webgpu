@@ -69,10 +69,10 @@ export default class Object3D extends ObjectGPU {
 
         this._localMatrix.identity();
         this._localMatrix.translate(this._position);
-        this._localMatrix.scale(this._scale);
+
         this.tempMatrix.fromQuaternion(this._rotation);
         this._localMatrix.multiplyRight(this.tempMatrix);
-
+        this._localMatrix.scale(this._scale);
         //update local matrix
         if (this.parent) {
             this._worldMatrix.copy(this.parent.worldMatrix)

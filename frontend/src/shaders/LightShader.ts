@@ -20,6 +20,7 @@ export default class LightShader extends Shader{
         this.addUniform("position",new Vector4(0,-1.5,-3,1));
         this.addUniform("color",new Vector4(1,1,1,1));
         this.addUniform("shadow",new Vector4(1,20,1,1));
+
        // this.addUniform("textureSize",new Vector2(10,10));
       //  this.addUniform("size",20.0);
 
@@ -150,8 +151,8 @@ if( uniforms.shadow.x>0.5){
         
         if(worldS.z==0) {continue;}
         let worldDist = distance(worldS,camera.worldPosition.xyz);
-     
-        if(distance(tracePos,camera.worldPosition.xyz)-0.01>distance(worldS,camera.worldPosition.xyz)){
+        let diff = distance(tracePos,camera.worldPosition.xyz)-distance(worldS,camera.worldPosition.xyz);
+        if(diff>0.01 && diff <uniforms.shadow.w){
            return vec4(0.0,0.0,0.0,1.0);
        
         }
@@ -163,7 +164,7 @@ if( uniforms.shadow.x>0.5){
        let an= pow(1.0-dist,2.0); 
 
   
-        let N = (textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0;
+        let N =normalize( (textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);
    
    
         let mra =textureLoad(gMRA,  uvPos ,0).xyz ;
@@ -198,17 +199,9 @@ if( uniforms.shadow.x>0.5){
      return vec4( light,1.0);
 }
 ///////////////////////////////////////////////////////////
-        
-        
-        
-        
-        
-        
-        
-        
+       
         `
     }
-
-
-
 }
+
+

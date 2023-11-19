@@ -88,8 +88,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     color =mix(color,glass.xyz,vec3(glass.w));
     
     color = color * pow( uniforms.exposure,2.0);
-    
-    color =acestonemap(color);
+ //   color-=1.0;
+  color =acestonemap(color);
     
     color=  color * uniforms.contrast;
      color =  color + vec3(uniforms.brightness);

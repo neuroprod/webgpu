@@ -8,7 +8,7 @@ import Blit from "./lib/Blit";
 
 import Renderer from "./lib/Renderer";
 import {TextureFormat} from "./lib/WebGPUConstants";
-import DebugTextureShader from "./shaders/DebugTextureShader";
+
 import PostShader from "./shaders/PostShader";
 import UI from "./lib/UI/UI";
 
