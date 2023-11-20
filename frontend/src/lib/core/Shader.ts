@@ -81,7 +81,11 @@ export default class Shader extends ObjectGPU {
 
     public getShader() {
         if (this.shader) return this.shader
-        if (this.logShaderCode) console.log(this.getShaderCode())
+        if (this.logShaderCode) {
+            console.log("--",this.label,"--------------------")
+            console.log(this.getShaderCode())
+        }
+
         this.shader = this.device.createShaderModule({
             label: "shader_" + this.label,
             code: this.getShaderCode(),

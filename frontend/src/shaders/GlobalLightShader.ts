@@ -63,20 +63,20 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let uvPos = vec2<i32>(floor(uv0*textureSize));
     
     
-      let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
-      let N = (textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0;
-      let mra =textureLoad(gMRA,  uvPos ,0).xyz ;
+    let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
+    let N = (textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0;
+    let mra =textureLoad(gMRA,  uvPos ,0).xyz ;
       
       
-       let textureSizeAO =vec2<f32>( textureDimensions(aoTexture));
+    let textureSizeAO =vec2<f32>( textureDimensions(aoTexture));
     let uvPosAO = vec2<i32>(floor(uv0*textureSizeAO));
       
-      let ao = textureLoad(aoTexture,  uvPosAO ,0).x ;
-      let l = dot(N,vec3(0,1.0,0));
-      let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
+    let ao = textureLoad(aoTexture,  uvPosAO ,0).x ;
+    let l = dot(N,vec3(0,1.0,0));
+    let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
       
       
-           let color = albedo*light*ao +albedo*mra.z;
+   let color = albedo*light*ao*(1.0-mra.x) +albedo*mra.z*4.0;
 
     return vec4(color,1.0) ;
 }

@@ -11,20 +11,22 @@ import ImagePreloader from "./ImagePreloader";
 import {Vector2, Vector3} from "math.gl";
 import MouseListener from "./lib/MouseListener";
 import Object3D from "./lib/core/Object3D";
-import CanvasRenderPass from "./CanvasRenderPass";
+import CanvasRenderPass from "./renderPasses/CanvasRenderPass";
 import TimeStampQuery from "./lib/TimeStampQuery";
 import UI from "./lib/UI/UI";
-import GBufferRenderPass from "./GBufferRenderPass";
+import GBufferRenderPass from "./renderPasses/GBufferRenderPass";
 import Timer from "./lib/Timer";
-import LightRenderPass from "./LightRenderPass";
-import PostRenderPass from "./PostRenderPass";
+import LightRenderPass from "./renderPasses/LightRenderPass";
+import PostRenderPass from "./renderPasses/PostRenderPass";
 import JSONLoader from "./JSONLoader";
-import AORenderPass from "./AORenderPass";
-import AOBlurRenderPass from "./AOBlurRenderPass";
-import ReflectionRenderPass from "./ReflectionRenderPass";
+import AORenderPass from "./renderPasses/AORenderPass";
+import AOBlurRenderPass from "./renderPasses/AOBlurRenderPass";
+import ReflectionRenderPass from "./renderPasses/ReflectionRenderPass";
 import TextureLoader from "./lib/loaders/TextureLoader";
-import GlassRenderPass from "./GlassRenderPass";
-import BlurLight from "./BlurLight";
+import GlassRenderPass from "./renderPasses/GlassRenderPass";
+import BlurLight from "./renderPasses/BlurLight";
+import {LaptopScreen} from "./extras/LaptopScreen";
+import Mill from "./extras/Mill";
 
 
 export default class Main {
@@ -52,6 +54,8 @@ export default class Main {
     private reflectionPass: ReflectionRenderPass;
     private glassPass: GlassRenderPass;
     private blurLightPass: BlurLight;
+    private laptopScreen: LaptopScreen;
+    private mill: Mill;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -77,6 +81,8 @@ export default class Main {
         this.camera = new Camera(this.renderer, "mainCamera")
         this.renderer.camera = this.camera;
         new TextureLoader(this.renderer,this.preloader,"brdf_lut.png",{});
+        new TextureLoader(this.renderer,this.preloader,"triangle.png",{});
+        new TextureLoader(this.renderer,this.preloader,"text.png",{});
         ImagePreloader.load(this.renderer, this.preloader);
 
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
@@ -112,12 +118,15 @@ export default class Main {
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.leftHolder = this.glFTLoader.objectsByName["left"]
         this.rightHolder = this.glFTLoader.objectsByName["right"]
-
+        this.mill =new Mill(this.glFTLoader.objectsByName["mill"])
 
         for (let m of this.glFTLoader.models) {
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
+        this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
+        this.gBufferPass.modelRenderer.addModel(this.laptopScreen);
+
         for (let m of this.glFTLoader.modelsGlass) {
 
             m.material.uniforms.setTexture("gDepth",this.renderer.texturesByLabel["GDepth"])
@@ -133,7 +142,7 @@ export default class Main {
         this.timeStampQuery.setStamp("GBufferPass");
         this.aoPass.add();
         this.aoBlurPass.add();
-       this.timeStampQuery.setStamp("AOPass");
+        this.timeStampQuery.setStamp("AOPass");
         this.lightPass.add();
         this.timeStampQuery.setStamp("LightPass");
         this.blurLightPass.add()
@@ -164,24 +173,8 @@ export default class Main {
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-
-        let mp = this.mouseListener.mousePos.clone()
-        mp.scale(new Vector2(1 / this.renderer.width, 1 / this.renderer.height))
-        mp.x -= 0.5
-        mp.x*=2.0;
-        mp.y -= 0.5
-        mp.y *= 3.0
-        this.mouseTarget.lerp(mp, 0.1);
-        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 2.0 + this.mouseTarget.y, 10);
-        this.camera.cameraWorld = cameraPositionMap.clone();
-        this.camera.cameraLookAt = new Vector3(cameraPositionMap.x, cameraPositionMap.y, 0);
-        let screenLocal = new Vector2(this.renderer.ratio * 3, 3)
-
-        this.camera.fovy = Math.atan2(screenLocal.y / 2, cameraPositionMap.z) * 2;
-
-
-        this.camera.lensShift.x = -cameraPositionMap.x / (screenLocal.x / 2);
-        this.camera.lensShift.y = -cameraPositionMap.y / (screenLocal.y / 2);
+this.updateCamera();
+        this.mill.update();
 
         UI.pushWindow("Render Setting")
         this.postPass.onUI();
@@ -199,6 +192,26 @@ export default class Main {
         this.timeStampQuery.onUI();
         UI.popWindow()
     }
+    updateCamera(){
+        let mp = this.mouseListener.mousePos.clone()
+        mp.scale(new Vector2(1 / (this.renderer.width/this.renderer.pixelRatio), 1 / (this.renderer.height/this.renderer.pixelRatio)))
 
+        mp.x -= 0.5
+        mp.x*=2.0;
+
+        mp.y -= 0.5
+        mp.y *= 3.0
+        this.mouseTarget.lerp(mp, 0.1);
+        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 2.0 + this.mouseTarget.y, 10);
+        this.camera.cameraWorld = cameraPositionMap.clone();
+        this.camera.cameraLookAt = new Vector3(cameraPositionMap.x, cameraPositionMap.y, 0);
+        let screenLocal = new Vector2(this.renderer.ratio * 3, 3)
+
+        this.camera.fovy = Math.atan2(screenLocal.y / 2, cameraPositionMap.z) * 2;
+
+
+        this.camera.lensShift.x = -cameraPositionMap.x / (screenLocal.x / 2);
+        this.camera.lensShift.y = -cameraPositionMap.y / (screenLocal.y / 2);
+    }
 
 }

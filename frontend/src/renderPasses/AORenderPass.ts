@@ -1,13 +1,13 @@
-import RenderPass from "./lib/core/RenderPass";
-import ColorAttachment from "./lib/textures/ColorAttachment";
-import RenderTexture, {BaseRenderTextureOptions} from "./lib/textures/RenderTexture";
-import Material from "./lib/core/Material";
-import Blit from "./lib/Blit";
-import Renderer from "./lib/Renderer";
-import {TextureFormat} from "./lib/WebGPUConstants";
+import RenderPass from "../lib/core/RenderPass";
+import ColorAttachment from "../lib/textures/ColorAttachment";
+import RenderTexture, {BaseRenderTextureOptions} from "../lib/textures/RenderTexture";
+import Material from "../lib/core/Material";
+import Blit from "../lib/Blit";
+import Renderer from "../lib/Renderer";
+import {TextureFormat} from "../lib/WebGPUConstants";
 
-import AOShader from "./shaders/AOShader";
-import UI from "./lib/UI/UI";
+import AOShader from "../shaders/AOShader";
+import UI from "../lib/UI/UI";
 
 export default class AORenderPass extends RenderPass{
 
@@ -55,7 +55,7 @@ export default class AORenderPass extends RenderPass{
             }else{
                 options.sizeMultiplier =1;
             }
-this.renderer.forceRescaleTextures()
+            this.renderer.forceRescaleTextures()
         }
         this.aoRadius =UI.LFloatSlider("radius",this.aoRadius,0.01,2)
         this.aoStrength = UI.LFloatSlider("strength",this.aoStrength,0,5)

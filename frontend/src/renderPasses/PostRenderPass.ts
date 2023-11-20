@@ -1,16 +1,16 @@
-import RenderPass from "./lib/core/RenderPass";
+import RenderPass from "../lib/core/RenderPass";
 
-import ColorAttachment from "./lib/textures/ColorAttachment";
+import ColorAttachment from "../lib/textures/ColorAttachment";
 
-import RenderTexture from "./lib/textures/RenderTexture";
-import Material from "./lib/core/Material";
-import Blit from "./lib/Blit";
+import RenderTexture from "../lib/textures/RenderTexture";
+import Material from "../lib/core/Material";
+import Blit from "../lib/Blit";
 
-import Renderer from "./lib/Renderer";
-import {TextureFormat} from "./lib/WebGPUConstants";
+import Renderer from "../lib/Renderer";
+import {TextureFormat} from "../lib/WebGPUConstants";
 
-import PostShader from "./shaders/PostShader";
-import UI from "./lib/UI/UI";
+import PostShader from "../shaders/PostShader";
+import UI from "../lib/UI/UI";
 
 export default class PostRenderPass extends RenderPass {
     public colorAttachment: ColorAttachment;

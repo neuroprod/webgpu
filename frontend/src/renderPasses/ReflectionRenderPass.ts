@@ -1,17 +1,19 @@
-import RenderPass from "./lib/core/RenderPass";
+import RenderPass from "../lib/core/RenderPass";
 
-import RenderTexture from "./lib/textures/RenderTexture";
-import ColorAttachment from "./lib/textures/ColorAttachment";
-import Renderer from "./lib/Renderer";
-import {TextureFormat} from "./lib/WebGPUConstants";
-
-
-import Material from "./lib/core/Material";
+import RenderTexture from "../lib/textures/RenderTexture";
+import ColorAttachment from "../lib/textures/ColorAttachment";
+import Renderer from "../lib/Renderer";
+import {TextureFormat} from "../lib/WebGPUConstants";
 
 
-import Blit from "./lib/Blit";
+import Material from "../lib/core/Material";
 
-import ReflectShader from "./shaders/ReflectShader";
+
+import Blit from "../lib/Blit";
+
+import ReflectShader from "../shaders/ReflectShader";
+import {Vector4} from "math.gl";
+import UI from "../lib/UI/UI";
 
 
 export default class ReflectionRenderPass extends RenderPass {
@@ -21,7 +23,7 @@ export default class ReflectionRenderPass extends RenderPass {
     private colorAttachment: ColorAttachment;
     private reflectMaterial: Material;
     private blitReflect: Blit;
-
+private settings =new Vector4(0.0,0.3,0.7,1.0);
 
     constructor(renderer: Renderer) {
 
@@ -42,7 +44,7 @@ export default class ReflectionRenderPass extends RenderPass {
 
         this.reflectMaterial = new Material(this.renderer, "reflectMaterial", new ReflectShader(this.renderer, "reflect"))
 
-
+        this.reflectMaterial.uniforms.setUniform("settings",this.settings)
         this.reflectMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
         this.reflectMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"])
         this.reflectMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"])
@@ -57,7 +59,11 @@ export default class ReflectionRenderPass extends RenderPass {
 
 
     onUI() {
-
+        UI.separator("SSR")
+        this.settings.x =UI.LFloatSlider("maxDistScale",this.settings.x,0.01,0.1)
+        this.settings.y =UI.LFloatSlider("maxDistScale2",this.settings.y,0.01,0.2)
+        this.settings.z =UI.LFloatSlider("str",this.settings.z,0.01,1.0)
+        this.reflectMaterial.uniforms.setUniform("settings",this.settings)
     }
 
     draw() {

@@ -98,7 +98,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     var refColor = textureLoad(background,  uvRefI ,0).xyz;
  
  
- refColor+=albedo*0.1;
+ refColor+=vec3(0.03,0.06,0.03);
  
   return vec4(refColor,1.0);
  

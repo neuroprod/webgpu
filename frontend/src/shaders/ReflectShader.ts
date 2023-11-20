@@ -1,7 +1,7 @@
 import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
-import {Vector3} from "math.gl";
+import {Vector3, Vector4} from "math.gl";
 import Camera from "../lib/Camera";
 import {getWorldFromUVDepth} from "./ShaderChunks";
 
@@ -16,7 +16,7 @@ export default class ReflectShader extends Shader {
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("radius", 1.0);
+        this.addUniform("settings", new Vector4());
         this.addTexture("lut", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
@@ -25,7 +25,7 @@ export default class ReflectShader extends Shader {
         this.addTexture("reflectTexture", DefaultTextures.getWhite(this.renderer), "float")
         this.addSampler("mySampler");
         this.needsCamera = true;
-        this.logShaderCode = true;
+
     }
 
 
@@ -78,7 +78,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     let roughness = mra.y;
     let metallic = mra.x;
-  if( roughness >0.5 && metallic<0.5){return  vec4f(0.0,0.0,0.0,1.0);}
+  if( roughness >0.5 ){return  vec4f(0.0,0.0,0.0,1.0);}
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));
     
@@ -98,11 +98,12 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     var testPos = world+dir*0.1;
     var uv= vec2f(0.0,0.0);
     var found =false;
+  
     for (var i: i32 = 0; i < 20; i++) {
       
         let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
         
-        if( projTestPos.w<0.0){
+        if( projTestPos.w<0.0 || testPos.z>0.0 ){
             return  vec4f(0.01,0.01,0.01,1.0);
         }
         
@@ -115,12 +116,12 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let textureDepth =textureLoad(gDepth,uvTest,0).x;
         let dist = screenTestPos.z-textureDepth;
         
-       if(dist>0.0 ){
+       if(dist>0.0 && dist <uniforms.settings.x +length(dir)*uniforms.settings.y ){
            
             found =true;
             break;
         }
-       dir*=1.3;
+       dir*=1.7;
         testPos += dir;
     }
     if(found){
@@ -161,18 +162,18 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     }else
     {
-        return  vec4f(0.0,0.0,0.0,1.0);
+        return  vec4f(1.0,1.0,0.0,1.0);
     }
-    if(uv.x==0) {return  vec4f(1.0,0.0,0.0,1.0);}
+    if(uv.x==0) {return  vec4f(1.0,1.0,0.0,1.0);}
     
-let test =textureSampleLevel(reflectTexture,mySampler,uv, 0.0).xyz;
+//let test =textureSampleLevel(reflectTexture,mySampler,uv, 0.0).xyz;
 
    let numlevels = f32(textureNumLevels(reflectTexture));
-   let sampleRoughness =1.0-(pow(1.0-roughness,1.0));
+   let sampleRoughness =1.0-(pow(1.0-roughness,3.0));
      let color =textureSampleLevel(reflectTexture,mySampler,uv, sampleRoughness*numlevels).xyz*refValue;
 
 
-    return vec4f(color,1.0);
+    return vec4f(color*uniforms.settings.z,1.0);
      
 }
 ///////////////////////////////////////////////////////////

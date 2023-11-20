@@ -1,15 +1,15 @@
-import Renderer from "./lib/Renderer";
-import ObjectGPU from "./lib/core/ObjectGPU";
-import ModelRenderer from "./lib/model/ModelRenderer";
-import UI from "./lib/UI/UI";
+import Renderer from "../lib/Renderer";
+import ObjectGPU from "../lib/core/ObjectGPU";
+import ModelRenderer from "../lib/model/ModelRenderer";
+import UI from "../lib/UI/UI";
 import {Vector3, Vector4} from "math.gl";
-import KawaseDownShader from "./shaders/KawaseDownShader";
-import Sphere from "./lib/meshes/Sphere";
-import Material from "./lib/core/Material";
-import Model from "./lib/model/Model";
-import ColorV from "./lib/ColorV";
-import LightMeshShader from "./shaders/LightMeshShader";
-import LightShader from "./shaders/LightShader";
+import KawaseDownShader from "../shaders/KawaseDownShader";
+import Sphere from "../lib/meshes/Sphere";
+import Material from "../lib/core/Material";
+import Model from "../lib/model/Model";
+import ColorV from "../lib/ColorV";
+import LightMeshShader from "../shaders/LightMeshShader";
+import LightShader from "../shaders/LightShader";
 
 
 export default class PointLight extends ObjectGPU {

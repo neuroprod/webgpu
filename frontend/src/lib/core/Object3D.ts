@@ -1,6 +1,6 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
-import {Matrix4, Quaternion, Vector3} from "math.gl";
+import {Euler, Matrix4, Quaternion, Vector3} from "math.gl";
 
 export default class Object3D extends ObjectGPU {
     public parent: Object3D | null = null
@@ -26,12 +26,15 @@ export default class Object3D extends ObjectGPU {
 
     private _localMatrix: Matrix4 = new Matrix4()
 
+
     public get localMatrix() {
         if (!this._dirty) return this._localMatrix;
         this.updateMatrices();
         return this._localMatrix;
 
     }
+
+
 
     public setPosition(x: number, y: number, z: number) {
         this._position.set(x, y, z)
@@ -47,7 +50,11 @@ export default class Object3D extends ObjectGPU {
         this._rotation.set(x, y, z, w)
         this.setDirty();
     }
+    public setEuler(x: number, y: number, z: number) {
+        this._rotation.rotateZ(z).rotateY(y).rotateX(x);
 
+        this.setDirty();
+    }
     public addChild(child: Object3D) {
 
         if (child.parent) child.parent.removeChild(child);

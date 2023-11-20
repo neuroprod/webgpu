@@ -1,10 +1,10 @@
-import RenderTexture from "./lib/textures/RenderTexture";
-import ColorAttachment from "./lib/textures/ColorAttachment";
-import {TextureFormat} from "./lib/WebGPUConstants";
-import DepthStencilAttachment from "./lib/textures/DepthStencilAttachment";
-import RenderPass from "./lib/core/RenderPass";
-import Renderer from "./lib/Renderer";
-import ModelRenderer from "./lib/model/ModelRenderer";
+import RenderTexture from "../lib/textures/RenderTexture";
+import ColorAttachment from "../lib/textures/ColorAttachment";
+import {TextureFormat} from "../lib/WebGPUConstants";
+import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
+import RenderPass from "../lib/core/RenderPass";
+import Renderer from "../lib/Renderer";
+import ModelRenderer from "../lib/model/ModelRenderer";
 
 
 

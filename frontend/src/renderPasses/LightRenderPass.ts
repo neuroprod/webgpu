@@ -1,23 +1,23 @@
-import RenderPass from "./lib/core/RenderPass";
-import ModelRenderer from "./lib/model/ModelRenderer";
-import RenderTexture from "./lib/textures/RenderTexture";
-import ColorAttachment from "./lib/textures/ColorAttachment";
-import Renderer from "./lib/Renderer";
-import {LoadOp, StoreOp, TextureFormat} from "./lib/WebGPUConstants";
-import DepthStencilAttachment from "./lib/textures/DepthStencilAttachment";
+import RenderPass from "../lib/core/RenderPass";
+import ModelRenderer from "../lib/model/ModelRenderer";
+import RenderTexture from "../lib/textures/RenderTexture";
+import ColorAttachment from "../lib/textures/ColorAttachment";
+import Renderer from "../lib/Renderer";
+import {LoadOp, StoreOp, TextureFormat} from "../lib/WebGPUConstants";
+import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 
-import Material from "./lib/core/Material";
+import Material from "../lib/core/Material";
 
 import {Vector2} from "math.gl";
-import {IResizable} from "./lib/IResizable";
+import {IResizable} from "../lib/IResizable";
 
-import UI from "./lib/UI/UI";
+import UI from "../lib/UI/UI";
 import PointLight from "./PointLight";
 
-import Blit from "./lib/Blit";
-import GlobalLightShader from "./shaders/GlobalLightShader";
-import ColorV from "./lib/ColorV";
-import {saveToJsonFile} from "./lib/SaveUtils";
+import Blit from "../lib/Blit";
+import GlobalLightShader from "../shaders/GlobalLightShader";
+import ColorV from "../lib/ColorV";
+import {saveToJsonFile} from "../lib/SaveUtils";
 
 export default class extends RenderPass implements IResizable {
 

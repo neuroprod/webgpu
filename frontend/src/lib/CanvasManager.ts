@@ -1,7 +1,7 @@
 export default class CanvasManager {
   private canvas: HTMLCanvasElement;
   private resizeTimeOut: ReturnType<typeof setTimeout>;
-  private pixelRatio: number = 1;
+  public pixelRatio: number = 1;
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.pixelRatio = window.devicePixelRatio;

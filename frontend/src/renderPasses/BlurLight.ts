@@ -1,8 +1,8 @@
-import Renderer from "./lib/Renderer";
-import RenderTexture from "./lib/textures/RenderTexture";
-import {TextureFormat} from "./lib/WebGPUConstants";
+import Renderer from "../lib/Renderer";
+import RenderTexture from "../lib/textures/RenderTexture";
+import {TextureFormat} from "../lib/WebGPUConstants";
 import KawasePass from "./KawasePass";
-import RenderPass from "./lib/core/RenderPass";
+import RenderPass from "../lib/core/RenderPass";
 
 export default class BlurLight {
     private renderer: Renderer;

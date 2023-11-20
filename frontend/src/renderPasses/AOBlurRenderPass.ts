@@ -1,14 +1,14 @@
-import RenderPass from "./lib/core/RenderPass";
-import ColorAttachment from "./lib/textures/ColorAttachment";
-import RenderTexture from "./lib/textures/RenderTexture";
-import Material from "./lib/core/Material";
-import Blit from "./lib/Blit";
-import Renderer from "./lib/Renderer";
-import {TextureFormat} from "./lib/WebGPUConstants";
+import RenderPass from "../lib/core/RenderPass";
+import ColorAttachment from "../lib/textures/ColorAttachment";
+import RenderTexture from "../lib/textures/RenderTexture";
+import Material from "../lib/core/Material";
+import Blit from "../lib/Blit";
+import Renderer from "../lib/Renderer";
+import {TextureFormat} from "../lib/WebGPUConstants";
 
-import AOShader from "./shaders/AOShader";
-import UI from "./lib/UI/UI";
-import AOBlurShader from "./shaders/AOBlurShader";
+import AOShader from "../shaders/AOShader";
+import UI from "../lib/UI/UI";
+import AOBlurShader from "../shaders/AOBlurShader";
 
 export default class AOBlurRenderPass extends RenderPass{
 

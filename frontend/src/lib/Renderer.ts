@@ -35,6 +35,7 @@ export default class Renderer {
     private canvasTextureView: GPUTexture;
     private first: boolean = true;
     private resizables:Array<IResizable>=[];
+    public pixelRatio: number;
     constructor() {
     }
 
@@ -43,7 +44,7 @@ export default class Renderer {
         const adapter = await navigator.gpu.requestAdapter({powerPreference:"high-performance"});
         //--enable-dawn-features=allow_unsafe_apis
         // on mac: /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --enable-dawn-features=allow_unsafe_apis
-
+        this.pixelRatio = window.devicePixelRatio;
 
         const requiredFeatures: Array<GPUFeatureName> = ["rg11b10ufloat-renderable"];
         if (adapter.features.has('timestamp-query')) {
