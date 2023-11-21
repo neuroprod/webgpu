@@ -17,7 +17,7 @@ import UI from "./lib/UI/UI";
 import GBufferRenderPass from "./renderPasses/GBufferRenderPass";
 import Timer from "./lib/Timer";
 import LightRenderPass from "./renderPasses/LightRenderPass";
-import PostRenderPass from "./renderPasses/PostRenderPass";
+
 import JSONLoader from "./JSONLoader";
 import AORenderPass from "./renderPasses/AORenderPass";
 import AOBlurRenderPass from "./renderPasses/AOBlurRenderPass";
@@ -27,6 +27,9 @@ import GlassRenderPass from "./renderPasses/GlassRenderPass";
 import BlurLight from "./renderPasses/BlurLight";
 import {LaptopScreen} from "./extras/LaptopScreen";
 import Mill from "./extras/Mill";
+import CombinePass from "./renderPasses/CombinePass";
+import RenderSettings from "./RenderSettings";
+import BlurBloom from "./renderPasses/BlurBloom";
 
 
 export default class Main {
@@ -47,7 +50,7 @@ export default class Main {
     private gBufferPass: GBufferRenderPass;
     private timeStampQuery: TimeStampQuery;
     private lightPass: LightRenderPass;
-    private postPass: PostRenderPass;
+
     private lightJson: JSONLoader;
     private aoPass: AORenderPass;
     private aoBlurPass: AOBlurRenderPass;
@@ -56,6 +59,9 @@ export default class Main {
     private blurLightPass: BlurLight;
     private laptopScreen: LaptopScreen;
     private mill: Mill;
+    private combinePass: CombinePass;
+    private numberOfQueries: number=9;
+    private blurBloomPass: BlurBloom;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -75,14 +81,14 @@ export default class Main {
         );
 
         this.renderer.init()
-        this.timeStampQuery = new TimeStampQuery(this.renderer, 8)
+        this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
 
 
         this.camera = new Camera(this.renderer, "mainCamera")
         this.renderer.camera = this.camera;
         new TextureLoader(this.renderer,this.preloader,"brdf_lut.png",{});
         new TextureLoader(this.renderer,this.preloader,"triangle.png",{});
-        new TextureLoader(this.renderer,this.preloader,"text.png",{});
+        new TextureLoader(this.renderer,this.preloader,"text_s.png",{});
         ImagePreloader.load(this.renderer, this.preloader);
 
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
@@ -107,7 +113,8 @@ export default class Main {
         this.blurLightPass =new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
         this.glassPass =new GlassRenderPass(this.renderer)
-        this.postPass = new PostRenderPass(this.renderer)
+        this.combinePass=new CombinePass(this.renderer)
+        this.blurBloomPass = new BlurBloom(this.renderer)
 
 
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
@@ -151,8 +158,10 @@ export default class Main {
         this.timeStampQuery.setStamp("ReflectionPass");
         this.glassPass.add();
         this.timeStampQuery.setStamp("GlassPass");
-        this.postPass.add()
-        this.timeStampQuery.setStamp("PostPass");
+        this.combinePass.add()
+        this.timeStampQuery.setStamp("CombinePass");
+        this.blurBloomPass.add();
+        this.timeStampQuery.setStamp("BlurBloomPass");
         this.canvasRenderPass.add();
         this.timeStampQuery.setStamp("CanvasPass");
         this.timeStampQuery.stop();
@@ -173,13 +182,16 @@ export default class Main {
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-this.updateCamera();
+        this.updateCamera();
         this.mill.update();
 
         UI.pushWindow("Render Setting")
-        this.postPass.onUI();
+        this.canvasRenderPass.onUI();
+        RenderSettings.onUI();
+
         this.aoPass.onUI();
         this.reflectionPass.onUI();
+
         UI.popWindow()
 
 
@@ -187,7 +199,7 @@ this.updateCamera();
 
 
         UI.pushWindow("Debug/Performance")
-        this.canvasRenderPass.onUI();
+
         Timer.onUI()
         this.timeStampQuery.onUI();
         UI.popWindow()

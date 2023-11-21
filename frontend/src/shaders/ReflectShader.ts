@@ -78,7 +78,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     let roughness = mra.y;
     let metallic = mra.x;
-  if( roughness >0.5 ){return  vec4f(0.0,0.0,0.0,1.0);}
+  if( roughness >0.6 &&  metallic<0.5){return  vec4f(0.0,0.0,0.0,1.0);}
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));
     
@@ -95,11 +95,11 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
     
     var dir= normalize(reflect(-V,N))*0.02;
-    var testPos = world+dir*0.1;
+    var testPos = world+dir;
     var uv= vec2f(0.0,0.0);
     var found =false;
   
-    for (var i: i32 = 0; i < 20; i++) {
+    for (var i: i32 = 0; i < 40; i++) {
       
         let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
         
@@ -121,7 +121,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
             found =true;
             break;
         }
-       dir*=1.7;
+       dir*=1.1;
         testPos += dir;
     }
     if(found){
@@ -162,14 +162,14 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     }else
     {
-        return  vec4f(1.0,1.0,0.0,1.0);
+        return  vec4f(0.0,0.0,0.0,1.0);
     }
-    if(uv.x==0) {return  vec4f(1.0,1.0,0.0,1.0);}
+    if(uv.x==0) {return  vec4f(0.0,0.0,0.0,1.0);}
     
 //let test =textureSampleLevel(reflectTexture,mySampler,uv, 0.0).xyz;
 
    let numlevels = f32(textureNumLevels(reflectTexture));
-   let sampleRoughness =1.0-(pow(1.0-roughness,3.0));
+   let sampleRoughness =1.0-(pow(1.0-roughness,2.0));
      let color =textureSampleLevel(reflectTexture,mySampler,uv, sampleRoughness*numlevels).xyz*refValue;
 
 

@@ -15,7 +15,7 @@ import Texture from "./lib/textures/Texture";
 
         for(let img of preloadImages){
 
-            this.textureByName[img] =new TextureLoader(renderer,preloader,"textures/"+img+".png",{});
+            this.textureByName[img] =new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:1});
         }
     }
     getTexture(name:string){

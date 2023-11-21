@@ -29,7 +29,9 @@ export default class RenderPass extends ObjectGPU {
 
         this.passEncoder.end();
     }
+    onSettingsChange(){
 
+    }
     draw()
     {
 

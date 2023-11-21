@@ -22,10 +22,10 @@ export default class PostShader extends Shader{
 
         this.addUniform("falloff",0.0);
         this.addUniform("amount",0.0);
-        this.addTexture("glassTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("refTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        // this.addSampler("mySampler");
+        this.addUniform("bloom_strength",0.0)
+        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"float")
+        this.addTexture("bloomTexture",DefaultTextures.getWhite(this.renderer),"float")
+         this.addSampler("mySampler");
 
     }
     getShaderCode(): string {
@@ -80,15 +80,13 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
-    let textureSize =vec2<f32>( textureDimensions(colorTexture));
-    let uvPos = vec2<i32>(floor(uv0*textureSize));
-    var color=textureLoad(colorTexture,  uvPos ,0).xyz; ;
-    color+=textureLoad(refTexture,  uvPos/2 ,0).xyz; ;
-    let glass  =textureLoad(glassTexture,  uvPos ,0);
-    color =mix(color,glass.xyz,vec3(glass.w));
+
+    var color=   textureSample(colorTexture, mySampler,uv0).xyz;
+    color+=   textureSample(bloomTexture, mySampler,uv0).xyz*uniforms.bloom_strength ;
+ 
     
     color = color * pow( uniforms.exposure,2.0);
- //   color-=1.0;
+
   color =acestonemap(color);
     
     color=  color * uniforms.contrast;

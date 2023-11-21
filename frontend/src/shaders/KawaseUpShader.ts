@@ -6,7 +6,7 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import {Vector2} from "math.gl";
 
 
-export default class KawaseDownShader extends Shader{
+export default class KawaseUpShader extends Shader{
 
 
     init(){
@@ -49,13 +49,18 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
        let textureSize =vec2<f32>( textureDimensions(inputTexture));
-       let halfPixel =0.5/textureSize;
-     var color =textureSample(inputTexture, mySampler,uv0);
-     color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(1.0,1.0));
-       color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(-1.0,-1.0));
-       color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(-1.0,1.0));
-       color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(1.0,-1.0));
-       color/=8.0;
+       let halfpixel =0.5/textureSize;
+    
+  
+        var color = textureSample(inputTexture, mySampler,uv0 + vec2(-halfpixel.x * 2.0, 0.0));
+        color += textureSample(inputTexture, mySampler,uv0 + vec2(-halfpixel.x, halfpixel.y)) * 2.0;
+        color += textureSample(inputTexture, mySampler,uv0 + vec2(0.0, halfpixel.y * 2.0));
+        color += textureSample(inputTexture, mySampler,uv0+ vec2(halfpixel.x, halfpixel.y)) * 2.0;
+        color += textureSample(inputTexture, mySampler,uv0+ vec2(halfpixel.x * 2.0, 0.0));
+        color += textureSample(inputTexture, mySampler,uv0+ vec2(halfpixel.x,-halfpixel.y)) * 2.0;
+        color +=  textureSample(inputTexture, mySampler,uv0+ vec2(0.0, -halfpixel.y * 2.0));
+        color +=  textureSample(inputTexture, mySampler,uv0 + vec2(-halfpixel.x,-halfpixel.y)) * 2.0;
+        color /= 12.0;
        
        return vec4(color.xyz,1.0) ;
 }

@@ -11,6 +11,8 @@ import Material from "../lib/core/Material";
 import DebugTextureShader from "../shaders/DebugTextureShader";
 import SelectItem from "../lib/UI/math/SelectItem";
 import {Vector2} from "math.gl";
+import PostShader from "../shaders/PostShader";
+import RenderSettings from "../RenderSettings";
 
 
 export default class CanvasRenderPass extends RenderPass {
@@ -23,10 +25,17 @@ export default class CanvasRenderPass extends RenderPass {
 
     private passSelect: Array<SelectItem> = []
     private currentValue = {texture: "kka", type: 0}
+    private blitTestMaterial: Material;
+    private blitFinal: Blit;
 
+
+
+
+    private renderTest: boolean =false;
     constructor(renderer: Renderer) {
 
         super(renderer, "canvasRenderPass");
+        RenderSettings.registerPass(this);
         this.sampleCount = 4
 
         this.modelRenderer = new ModelRenderer(renderer)
@@ -49,22 +58,26 @@ export default class CanvasRenderPass extends RenderPass {
         });
         this.depthStencilAttachment = new DepthStencilAttachment(this.canvasDepthTarget);
 
-        this.blitMaterial = new Material(this.renderer, "blit", new DebugTextureShader(this.renderer, "blit"))
+        this.blitTestMaterial = new Material(this.renderer, "blit", new DebugTextureShader(this.renderer, "blit"))
 
 
 
-        this.blitTest = new Blit(renderer, 'blit', this.blitMaterial)
-
-
-        this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
+        this.blitTest = new Blit(renderer, 'blit', this.blitTestMaterial)
 
 
 
-        this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 0}));
-        this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 0}));
-        this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
+        this.passSelect.push(new SelectItem("Final", {texture: "final", type: 0}));
+        this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
+        this.passSelect.push(new SelectItem("PreBloom", {texture: "BloomPrePass", type: 0}));
+        this.passSelect.push(new SelectItem("Combine", {texture: "CombinePass", type: 0}));
         this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));
         this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
+        this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
+        this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 1}));
+        this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 1}));
+        this.passSelect.push(new SelectItem("Metallic", {texture: "GMRA", type: 1}));
+        this.passSelect.push(new SelectItem("Roughness", {texture: "GMRA", type: 2}));
+        this.passSelect.push(new SelectItem("Emission", {texture: "GMRA", type: 3}));
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
         this.passSelect.push(new SelectItem("GMRE", {texture: "GMRA", type: 0}));
         this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
@@ -72,28 +85,72 @@ export default class CanvasRenderPass extends RenderPass {
 
         let value = this.passSelect[0].value;
         this.currentValue = value;
-        let texture = this.renderer.texturesByLabel[value.texture] as RenderTexture;
-        this.blitMaterial.uniforms.setTexture("colorTexture", texture)
-        this.blitMaterial.uniforms.setUniform("textureSize", new Vector2(1,1))
 
+
+        if(value.texture =="final"){
+            this.renderTest =false;
+        }else {
+            this.renderTest =true;
+            let texture = this.renderer.texturesByLabel[value.texture] as RenderTexture;
+            this.blitTestMaterial.uniforms.setTexture("colorTexture", texture)
+            this.blitTestMaterial.uniforms.setUniform("rtype", value.type)
+        }
+
+
+
+
+
+
+
+
+        this.blitMaterial = new Material(this.renderer, "blitPost", new PostShader(this.renderer, "post"))
+        this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["CombinePass"])
+        this.blitMaterial.uniforms.setTexture("bloomTexture",this.renderer.texturesByLabel["BlurBloom"])
+
+
+
+        this.blitFinal = new Blit(renderer, 'blitPost', this.blitMaterial)
+
+
+
+    }
+    onSettingsChange() {
+        super.onSettingsChange();
+        this.blitMaterial.uniforms.setUniform( "exposure",RenderSettings.exposure);
+        this.blitMaterial.uniforms.setUniform( "contrast" ,RenderSettings.contrast);
+        this.blitMaterial.uniforms.setUniform( "brightness",RenderSettings.brightness);
+        this.blitMaterial.uniforms.setUniform( "vibrance",RenderSettings.vibrance);
+        this.blitMaterial.uniforms.setUniform( "saturation",RenderSettings.saturation)
+
+        this.blitMaterial.uniforms.setUniform( "falloff",RenderSettings.vin_falloff);
+        this.blitMaterial.uniforms.setUniform( "amount",RenderSettings.vin_amount);
+        this.blitMaterial.uniforms.setUniform( "bloom_strength",RenderSettings.bloom_strength);
     }
 
     onUI() {
         let value = UI.LSelect("pass", this.passSelect)
         if (value != this.currentValue) {
             this.currentValue = value;
-
-            let texture = this.renderer.texturesByLabel[value.texture] as RenderTexture;
-            this.blitMaterial.uniforms.setTexture("colorTexture", texture)
-
+            if(value.texture =="final"){
+                this.renderTest =false;
+            }else {
+                this.renderTest =true;
+                let texture = this.renderer.texturesByLabel[value.texture] as RenderTexture;
+                this.blitTestMaterial.uniforms.setTexture("colorTexture", texture)
+                this.blitTestMaterial.uniforms.setUniform("rtype", value.type)
+            }
         }
 
     }
 
     draw() {
 
-
-        this.blitTest.draw(this);
+if(this.renderTest){
+    this.blitTest.draw(this);
+}
+       else{
+           this.blitFinal.draw(this);
+}
         UI.drawGPU(this.passEncoder, true)
     }
 

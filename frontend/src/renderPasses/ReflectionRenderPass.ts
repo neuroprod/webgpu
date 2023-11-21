@@ -34,7 +34,7 @@ private settings =new Vector4(0.0,0.3,0.7,1.0);
             format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
-            sizeMultiplier:0.5,
+            sizeMultiplier:1.0,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
 

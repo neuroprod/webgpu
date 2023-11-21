@@ -82,7 +82,7 @@ export default class extends RenderPass implements IResizable {
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor)
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor)
 
-        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OAPass"])
+        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OABlurPass"])
         this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"])
         this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"])
         this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"])

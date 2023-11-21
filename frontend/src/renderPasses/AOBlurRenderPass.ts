@@ -28,7 +28,7 @@ export default class AOBlurRenderPass extends RenderPass{
             format: TextureFormat.R8Unorm,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
-            sizeMultiplier:0.5,
+            sizeMultiplier:1,
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });

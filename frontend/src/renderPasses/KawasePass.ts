@@ -10,6 +10,8 @@ import Renderer from "../lib/Renderer";
 
 import Texture from "../lib/textures/Texture";
 import KawaseDownShader from "../shaders/KawaseDownShader";
+import {LoadOp, StoreOp} from "../lib/WebGPUConstants";
+import KawaseUpShader from "../shaders/KawaseUpShader";
 
 export default class KawasePass extends RenderPass {
     public colorAttachment: ColorAttachment;
@@ -18,17 +20,43 @@ export default class KawasePass extends RenderPass {
 
     private blitMaterial: Material;
     private blit: Blit;
+    private a: boolean;
 
 
-    constructor(renderer: Renderer,target:RenderTexture,input:Texture,down:Boolean=true) {
+    constructor(renderer: Renderer,target:RenderTexture,input:Texture,down:boolean=true,add:boolean=false) {
 
         super(renderer, "KawasePass");
+        this.a = add;
         this.colorAttachment= new ColorAttachment(target);
-        this.colorAttachments = [this.colorAttachment];
-        if(down){
+        if(add)
+        {
+            this.colorAttachment.options.loadOp =LoadOp.Load;
+           this.colorAttachment.options.storeOp =StoreOp.Store;
 
-            this.blitMaterial = new Material(this.renderer, "kawase",   new KawaseDownShader(this.renderer, "kawaseDown"))
         }
+        this.colorAttachments = [this.colorAttachment];
+
+if(down){
+    this.blitMaterial = new Material(this.renderer, "kawaseDown",   new KawaseDownShader(this.renderer, "kawaseDown"))
+}else{
+    this.blitMaterial = new Material(this.renderer, "kawaseUp",   new KawaseUpShader(this.renderer, "kawaseUp"))
+}
+
+        if(add){
+          this.blitMaterial.blendModes =[{
+                    color: {
+                        srcFactor: "one",
+                        dstFactor: "one",
+                        operation: "add",
+                    },
+                    alpha: {
+                        srcFactor: "one",
+                        dstFactor: "one",
+                        operation: "add",
+                    },
+                }];
+        }
+
 
         this.blitMaterial.uniforms.setTexture("inputTexture",input)
 

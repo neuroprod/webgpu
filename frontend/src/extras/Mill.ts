@@ -4,7 +4,7 @@ import gsap from "gsap"
 export default class Mill{
     private millBed: Object3D;
     private millHead: Object3D;
-    private headPos: number =0.2;
+    private headPos: number =0.1;
     private tl: gsap.core.Timeline;
     private bedZ: number =-0.2;
 
@@ -16,7 +16,7 @@ export default class Mill{
         this.tl = gsap.timeline({repeat: 1000, repeatDelay: 1});
         this.tl.to(this,{"headPos":0.0,ease: "sine.inOut"})
         this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut"},">")
-        this.tl.to(this,{"headPos":0.2,ease: "sine.inOut"},">")
+        this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
         this.tl.to(this,{"bedZ":-0.2,duration:2,ease: "sine.inOut"},"<")
     }
     update(){

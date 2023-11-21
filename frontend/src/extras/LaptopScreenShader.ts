@@ -80,6 +80,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
     
     var uvText = uv0;
       uvText.x*=uniforms.ratio;
+      uvText*=0.7;
     let colorText= textureSample(text, mySampler,uvText);
      output.color +=colorText;
 

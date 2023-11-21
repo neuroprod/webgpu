@@ -124,9 +124,9 @@ export default class UI_IC {
     multiLine: boolean = false,
     settings?: LTextSettings
   ) {
-    if (!UI_I.setComponent(text)) {
+    if (!UI_I.setComponent(text+label)) {
       if (!settings) settings = new LTextSettings();
-      let comp = new LText(UI_I.getID(text), label, text, multiLine, settings);
+      let comp = new LText(UI_I.getID(text+label), label, text, multiLine, settings);
       UI_I.addComponent(comp);
     }
     UI_I.popComponent();
