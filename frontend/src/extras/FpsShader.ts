@@ -4,8 +4,9 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
+import {Vector4} from "math.gl";
 
-export default class LaptopScreenShader extends Shader{
+export default class FpsShader extends Shader{
 
 
     init(){
@@ -16,9 +17,8 @@ export default class LaptopScreenShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("time",0);
-        this.addUniform("ratio",0);
-        this.addTexture("triangle",DefaultTextures.getWhite(this.renderer))
+        this.addUniform("value",new Vector4(-1,-1,0.6,0.2));
+
         this.addTexture("text",DefaultTextures.getWhite(this.renderer))
         this.addSampler("mySampler")
 
@@ -58,39 +58,31 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     
     return output;
 }
-fn rotate( v:vec2f,  a:f32)->vec2f {
-    let s = sin(a);
-    let c= cos(a);
-    let m = mat2x2(c, s, -s, c);
-    return m * v;
-}
 
 @fragment
 fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOutput
 {
     var output : GBufferOutput;
-   var  uv = uv0-vec2(0.5);
+    var  uv = uv0;
  
-    uv.x*=uniforms.ratio;
-    uv*=1.5;
-    uv =rotate(uv,uniforms.time);
-    uv+=vec2(0.5);
-    let colorTri =  textureSample(triangle, mySampler,uv);
-    output.color = colorTri;
-    
-    var uvText = uv0;
-      uvText.x*=uniforms.ratio;
-      uvText*=0.7;
-    let colorText= textureSample(text, mySampler,uvText);
-     output.color +=colorText;
 
+    let index = floor(uv0.x*6.0);
+    var v = fract(uv0.x*6.0)*0.1;
+      if(index <2){v-=10.0;}
+    if(index ==2){v+=uniforms.value.x;}
+    else if(index ==3){v+=uniforms.value.y;}
+    else if(index ==4){v+=uniforms.value.z;}
+    else if(index ==5){v+=uniforms.value.w;}
+    uv.x =v;
+    let c= textureSample(text, mySampler,uv).x;
 
-  
+    output.color = vec4(vec3(1.0,0,0)*c,1.0);
+
     output.normal =vec4(normalize(normal),1.0);
     
   
    
-    output.mra =vec4(0.0,0.2,min( colorText.a+colorTri.a,1.0)*0.7,0.0);
+    output.mra =vec4(0.0,0.2,c*0.5,0.0);
  
 
     return output;

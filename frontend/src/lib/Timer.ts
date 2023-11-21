@@ -21,7 +21,7 @@ class Clock{
         let now = Date.now()
         this.delta = (now-this.prevTime)/1000;
 
-        this.deltaSmooth =lerp(this.deltaSmooth,this.delta,0.1);
+        this.deltaSmooth =lerp(this.deltaSmooth,this.delta,0.3);
         this.fps =Math.round(1/this.deltaSmooth);
         this.time+=this.delta;
         this.frame++;

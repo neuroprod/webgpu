@@ -30,6 +30,7 @@ import Mill from "./extras/Mill";
 import CombinePass from "./renderPasses/CombinePass";
 import RenderSettings from "./RenderSettings";
 import BlurBloom from "./renderPasses/BlurBloom";
+import {FpsScreen} from "./extras/FpsScreen";
 
 
 export default class Main {
@@ -62,6 +63,7 @@ export default class Main {
     private combinePass: CombinePass;
     private numberOfQueries: number=9;
     private blurBloomPass: BlurBloom;
+    private fpsScreen: FpsScreen;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -89,6 +91,7 @@ export default class Main {
         new TextureLoader(this.renderer,this.preloader,"brdf_lut.png",{});
         new TextureLoader(this.renderer,this.preloader,"triangle.png",{});
         new TextureLoader(this.renderer,this.preloader,"text_s.png",{});
+        new TextureLoader(this.renderer,this.preloader,"7dig.png",{});
         ImagePreloader.load(this.renderer, this.preloader);
 
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
@@ -133,6 +136,8 @@ export default class Main {
         }
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
         this.gBufferPass.modelRenderer.addModel(this.laptopScreen);
+        this.fpsScreen =new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);
+        this.gBufferPass.modelRenderer.addModel(  this.fpsScreen);
 
         for (let m of this.glFTLoader.modelsGlass) {
 

@@ -76,7 +76,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
       
       
-   let color = albedo*light*ao*(1.0-mra.x) +albedo*mra.z*4.0;
+   let color = albedo*light*ao*(1.0-mra.x) +albedo*pow(mra.z,2.0)*10.0;
 
     return vec4(color,1.0) ;
 }

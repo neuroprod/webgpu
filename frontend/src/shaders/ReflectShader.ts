@@ -104,7 +104,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
         
         if( projTestPos.w<0.0 || testPos.z>0.0 ){
-            return  vec4f(0.01,0.01,0.01,1.0);
+            return  vec4f(vec3(0.01)*uniforms.settings.z*refValue,refValue.x);
         }
         
         let screenTestPos  = projTestPos.xyz/projTestPos.w;
@@ -173,7 +173,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
      let color =textureSampleLevel(reflectTexture,mySampler,uv, sampleRoughness*numlevels).xyz*refValue;
 
 
-    return vec4f(color*uniforms.settings.z,1.0);
+    return vec4f(color*uniforms.settings.z,refValue.x);
      
 }
 ///////////////////////////////////////////////////////////

@@ -75,13 +75,14 @@ export default class CanvasRenderPass extends RenderPass {
         this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
         this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 1}));
         this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 1}));
+     //   this.passSelect.push(new SelectItem("ref", {texture: "ReflectionPass", type: 4}));
         this.passSelect.push(new SelectItem("Metallic", {texture: "GMRA", type: 1}));
         this.passSelect.push(new SelectItem("Roughness", {texture: "GMRA", type: 2}));
         this.passSelect.push(new SelectItem("Emission", {texture: "GMRA", type: 3}));
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
-        this.passSelect.push(new SelectItem("GMRE", {texture: "GMRA", type: 0}));
         this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
         this.passSelect.push(new SelectItem("GDepth", {texture: "GDepth", type: 0}));
+        this.passSelect.push(new SelectItem("GMRE", {texture: "GMRA", type: 0}));
 
         let value = this.passSelect[0].value;
         this.currentValue = value;

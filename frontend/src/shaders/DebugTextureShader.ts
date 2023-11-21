@@ -54,8 +54,10 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
       let textureSize =vec2<f32>( textureDimensions(colorTexture));
       let uvPos = vec2<i32>(floor(uv0*textureSize));
       let color=textureLoad(colorTexture,  uvPos ,0).xyz; ;
-      
-      if(uniforms.rtype>2.5){
+       if(uniforms.rtype>3.5){
+      return vec4(color.z,color.z,color.z,1.0) ;
+      }
+      else if(uniforms.rtype>2.5){
       return vec4(color.z,color.z,color.z,1.0) ;
       }
       else if(uniforms.rtype>1.5){
