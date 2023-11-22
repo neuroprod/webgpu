@@ -82,8 +82,8 @@ export default class Shader extends ObjectGPU {
     public getShader() {
         if (this.shader) return this.shader
         if (this.logShaderCode) {
-            console.log("--",this.label,"--------------------")
-            console.log(this.getShaderCode())
+            this.logShader();
+
         }
 
         this.shader = this.device.createShaderModule({
@@ -116,5 +116,21 @@ export default class Shader extends ObjectGPU {
 
     protected getShaderCode(): string {
         return ``;
+    }
+
+    private logShader() {
+        console.log("vvvv",this.label,"vvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+        let s =this.getShaderCode();
+        let a = s.split("\n");
+        let count =1;
+        let r = ""
+        for(let l of a)
+        {
+            r+=count+": "+l+"\n";
+            count++;
+        }
+
+        console.log("^^^^",this.label,"^^^^^^^^^^^^^^^^^^^^^^^^")
+        console.log(r)
     }
 }

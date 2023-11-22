@@ -3,7 +3,7 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector3, Vector4} from "math.gl";
 import Camera from "../lib/Camera";
-import {getWorldFromUVDepth} from "./ShaderChunks";
+import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
 
 
 export default class ReflectShader extends Shader {
@@ -16,8 +16,9 @@ export default class ReflectShader extends Shader {
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("settings", new Vector4());
-        this.addTexture("lut", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addUniform("refSettings1", new Vector4());
+        this.addUniform("refSettings2", new Vector4());
+        this.addTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"], "unfilterable-float")
         this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("gMRA", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
@@ -60,14 +61,8 @@ fn random(st : vec2f ) -> f32 {
   return fract(sin(dot(st.xy, vec2f(12.9898, 78.233))) * 43758.5453123)-0.5;
 }
 ${getWorldFromUVDepth()}
-
-fn fresnelSchlickRoughness( cosTheta:f32,  F0:vec3f, roughness:f32)-> vec3f
-{
-    return F0 + (max(vec3f(1.0 - roughness), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
-}   
-   
-
-
+${fresnelSchlickRoughness()}
+${ssr()}
 @fragment
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
@@ -76,10 +71,10 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let mra =textureLoad(gMRA,  uvPos ,0).xyz ;
     
     
-    let roughness = mra.y;
+    var roughness = mra.y;
     let metallic = mra.x;
-  if( roughness >0.6 &&  metallic<0.5){return  vec4f(0.0,0.0,0.0,1.0);}
-    
+  if( roughness >0.5 &&  metallic<0.5){return  vec4f(0.0,0.0,0.0,1.0);}
+
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));
     
     
@@ -93,88 +88,10 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let envBRDF = textureLoad(lut,envUV,0).xy;
     let refValue = (F * envBRDF.x + envBRDF.y) ;
 
-    
-    var dir= normalize(reflect(-V,N))*0.02;
-    var testPos = world+dir;
-    var uv= vec2f(0.0,0.0);
-    var found =false;
   
-    for (var i: i32 = 0; i < 40; i++) {
-      
-        let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
-        
-        if( projTestPos.w<0.0 || testPos.z>0.0 ){
-            return  vec4f(vec3(0.01)*uniforms.settings.z*refValue,refValue.x);
-        }
-        
-        let screenTestPos  = projTestPos.xyz/projTestPos.w;
-      
-        
-        let uvTestS = screenTestPos.xy*0.5+0.5; 
-        
-        let uvTest = vec2<i32>(floor(vec2(uvTestS.x,1-uvTestS.y)*textureSize));
-        let textureDepth =textureLoad(gDepth,uvTest,0).x;
-        let dist = screenTestPos.z-textureDepth;
-        
-       if(dist>0.0 && dist <uniforms.settings.x +length(dir)*uniforms.settings.y ){
-           
-            found =true;
-            break;
-        }
-       dir*=1.1;
-        testPos += dir;
-    }
-    if(found){
-    
-      dir*=-0.5;
-        var s =-1.0;
-        for (var i: i32 = 0; i < 10; i++) {
-
-           testPos+=dir;
-            let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
-            let screenTestPos  = projTestPos.xyz/projTestPos.w;
-      
-        
-            let uvTestS = screenTestPos.xy*0.5+0.5; 
-        let uvTestSI =vec2(uvTestS.x,1-uvTestS.y);
-            let uvTest = vec2<i32>(floor(uvTestSI *textureSize));
-            let textureDepth =textureLoad(gDepth,uvTest,0).x;
-            let dist = screenTestPos.z-textureDepth;
-            if (dist>0.0){
-                dir*=0.5*(-s);
-                s= -1.0;
-            }
-            else {
-                dir*=0.5*s;
-                s= 1.0;
-            }
-            uv =uvTestSI ;
-            if (dist>-0.001 && dist<0.001){
-             uv =uvTestSI ;
-                break;
-            }
-
-
-
-         }
-
-    
-    
-    }else
-    {
-        return  vec4f(0.0,0.0,0.0,1.0);
-    }
-    if(uv.x==0) {return  vec4f(0.0,0.0,0.0,1.0);}
-    
-//let test =textureSampleLevel(reflectTexture,mySampler,uv, 0.0).xyz;
-
-   let numlevels = f32(textureNumLevels(reflectTexture));
-   let sampleRoughness =1.0-(pow(1.0-roughness,2.0));
-     let color =textureSampleLevel(reflectTexture,mySampler,uv, sampleRoughness*numlevels).xyz*refValue;
-
-
-    return vec4f(color*uniforms.settings.z,refValue.x);
-     
+    let c = ssr(world,N,V,metallic,roughness,textureSize);
+    return vec4(c*refValue,1.0);
+   
 }
 ///////////////////////////////////////////////////////////
         `

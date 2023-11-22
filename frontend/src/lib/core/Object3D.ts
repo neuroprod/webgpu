@@ -37,16 +37,19 @@ export default class Object3D extends ObjectGPU {
 
 
     public setPosition(x: number, y: number, z: number) {
+        if(this._position.equals([x,y,z]))return
         this._position.set(x, y, z)
         this.setDirty();
     }
 
     public setScale(x: number, y: number, z: number) {
+        if(this._scale.equals([x,y,z]))return
         this._scale.set(x, y, z)
         this.setDirty();
     }
 
     public setRotation(x: number, y: number, z: number, w: number) {
+        if(this._rotation.equals([x,y,z]))return
         this._rotation.set(x, y, z, w)
         this.setDirty();
     }

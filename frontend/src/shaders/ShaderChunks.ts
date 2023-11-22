@@ -10,3 +10,99 @@ return /* wgsl */ `
 `
 
 }
+export function fresnelSchlickRoughness(){
+    return /* wgsl */ `
+fn fresnelSchlickRoughness( cosTheta:f32,  F0:vec3f, roughness:f32)-> vec3f
+{
+    return F0 + (max(vec3f(1.0 - roughness), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+}
+`
+}
+export function ssr(){
+    return /* wgsl */ `
+fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)-> vec3f
+{
+    var dir= normalize(reflect(-V,N))*uniforms.refSettings1.z;
+    var testPos = world+dir;
+    var uv= vec2f(0.0,0.0);
+    var found =false;
+    let numSteps =i32(uniforms.refSettings2.x);
+    for (var i: i32 = 0; i < numSteps; i++) {
+
+        let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
+
+        if( projTestPos.w<0.0 || testPos.z>0.0 ){
+            return  vec3(0.01);
+        }
+
+        let screenTestPos  = projTestPos.xyz/projTestPos.w;
+
+
+        let uvTestS = screenTestPos.xy*0.5+0.5;
+
+        let uvTest = vec2<i32>(floor(vec2(uvTestS.x,1-uvTestS.y)*textureSize));
+        let textureDepth =textureLoad(gDepth,uvTest,0).x;
+        let dist = screenTestPos.z-textureDepth;
+
+        if(dist>0.0 && dist <length(dir)*uniforms.refSettings2.z ){
+
+            found =true;
+            break;
+        }
+        dir*=uniforms.refSettings1.w;
+        testPos += dir;
+    }
+    if(found){
+
+        dir*=-0.5;
+        var s =-1.0;
+        let numStepsT =i32(uniforms.refSettings2.y);
+        for (var i: i32 = 0; i < numStepsT; i++) {
+
+            testPos+=dir;
+            let projTestPos = camera.viewProjectionMatrix *vec4(testPos,1.0);
+            let screenTestPos  = projTestPos.xyz/projTestPos.w;
+
+
+            let uvTestS = screenTestPos.xy*0.5+0.5;
+            let uvTestSI =vec2(uvTestS.x,1-uvTestS.y);
+            let uvTest = vec2<i32>(floor(uvTestSI *textureSize));
+            let textureDepth =textureLoad(gDepth,uvTest,0).x;
+            let dist = screenTestPos.z-textureDepth;
+            if (dist>0.0){
+                dir*=0.5*(-s);
+                s= -1.0;
+            }
+            else {
+                dir*=0.5*s;
+                s= 1.0;
+            }
+            uv =uvTestSI ;
+            if (dist>-0.001 && dist<0.001){
+                uv =uvTestSI ;
+                break;
+            }
+
+
+
+        }
+
+
+
+    }else
+    {
+        return  vec3f(uniforms.refSettings2.w,uniforms.refSettings2.w,0.0);
+    }
+    if(uv.x==0) {return  vec3f(uniforms.refSettings2.w,0.0,uniforms.refSettings2.w);}
+
+
+
+    let numlevels = f32(textureNumLevels(reflectTexture));
+    let sampleRoughness =1.0-(pow(1.0-roughness,2.0));
+    let color =textureSampleLevel(reflectTexture,mySampler,uv, sampleRoughness*numlevels).xyz;
+
+    return color*(uniforms.refSettings1.x+metallic*uniforms.refSettings1.y);
+
+} 
+`
+}

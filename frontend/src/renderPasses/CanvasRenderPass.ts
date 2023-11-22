@@ -66,6 +66,7 @@ export default class CanvasRenderPass extends RenderPass {
 
 
 
+
         this.passSelect.push(new SelectItem("Final", {texture: "final", type: 0}));
         this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
         this.passSelect.push(new SelectItem("PreBloom", {texture: "BloomPrePass", type: 0}));
@@ -96,12 +97,6 @@ export default class CanvasRenderPass extends RenderPass {
             this.blitTestMaterial.uniforms.setTexture("colorTexture", texture)
             this.blitTestMaterial.uniforms.setUniform("rtype", value.type)
         }
-
-
-
-
-
-
 
 
         this.blitMaterial = new Material(this.renderer, "blitPost", new PostShader(this.renderer, "post"))

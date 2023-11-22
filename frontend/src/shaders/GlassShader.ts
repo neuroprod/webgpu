@@ -4,7 +4,8 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import {getWorldFromUVDepth} from "./ShaderChunks";
+import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
+import {Vector4} from "math.gl";
 
 export default class GlassShader extends Shader{
 
@@ -18,9 +19,12 @@ export default class GlassShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("scale",1);
+        this.addUniform("refSettings1", new Vector4());
+        this.addUniform("refSettings2", new Vector4());
+        this.addTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"], "unfilterable-float")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
-        this.addTexture("background",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
+        this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
+
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer));
         this.addTexture("mraTexture",DefaultTextures.getWhite(this.renderer));
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer));
@@ -28,6 +32,7 @@ export default class GlassShader extends Shader{
 
         this.needsTransform =true;
         this.needsCamera=true;
+        this.logShaderCode=true;
     }
     getShaderCode(): string {
         return /* wgsl */ `
@@ -50,6 +55,8 @@ ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
 ${this.getShaderUniforms(2)}
 ${getWorldFromUVDepth()}
+${fresnelSchlickRoughness()}
+${ssr()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -77,30 +84,38 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let worldS =getWorldFromUVDepth(uvScreen ,textureLoad(gDepth,  uvScreenI ,0).x); 
  
     
-    let albedo = textureSample(colorTexture, mySampler,  uv0).xyz;
+    let albedo =pow( textureSample(colorTexture, mySampler,  uv0).xyz,vec3(2.2));
  
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;
     let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText);
     let mra =textureSample(mraTexture, mySampler,  uv0) ;
- 
+    let roughness = mra.y+0.01;
+    let metallic = mra.x;
 
-    let V = -normalize(camera.worldPosition.xyz - world);
-    let dir =refract(V,-N,0.95);
+    let V = normalize(camera.worldPosition.xyz - world);
+    let dir =refract(-V,-N,0.95);
     
     let dist =distance(worldS,world);
 
     let sPos =world+dir*0.02*dist;
     let pPos =camera.viewProjectionMatrix*vec4(sPos,1.0);
-    let uvRef = (pPos.xy/pPos.w)*0.5+0.5;
-  
-    let uvRefI = vec2<i32>(floor(vec2(uvRef.x,1.0-uvRef.y  )*textureSize));
+    var uvRef = (pPos.xy/pPos.w)*0.5+0.5;
+    uvRef.y = 1.0-uvRef.y;
 
-    var refColor = textureLoad(background,  uvRefI ,0).xyz;
+    var refractColor = textureSample(reflectTexture,   mySampler, uvRef).xyz;
+ refractColor =mix(albedo,refractColor,0.8);
+    let NdotV =max(dot(N, V), 0.0);
+    let F0 = mix(vec3(0.04), albedo, metallic);
+    let F =fresnelSchlickRoughness(NdotV, F0,roughness);
+    let envUV = vec2<i32>(floor(vec2f(NdotV*400.0, roughness*400.0)));
+    let envBRDF = textureLoad(lut,envUV,0).xy;
+    let refValue = (F * envBRDF.x + envBRDF.y) ;
+
  
+    let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize);
+   let result = mix(refractColor,reflectColor,refValue);
  
- refColor+=vec3(0.03,0.06,0.03);
- 
-  return vec4(refColor,1.0);
+  return vec4(result,1.0);
  
 }
 ///////////////////////////////////////////////////////////

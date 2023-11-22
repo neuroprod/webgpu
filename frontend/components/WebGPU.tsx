@@ -17,7 +17,7 @@ export default class WebGPU extends React.Component {
     render() {
         return (<div>
             <Head>
-                <title>gpUI example</title>
+                <title>webgpu</title>
                 <meta charSet="utf-8"/>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
             </Head>

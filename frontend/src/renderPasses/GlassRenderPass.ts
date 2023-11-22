@@ -5,6 +5,7 @@ import ColorAttachment from "../lib/textures/ColorAttachment";
 import Renderer from "../lib/Renderer";
 import {LoadOp, StoreOp, TextureFormat} from "../lib/WebGPUConstants";
 import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
+import RenderSettings from "../RenderSettings";
 
 export default class extends RenderPass {
 
@@ -17,7 +18,7 @@ export default class extends RenderPass {
     constructor(renderer: Renderer) {
 
         super(renderer, "GlassRenderPass");
-
+        RenderSettings.registerPass(this);
         this.modelRenderer = new ModelRenderer(renderer)
 
         this.colorTarget = new RenderTexture(renderer, "GlassPass", {
@@ -38,7 +39,13 @@ export default class extends RenderPass {
 
 
     }
-
+    onSettingsChange() {
+        super.onSettingsChange();
+        for(let m of  this.modelRenderer.models){
+            m.material.uniforms.setUniform("refSettings1",RenderSettings.ref_settings1)
+            m.material.uniforms.setUniform("refSettings2",RenderSettings.ref_settings2)
+        }
+    }
     draw() {
 
         this.modelRenderer.draw(this);

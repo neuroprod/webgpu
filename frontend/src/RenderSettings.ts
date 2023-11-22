@@ -1,11 +1,12 @@
 import RenderPass from "./lib/core/RenderPass";
 import UI from "./lib/UI/UI";
+import {Vector4} from "math.gl";
 
 class RenderSettings{
     private passes:Array<RenderPass>=[];
-    public bloom_threshold: number=1;
-    public bloom_softThreshold:number=0.2;
-
+    public bloom_threshold: number=2;
+    public bloom_softThreshold:number=1;
+    public bloom_strength: number =0.4;
 
     public exposure=1;
     public contrast =1;
@@ -14,7 +15,10 @@ class RenderSettings{
     public saturation:number =0
     public vin_amount: number =0.5;
     public vin_falloff: number=0.4;
-    public bloom_strength: number =1;
+
+
+    public ref_settings1:Vector4 =new Vector4(1,0,0.01,1.4);
+    public ref_settings2:Vector4=new Vector4(20,10,1,1);
 
 
 
@@ -38,7 +42,20 @@ class RenderSettings{
        this.bloom_softThreshold =UI.LFloatSlider("SoftThreshold",this.bloom_softThreshold,0,1)
        this.bloom_strength =UI.LFloatSlider("Strength", this.bloom_strength,0,5)
        UI.popGroup()
+       UI.pushGroup("Reflection");
+       this.ref_settings1.x =UI.LFloatSlider("Strength",this.ref_settings1.x,0,20) ;
+       this.ref_settings1.y =UI.LFloatSlider("Metal Boost",this.ref_settings1.y,0,20) ;
+       this.ref_settings1.z =UI.LFloatSlider("Step Size",this.ref_settings1.z,0,0.5) ;
+       this.ref_settings1.w =UI.LFloatSlider("Step Mult",this.ref_settings1.w,1,2) ;
 
+       this.ref_settings2.x =UI.LFloatSlider("Num Steps",this.ref_settings2.x,0,20) ;
+       this.ref_settings2.y =UI.LFloatSlider("Num StepsTune",this.ref_settings2.y,0,20) ;
+       this.ref_settings2.z =UI.LFloatSlider("MaxDistScale",this.ref_settings2.z,0,20) ;
+       this.ref_settings2.w =UI.LBool("debugColors",false)?1:0 ;
+
+
+
+       UI.popGroup()
        UI.pushGroup("Post");
        this.exposure=UI.LFloatSlider("Exposure",this.exposure,0,10);
        this.brightness=UI.LFloatSlider("Brightness",this.brightness,-1,1);

@@ -142,7 +142,7 @@ export default class Main {
         for (let m of this.glFTLoader.modelsGlass) {
 
             m.material.uniforms.setTexture("gDepth",this.renderer.texturesByLabel["GDepth"])
-            m.material.uniforms.setTexture("background",this.renderer.texturesByLabel["LightPass"])
+            m.material.uniforms.setTexture("reflectTexture",this.renderer.texturesByLabel["BlurLightPass"])
             this.glassPass.modelRenderer.addModel(m)
 
         }
@@ -205,7 +205,7 @@ export default class Main {
 
         UI.pushWindow("Debug/Performance")
 
-        Timer.onUI()
+
         this.timeStampQuery.onUI();
         UI.popWindow()
     }
@@ -217,9 +217,9 @@ export default class Main {
         mp.x*=2.0;
 
         mp.y -= 0.5
-        mp.y *= 3.0
+        mp.y *= 1.0
         this.mouseTarget.lerp(mp, 0.1);
-        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 2.0 + this.mouseTarget.y, 10);
+        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 1.0 + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraLookAt = new Vector3(cameraPositionMap.x, cameraPositionMap.y, 0);
         let screenLocal = new Vector2(this.renderer.ratio * 3, 3)

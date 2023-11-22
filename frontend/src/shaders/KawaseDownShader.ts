@@ -50,7 +50,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
        let textureSize =vec2<f32>( textureDimensions(inputTexture));
        let halfPixel =0.5/textureSize;
-     var color =textureSample(inputTexture, mySampler,uv0);
+     var color =textureSample(inputTexture, mySampler,uv0)*4.0;
      color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(1.0,1.0));
        color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(-1.0,-1.0));
        color +=textureSample(inputTexture, mySampler,uv0+halfPixel*vec2f(-1.0,1.0));
