@@ -56,12 +56,12 @@ export default class Texture extends ObjectGPU{
 
     }
 
-    writeTexture(f: Uint8ClampedArray,width,height,bytesPerRow) {
+    writeTexture(f: Uint8ClampedArray,width:number,height:number,bytesPerRow:number,depthOrArrayLayers=1) {
         this.renderer.device.queue.writeTexture(
             { texture: this.textureGPU },
             f,
             { bytesPerRow: bytesPerRow },
-            [width,height]
+            [width,height,depthOrArrayLayers]
         );
     }
 }

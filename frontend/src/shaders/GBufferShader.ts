@@ -33,10 +33,9 @@ struct VertexOutput
 {
    @location(0) uv0 : vec2f,
     @location(1) normal : vec3f,
- 
     @location(2) tangent : vec3f,
     @location(3) biTangent : vec3f,
-     @location(4) world : vec3f,
+  
     @builtin(position) position : vec4f
   
 }
@@ -58,7 +57,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     
     output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
     output.uv0 =aUV0;
-     output.world =(model.modelMatrix *vec4( aPos,1.0)).xyz;
+
     output.normal =model.normalMatrix *aNormal;
     output.tangent =model.normalMatrix*aTangent.xyz;
      output.biTangent =model.normalMatrix* (normalize(cross( normalize(aTangent.xyz), normalize(aNormal)))*aTangent.w);
@@ -67,7 +66,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 
 
 @fragment
-fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) tangent: vec3f,@location(3) biTangent: vec3f,@location(4) world: vec3f) -> GBufferOutput
+fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) tangent: vec3f,@location(3) biTangent: vec3f) -> GBufferOutput
 {
   var output : GBufferOutput;
     output.color = textureSample(colorTexture, mySampler,  uv0);

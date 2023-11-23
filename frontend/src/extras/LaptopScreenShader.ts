@@ -86,11 +86,11 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
 
 
   
-    output.normal =vec4(normalize(normal),1.0);
+    output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
     
   
    
-    output.mra =vec4(0.0,0.2,min( colorText.a+colorTri.a,1.0)*0.7,0.0);
+    output.mra =vec4(0.0,0.8,min( colorText.a+colorTri.a,1.0)*0.7,0.0);
  
 
     return output;

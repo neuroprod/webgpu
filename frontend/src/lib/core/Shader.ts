@@ -129,8 +129,8 @@ export default class Shader extends ObjectGPU {
             r+=count+": "+l+"\n";
             count++;
         }
-
+        console.log(r);
         console.log("^^^^",this.label,"^^^^^^^^^^^^^^^^^^^^^^^^")
-        console.log(r)
+
     }
 }

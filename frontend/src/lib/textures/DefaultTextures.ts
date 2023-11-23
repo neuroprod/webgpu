@@ -9,6 +9,7 @@ export default class DefaultTextures {
     private static grid: Texture;
     private static normal: Texture;
     private static mre: Texture;
+    private static cube: Texture;
 
 
     static getMRE(render: Renderer) {
@@ -44,6 +45,27 @@ export default class DefaultTextures {
         this.white.writeTexture(f,1,1,4);
 
         return this.white;
+    }
+    static getCube(render: Renderer) {
+        if (this.cube) return this.cube;
+
+        this.cube = new Texture(render, "defaultCube", {
+            format: TextureFormat.RGBA8Unorm,
+            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+            width:1, height: 1, depthOrArrayLayers:6
+        })
+
+        this.cube.make()
+
+        let f = new Uint8ClampedArray(4);
+        f[0]=255;
+        f[1]=0.0;
+        f[2]=255;
+        f[3]=255;
+        this.cube.writeTexture(f,1,1,4);
+
+
+        return this.cube;
     }
     static getBlack(render: Renderer) {
         if (this.black) return this.black;

@@ -2,6 +2,7 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Texture from "../textures/Texture";
+import {TextureViewDimension} from "../WebGPUConstants";
 
 type Uniform = {
     name: string,
@@ -268,7 +269,7 @@ export default class UniformGroup extends ObjectGPU {
             entries.push(
                 {
                     binding: bindingCount,
-                    resource:  t.texture.textureGPU.createView(),
+                    resource:  t.texture.textureGPU.createView({dimension:t.dimension}),
 
                 }
             )
@@ -315,7 +316,24 @@ export default class UniformGroup extends ObjectGPU {
         let bindingCount=1
         if(this.textureUniforms.length){
             for(let s of this.textureUniforms){
-                textureText +=`@group(${id}) @binding(${bindingCount})  var `+s.name +`:texture_2d<f32>;`+"\n";
+              let textureType =""
+                if(s.dimension==TextureViewDimension.Cube){
+                    textureType ="texture_cube<f32>"
+
+                } else if(s.dimension==TextureViewDimension.TwoD){
+                    textureType ="texture_2d<f32>"
+                }else{
+                    console.log("implement correct texture type");
+                  //  texture_2d<f32>
+                    // texture_3d<f32>
+                    //texture_cube<f32>
+                    //texture_depth_cube
+                    //texture_1d<f32>
+                    //texture_depth_2d
+
+                }
+
+                textureText +=`@group(${id}) @binding(${bindingCount})  var `+s.name +`:`+textureType+`;`+"\n";
                 bindingCount++;
             }
         }

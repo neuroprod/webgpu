@@ -31,6 +31,7 @@ export default class ColorAttachment {
 
     getAttachment(): GPURenderPassColorAttachment {
 
+        // @ts-ignore
         let p: GPURenderPassColorAttachment = {
             view: this.renderTexture.getView(),//.textureGPU.createView(),
 

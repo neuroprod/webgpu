@@ -31,6 +31,13 @@ import CombinePass from "./renderPasses/CombinePass";
 import RenderSettings from "./RenderSettings";
 import BlurBloom from "./renderPasses/BlurBloom";
 import {FpsScreen} from "./extras/FpsScreen";
+import Texture from "./lib/textures/Texture";
+import {TextureFormat} from "./lib/WebGPUConstants";
+import Model from "./lib/model/Model";
+import Material from "./lib/core/Material";
+import Sphere from "./lib/meshes/Sphere";
+import CubeTestShader from "./shaders/CubeTestShader";
+import ShadowPass from "./renderPasses/ShadowPass";
 
 
 export default class Main {
@@ -64,6 +71,8 @@ export default class Main {
     private numberOfQueries: number=9;
     private blurBloomPass: BlurBloom;
     private fpsScreen: FpsScreen;
+  
+    private shadowPass: ShadowPass;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -109,6 +118,11 @@ export default class Main {
     private init() {
 
 
+        let testModel =new Model(this.renderer,"testModel");
+        testModel.setScale(0.2,0.2,0.2)
+        testModel.material = new Material(this.renderer,"tesMat",new CubeTestShader(this.renderer,));
+        testModel.mesh =new Sphere(this.renderer)
+        this.shadowPass = new ShadowPass(this.renderer)
         this.gBufferPass = new GBufferRenderPass(this.renderer)
         this.aoPass = new AORenderPass(this.renderer)
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
@@ -134,6 +148,7 @@ export default class Main {
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
+        this.gBufferPass.modelRenderer.addModel(testModel);
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
         this.gBufferPass.modelRenderer.addModel(this.laptopScreen);
         this.fpsScreen =new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);

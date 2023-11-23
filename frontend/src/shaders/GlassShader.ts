@@ -32,7 +32,7 @@ export default class GlassShader extends Shader{
 
         this.needsTransform =true;
         this.needsCamera=true;
-        this.logShaderCode=true;
+
     }
     getShaderCode(): string {
         return /* wgsl */ `
@@ -89,7 +89,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;
     let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText);
     let mra =textureSample(mraTexture, mySampler,  uv0) ;
-    let roughness = mra.y+0.01;
+    let roughness =mra.y+0.01;
     let metallic = mra.x;
 
     let V = normalize(camera.worldPosition.xyz - world);
@@ -105,11 +105,11 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     var refractColor = textureSample(reflectTexture,   mySampler, uvRef).xyz;
  refractColor =mix(albedo,refractColor,0.8);
     let NdotV =max(dot(N, V), 0.0);
-    let F0 = mix(vec3(0.04), albedo, metallic);
+    let F0 = mix(vec3(0.02), albedo, metallic);
     let F =fresnelSchlickRoughness(NdotV, F0,roughness);
     let envUV = vec2<i32>(floor(vec2f(NdotV*400.0, roughness*400.0)));
     let envBRDF = textureLoad(lut,envUV,0).xy;
-    let refValue = (F * envBRDF.x + envBRDF.y) ;
+    let refValue =pow((F * envBRDF.x + envBRDF.y),vec3f(1.0)) ;
 
  
     let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize);
