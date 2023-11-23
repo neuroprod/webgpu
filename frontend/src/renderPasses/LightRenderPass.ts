@@ -8,7 +8,7 @@ import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 
 import Material from "../lib/core/Material";
 
-import {Vector2} from "math.gl";
+import {Vector2, Vector3} from "math.gl";
 import {IResizable} from "../lib/IResizable";
 
 import UI from "../lib/UI/UI";
@@ -18,6 +18,7 @@ import Blit from "../lib/Blit";
 import GlobalLightShader from "../shaders/GlobalLightShader";
 import ColorV from "../lib/ColorV";
 import {saveToJsonFile} from "../lib/SaveUtils";
+import MainLight from "../MainLight";
 
 export default class extends RenderPass implements IResizable {
 
@@ -34,10 +35,12 @@ export default class extends RenderPass implements IResizable {
     private topColor: ColorV = new ColorV(1.00, 0.92, 0.81, 0.30);
     private midColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.19);
     private bottomColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
+    private mainLight: MainLight;
 
-    constructor(renderer: Renderer,data:any) {
+    constructor(renderer: Renderer,data:any,mainLight:MainLight) {
 
         super(renderer, "LightRenderPass");
+        this.mainLight =mainLight;
         this.modelRenderer = new ModelRenderer(this.renderer, "lightModels")
         if(data){
 
@@ -78,14 +81,18 @@ export default class extends RenderPass implements IResizable {
 
         this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightShader(this.renderer, "globalLight"))
 
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor)
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor)
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor)
+        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor);
+        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor);
+        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor);
 
-        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OABlurPass"])
-        this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"])
-        this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"])
-        this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"])
+        this.globalLightMaterial.uniforms.setUniform("lightColor",this.mainLight.color);
+        this.globalLightMaterial.uniforms.setUniform("lightPos",this.mainLight.getWorldPos());
+        this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
+        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OABlurPass"]);
+        this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
+        this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
+        this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);
+        this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
 
         this.globalLightMaterial.blendModes = [
             {
@@ -135,7 +142,8 @@ export default class extends RenderPass implements IResizable {
         UI.LColor("midLight", this.midColor)
         UI.LColor("bottomLight", this.bottomColor)
 
-
+        this.globalLightMaterial.uniforms.setUniform("lightColor",this.mainLight.color)
+        this.globalLightMaterial.uniforms.setUniform("lightPos",this.mainLight.getWorldPos())
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor)
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor)
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor)
@@ -181,5 +189,9 @@ export default class extends RenderPass implements IResizable {
         this.modelRenderer.draw(this);
 
 
+    }
+
+    setLightPos(lightPos: Vector3) {
+        this.globalLightMaterial.uniforms.setUniform("lightPos",lightPos)
     }
 }

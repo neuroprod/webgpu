@@ -37,7 +37,10 @@ import Model from "./lib/model/Model";
 import Material from "./lib/core/Material";
 import Sphere from "./lib/meshes/Sphere";
 import CubeTestShader from "./shaders/CubeTestShader";
-import ShadowPass from "./renderPasses/ShadowPass";
+import ShadowCubePass from "./renderPasses/ShadowCubePass";
+import ShadowCube from "./renderPasses/ShadowCube";
+import MainLight from "./MainLight";
+import Box from "./lib/meshes/Box";
 
 
 export default class Main {
@@ -68,12 +71,14 @@ export default class Main {
     private laptopScreen: LaptopScreen;
     private mill: Mill;
     private combinePass: CombinePass;
-    private numberOfQueries: number=9;
+    private numberOfQueries: number=10;
     private blurBloomPass: BlurBloom;
     private fpsScreen: FpsScreen;
-  
-    private shadowPass: ShadowPass;
 
+    private shadowPass: ShadowCube;
+    private mainLight: MainLight;
+private lightPos = new Vector3(0,0,-3)
+    private testSphere: Model;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -117,16 +122,13 @@ export default class Main {
 
     private init() {
 
-
-        let testModel =new Model(this.renderer,"testModel");
-        testModel.setScale(0.2,0.2,0.2)
-        testModel.material = new Material(this.renderer,"tesMat",new CubeTestShader(this.renderer,));
-        testModel.mesh =new Sphere(this.renderer)
-        this.shadowPass = new ShadowPass(this.renderer)
+        this.mainLight =new MainLight(this.renderer)
+        this.mainLight.setPosition(0,1,-1.5);
+        this.shadowPass = new ShadowCube(this.renderer,this.mainLight)
         this.gBufferPass = new GBufferRenderPass(this.renderer)
         this.aoPass = new AORenderPass(this.renderer)
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
-        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data);
+        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data,this.mainLight);
         this.blurLightPass =new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
         this.glassPass =new GlassRenderPass(this.renderer)
@@ -148,7 +150,16 @@ export default class Main {
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
-        this.gBufferPass.modelRenderer.addModel(testModel);
+        this.testSphere=new Model(this.renderer,"testSphere")
+        this.testSphere.mesh = new Box(this.renderer);
+        this.testSphere.material =new Material(this.renderer,"testspeher",new CubeTestShader(this.renderer,"cubetest"));
+        this.testSphere.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["ShadowCubeColor"])
+
+
+
+        this.gBufferPass.modelRenderer.addModel( this.testSphere)
+        this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
+
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
         this.gBufferPass.modelRenderer.addModel(this.laptopScreen);
         this.fpsScreen =new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);
@@ -165,6 +176,8 @@ export default class Main {
     }
     onDraw() {
         this.timeStampQuery.start();
+        this.shadowPass.add();
+        this.timeStampQuery.setStamp("ShadowPass");
         this.gBufferPass.add();
         this.timeStampQuery.setStamp("GBufferPass");
         this.aoPass.add();
@@ -205,6 +218,16 @@ export default class Main {
         this.updateCamera();
         this.mill.update();
 
+
+        UI.LVector("lightpos",this.lightPos)
+
+        this.testSphere.setEuler(UI.LFloat("rx",0),UI.LFloat("ry",0),0);
+        this.mainLight.setPosition(this.lightPos.x,this.lightPos.y,this.lightPos.z);
+        this.testSphere.setPosition(this.lightPos.x,this.lightPos.y,this.lightPos.z);
+        this.shadowPass.setLightPos(this.lightPos);
+        this.lightPass.setLightPos(this.lightPos);
+
+
         UI.pushWindow("Render Setting")
         this.canvasRenderPass.onUI();
         RenderSettings.onUI();
@@ -240,7 +263,7 @@ export default class Main {
         let screenLocal = new Vector2(this.renderer.ratio * 3, 3)
 
         this.camera.fovy = Math.atan2(screenLocal.y / 2, cameraPositionMap.z) * 2;
-
+        this.camera.ratio =this.renderer.ratio;
 
         this.camera.lensShift.x = -cameraPositionMap.x / (screenLocal.x / 2);
         this.camera.lensShift.y = -cameraPositionMap.y / (screenLocal.y / 2);

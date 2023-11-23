@@ -11,6 +11,8 @@ export type DepthStencilAttachmentOptions = {
     stencilLoadOp: GPULoadOp;
     stencilStoreOp: GPUStoreOp;
     stencilReadOnly: boolean;
+    baseArrayLayer:GPUIntegerCoordinate,
+    arrayLayerCount :GPUIntegerCoordinate,
 
 }
 export const DepthStencilAttachmentOptionsDefault: DepthStencilAttachmentOptions = {
@@ -22,6 +24,8 @@ export const DepthStencilAttachmentOptionsDefault: DepthStencilAttachmentOptions
     stencilLoadOp: LoadOp.Clear,
     stencilStoreOp: StoreOp.Store,
     stencilReadOnly:  false,
+    baseArrayLayer:0,
+    arrayLayerCount :1,
 }
 export default class DepthStencilAttachment {
     public options: DepthStencilAttachmentOptions
@@ -37,14 +41,15 @@ export default class DepthStencilAttachment {
         if(this.options.depthReadOnly)
         {
             return{
-                view:this.renderTexture.getView(),
+
+                view:this.renderTexture.getView( {baseArrayLayer:this.options.baseArrayLayer,arrayLayerCount:this.options.arrayLayerCount}),
                 depthReadOnly:  this.options.depthReadOnly,
             }
         }
 
 
         return{
-            view:this.renderTexture.getView(),
+            view:this.renderTexture.getView({baseArrayLayer:this.options.baseArrayLayer,arrayLayerCount:this.options.arrayLayerCount}),
             depthClearValue: this.options.depthClearValue,
             depthLoadOp:  this.options.depthLoadOp,
             depthStoreOp:  this.options.depthStoreOp,

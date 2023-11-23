@@ -9,7 +9,7 @@ import UI from "../UI/UI";
 export default class RenderPass extends ObjectGPU {
 
     protected renderPassDescriptor: GPURenderPassDescriptor;
-    public colorAttachments: Array<ColorAttachment>;
+    public colorAttachments: Array<ColorAttachment>=[];
     public depthStencilAttachment: DepthStencilAttachment;
     public passEncoder: GPURenderPassEncoder;
     public sampleCount: 1|4 =1

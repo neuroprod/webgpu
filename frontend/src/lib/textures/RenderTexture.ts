@@ -24,10 +24,10 @@ export default class RenderTexture extends Texture {
             this.renderer.addScaleToCanvasTexture(this);
         }
     }
-    getView()
+    getView(descriptor:GPUTextureViewDescriptor={})
     {
         if(this.isDirty){
-            this.view = this.textureGPU.createView()
+            this.view = this.textureGPU.createView(descriptor)
         }
         return this.view;
     }

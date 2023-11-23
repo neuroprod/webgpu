@@ -58,7 +58,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
     output.uv0 =aUV0;
 
-    output.normal =model.normalMatrix *aNormal;
+    output.normal =aPos;
 
     return output;
 }

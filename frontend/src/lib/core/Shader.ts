@@ -48,7 +48,11 @@ export default class Shader extends ObjectGPU {
         this.tempMaterial.uniforms.addSampler(name);
 
     }
+    public addSamplerComparison(name: string) {
+        if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
+        this.tempMaterial.uniforms.addSamplerComparison(name);
 
+    }
     public addVertexOutput(name: string, length: number) {
 
     }

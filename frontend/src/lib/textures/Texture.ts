@@ -51,7 +51,7 @@ export default class Texture extends ObjectGPU{
             usage: this.options.usage,
             mipLevelCount: this.options.mipLevelCount,
             dimension:this.options.dimension,
-            ///viewformats
+           // viewformats:TextureV
         });
 
     }

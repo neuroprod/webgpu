@@ -11,11 +11,13 @@ export default class Camera extends UniformGroup {
     public fovy = 0.9
     public near =2;
     public far = 20
-    public lensShift = new Vector2(1, 0)
+    public ratio =1
+    public lensShift = new Vector2(0, 0)
     private view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
     private viewProjection: Matrix4 = new Matrix4();
     private viewProjectionInv!: Matrix4;
+
 
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
@@ -42,7 +44,8 @@ export default class Camera extends UniformGroup {
 
         let frustumTop = this.near * Math.tan(this.fovy / 2);
         let frustumBottom = -frustumTop;
-        let frustumRight = frustumTop * this.renderer.ratio;
+
+        let frustumRight = frustumTop * this.ratio;
         let frustumLeft = -frustumRight;
 
 
@@ -55,51 +58,32 @@ export default class Camera extends UniformGroup {
             frustumRight = lerp(2.0 * frustumRight, 0.0, 0.5 - 0.5 * this.lensShift.x);
             frustumLeft = lerp(0.0, 2.0 * frustumLeft, 0.5 - 0.5 * this.lensShift.x);
         }
+        const dx = (frustumRight - frustumLeft);
+        const dy = (frustumTop - frustumBottom);
+        const dz = (this.near -this.far);
 
-
-        this.projection[0] = 2.0 * this.near / (frustumRight - frustumLeft);
-        this.projection[4] = 0.0;
-        this.projection[8] = (frustumRight + frustumLeft) / (frustumRight - frustumLeft);
-        this.projection[12] = 0.0;
-
+        this.projection[0] = 2.0 * this.near /dx;
         this.projection[1] = 0.0;
-        this.projection[5] = 2.0 * this.near / (frustumTop - frustumBottom);
-        this.projection[9] = (frustumTop + frustumBottom) / (frustumTop - frustumBottom);
-        this.projection[13] = 0.0;
-
         this.projection[2] = 0.0;
-        this.projection[6] = 0.0;
-        this.projection[10] = -(this.far + this.near) / (this.far - this.near);
-        this.projection[14] = -2.0 * this.far * this.near / (this.far - this.near);
-
         this.projection[3] = 0.0;
+
+        this.projection[4] = 0.0;
+        this.projection[5] = 2.0 * this.near / dy;
+        this.projection[6] = 0.0;
         this.projection[7] = 0.0;
+
+        this.projection[8] = (frustumRight + frustumLeft) / dx;
+        this.projection[9] = (frustumTop + frustumBottom) / dy;
+        this.projection[10] = this.far/dz;
         this.projection[11] = -1.0;
+
+        this.projection[12] = 0.0;
+        this.projection[13] = 0.0;
+        this.projection[14] =  this.far * this.near / dz;
         this.projection[15] = 0.0;
 
 
 
-        /*
-        mat4 &m = mInverseProjectionMatrix;
-        m[0][0] =  ( frustumRight - frustumLeft ) / ( 2.0 * this.near  );
-        m[1][0] =  0.0;
-        m[2][0] =  0.0;
-        m[3][0] =  ( frustumRight + frustumLeft ) / ( 2.0 * this.near  );
-
-        m[0][1] =  0.0;
-        m[1][1] =  ( frustumTop - frustumBottom ) / ( 2.0 * this.near  );
-        m[2][1] =  0.0;
-        m[3][1] =  ( frustumTop + frustumBottom ) / ( 2.0 * this.near  );
-
-        m[0][2] =  0.0;
-        m[1][2] =  0.0;
-        m[2][2] =  0.0;
-        m[3][2] = -1.0;
-
-        m[0][3] =  0.0;
-        m[1][3] =  0.0;
-        m[2][3] = -( this.far - this.near  ) / ( 2.0 * this.far*this.near  );
-        m[3][3] =  ( this.far + this.near  ) / ( 2.0 * this.far*this.near  );*/
     }
 
     protected updateData() {
