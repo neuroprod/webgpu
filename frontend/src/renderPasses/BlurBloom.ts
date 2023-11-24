@@ -42,7 +42,7 @@ export default class BlurBloom {
         }
 
         for (let i = this.numLevels-1;i>0; i--) {
-            console.log(this.numLevels,i,this.targetTextures[i+1].label, this.targetTextures[i].label)
+
 
            let kawasePass = new KawasePass(renderer, this.targetTextures[i], this.targetTextures[i+1],false,true);
           this.passes.push(kawasePass);

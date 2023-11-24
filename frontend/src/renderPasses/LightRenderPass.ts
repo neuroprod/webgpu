@@ -129,6 +129,9 @@ export default class extends RenderPass implements IResizable {
 
     onUI() {
         UI.pushWindow("Light")
+        for(let p of this.lights){
+            p.update()
+        }
         if (UI.LButton("Save Light")) {
 
 

@@ -11,6 +11,7 @@ import ColorV from "../lib/ColorV";
 import LightMeshShader from "../shaders/LightMeshShader";
 import LightShader from "../shaders/LightShader";
 import Object3D from "../lib/core/Object3D";
+import SelectItem from "../lib/UI/math/SelectItem";
 
 
 export default class PointLight extends Object3D {
@@ -39,22 +40,25 @@ export default class PointLight extends Object3D {
     private showLightMesh: boolean = true;
     private maxDistance: number=0.5;
     private lightParents: Array<Object3D>;
-    private lightParentIndex =0;
+    private parentIndex =0;
     private lightPos:Vector3 =new Vector3(0,0,0)
-
+    private parentSelect: Array<SelectItem> = []
     constructor(renderer: Renderer, label: string, modelRenderer: ModelRenderer,data:any=null,lightParents:Array<Object3D>)  {
 
         super(renderer, label)
 
         this.lightParents =lightParents;
-
+        for(let i=0;i<lightParents.length;i++){
+            this.parentSelect.push(new SelectItem(lightParents[i].label,i))
+        }
         this.modelRenderer = modelRenderer;
         if(data){
             this.label =data.label;
              this.setPosition(data.position[0],data.position[1],data.position[2]);
+            this.lightPos.set(data.position[0],data.position[1],data.position[2]) ;
                 this.size = data.size;
                 this.color.set(data.color[0],data.color[1],data.color[2],data.color[3]) ;
-
+              this.parentIndex =data.parentIndex;
                 this.strength = data.strength;
                 this.castShadow = data.castShadow;
                 this.numShadowSamples = data.numShadowSamples;
@@ -62,7 +66,8 @@ export default class PointLight extends Object3D {
                 this.sizeMesh = data.sizeMesh;
                 this.showLightMesh = data.showLightMesh;
         }
-        lightParents[this.lightParentIndex].addChild(this)
+        console.log(this.parentIndex)
+        lightParents[this.parentIndex].addChild(this)
 
 
         this.mesh = new Sphere(renderer, 1, 16, 8);
@@ -131,12 +136,13 @@ export default class PointLight extends Object3D {
 
         this.addChild(this.model)
         this.addChild(this.modelMesh)
+
     }
 
     getData(): any {
         let data = {
             label:this.label,
-            position: this._position,
+            position: this.lightPos,
             size: this.size,
             color: this.color,
             strength: this.strength,
@@ -145,6 +151,7 @@ export default class PointLight extends Object3D {
             shadowScale: this.shadowScale,
             sizeMesh: this.sizeMesh,
             showLightMesh: this.showLightMesh,
+            parentIndex :this.parentIndex,
         }
         return data
 
@@ -158,6 +165,13 @@ export default class PointLight extends Object3D {
        // UI.LVector("Position", this.position);
         UI.LVector("position",this.lightPos)
         this.setPosition(this.lightPos.x,this.lightPos.y,this.lightPos.z);
+        let value = UI.LSelect("parent", this.parentSelect,this.parentIndex)
+        if (value != this.parentIndex) {
+            this.parentIndex =value;
+            this.lightParents[this.parentIndex].addChild(this);
+        }
+
+
         this.size = UI.LFloatSlider("Size", this.size, 0.1, 4);
         UI.LColor("color", this.color)
         this.strength = UI.LFloatSlider("strength", this.strength, 0, 5);
@@ -194,6 +208,7 @@ export default class PointLight extends Object3D {
 
     destroy() {
         this.mesh.destroy();
+        this.lightParents[this.parentIndex].removeChild(this);
         this.modelRenderer.removeModel(this.modelMesh);
         this.modelRenderer.removeModel(this.model);
         this.model.destroy();
@@ -201,4 +216,8 @@ export default class PointLight extends Object3D {
     }
 
 
+    update() {
+        let world = this.getWorldPos()
+        this.material.uniforms.setUniform("position", new Vector4(world.x, world.y, world.z, this.size))
+    }
 }
