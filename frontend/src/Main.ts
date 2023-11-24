@@ -213,6 +213,8 @@ export default class Main {
     private update() {
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
+        this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
+
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.updateCamera();
         this.mill.update();
