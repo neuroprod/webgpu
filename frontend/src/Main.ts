@@ -77,8 +77,8 @@ export default class Main {
 
     private shadowPass: ShadowCube;
     private mainLight: MainLight;
-private lightPos = new Vector3(0,0,-3)
-    private testSphere: Model;
+
+    private centerRightHolder: Object3D;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -122,13 +122,18 @@ private lightPos = new Vector3(0,0,-3)
 
     private init() {
 
+        this.leftHolder = this.glFTLoader.objectsByName["left"]
+        this.rightHolder = this.glFTLoader.objectsByName["right"]
+        this.centerRightHolder = this.glFTLoader.objectsByName["centerRight"]
+
         this.mainLight =new MainLight(this.renderer)
-        this.mainLight.setPosition(0,1,-1.5);
+        this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
+        this.glFTLoader.objectsByName["mainLight"].castShadow =false
         this.shadowPass = new ShadowCube(this.renderer,this.mainLight)
         this.gBufferPass = new GBufferRenderPass(this.renderer)
         this.aoPass = new AORenderPass(this.renderer)
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
-        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data,this.mainLight);
+        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data,this.mainLight,[this.leftHolder ,this.rightHolder,this.centerRightHolder]);
         this.blurLightPass =new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
         this.glassPass =new GlassRenderPass(this.renderer)
@@ -142,22 +147,16 @@ private lightPos = new Vector3(0,0,-3)
 
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.leftHolder = this.glFTLoader.objectsByName["left"]
-        this.rightHolder = this.glFTLoader.objectsByName["right"]
+
         this.mill =new Mill(this.glFTLoader.objectsByName["mill"])
 
         for (let m of this.glFTLoader.models) {
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
-        this.testSphere=new Model(this.renderer,"testSphere")
-        this.testSphere.mesh = new Box(this.renderer);
-        this.testSphere.material =new Material(this.renderer,"testspeher",new CubeTestShader(this.renderer,"cubetest"));
-        this.testSphere.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["ShadowCubeColor"])
 
 
 
-        this.gBufferPass.modelRenderer.addModel( this.testSphere)
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
 
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
@@ -219,13 +218,10 @@ private lightPos = new Vector3(0,0,-3)
         this.mill.update();
 
 
-        UI.LVector("lightpos",this.lightPos)
 
-        this.testSphere.setEuler(UI.LFloat("rx",0),UI.LFloat("ry",0),0);
-        this.mainLight.setPosition(this.lightPos.x,this.lightPos.y,this.lightPos.z);
-        this.testSphere.setPosition(this.lightPos.x,this.lightPos.y,this.lightPos.z);
-        this.shadowPass.setLightPos(this.lightPos);
-        this.lightPass.setLightPos(this.lightPos);
+
+        this.shadowPass.setLightPos(this.mainLight.getWorldPos());
+
 
 
         UI.pushWindow("Render Setting")
@@ -241,9 +237,8 @@ private lightPos = new Vector3(0,0,-3)
         this.lightPass.onUI();
 
 
-        UI.pushWindow("Debug/Performance")
-
-
+        UI.pushWindow("Performance")
+        if(!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis","",true)
         this.timeStampQuery.onUI();
         UI.popWindow()
     }

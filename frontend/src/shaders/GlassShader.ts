@@ -112,7 +112,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let refValue =pow((F * envBRDF.x + envBRDF.y),vec3f(1.0)) ;
 
  
-    let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize);
+    let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize)*2.0;
    let result = mix(refractColor,reflectColor,refValue);
  
   return vec4(result,1.0);

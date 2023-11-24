@@ -27,7 +27,7 @@ export default class DepthShader extends Shader{
 ///////////////////////////////////////////////////////////      
 struct VertexOutput
 {
-    @location(0) normal : vec3f,
+    @location(0) model : vec3f,
     @builtin(position) position : vec4f
   
 }
@@ -41,21 +41,21 @@ ${ModelTransform.getShaderText(1)}
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    output.normal = aNormal;
+    output.model =( model.modelMatrix *vec4( aPos,1.0)).xyz;
     output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
 
 
     return output;
 }
 @fragment
-fn mainFragment(@location(0) normal: vec3f)  -> @location(0) vec4f
+fn mainFragment(@location(0) model: vec3f)  -> @location(0) vec4f
 {
 
 
 
  
 
-  return vec4(normalize(normal)*0.5+0.5,1.0);
+  return vec4(distance(model,camera.worldPosition.xyz),0.0,0.0,1.0);
  
 }
 

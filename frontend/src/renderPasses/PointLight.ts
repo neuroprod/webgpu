@@ -10,9 +10,10 @@ import Model from "../lib/model/Model";
 import ColorV from "../lib/ColorV";
 import LightMeshShader from "../shaders/LightMeshShader";
 import LightShader from "../shaders/LightShader";
+import Object3D from "../lib/core/Object3D";
 
 
-export default class PointLight extends ObjectGPU {
+export default class PointLight extends Object3D {
     private modelRenderer: ModelRenderer;
 
 
@@ -25,26 +26,32 @@ export default class PointLight extends ObjectGPU {
     private materialMesh: Material;
     private modelMesh: Model;
 
-    private position: Vector3 = new Vector3(0, 0, -3)
-    private size = 3;
+
+    private size = 2;
 
     private color: ColorV = new ColorV(1, 1, 1, 1)
     private strength: number = 10;
-    private castShadow: boolean = false;
-    private numShadowSamples: number = 10;
+
+    private numShadowSamples: number = 2;
     private shadowScale: number = 1;
 
     private sizeMesh = 0.05;
     private showLightMesh: boolean = true;
     private maxDistance: number=0.5;
+    private lightParents: Array<Object3D>;
+    private lightParentIndex =0;
+    private lightPos:Vector3 =new Vector3(0,0,0)
 
-    constructor(renderer: Renderer, label: string, modelRenderer: ModelRenderer,data:any=null) {
+    constructor(renderer: Renderer, label: string, modelRenderer: ModelRenderer,data:any=null,lightParents:Array<Object3D>)  {
 
         super(renderer, label)
+
+        this.lightParents =lightParents;
+
         this.modelRenderer = modelRenderer;
         if(data){
             this.label =data.label;
-             this.position.set(data.position[0],data.position[1],data.position[2]);
+             this.setPosition(data.position[0],data.position[1],data.position[2]);
                 this.size = data.size;
                 this.color.set(data.color[0],data.color[1],data.color[2],data.color[3]) ;
 
@@ -55,6 +62,8 @@ export default class PointLight extends ObjectGPU {
                 this.sizeMesh = data.sizeMesh;
                 this.showLightMesh = data.showLightMesh;
         }
+        lightParents[this.lightParentIndex].addChild(this)
+
 
         this.mesh = new Sphere(renderer, 1, 16, 8);
 
@@ -78,13 +87,14 @@ export default class PointLight extends ObjectGPU {
 
         ]
         this.model = new Model(renderer, "light");
-        this.model.setPosition(this.position.x, this.position.y, this.position.z)
+
         this.model.setScale(this.size, this.size, this.size)
         this.model.material = this.material;
         this.model.mesh = this.mesh;
 
         this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, this.maxDistance))
-        this.material.uniforms.setUniform("position", new Vector4(this.position.x, this.position.y, this.position.z, this.size))
+        let world = this.getWorldPos()
+        this.material.uniforms.setUniform("position", new Vector4(world.x, world.y, world.z, this.size))
         this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
         this.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
         this.material.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"])
@@ -112,19 +122,21 @@ export default class PointLight extends ObjectGPU {
 
         ]
         this.modelMesh = new Model(renderer, "lightMesh");
-        this.modelMesh.setPosition(this.position.x, this.position.y, this.position.z)
+
         this.modelMesh.setScale(this.sizeMesh, this.sizeMesh, this.sizeMesh)
         this.modelMesh.material = this.materialMesh;
         this.modelMesh.mesh = this.mesh;
         this.modelMesh.visible = this.showLightMesh;
         modelRenderer.addModel(this.modelMesh)
 
+        this.addChild(this.model)
+        this.addChild(this.modelMesh)
     }
 
     getData(): any {
         let data = {
             label:this.label,
-            position: this.position,
+            position: this._position,
             size: this.size,
             color: this.color,
             strength: this.strength,
@@ -143,10 +155,12 @@ export default class PointLight extends ObjectGPU {
         UI.separator(this.label)
         UI.setIndent(20)
         this.label = UI.LTextInput("name", this.label);
-        UI.LVector("Position", this.position);
+       // UI.LVector("Position", this.position);
+        UI.LVector("position",this.lightPos)
+        this.setPosition(this.lightPos.x,this.lightPos.y,this.lightPos.z);
         this.size = UI.LFloatSlider("Size", this.size, 0.1, 4);
         UI.LColor("color", this.color)
-        this.strength = UI.LFloatSlider("strength", this.strength, 0, 100);
+        this.strength = UI.LFloatSlider("strength", this.strength, 0, 5);
 
         this.castShadow = UI.LBool("Contact Shadow", this.castShadow)
         if (this.castShadow) {
@@ -165,13 +179,14 @@ export default class PointLight extends ObjectGPU {
         UI.popID();
         this.material.uniforms.setUniform("shadow", new Vector4(this.castShadow ? 1 : 0, this.numShadowSamples, this.shadowScale, this.maxDistance))
         this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
-        this.material.uniforms.setUniform("position", new Vector4(this.position.x, this.position.y, this.position.z, this.size))
-        this.model.setPosition(this.position.x, this.position.y, this.position.z)
+        let world = this.getWorldPos()
+        this.material.uniforms.setUniform("position", new Vector4(world.x, world.y, world.z, this.size))
+       // this.model.setPosition(this.position.x, this.position.y, this.position.z)
         this.model.setScale(this.size, this.size, this.size)
 
 
         this.materialMesh.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
-        this.modelMesh.setPosition(this.position.x, this.position.y, this.position.z)
+        //this.modelMesh.setPosition(this.position.x, this.position.y, this.position.z)
         this.modelMesh.setScale(this.sizeMesh, this.sizeMesh, this.sizeMesh)
         this.modelMesh.visible = this.showLightMesh;
 

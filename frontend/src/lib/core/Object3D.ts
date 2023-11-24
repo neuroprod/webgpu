@@ -7,10 +7,10 @@ export default class Object3D extends ObjectGPU {
     public children: Array<Object3D> = []
     private tempMatrix = new Matrix4()
     protected _dirty: boolean = true;
-    private _position = new Vector3(0, 0, 0);
+    protected _position = new Vector3(0, 0, 0);
     private _scale = new Vector3(1, 1, 1);
     private _rotation = new Quaternion(0, 0, 0, 1);
-
+    public castShadow :boolean=true;
     constructor(renderer: Renderer, label: string = "") {
         super(renderer, label);
     }

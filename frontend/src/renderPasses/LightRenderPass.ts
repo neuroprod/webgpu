@@ -19,6 +19,7 @@ import GlobalLightShader from "../shaders/GlobalLightShader";
 import ColorV from "../lib/ColorV";
 import {saveToJsonFile} from "../lib/SaveUtils";
 import MainLight from "../MainLight";
+import Object3D from "../lib/core/Object3D";
 
 export default class extends RenderPass implements IResizable {
 
@@ -36,20 +37,25 @@ export default class extends RenderPass implements IResizable {
     private midColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.19);
     private bottomColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
     private mainLight: MainLight;
+    private mainLightColor: ColorV = new ColorV(1.00, 0.92, 0.81, 1);
+    private mainLightStrength: number =1;
+    private lightParents: Array<Object3D>;
 
-    constructor(renderer: Renderer,data:any,mainLight:MainLight) {
+    constructor(renderer: Renderer,data:any,mainLight:MainLight,lightParents:Array<Object3D>) {
 
         super(renderer, "LightRenderPass");
+        this.lightParents = lightParents;
         this.mainLight =mainLight;
         this.modelRenderer = new ModelRenderer(this.renderer, "lightModels")
         if(data){
 
-
+           this.mainLightColor.set(data.mainLightColor[0],data.mainLightColor[1],data.mainLightColor[2],data.mainLightColor[3]) ;
+            this.mainLightStrength  =data.mainLightStrength;
             this.topColor.set(data.topColor[0],data.topColor[1],data.topColor[2],data.topColor[3]) ;
             this.midColor.set(data.midColor[0],data.midColor[1],data.midColor[2],data.midColor[3]) ;
             this.bottomColor.set(data.bottomColor[0],data.bottomColor[1],data.bottomColor[2],data.bottomColor[3]) ;
             for (let plData of data.pointLights){
-                let p = new PointLight(renderer, "light1", this.modelRenderer,plData)
+                let p = new PointLight(renderer, "light1", this.modelRenderer,plData,this.lightParents)
                 this.lights.push(p)
 
             }
@@ -87,6 +93,8 @@ export default class extends RenderPass implements IResizable {
 
         this.globalLightMaterial.uniforms.setUniform("lightColor",this.mainLight.color);
         this.globalLightMaterial.uniforms.setUniform("lightPos",this.mainLight.getWorldPos());
+        console.log(this.mainLight)
+        this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
         this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
         this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OABlurPass"]);
         this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
@@ -123,11 +131,14 @@ export default class extends RenderPass implements IResizable {
         UI.pushWindow("Light")
         if (UI.LButton("Save Light")) {
 
+
             let lightsData = []
             for(let p of this.lights){
                 lightsData.push(p.getData())
             }
             let lightData = {
+                mainLightColor:this.mainLightColor,
+                mainLightStrength:this.mainLightStrength,
                 topColor: this.topColor,
                 midColor: this.midColor,
                 bottomColor: this.bottomColor,
@@ -135,9 +146,13 @@ export default class extends RenderPass implements IResizable {
             }
             saveToJsonFile(lightData,"light")
         }
+        UI.separator("Main Light")
+        UI.LColor("color", this.mainLightColor)
+        this.mainLightStrength = UI.LFloatSlider("strength", this.mainLightStrength, 0, 20);
+        this.mainLight.color.set( this.mainLightColor.x, this.mainLightColor.y, this.mainLightColor.z,this.mainLightStrength)
+
+
         UI.separator("Global Light")
-
-
         UI.LColor("topLight", this.topColor)
         UI.LColor("midLight", this.midColor)
         UI.LColor("bottomLight", this.bottomColor)
@@ -161,7 +176,7 @@ export default class extends RenderPass implements IResizable {
         UI.popList();
 
         if (UI.LButton("+ add Light")) {
-            let p = new PointLight(this.renderer, "light2", this.modelRenderer)
+            let p = new PointLight(this.renderer, "light2", this.modelRenderer,null,this.lightParents)
             this.lights.push(p)
             this.currentLight = p;
 

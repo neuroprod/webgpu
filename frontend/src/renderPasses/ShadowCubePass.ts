@@ -48,7 +48,7 @@ export default class ShadowCubePass extends RenderPass {
 
         for (let model of this.models) {
             if(!model.visible)continue
-
+            if(!model.castShadow)continue
 
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
 

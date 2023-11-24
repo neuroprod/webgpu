@@ -121,10 +121,11 @@ fn mainFragment(@location(0) projPos: vec4f) -> @location(0) vec4f
     let uvPos = vec2<i32>(floor(uv0*textureSize));
 
     let world=getWorldFromUVDepth(uv0 ,textureLoad(gDepth,  uvPos ,0).x); 
-    let dist=distance (uniforms.position.xyz,world)/uniforms.position.w;
+    let dist=distance (uniforms.position.xyz,world);
     
-    
-    if(dist>1.0){return vec4(0,0,0,1.0);}
+     let an=(1.0/pow(dist,2.0))*(1.0- pow(dist/uniforms.position.w,2.0)) ; 
+ 
+    if( dist>uniforms.position.w){return vec4(0,0,0,1.0);}
 
 
 
@@ -161,7 +162,7 @@ if( uniforms.shadow.x>0.5){
        let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));
        
       
-       let an= pow(1.0-dist,2.0); 
+      
 
   
         let N =normalize( (textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);
@@ -175,28 +176,26 @@ if( uniforms.shadow.x>0.5){
         let F0 = mix(vec3(0.04), albedo, metallic);
        
         let lightVec = uniforms.position.xyz - world;
-    let L = normalize(lightVec);
-    let H = normalize(V + L);
-  
-    
-    
-    let NdotV = max(0.0, dot(N, V));
-    let NDF = DistributionGGX(N, H, roughness);
-    let G   = GeometrySmith(N, V, L, roughness);
-    let F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
+        let L = normalize(lightVec);
+        let H = normalize(V + L);
+        let NdotV = max(0.0, dot(N, V));
+        let NDF = DistributionGGX(N, H, roughness);
+        let G   = GeometrySmith(N, V, L, roughness);
+        let F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
  
-    let kS = F;
-    let kD = vec3(1.0) - kS;
+        let kS = F;
+        let kD = vec3(1.0) - kS;
     
-      let numerator    = NDF * G * F;
-    let denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
-    let specular     = numerator / denominator;
+        let numerator    = NDF * G * F;
+        let denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+        let specular     = numerator / denominator;
     
-    let radiance =uniforms.color.xyz *uniforms.color.w*an;
+        let radiance =uniforms.color.xyz *uniforms.color.w*an;
     
-    let NdotL = max(dot(N, L), 0.0);
-    let light= (kD * albedo / PI + specular) * radiance * NdotL ;
-     return vec4( light,1.0);
+        let NdotL = max(dot(N, L), 0.0);
+        let light= (kD * albedo / PI + specular) * radiance * NdotL ;
+        
+        return vec4( light,1.0);
 }
 ///////////////////////////////////////////////////////////
        
