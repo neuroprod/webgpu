@@ -224,25 +224,25 @@ export default class Main {
 
         this.shadowPass.setLightPos(this.mainLight.getWorldPos());
 
-
-
+        UI.pushWindow("Performance")
+        if(!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis","",true)
+        this.timeStampQuery.onUI();
+        UI.popWindow()
+        this.lightPass.onUI();
         UI.pushWindow("Render Setting")
         this.canvasRenderPass.onUI();
+        UI.pushGroup("AO");
+        this.aoPass.onUI();
+        UI.popGroup()
         RenderSettings.onUI();
 
-        this.aoPass.onUI();
+
         this.reflectionPass.onUI();
 
         UI.popWindow()
 
 
-        this.lightPass.onUI();
 
-
-        UI.pushWindow("Performance")
-        if(!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis","",true)
-        this.timeStampQuery.onUI();
-        UI.popWindow()
     }
     updateCamera(){
         let mp = this.mouseListener.mousePos.clone()

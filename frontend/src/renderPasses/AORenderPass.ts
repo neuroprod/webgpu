@@ -46,7 +46,7 @@ export default class AORenderPass extends RenderPass{
         this.blit = new Blit(renderer, 'blitAO', this.blitMaterial)
     }
     onUI(){
-        UI.separator("SSAO")
+
         if(    UI.LBool("Half Size",this.halfSize) !=this.halfSize){
             this.halfSize =!this.halfSize;
             let options=this.target.options as BaseRenderTextureOptions
