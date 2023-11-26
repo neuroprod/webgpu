@@ -66,7 +66,7 @@ export default class PointLight extends Object3D {
                 this.sizeMesh = data.sizeMesh;
                 this.showLightMesh = data.showLightMesh;
         }
-        console.log(this.parentIndex)
+
         lightParents[this.parentIndex].addChild(this)
 
 

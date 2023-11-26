@@ -32,6 +32,7 @@ export default class GLFTLoader {
 
     private mainShader: TestShader;
     private glassShader: GlassShader;
+    private url: string;
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
@@ -40,7 +41,7 @@ export default class GLFTLoader {
         this.root = new Object3D(renderer, "sceneRoot");
         this.mainShader =new GBufferShader(this.renderer,"gBufferShader");
         this.glassShader =new GlassShader(this.renderer,"glassShader");
-
+        this.url=url;
         preLoader.startLoad();
         this.loadURL(url).then(() => {
             preLoader.stopLoad();
@@ -171,6 +172,7 @@ private makeMaterial(name:string){
 
                 mesh.setIndices(indices)
 
+
             } else if (accessorIndices.accessor.componentType == 5123) {
                 let indices = new Uint32Array(indexData);
                 mesh.setIndices32(indices)
@@ -178,6 +180,8 @@ private makeMaterial(name:string){
             //POSITION, NORMAL TANGENT TEXCOORD_0,....
             let posAccessor = this.accessors[primitive.attributes.POSITION];
             let positionData = this.getSlize(posAccessor);
+
+          
             mesh.setVertices(new Float32Array(positionData));
 
 

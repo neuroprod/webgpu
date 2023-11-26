@@ -34,7 +34,7 @@ export default class GlobalLightShader extends Shader{
         this.addSamplerComparison("mySamplerComp");
         this.addSampler("mySampler");
         this.needsCamera =true;
-        this.logShaderCode =true;
+
 
     }
     getKernel() {

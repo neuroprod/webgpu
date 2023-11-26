@@ -79,6 +79,7 @@ export default class Main {
     private mainLight: MainLight;
 
     private centerRightHolder: Object3D;
+    private glFTLoaderChar: GLFTLoader;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -109,6 +110,7 @@ export default class Main {
         ImagePreloader.load(this.renderer, this.preloader);
 
         this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
+        this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation", this.preloader);
         this.lightJson = new JSONLoader("light", this.preloader);
         UI.setWebGPU(this.renderer)
 
@@ -151,10 +153,20 @@ export default class Main {
         this.mill =new Mill(this.glFTLoader.objectsByName["mill"])
 
         for (let m of this.glFTLoader.models) {
-            this.gBufferPass.modelRenderer.addModel(m)
+           this.gBufferPass.modelRenderer.addModel(m)
 
         }
 
+        // this.glFTLoaderChar.root.setPosition(0, -1.5, 0);
+      /* let arm = this.glFTLoaderChar.objectsByName["Armature"];
+      arm.setScale(1,1,1)
+        arm.setRotation(0,0,0,0)*/
+        for (let m of this.glFTLoaderChar.models) {
+            this.gBufferPass.modelRenderer.addModel(m)
+
+
+            this.glFTLoaderChar.root.addChild(m)
+        }
 
 
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
@@ -216,6 +228,8 @@ export default class Main {
         this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
+        this.glFTLoaderChar.root.setPosition(-1, -1.5, 0);
+
         this.updateCamera();
         this.mill.update();
 

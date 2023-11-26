@@ -93,7 +93,7 @@ export default class extends RenderPass implements IResizable {
 
         this.globalLightMaterial.uniforms.setUniform("lightColor",this.mainLight.color);
         this.globalLightMaterial.uniforms.setUniform("lightPos",this.mainLight.getWorldPos());
-        console.log(this.mainLight)
+
         this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
         this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
         this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OABlurPass"]);

@@ -1,5 +1,8 @@
 // to generate this file -> node FileHandler
 export const preloadImages = [
+  "body_Color",
+  "body_MRA",
+  "body_Normal",
   "books1_Color",
   "books1_MRA",
   "books1_Normal",
@@ -78,6 +81,9 @@ export const preloadImages = [
   "outside_Color",
   "outside_MRA",
   "outside_Normal",
+  "pants_Color",
+  "pants_MRA",
+  "pants_Normal",
   "paperWallLeft_Color",
   "paperWallLeft_MRA",
   "paperWallLeft_Normal",
