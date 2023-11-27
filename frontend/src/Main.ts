@@ -41,6 +41,7 @@ import ShadowCubePass from "./renderPasses/ShadowCubePass";
 import ShadowCube from "./renderPasses/ShadowCube";
 import MainLight from "./MainLight";
 import Box from "./lib/meshes/Box";
+import TransformDebugger from "./lib/animation/TransformDebugger";
 
 
 export default class Main {
@@ -80,6 +81,7 @@ export default class Main {
 
     private centerRightHolder: Object3D;
     private glFTLoaderChar: GLFTLoader;
+    private transformDebugger: TransformDebugger;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -165,10 +167,10 @@ export default class Main {
             this.gBufferPass.modelRenderer.addModel(m)
 
 
-            this.glFTLoaderChar.root.addChild(m)
+          // this.glFTLoaderChar.root.addChild(m)
         }
-
-
+       // this.glFTLoaderChar.root.setScale(100,100,100)
+this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
 
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
@@ -228,7 +230,7 @@ export default class Main {
         this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.glFTLoaderChar.root.setPosition(-1, -1.5, 0);
+        this.glFTLoaderChar.root.setPosition(-1.5, -1.5, -1);
 
         this.updateCamera();
         this.mill.update();

@@ -30,10 +30,15 @@ export default class ModelRenderer{
 
 
             for (let attribute of model.material.shader.attributes) {
+                let buffer  = model.mesh.getBufferByName(attribute.name);
+                if(buffer){
                 passEncoder.setVertexBuffer(
                     attribute.slot,
-                    model.mesh.getBufferByName(attribute.name)
+                    buffer,
                 );
+                }else{
+                    console.log("buffer not found" ,attribute.name)
+                }
             }
 
             if (model.mesh.hasIndices) {

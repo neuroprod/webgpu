@@ -109,4 +109,11 @@ export default class Object3D extends ObjectGPU {
     }
 
 
+    getScale() {
+        return this._scale;
+    }
+
+    getRotation() {
+        return this._rotation;
+    }
 }
