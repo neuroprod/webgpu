@@ -15,7 +15,7 @@ export default class TransformDebugger {
     private mesh: Box;
 
     constructor(renderer: Renderer, modelrenderer: ModelRenderer, rootTransform: Object3D) {
-        console.log(rootTransform)
+      //  console.log(rootTransform)
         this.renderer  =renderer;
         this.modelRenderer =modelrenderer;
         this.mainShader = new GBufferShaderNormal(this.renderer, "gBufferShaderNormal");
@@ -23,7 +23,7 @@ export default class TransformDebugger {
         this.mesh = new Box(this.renderer, {width : 5,height  : 10,depth:5})
 
         this.add(rootTransform, 0);
-        console.log(this.debugString)
+       console.log(this.debugString)
     }
 
 

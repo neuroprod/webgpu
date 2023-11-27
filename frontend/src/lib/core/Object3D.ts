@@ -116,4 +116,8 @@ export default class Object3D extends ObjectGPU {
     getRotation() {
         return this._rotation;
     }
+
+    getPosition() {
+        return this._position;
+    }
 }

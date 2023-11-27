@@ -31,17 +31,12 @@ import CombinePass from "./renderPasses/CombinePass";
 import RenderSettings from "./RenderSettings";
 import BlurBloom from "./renderPasses/BlurBloom";
 import {FpsScreen} from "./extras/FpsScreen";
-import Texture from "./lib/textures/Texture";
-import {TextureFormat} from "./lib/WebGPUConstants";
-import Model from "./lib/model/Model";
-import Material from "./lib/core/Material";
-import Sphere from "./lib/meshes/Sphere";
-import CubeTestShader from "./shaders/CubeTestShader";
-import ShadowCubePass from "./renderPasses/ShadowCubePass";
+
 import ShadowCube from "./renderPasses/ShadowCube";
 import MainLight from "./MainLight";
-import Box from "./lib/meshes/Box";
+
 import TransformDebugger from "./lib/animation/TransformDebugger";
+import AnimationMixer from "./lib/animation/AnimationMixer";
 
 
 export default class Main {
@@ -82,6 +77,8 @@ export default class Main {
     private centerRightHolder: Object3D;
     private glFTLoaderChar: GLFTLoader;
     private transformDebugger: TransformDebugger;
+    private animationMixer: AnimationMixer;
+
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -169,8 +166,10 @@ export default class Main {
 
           // this.glFTLoaderChar.root.addChild(m)
         }
-       // this.glFTLoaderChar.root.setScale(100,100,100)
-this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
+
+        this.animationMixer = new AnimationMixer()
+        this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
+        this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
 
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
@@ -225,12 +224,14 @@ this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.mo
     }
 
     private update() {
+        this.animationMixer.update();
+
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
         this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.glFTLoaderChar.root.setPosition(-1.5, -1.5, -1);
+        this.glFTLoaderChar.root.setPosition(0, -1.5, -1);
 
         this.updateCamera();
         this.mill.update();
@@ -244,19 +245,18 @@ this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.mo
         if(!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis","",true)
         this.timeStampQuery.onUI();
         UI.popWindow()
+
         this.lightPass.onUI();
+
         UI.pushWindow("Render Setting")
         this.canvasRenderPass.onUI();
         UI.pushGroup("AO");
         this.aoPass.onUI();
         UI.popGroup()
         RenderSettings.onUI();
-
-
-        this.reflectionPass.onUI();
-
         UI.popWindow()
 
+        this.animationMixer.onUI();
 
 
     }

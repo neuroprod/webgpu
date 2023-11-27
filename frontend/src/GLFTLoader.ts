@@ -26,6 +26,7 @@ export default class GLFTLoader {
     public modelsGlass: Array<Model> = []
     public modelsByName: { [name: string]: Model } = {};
     public objects: Array<Object3D> = []
+    public objectsByID: { [id: number]: Object3D } = {};
     public objectsByName: { [name: string]: Object3D } = {};
     public meshes: Array<Mesh> = []
     public materials: Array<Material> = []
@@ -39,7 +40,7 @@ export default class GLFTLoader {
     private mainShader: TestShader;
     private glassShader: GlassShader;
     private url: string;
-    private animations: Array<Animation> = []
+    public animations: Array<Animation> = []
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
@@ -107,16 +108,17 @@ export default class GLFTLoader {
                 let interpolation = sampler.interpolation;
 
                 let data = this.getAnimationData(this.accessors[sampler.output], c.target.path);
+                let targetNode = this.objectsByID[c.target.node];
 
                 if (type == "rotation") {
 
-                    let channel = new AnimationChannelQuaternion(type, start, stop, interpolation, timeData, this.objects[c.target.node])
+                    let channel = new AnimationChannelQuaternion(type, start, stop, interpolation, timeData,targetNode )
                     channel.setData(data);
                     an.addChannel(channel);
 
                 } else if (type == "translation" || type == "scale") {
 
-                    let channel = new AnimationChannelVector3(type, start, stop, interpolation, timeData, this.objects[c.target.node])
+                    let channel = new AnimationChannelVector3(type, start, stop, interpolation, timeData, targetNode)
                     channel.setData(data);
                     an.addChannel(channel);
                 }
@@ -188,6 +190,8 @@ export default class GLFTLoader {
             } else {
                 node = new Object3D(this.renderer, nodeData.name)
             }
+
+            this.objectsByID[nodeID] = node;
             this.objects.push(node);
             this.objectsByName[node.label] = node;
             parent.addChild(node);
