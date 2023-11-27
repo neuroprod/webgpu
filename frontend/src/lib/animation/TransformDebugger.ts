@@ -42,7 +42,7 @@ export default class TransformDebugger {
         }
         if(depth!=0){
         let m =new Model(this.renderer,obj.label+"test");
-        m.castShadow =false
+        m.castShadow =true;
         m.material =new Material(this.renderer,"test",this.mainShader);
 
         m.mesh =this.mesh;
