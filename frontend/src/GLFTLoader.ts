@@ -8,10 +8,11 @@ import Material from "./lib/core/Material";
 import ImagePreloader from "./ImagePreloader";
 import GBufferShader from "./shaders/GBufferShader";
 import GlassShader from "./shaders/GlassShader";
-import {Quaternion, Vector3} from "math.gl";
+import {Matrix4, Quaternion, Vector3} from "math.gl";
 import Animation from "./lib/animation/Animation";
 import AnimationChannelQuaternion from "./lib/animation/AnimationChannelQuaternion";
 import AnimationChannelVector3 from "./lib/animation/AnimationChannelVector3";
+import Skin from "./lib/animation/Skin";
 
 
 type Accessor = {
@@ -41,6 +42,7 @@ export default class GLFTLoader {
     private glassShader: GlassShader;
     private url: string;
     public animations: Array<Animation> = []
+    private skins:  Array<Skin> = [];
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
@@ -73,25 +75,11 @@ export default class GLFTLoader {
         this.parseMeshAccessors()
         this.parseMeshes();
         this.parseScene();
-        this.parseAnimations()
+        this.parseAnimations();
+        this.parseSkin();
     }
 
-    toVector3Array(f: Float32Array) {
 
-        let v = [];
-        for (let i = 0; i < f.length; i += 3) {
-            v.push(new Vector3(f[i], f[i + 1], f[i + 2]))
-        }
-        return v;
-    }
-
-    toQuaternionArray(f: Float32Array) {
-        let v = [];
-        for (let i = 0; i < f.length; i += 4) {
-            v.push(new Quaternion(f[i], f[i + 1], f[i + 2], f[i + 3]))
-        }
-        return v;
-    }
 
     private parseAnimations() {
         // for(an)
@@ -320,4 +308,53 @@ export default class GLFTLoader {
     }
 
 
+    private parseSkin() {
+        if (!this.json.skins) return;
+        for(let s of this.json.skins){
+
+
+            let nodeArray =[];
+            for(let j of s.joints){
+
+                nodeArray.push(this.objectsByID[j])
+            }
+
+            let accessor =this.accessors[s.inverseBindMatrices];
+            let data = this.getSlize(accessor);
+            let convData =new Float32Array(data)
+            let inverseMatrixes = this.toMatrixData(convData)
+
+            let skin=new Skin(s.name,nodeArray,inverseMatrixes)
+            this.skins.push(skin);
+        }
+console.log(this.skins);
+    }
+    toMatrixData(f: Float32Array) {
+
+        let v = [];
+        for (let i = 0; i < f.length; i += 16) {
+            let m = new Matrix4()
+            for(let j=0;j<16;j++){
+                m[j]=f[i+j]
+            }
+            v.push(m)
+        }
+        return v;
+    }
+    toVector3Array(f: Float32Array) {
+
+        let v = [];
+        for (let i = 0; i < f.length; i += 3) {
+            v.push(new Vector3(f[i], f[i + 1], f[i + 2]))
+        }
+        return v;
+    }
+
+    toQuaternionArray(f: Float32Array) {
+        let v = [];
+        for (let i = 0; i < f.length; i += 4) {
+            v.push(new Quaternion(f[i], f[i + 1], f[i + 2], f[i + 3]))
+        }
+        return v;
+    }
 }

@@ -33,7 +33,10 @@ export function getShaderTextForShaderType(type:string,arrayLength =1)
             t = "vec4f";
             break;
         case ShaderType.mat4:
-            t = "vec4f";
+            if(arrayLength==1){
+                t = "mat4x4f";
+            }
+
             break;
         default:
 

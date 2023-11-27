@@ -23,7 +23,7 @@ export default class TransformDebugger {
         this.mesh = new Box(this.renderer, {width : 5,height  : 10,depth:5})
 
         this.add(rootTransform, 0);
-       console.log(this.debugString)
+       //console.log(this.debugString)
     }
 
 

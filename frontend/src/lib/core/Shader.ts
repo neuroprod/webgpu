@@ -33,7 +33,7 @@ export default class Shader extends ObjectGPU {
     public addUniform(name: string, value: MathArray | number, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
 
-        this.tempMaterial.uniforms.addUniform(name, value)
+        this.tempMaterial.uniforms.addUniform(name, value,usage,format,arraySize)
 
     }
 

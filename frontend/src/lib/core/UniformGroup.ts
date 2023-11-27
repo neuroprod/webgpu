@@ -2,7 +2,8 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Texture from "../textures/Texture";
-import { SamplerBindingType, TextureViewDimension} from "../WebGPUConstants";
+import {SamplerBindingType, TextureViewDimension} from "../WebGPUConstants";
+import {getSizeForShaderType, ShaderType} from "./ShaderTypes";
 
 type Uniform = {
     name: string,
@@ -52,20 +53,24 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addUniform(name: string, value: MathArray | number, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT) {
+    addUniform(name: string, value: MathArray | number, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
         const found = this.uniforms.find((element) => element.name == name);
         if (found) {
             console.log("uniform already exist " + this.label + " " + name)
             return;
         }
         let size = 0;
-        if (typeof value == "number") {
-            size = 1;
+        if (format == ShaderType.auto) {
 
+            if (typeof value == "number") {
+                size = 1;
+
+            } else {
+                size = value.length;
+            }
         } else {
-            size = value.length;
+            size = getSizeForShaderType(format, arraySize)
         }
-
         let u = {
             name: name,
             data: value,
@@ -143,8 +148,8 @@ export default class UniformGroup extends ObjectGPU {
 
         this.updateData();
         for (let t of this.textureUniforms) {
-            if(!t.texture){
-                console.log("texture not found:",t.name,"in" ,this.label)
+            if (!t.texture) {
+                console.log("texture not found:", t.name, "in", this.label)
             }
             if (t.texture.isDirty) this.isBindGroupDirty = true;
         }
@@ -310,9 +315,9 @@ ${textureText}
             bindingCount++;
         }
         for (let t of this.samplerUniforms) {
-            let s:GPUSamplerBindingLayout={ type: SamplerBindingType.Filtering }
-            if(t.compare){
-                s= { type: SamplerBindingType.Comparison }
+            let s: GPUSamplerBindingLayout = {type: SamplerBindingType.Filtering}
+            if (t.compare) {
+                s = {type: SamplerBindingType.Comparison}
             }
             entriesLayout.push({
                 binding: bindingCount,
