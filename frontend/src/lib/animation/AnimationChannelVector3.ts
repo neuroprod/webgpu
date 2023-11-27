@@ -1,10 +1,10 @@
 import AnimationChannel from "./AnimationChannel";
 import Object3D from "../core/Object3D";
-import {Vector3} from "math.gl";
+import {Quaternion, Vector3} from "math.gl";
 
 export default class AnimationChannelVector3 extends AnimationChannel{
     private data: Array<Vector3>;
-    private result: Vector3;
+
 
     constructor(type:"translation"|"scale",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
         super(type,startTime,stopTime,interpolation,timeData,target)
@@ -24,9 +24,13 @@ export default class AnimationChannelVector3 extends AnimationChannel{
         }
 
     }
+    mix(other:Vector3,value:number){
+       (this.result as Vector3).lerp(other,value);
+
+    }
     protected setForTime() {
         let fq = this.data[this.firstIndex];
-        this.result.set(fq.x,fq.y,fq.z);
+        (this.result as Vector3).set(fq.x,fq.y,fq.z);
 
     }
 

@@ -13,7 +13,7 @@ export class FpsScreen extends Model{
         super(renderer,"fpsScreen");
         this.mesh = new Plane(renderer);
         this.material =new Material(this.renderer,this.label,new FpsShader(this.renderer,this.label));
-       
+
 
         this.material.uniforms.setTexture("text",renderer.texturesByLabel["7dig.png"])
         this.setPosition(-0.00,0.0,0.01)

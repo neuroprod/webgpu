@@ -14,7 +14,7 @@ export default class AnimationMixer{
     }
     onUI(){
         UI.pushWindow("Animation")
-       //this.mixValue =UI.LFloatSlider("mix",this.mixValue,0,1);
+       this.mixValue =UI.LFloatSlider("mix",this.mixValue,0,1);
         UI.popWindow()
     }
     update(){
@@ -33,6 +33,19 @@ export default class AnimationMixer{
         }else{
             anime1.update()
             anime2.update()
+
+            for(let i=0;i<anime1.channels.length;i++)
+            {
+               if(anime1.channels[i].target != anime2.channels[i].target){
+                   console.log("fail");
+               }
+
+                   anime1.channels[i].mix(anime2.channels[i].result,this.mixValue)
+
+
+            }
+
+            anime1.set();
 
         }
 

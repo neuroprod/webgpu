@@ -38,7 +38,28 @@ export default class Mesh extends ObjectGPU {
     setUV0(uv0: Float32Array) {
         this.createBuffer(uv0, "aUV0");
     }
+    setWeights(weights: Float32Array) {
+        this.createBuffer(weights, "aWeights");
+    }
+    setJoints(data:Uint32Array) {
+        this.createBufferI(data, "aJoints");
+    }
+    createBufferI(data:Uint32Array, name: string) {
 
+        const buffer = this.device.createBuffer({
+            size: data.byteLength,
+            usage: GPUBufferUsage.VERTEX,
+            mappedAtCreation: true,
+        });
+        const dst = new Uint32Array(buffer.getMappedRange());
+        dst.set(data);
+
+        buffer.unmap();
+        buffer.label = "vertexBuffer_" + this.label + "_" + name;
+
+        this.buffers.push(buffer);
+        this.bufferMap.set(name, buffer);
+    }
     createBuffer(data: Float32Array, name: string) {
 
         const buffer = this.device.createBuffer({

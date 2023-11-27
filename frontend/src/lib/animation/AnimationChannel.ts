@@ -1,4 +1,5 @@
 import Object3D from "../core/Object3D";
+import {Quaternion, Vector3} from "math.gl";
 
 export default class AnimationChannel{
     type: "translation"|"rotation"|"scale";
@@ -6,9 +7,10 @@ export default class AnimationChannel{
     stopTime:number;
     private interpolation: "STEP" | "LINEAR";
     private timeData: Array<number>;
-    protected target: Object3D;
+    public target: Object3D;
     private hasAnime: boolean=true;
     protected firstIndex: number;
+    public result:Quaternion|Vector3;
     constructor(type:"translation"|"rotation"|"scale",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
         this.type =type;
         this.startTime =startTime;
@@ -22,7 +24,9 @@ export default class AnimationChannel{
 
         }
     }
+    mix(other:Vector3|Quaternion,value:number){
 
+    }
     setTime(t: number) {
         if(!this.hasAnime)return;
         for(let i =0;i<this.timeData.length;i++){

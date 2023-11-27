@@ -259,7 +259,7 @@ export default class GLFTLoader {
             //5126 float
             //5123 ushort
             //5125  uint
-
+            //5121 ubyte
             let accessorIndices = this.accessors[primitive.indices]
             let indexData = this.getSlize(accessorIndices);
 
@@ -294,6 +294,21 @@ export default class GLFTLoader {
                 let tangentData = this.getSlize(tangentAccessor);
                 mesh.setTangents(new Float32Array(tangentData));
             }
+
+            if (primitive.attributes.WEIGHTS_0) {
+                let weightAccessor = this.accessors[primitive.attributes.WEIGHTS_0];
+                let weightData = this.getSlize(weightAccessor); //bytes
+
+                mesh.setWeights(new Float32Array(weightData));
+
+            }
+            if (primitive.attributes.JOINTS_0){
+                let jointAccessor = this.accessors[primitive.attributes.JOINTS_0];
+                let jointData = this.getSlize( jointAccessor);
+               let data = new Uint32Array(new Int8Array(jointData));
+               mesh.setJoints(data);
+            }
+
             this.meshes.push(mesh);
 
 

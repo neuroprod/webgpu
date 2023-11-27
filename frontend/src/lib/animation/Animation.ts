@@ -5,7 +5,7 @@ import Timer from "../Timer";
 
 export default class Animation extends ObjectGPU
 {
-    private channels: Array<AnimationChannel>=[] ;
+    public channels: Array<AnimationChannel>=[] ;
     private startTime :number=Number.MAX_VALUE;
     private stopTime :number=Number.MIN_VALUE;
     private time:number =0;
