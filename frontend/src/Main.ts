@@ -37,6 +37,7 @@ import MainLight from "./MainLight";
 
 import TransformDebugger from "./lib/animation/TransformDebugger";
 import AnimationMixer from "./lib/animation/AnimationMixer";
+import CharacterHandler from "./CharacterHandler";
 
 
 export default class Main {
@@ -76,9 +77,9 @@ export default class Main {
 
     private centerRightHolder: Object3D;
     private glFTLoaderChar: GLFTLoader;
-    private transformDebugger: TransformDebugger;
+    //private transformDebugger: TransformDebugger;
     private animationMixer: AnimationMixer;
-
+private characterHandler:CharacterHandler;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -156,18 +157,19 @@ export default class Main {
 
         }
 
-        // this.glFTLoaderChar.root.setPosition(0, -1.5, 0);
 
 
         for (let m of this.glFTLoaderChar.models) {
             this.gBufferPass.modelRenderer.addModel(m)
 
 
-          // this.glFTLoaderChar.root.addChild(m)
         }
 
         this.animationMixer = new AnimationMixer()
         this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
+
+
+        this.characterHandler =new CharacterHandler(this.renderer,this.camera, this.glFTLoaderChar.root,this.animationMixer)
        // this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
 
@@ -223,6 +225,10 @@ export default class Main {
     }
 
     private update() {
+
+
+        this.characterHandler.update( this.mouseListener.mousePos.clone(),this.mouseListener.isDownThisFrame)
+
         this.animationMixer.update();
 
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
@@ -230,7 +236,7 @@ export default class Main {
         this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.glFTLoaderChar.root.setPosition(1, -1.5, -1);
+
 
         this.updateCamera();
         this.mill.update();

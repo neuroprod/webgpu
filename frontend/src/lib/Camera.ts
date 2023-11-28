@@ -16,8 +16,10 @@ export default class Camera extends UniformGroup {
     private view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
     private viewProjection: Matrix4 = new Matrix4();
-    private viewProjectionInv!: Matrix4;
+   public viewProjectionInv!: Matrix4;
 
+    public viewInv!: Matrix4;
+    public projectionInv!: Matrix4;
 
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
@@ -101,6 +103,13 @@ export default class Camera extends UniformGroup {
             center: this.cameraLookAt,
             up: this.cameraUp,
         });
+        this.viewInv = this.view.clone();
+        this.viewInv.invert();
+
+        this.projectionInv = this.projection.clone();
+        this.projectionInv.invert();
+
+
         this.viewProjection.identity();
         this.viewProjection.multiplyRight(this.projection);
         this.viewProjection.multiplyRight(this.view);

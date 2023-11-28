@@ -13,7 +13,8 @@ export default class Mill{
         this.millBed =mill.children[0];
         this.millHead =mill.children[2];
 
-        this.tl = gsap.timeline({repeat: 1000, repeatDelay: 1});
+        this.tl = gsap.timeline({repeat: -1, repeatDelay: 1,});
+        this.tl.timeScale(3);
         this.tl.to(this,{"headPos":0.0,ease: "sine.inOut"})
         this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut"},">")
         this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
