@@ -11,6 +11,7 @@ import Camera from "./Camera";
 import Model from "./model/Model";
 import {IResizable} from "./IResizable";
 import {Vector2} from "math.gl";
+import Skin from "./animation/Skin";
 
 export default class Renderer {
     public device: GPUDevice;
@@ -36,6 +37,7 @@ export default class Renderer {
     private first: boolean = true;
     private resizables:Array<IResizable>=[];
     public pixelRatio: number;
+    public skin: Skin;
     constructor() {
     }
 

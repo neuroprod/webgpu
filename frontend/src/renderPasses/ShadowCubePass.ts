@@ -8,6 +8,7 @@ import ModelRenderer from "../lib/model/ModelRenderer";
 import Model from "../lib/model/Model";
 import Material from "../lib/core/Material";
 import DepthShader from "../shaders/DepthShader";
+import DepthSkinShader from "../shaders/DepthSkinShader";
 
 
 
@@ -17,6 +18,7 @@ export default class ShadowCubePass extends RenderPass {
     private camera: any;
     models: Array<Model>;
     private material: Material;
+    private materialSkin: Material;
 
 
 
@@ -27,10 +29,12 @@ export default class ShadowCubePass extends RenderPass {
 
         super(renderer, "ShadowCubePass");
 
-       this.material =new Material(this.renderer,"shadowCube",new DepthShader(this.renderer,"depthshader"))
-
-
-        this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index})];
+       this.material =new Material(this.renderer,"shadowCube",new DepthShader(this.renderer,"depthShader"))
+       if(this.renderer.skin) {
+           this.materialSkin = new Material(this.renderer, "shadowCubeSkin", new DepthSkinShader(this.renderer, "depthSkinShader"))
+           this.materialSkin.skin = this.renderer.skin;
+       }
+       this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index})];
         this.depthStencilAttachment = new DepthStencilAttachment(depthTexture,{arrayLayerCount:1,baseArrayLayer:index});
         this.camera =camera;
 
@@ -43,23 +47,37 @@ export default class ShadowCubePass extends RenderPass {
 
         passEncoder.setBindGroup(0,this.camera.bindGroup);
         this.material.makePipeLine(this);
-
-        passEncoder.setPipeline(this.material.pipeLine);
+        this.materialSkin.makePipeLine(this);
+        //passEncoder.setPipeline(this.material.pipeLine);
 
         for (let model of this.models) {
             if(!model.visible)continue
             if(!model.castShadow)continue
 
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
-
-
-
-            for (let attribute of this.material.shader.attributes) {
-                passEncoder.setVertexBuffer(
-                    attribute.slot,
-                    model.mesh.getBufferByName(attribute.name)
-                );
+            if(model.material.skin != undefined){
+                passEncoder.setPipeline(this.materialSkin.pipeLine);
+                passEncoder.setBindGroup(2,model.material.skin.bindGroup);
+                for (let attribute of this.materialSkin.shader.attributes) {
+                    passEncoder.setVertexBuffer(
+                        attribute.slot,
+                        model.mesh.getBufferByName(attribute.name)
+                    );
+                }
+            }else{
+                passEncoder.setPipeline(this.material.pipeLine);
+                for (let attribute of this.material.shader.attributes) {
+                    passEncoder.setVertexBuffer(
+                        attribute.slot,
+                        model.mesh.getBufferByName(attribute.name)
+                    );
+                }
             }
+
+
+
+
+
 
             if (model.mesh.hasIndices) {
 

@@ -11,7 +11,7 @@ export default class Skin extends UniformGroup{
     private dataArray:Float32Array
     constructor(renderer:Renderer,label:string,objects:Array<Object3D>,invBindMatrices:Array<Matrix4>) {
       super(renderer,label,"skin")
-
+        this.renderer.skin = this;
         this.objects=objects;
         this.invBindMatrices =invBindMatrices;
         this.dataArray =new Float32Array(16*this.objects.length)
