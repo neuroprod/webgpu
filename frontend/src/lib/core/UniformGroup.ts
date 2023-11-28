@@ -44,6 +44,7 @@ export default class UniformGroup extends ObjectGPU {
     private nameInShader: string;
     private typeInShader: string;
     private bufferIsDirty: boolean;
+    private hasUniformBuffer: boolean = true;
 
     constructor(renderer: Renderer, label = "", nameInShader: string) {
         super(renderer, label);
@@ -165,6 +166,7 @@ export default class UniformGroup extends ObjectGPU {
         }
         if (!this.buffer) {
             this.makeBuffer();
+            this.makeBindGroupLayout()
             this.updateBindGroup()
         } else {
             if (this.isBufferDirty) this.updateBuffer();
@@ -191,8 +193,23 @@ export default class UniformGroup extends ObjectGPU {
 
     getShaderText(id: number) {
 
+
+        let bindingCount = 0
+
+        let a = ""
+        if (this.hasUniformBuffer) {
+            bindingCount++;
+            a +=  /* wgsl */ `      
+struct ${this.typeInShader}
+{
+    ${this.getUniformStruct()}
+}
+@group(${id}) @binding(0)  var<uniform> ${this.nameInShader} : ${this.typeInShader} ;
+`;
+        }
+
+
         let textureText = ""
-        let bindingCount = 1
         if (this.textureUniforms.length) {
             for (let s of this.textureUniforms) {
                 let textureType = ""
@@ -238,69 +255,24 @@ export default class UniformGroup extends ObjectGPU {
             }
 
         }
-        let a =  /* wgsl */ `      
-struct ${this.typeInShader}
-{
-    ${this.getUniformStruct()}
-}
-@group(${id}) @binding(0)  var<uniform> ${this.nameInShader} : ${this.typeInShader} ;
-${textureText}
+        a += textureText
 
-`;
 
         return a;
     }
 
-    protected updateData() {
+    makeBindGroupLayout() {
 
-    }
-
-    private makeBuffer() {
-        let dataSize = 0;
-
-        for (let u of this.uniforms) {
-
-            u.offset = dataSize;
-
-            dataSize += u.size;
-
-        }
-
-        dataSize = Math.ceil(dataSize / 16) * 16
-
-        this.bufferData = new Float32Array(dataSize);
-        for (let u of this.uniforms) {
-            if (u.size == 1) {
-                this.bufferData[u.offset] = u.data as number;
-            } else {
-                this.bufferData.set(u.data as MathArray, u.offset);
-
-            }
-        }
-
-
-        this.buffer = this.device.createBuffer({
-            size: this.bufferData.byteLength,
-            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-        });
-        this.buffer.label = "uniformBuffer_" + this.label;
-
-
-        this.device.queue.writeBuffer(
-            this.buffer,
-            0,
-            this.bufferData.buffer,
-            this.bufferData.byteOffset,
-            this.bufferData.byteLength
-        );
         let bindingCount = 0;
         let entriesLayout: Array<GPUBindGroupLayoutEntry> = []
-        entriesLayout.push({
-            binding: bindingCount,
-            visibility: this.visibility,
-            buffer: {},
-        })
-        bindingCount++;
+        if (this.hasUniformBuffer) {
+            entriesLayout.push({
+                binding: bindingCount,
+                visibility: this.visibility,
+                buffer: {},
+            })
+            bindingCount++;
+        }
         for (let t of this.textureUniforms) {
             entriesLayout.push({
                 binding: bindingCount,
@@ -338,20 +310,69 @@ ${textureText}
 
     }
 
+    protected updateData() {
+
+    }
+
+    private makeBuffer() {
+        let dataSize = 0;
+        if (this.uniforms.length == 0) {
+            this.hasUniformBuffer = false;
+            return
+        }
+        for (let u of this.uniforms) {
+
+            u.offset = dataSize;
+
+            dataSize += u.size;
+
+        }
+
+        dataSize = Math.ceil(dataSize / 16) * 16
+
+        this.bufferData = new Float32Array(dataSize);
+        for (let u of this.uniforms) {
+            if (u.size == 1) {
+                this.bufferData[u.offset] = u.data as number;
+            } else {
+                this.bufferData.set(u.data as MathArray, u.offset);
+
+            }
+        }
+
+
+        this.buffer = this.device.createBuffer({
+            size: this.bufferData.byteLength,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+        });
+        this.buffer.label = "uniformBuffer_" + this.label;
+
+
+        this.device.queue.writeBuffer(
+            this.buffer,
+            0,
+            this.bufferData.buffer,
+            this.bufferData.byteOffset,
+            this.bufferData.byteLength
+        );
+
+    }
+
     private updateBindGroup() {
 
         let entries: Array<GPUBindGroupEntry> = []
         let bindingCount = 0;
-        entries.push(
-            {
-                binding: bindingCount,
-                resource: {
-                    buffer: this.buffer,
-                },
-            }
-        )
-        bindingCount++;
-
+        if (this.hasUniformBuffer) {
+            entries.push(
+                {
+                    binding: bindingCount,
+                    resource: {
+                        buffer: this.buffer,
+                    },
+                }
+            )
+            bindingCount++;
+        }
         for (let t of this.textureUniforms) {
             entries.push(
                 {

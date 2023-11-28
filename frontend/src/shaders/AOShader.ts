@@ -109,22 +109,25 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
      for (var i: i32 = 0; i < s; i++) {
         let samplePos3D = (TBN*(kernel[i])*uniforms.radius)+world.xyz;
  
-        let posDistance  =distance(samplePos3D,camera.worldPosition.xyz);
+       
         let pos2D = camera.viewProjectionMatrix*vec4f(  samplePos3D,1.0);
+        let posZ =pos2D.z/pos2D.w;
         var uvSample = pos2D.xy;
         uvSample/=pos2D.w*2.0;
         uvSample+=vec2f(0.5);
         uvSample.y = 1.0- uvSample.y ;
         let uvK =  vec2<i32>(floor(uvSample*textureSize));
+        let d =textureLoad(gDepth,   uvK,0).x;
        
-        let positionKernel=getWorldFromUVDepth(uvSample,textureLoad(gDepth,   uvK,0).x);
+    if(d>posZ){continue;}
+        let positionKernel=getWorldFromUVDepth(uvSample,d);
       
         
         let kernelDistance = distance(positionKernel,world);
         if(kernelDistance>uniforms.radius) {
-          continue;
+         continue;
           }
-         
+          let posDistance  =distance(samplePos3D,camera.worldPosition.xyz);
          let sampleDistance  =distance(positionKernel,camera.worldPosition.xyz);
          let dif = posDistance-sampleDistance;
         if(dif>0.01){

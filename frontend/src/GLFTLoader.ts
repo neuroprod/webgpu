@@ -13,11 +13,17 @@ import Animation from "./lib/animation/Animation";
 import AnimationChannelQuaternion from "./lib/animation/AnimationChannelQuaternion";
 import AnimationChannelVector3 from "./lib/animation/AnimationChannelVector3";
 import Skin from "./lib/animation/Skin";
+import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
 
 
 type Accessor = {
     accessor: any;
     bufferView: any;
+}
+type ModelData = {
+    model: Model;
+    meshID: number;
+    skinID:number
 }
 
 
@@ -26,11 +32,14 @@ export default class GLFTLoader {
     public models: Array<Model> = []
     public modelsGlass: Array<Model> = []
     public modelsByName: { [name: string]: Model } = {};
+
+    public modelData:Array<ModelData>=[];
+
     public objects: Array<Object3D> = []
     public objectsByID: { [id: number]: Object3D } = {};
     public objectsByName: { [name: string]: Object3D } = {};
     public meshes: Array<Mesh> = []
-    public materials: Array<Material> = []
+
 
     private meshBuffer: SharedArrayBuffer | ArrayBuffer;
     private byteLength: any;
@@ -43,12 +52,14 @@ export default class GLFTLoader {
     private url: string;
     public animations: Array<Animation> = []
     private skins:  Array<Skin> = [];
+    private skinShader: GBufferShaderSkin;
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
         this.renderer = renderer;
 
         this.root = new Object3D(renderer, "sceneRoot");
+        this.skinShader  = new GBufferShaderSkin(this.renderer, "gBufferShaderSkin");
         this.mainShader = new GBufferShader(this.renderer, "gBufferShader");
         this.glassShader = new GlassShader(this.renderer, "glassShader");
         this.url = url;
@@ -72,15 +83,53 @@ export default class GLFTLoader {
 
         // this.makeBuffer()
         console.log(this.json)
-        this.parseMeshAccessors()
+        this.parseAccessors()
         this.parseMeshes();
         this.parseScene();
         this.parseAnimations();
         this.parseSkin();
+        this.makeModels();
     }
 
+    private makeModels(){
+        for(let m of this.modelData){
+            m.model.mesh = this.meshes[m.meshID]
+            m.model.material = this.makeMaterial( m.model.label,m.skinID) //this.materials[m.meshID]
+            if ( m.model.label.includes("_G")) {
+                 this.modelsGlass.push(m.model);
+            } else {
+                this.models.push(m.model);
+            }
+        }
+    }
+    private makeMaterial(name: string,skinID:number) {
+        let material: Material;
+        if (name.includes("_G")) {
+            material = new Material(this.renderer, name, this.glassShader);
+            material.depthWrite = false;
+
+        } else if(skinID!=undefined){
+            material = new Material(this.renderer, name, this.skinShader);
+          
+        }
+        else {
+            material = new Material(this.renderer, name, this.mainShader);
+        }
 
 
+        let colorTexture = ImagePreloader.getTexture(name + "_Color");
+        if (colorTexture) material.uniforms.setTexture("colorTexture", colorTexture)
+
+        let normalTexture = ImagePreloader.getTexture(name + "_Normal");
+        if (normalTexture) material.uniforms.setTexture("normalTexture", normalTexture)
+
+        let mraTexture = ImagePreloader.getTexture(name + "_MRA");
+        if (mraTexture) material.uniforms.setTexture("mraTexture", mraTexture)
+
+        return material;
+
+
+    }
     private parseAnimations() {
         // for(an)
         if (!this.json.animations) return;
@@ -111,19 +160,6 @@ export default class GLFTLoader {
                     an.addChannel(channel);
                 }
 
-
-//channel.timeData
-                // console.log(c.target.path,this.objects[c.target.node].label ,sampler.interpolation);
-
-                //console.log(this.accessors[sampler.input].accessor.min[0],this.accessors[sampler.input].accessor.max[0])
-                // channel.target =this.objects[c.target.node]
-                //channel.timeData = this.getAnimationData(this.accessors[sampler.input],"time");
-                //channel.data=this.getAnimationData(this.accessors[sampler.output],c.target.path);
-
-                //an.addChannel(channel);
-                // console.log("time",timeData)
-                //  console.log("data",dData)
-                // console.log("/////////////")
             }
             an.init();
             this.animations.push(an);
@@ -165,15 +201,11 @@ export default class GLFTLoader {
             let nodeData = this.json.nodes[nodeID];
             let node;
             if (nodeData.mesh != undefined) {
-                node = new Model(this.renderer, nodeData.name)
-                node.mesh = this.meshes[nodeData.mesh]
-                node.material = this.materials[nodeData.mesh]
-                if (nodeData.name.includes("_G")) {
-                    this.modelsGlass.push(node);
-                } else {
 
-                    this.models.push(node);
-                }
+
+                node = new Model(this.renderer, nodeData.name)
+                this.modelData.push({model:node,skinID:nodeData.skin,meshID:nodeData.mesh})
+
                 this.modelsByName[node.label] = node;
             } else {
                 node = new Object3D(this.renderer, nodeData.name)
@@ -213,7 +245,7 @@ export default class GLFTLoader {
 
     }
 
-    private parseMeshAccessors() {
+    private parseAccessors() {
         for (let accessor of this.json.accessors) {
 
             let bufferView = this.json.bufferViews[accessor.bufferView];
@@ -222,29 +254,7 @@ export default class GLFTLoader {
         }
     }
 
-    private makeMaterial(name: string) {
-        let material: Material;
-        if (name.includes("_G")) {
-            material = new Material(this.renderer, name, this.glassShader);
-            material.depthWrite = false;
 
-        } else {
-            material = new Material(this.renderer, name, this.mainShader);
-        }
-
-
-        let colorTexture = ImagePreloader.getTexture(name + "_Color");
-        if (colorTexture) material.uniforms.setTexture("colorTexture", colorTexture)
-
-        let normalTexture = ImagePreloader.getTexture(name + "_Normal");
-        if (normalTexture) material.uniforms.setTexture("normalTexture", normalTexture)
-
-        let mraTexture = ImagePreloader.getTexture(name + "_MRA");
-        if (mraTexture) material.uniforms.setTexture("mraTexture", mraTexture)
-
-
-        this.materials.push(material)
-    }
 
     private parseMeshes() {
 
@@ -252,7 +262,7 @@ export default class GLFTLoader {
             let primitive = m.primitives[0];
 
 
-            this.makeMaterial(m.name)
+
 
             let mesh = new Mesh(this.renderer, m.name);
 

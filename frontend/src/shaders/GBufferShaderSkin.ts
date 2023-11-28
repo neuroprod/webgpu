@@ -17,8 +17,8 @@ export default class GBufferShaderSkin extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
-
+       // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
+        //this.addUniform("skinMatrices",0);
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
@@ -26,6 +26,7 @@ export default class GBufferShaderSkin extends Shader{
 
         this.needsTransform =true;
         this.needsCamera=true;
+        this.logShaderCode =true;
     }
     getShaderCode(): string {
         return /* wgsl */ `
