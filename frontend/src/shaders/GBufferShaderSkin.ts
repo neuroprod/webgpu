@@ -27,7 +27,7 @@ export default class GBufferShaderSkin extends Shader{
 
         this.needsTransform =true;
         this.needsCamera=true;
-        this.logShaderCode =true;
+
     }
     getShaderCode(): string {
         return /* wgsl */ `

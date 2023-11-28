@@ -15,7 +15,10 @@ export default class AnimationChannelQuaternion extends AnimationChannel{
 //console.log(this.target.label,this.result)
     }
     protected setForTime() {
-        let fq = this.data[this.firstIndex];
+        let fq = this.data[this.firstIndex].clone();
+        if(this.mixValue>0){
+            fq.slerp(this.data[this.nextIndex],this.mixValue)
+        }
         this.result.set(fq.x,fq.y,fq.z,fq.w);
 
     }

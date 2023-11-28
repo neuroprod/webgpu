@@ -9,8 +9,11 @@ export default class AnimationChannel{
     private timeData: Array<number>;
     public target: Object3D;
     private hasAnime: boolean=true;
-    protected firstIndex: number;
+
     public result:Quaternion|Vector3;
+    protected nextIndex: number;
+    protected firstIndex: number;
+    protected  mixValue :number=-1;
     constructor(type:"translation"|"rotation"|"scale",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
         this.type =type;
         this.startTime =startTime;
@@ -18,10 +21,10 @@ export default class AnimationChannel{
         this.interpolation =interpolation;
         this.timeData =timeData;
         this.target=target;
-        if(this.timeData.length==2 && this.interpolation=="STEP"){
+        if(this.timeData.length==2  ){
              this.hasAnime =false;
         }else{
-
+///console.log(timeData)
         }
     }
     mix(other:Vector3|Quaternion,value:number){
@@ -29,9 +32,17 @@ export default class AnimationChannel{
     }
     setTime(t: number) {
         if(!this.hasAnime)return;
-        for(let i =0;i<this.timeData.length;i++){
-            if(this.timeData[i]>t){
-                this.firstIndex =i;
+        for(let i =1;i<this.timeData.length;i++){
+            if(t<this.timeData[i]){
+                this.firstIndex =i-1;
+                if(this.interpolation== "LINEAR"){
+                    this.nextIndex =i;
+                    let timeLength =this.timeData[this.nextIndex]- this.timeData[this.firstIndex] ;
+                    let timeStep = t-this.timeData[this.firstIndex];
+                    this.mixValue = timeStep/timeLength;
+
+                }
+
                 break;
             }
         }

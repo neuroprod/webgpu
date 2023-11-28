@@ -51,7 +51,7 @@ export default class CharacterHandler {
         this.floorHitIndicator.visible =this.floorHit
 
         this.animationMixer.update();
-     this.characterRoot.setPosition(this.charPos.x,this.charPos.y,this.charPos.z)
+        this.characterRoot.setPosition(this.charPos.x,this.charPos.y,this.charPos.z)
         this.characterRoot.setEuler(0,this.characterRot,0)
 
     }
@@ -104,13 +104,13 @@ export default class CharacterHandler {
         this.tl = gsap.timeline({});
         let pos =0
 
-        this.tl.call(()=>{ this.animationMixer.setAnimation("walking",0)    },[],pos)
+       this.tl.call(()=>{ this.animationMixer.setAnimation("walking",0)    },[],pos)
         this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
         this.tl.to(this,{"characterRot":angle,duration:0.5,ease: "none"},pos)
 
         pos+=0.3;
         let duration =dist*0.8;
-        this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
+      this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
 
         pos+=duration;
 
