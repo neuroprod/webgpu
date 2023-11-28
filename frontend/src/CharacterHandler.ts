@@ -3,6 +3,7 @@ import Renderer from "./lib/Renderer";
 import Camera from "./lib/Camera";
 import AnimationMixer from "./lib/animation/AnimationMixer";
 import Object3D from "./lib/core/Object3D";
+import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 
 
 
@@ -15,6 +16,7 @@ export default class CharacterHandler {
     private floorPos:Vector3 =new Vector3(0,-1.5,0);
     private up:Vector3 =new Vector3(0,1,0);
     private floorPlane:Vector3 =new Vector3(0,-1.5,0);
+    public floorHitIndicator: FloorHitIndicator;
     constructor(renderer: Renderer, camera: Camera, characterRoot:Object3D, animationMixer: AnimationMixer) {
         this.renderer = renderer;
         this.camera = camera;
@@ -22,6 +24,7 @@ export default class CharacterHandler {
         this.characterRoot =characterRoot;
 
         this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
+        this.floorHitIndicator =new FloorHitIndicator(this.renderer)
     }
 
     update(mousePos: Vector2, down: boolean) {
@@ -30,7 +33,11 @@ export default class CharacterHandler {
 
         if(this.floorHit){
             this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
+
+            this.floorHitIndicator.setPosition(this.floorPos.x,this.floorPos.y+0.01,this.floorPos.z)
+
         }
+        this.floorHitIndicator.visible =this.floorHit
     }
 
     private setMouseFloorPos(mousePos: Vector2) {

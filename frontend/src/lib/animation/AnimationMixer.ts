@@ -11,6 +11,7 @@ export default class AnimationMixer{
     }
     setAnimations(animations:Array<Animation>){
         this.animations =animations;
+        console.log(this.animations)
     }
     onUI(){
         UI.pushWindow("Animation")

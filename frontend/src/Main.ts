@@ -170,7 +170,7 @@ private characterHandler:CharacterHandler;
 
 
         this.characterHandler =new CharacterHandler(this.renderer,this.camera, this.glFTLoaderChar.root,this.animationMixer)
-       // this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
+        this.gBufferPass.modelRenderer.addModel( this.characterHandler.floorHitIndicator);
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
 
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);

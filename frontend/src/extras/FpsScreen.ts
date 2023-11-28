@@ -2,10 +2,10 @@ import Object3D from "../lib/core/Object3D";
 import Model from "../lib/model/Model";
 import Material from "../lib/core/Material";
 import Plane from "../lib/meshes/Plane";
-import LaptopScreenShader from "./LaptopScreenShader";
+
 import Timer from "../lib/Timer";
 import FpsShader from "./FpsShader";
-import {Vector3, Vector4} from "math.gl";
+import { Vector4} from "math.gl";
 
 export class FpsScreen extends Model{
     private didgits =new Vector4();
