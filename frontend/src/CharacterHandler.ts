@@ -113,8 +113,9 @@ export default class CharacterHandler {
       this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
 
         pos+=duration;
-
-      this.tl.call(()=>{ this.animationMixer.setAnimation("idle",0);},[],pos)
+      let nextAnime = "idle"
+if(Math.random()>0.7)nextAnime ="bored"
+      this.tl.call(()=>{ this.animationMixer.setAnimation(nextAnime ,0);},[],pos)
         this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
        this.tl.to(this,{"characterRot":0 ,duration:0.5,ease: "none"},pos)
 
