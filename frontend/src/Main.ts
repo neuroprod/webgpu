@@ -157,9 +157,8 @@ export default class Main {
         }
 
         // this.glFTLoaderChar.root.setPosition(0, -1.5, 0);
-      /* let arm = this.glFTLoaderChar.objectsByName["Armature"];
-      arm.setScale(1,1,1)
-        arm.setRotation(0,0,0,0)*/
+
+
         for (let m of this.glFTLoaderChar.models) {
             this.gBufferPass.modelRenderer.addModel(m)
 
@@ -169,7 +168,7 @@ export default class Main {
 
         this.animationMixer = new AnimationMixer()
         this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
-        this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
+       // this.transformDebugger =new TransformDebugger(this.renderer, this.gBufferPass.modelRenderer,this.glFTLoaderChar.root.children[0]);
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
 
         this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
@@ -231,7 +230,7 @@ export default class Main {
         this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.glFTLoaderChar.root.setPosition(0, -1.5, -1);
+        this.glFTLoaderChar.root.setPosition(1, -1.5, -1);
 
         this.updateCamera();
         this.mill.update();

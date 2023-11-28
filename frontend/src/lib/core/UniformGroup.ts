@@ -8,7 +8,7 @@ import {getSizeForShaderType, ShaderType} from "./ShaderTypes";
 type Uniform = {
     name: string,
     size: number,
-    data: MathArray | number,
+    data: MathArray | number | Float32Array,
     offset: number,
     usage: GPUShaderStageFlags,
     dirty: boolean
@@ -54,7 +54,7 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addUniform(name: string, value: MathArray | number, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
+    addUniform(name: string, value: MathArray | number | Float32Array, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
         const found = this.uniforms.find((element) => element.name == name);
         if (found) {
             console.log("uniform already exist " + this.label + " " + name)
@@ -110,7 +110,7 @@ export default class UniformGroup extends ObjectGPU {
         //this.samplerUniforms.push({name:name,sampler:sampler,usage:GPUShaderStage.FRAGMENT})
     }
 
-    setUniform(name: string, value: MathArray | number) {
+    setUniform(name: string, value:Float32Array | MathArray | number) {
         const found = this.uniforms.find((element) => element.name == name);
 
         if (found) {
@@ -121,7 +121,7 @@ export default class UniformGroup extends ObjectGPU {
                 if (found.size == 1) {
                     this.bufferData[found.offset] = found.data as number;
                 } else {
-                    this.bufferData.set(found.data as MathArray, found.offset)
+                    this.bufferData.set(found.data as ArrayLike<number>, found.offset)
 
                 }
 

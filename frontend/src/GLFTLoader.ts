@@ -110,7 +110,7 @@ export default class GLFTLoader {
 
         } else if(skinID!=undefined){
             material = new Material(this.renderer, name, this.skinShader);
-          
+            material.skin = this.skins[skinID];
         }
         else {
             material = new Material(this.renderer, name, this.mainShader);
@@ -349,7 +349,7 @@ export default class GLFTLoader {
             let convData =new Float32Array(data)
             let inverseMatrixes = this.toMatrixData(convData)
 
-            let skin=new Skin(s.name,nodeArray,inverseMatrixes)
+            let skin=new Skin(this.renderer,s.name,nodeArray,inverseMatrixes)
             this.skins.push(skin);
         }
 console.log(this.skins);

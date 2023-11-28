@@ -15,10 +15,11 @@ export default class GBufferShaderSkin extends Shader{
             this.addAttribute("aNormal", ShaderType.vec3);
             this.addAttribute("aTangent",ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
-
+            this.addAttribute("aWeights", ShaderType.vec4);
+            this.addAttribute("aJoints", ShaderType.vec4i);
         }
        // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
-        //this.addUniform("skinMatrices",0);
+        this.addUniform("skinMatrices",0);
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
@@ -51,18 +52,32 @@ struct GBufferOutput {
 ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
 ${this.getShaderUniforms(2)}
+struct Skin
+{
+    matrices : array<mat4x4<f32>,49>
+}
+@group(3) @binding(0)  var<uniform> skin : Skin ;
+
+
+
 
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
     
-    output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
+    var skinMatrix = skin.matrices[aJoints.x]*aWeights.x;
+    skinMatrix+= skin.matrices[aJoints.y]*aWeights.y;
+    skinMatrix+= skin.matrices[aJoints.z]*aWeights.z;
+   skinMatrix+= skin.matrices[aJoints.w]*aWeights.w;
+    
+    output.position =camera.viewProjectionMatrix*skinMatrix *vec4( aPos,1.0);
     output.uv0 =aUV0;
 
-    output.normal =model.normalMatrix *aNormal;
-    output.tangent =model.normalMatrix*aTangent.xyz;
-     output.biTangent =model.normalMatrix* (normalize(cross( normalize(aTangent.xyz), normalize(aNormal)))*aTangent.w);
+    output.normal =(skinMatrix *vec4(aNormal,0.0)).xyz;
+    output.tangent =(skinMatrix *vec4(aTangent.xyz,0.0)).xyz;
+    let bitangent = (normalize(cross( normalize(aTangent.xyz), normalize(aNormal)))*aTangent.w);
+     output.biTangent =(skinMatrix *vec4(bitangent,0.0)).xyz;;
     return output;
 }
 

@@ -24,10 +24,11 @@ export default class ModelRenderer{
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);
-
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
             passEncoder.setBindGroup(2,model.material.uniforms.bindGroup);
-
+            if(model.material.skin){
+                passEncoder.setBindGroup(3,model.material.skin.bindGroup);
+            }
 
             for (let attribute of model.material.shader.attributes) {
                 let buffer  = model.mesh.getBufferByName(attribute.name);
