@@ -109,7 +109,7 @@ export default class CharacterHandler {
         this.tl.to(this,{"characterRot":angle,duration:0.5,ease: "none"},pos)
 
         pos+=0.3;
-        let duration =dist*0.8;
+        let duration =dist*0.75;
       this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
 
         pos+=duration;

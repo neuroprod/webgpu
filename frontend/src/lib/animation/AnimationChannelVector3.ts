@@ -29,7 +29,12 @@ export default class AnimationChannelVector3 extends AnimationChannel{
 
     }
     protected setForTime() {
-        let fq = this.data[this.firstIndex];
+        let fq = this.data[this.firstIndex].clone();
+        if(this.mixValue>0){
+
+            fq.lerp(this.data[this.nextIndex],this.mixValue)
+        }
+
         (this.result as Vector3).set(fq.x,fq.y,fq.z);
 
     }

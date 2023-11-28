@@ -25,6 +25,7 @@ export default class AnimationChannel{
              this.hasAnime =false;
         }else{
 ///console.log(timeData)
+           // if(this.type=="translation"){console.log("trans",this.timeData.length)}
         }
     }
     mix(other:Vector3|Quaternion,value:number){
