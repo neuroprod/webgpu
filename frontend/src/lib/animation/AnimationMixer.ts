@@ -1,54 +1,71 @@
 
 import Animation from "./Animation";
 import UI from "../UI/UI";
+import Texture from "../textures/Texture";
 export default class AnimationMixer{
     private animations: Array<Animation>;
-    private mixValue: number=0;
-    private animation1:number=0;
-    private animation2:number =1;
+    private animationsByName: { [name: string]: Animation } = {};
+    public mixValue: number=1;
+
+    private anime1:Animation;
+    private anime2:Animation;
     constructor() {
 
     }
     setAnimations(animations:Array<Animation>){
         this.animations =animations;
-        console.log(this.animations)
+        for(let a of this.animations){
+            this.animationsByName[a.label] =a;
+            console.log(a.label);
+        }
+        this.anime1 =this.animationsByName["idle"]
+        this.anime2 =this.animationsByName["idle"]
+
     }
     onUI(){
-        UI.pushWindow("Animation")
-       this.mixValue =UI.LFloatSlider("mix",this.mixValue,0,1);
-        UI.popWindow()
+        //UI.pushWindow("Animation")
+     //  this.mixValue =UI.LFloatSlider("mix",this.mixValue,0,1);
+       // UI.popWindow()
     }
     update(){
-        let anime1 = this.animations[this.animation1]
-        let anime2 = this.animations[this.animation2]
+
 
         if(this.mixValue<0.01){
-            anime1.update()
+            this.anime1.update()
 
-            anime1.set();
+            this.anime1.set();
 
         } else if(this.mixValue>0.99){
-            anime2.update()
-            anime2.set();
+            this.anime2.update()
+            this.anime2.set();
 
         }else{
-            anime1.update()
-            anime2.update()
+            this.anime1.update()
+            this.anime2.update()
 
-            for(let i=0;i<anime1.channels.length;i++)
+            for(let i=0;i<  this.anime1.channels.length;i++)
             {
-               if(anime1.channels[i].target != anime2.channels[i].target){
+               if(  this.anime1.channels[i].target !=   this.anime2.channels[i].target){
                    console.log("fail");
                }
 
-                   anime1.channels[i].mix(anime2.channels[i].result,this.mixValue)
+                this. anime1.channels[i].mix(  this.anime2.channels[i].result,this.mixValue)
 
 
             }
 
-            anime1.set();
+            this.anime1.set();
 
         }
+
+    }
+
+    setAnimation(name: string,startTime =0) {
+        this.anime1 =  this.anime2
+       this.anime2 =this.animationsByName[name]
+        this.anime2.time
+        this.mixValue =0;
+       // this.animation2 = this.getAnimationIndexByName()
 
     }
 }

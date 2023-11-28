@@ -5,6 +5,9 @@ import AnimationMixer from "./lib/animation/AnimationMixer";
 import Object3D from "./lib/core/Object3D";
 import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 
+import gsap from "gsap";
+import Timeline from "gsap";
+
 
 
 export default class CharacterHandler {
@@ -17,13 +20,18 @@ export default class CharacterHandler {
     private up:Vector3 =new Vector3(0,1,0);
     private floorPlane:Vector3 =new Vector3(0,-1.5,0);
     public floorHitIndicator: FloorHitIndicator;
+
+    private charPos:Vector3  =new Vector3(1,-1.5,-1);
+    // @ts-ignore
+    private tl :Timeline;
+    private characterRot: number =0;
     constructor(renderer: Renderer, camera: Camera, characterRoot:Object3D, animationMixer: AnimationMixer) {
         this.renderer = renderer;
         this.camera = camera;
         this.animationMixer = animationMixer;
         this.characterRoot =characterRoot;
-
-        this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
+        this.animationMixer.setAnimation("idle");
+        this.characterRoot.setPosition(this.charPos.x,this.charPos.y,this.charPos.z)
         this.floorHitIndicator =new FloorHitIndicator(this.renderer)
     }
 
@@ -32,12 +40,20 @@ export default class CharacterHandler {
         this.setMouseFloorPos(mousePos.clone());
 
         if(this.floorHit){
-            this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
+          //  this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
 
             this.floorHitIndicator.setPosition(this.floorPos.x,this.floorPos.y+0.01,this.floorPos.z)
+            if(down){
+                this.moveCharToFloorHit()
 
+            }
         }
         this.floorHitIndicator.visible =this.floorHit
+
+        this.animationMixer.update();
+     this.characterRoot.setPosition(this.charPos.x,this.charPos.y,this.charPos.z)
+        this.characterRoot.setEuler(0,this.characterRot,0)
+
     }
 
     private setMouseFloorPos(mousePos: Vector2) {
@@ -76,5 +92,31 @@ export default class CharacterHandler {
 
 
         }
+    }
+
+    private moveCharToFloorHit() {
+        let dist =this.charPos.distance(this.floorPos);
+
+        let dir = this.floorPos.clone().subtract(this.charPos)
+
+        let angle = Math.atan2(dir.x,dir.z);
+        if(this.tl)this.tl.clear()
+        this.tl = gsap.timeline({});
+        let pos =0
+
+        this.tl.call(()=>{ this.animationMixer.setAnimation("walking",0)    },[],pos)
+        this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
+        this.tl.to(this,{"characterRot":angle,duration:0.5,ease: "none"},pos)
+
+        pos+=0.3;
+        let duration =dist*0.8;
+        this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
+
+        pos+=duration;
+
+      this.tl.call(()=>{ this.animationMixer.setAnimation("idle",0);},[],pos)
+        this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
+       this.tl.to(this,{"characterRot":0 ,duration:0.5,ease: "none"},pos)
+
     }
 }

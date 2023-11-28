@@ -229,7 +229,7 @@ private characterHandler:CharacterHandler;
 
         this.characterHandler.update( this.mouseListener.mousePos.clone(),this.mouseListener.isDownThisFrame)
 
-        this.animationMixer.update();
+
 
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
@@ -261,9 +261,9 @@ private characterHandler:CharacterHandler;
         RenderSettings.onUI();
         UI.popWindow()
 
-        this.animationMixer.onUI();
 
 
+        this.mouseListener.reset()
     }
     updateCamera(){
         let mp = this.mouseListener.mousePos.clone()

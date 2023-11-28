@@ -8,7 +8,7 @@ export default class Animation extends ObjectGPU
     public channels: Array<AnimationChannel>=[] ;
     private startTime :number=Number.MAX_VALUE;
     private stopTime :number=Number.MIN_VALUE;
-    private time:number =0;
+   public time:number =0;
     private totalTime: number;
     constructor(renderer:Renderer,label:string) {
         super(renderer,label)
