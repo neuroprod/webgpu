@@ -23,7 +23,7 @@ export default class DefaultTextures {
 
         let f = new Uint8ClampedArray(4);
         f[0]=0;
-        f[1]=100;
+        f[1]=180;
         f[2]=0;
         f[3]=255;
         this.mre.writeTexture(f,1,1,4);

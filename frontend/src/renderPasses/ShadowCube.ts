@@ -4,7 +4,7 @@ import RenderTexture from "../lib/textures/RenderTexture";
 import {TextureFormat} from "../lib/WebGPUConstants";
 import Camera from "../lib/Camera";
 import {Vector3} from "math.gl";
-import MainLight from "../MainLight";
+
 import Model from "../lib/model/Model";
 
 
@@ -12,13 +12,13 @@ export default class ShadowCube{
    public depthTarget: RenderTexture;
     private passes:Array<ShadowCubePass> =[]
     private cameras:Array<Camera>=[];
-    private light: MainLight;
+
     private colorTarget: RenderTexture;
     private  offsets =[new Vector3(-1,0,0),new Vector3(1,0,0),new Vector3(0,-1,0),new Vector3(0,1,0),new Vector3(0,0,-1),new Vector3(0,0,1)]
 
-    constructor(renderer:Renderer,light:MainLight) {
+    constructor(renderer:Renderer) {
 
-        this.light =light;
+
         this.depthTarget = new RenderTexture(renderer, "ShadowCube", {
             format: TextureFormat.Depth24Plus,
             sampleCount: 1,
@@ -44,7 +44,7 @@ export default class ShadowCube{
         this.colorTarget.make()
 
 
-        let wp = this.light.getWorldPos();
+       // let wp = this.light.getWorldPos();
 
 
         const  ups =[new Vector3(0,-1,0),new Vector3(0,-1,0),new Vector3(0,0,1),new Vector3(0,0,-1),new Vector3(0,-1,0),new Vector3(0,-1,0)]
@@ -56,8 +56,8 @@ export default class ShadowCube{
             camera.near =0.01;
             camera.far = 10;
 
-            camera.cameraWorld =wp;
-            camera.cameraLookAt =wp.clone().add(this.offsets[i]);
+           // camera.cameraWorld =wp;
+           // camera.cameraLookAt =wp.clone().add(this.offsets[i]);
             camera.cameraUp =ups[i];
 
 

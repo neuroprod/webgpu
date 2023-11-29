@@ -38,6 +38,8 @@ import MainLight from "./MainLight";
 import TransformDebugger from "./lib/animation/TransformDebugger";
 import AnimationMixer from "./lib/animation/AnimationMixer";
 import CharacterHandler from "./CharacterHandler";
+import Room from "./Room";
+import Outside from "./Outside";
 
 
 export default class Main {
@@ -48,11 +50,10 @@ export default class Main {
 
     private preloader: PreLoader;
     private camera: Camera;
-    private glFTLoader: GLFTLoader;
+
 
     private mouseTarget = new Vector2()
-    private leftHolder: Object3D;
-    private rightHolder: Object3D;
+
 
     private canvasRenderPass: CanvasRenderPass
     private gBufferPass: GBufferRenderPass;
@@ -65,22 +66,25 @@ export default class Main {
     private reflectionPass: ReflectionRenderPass;
     private glassPass: GlassRenderPass;
     private blurLightPass: BlurLight;
-    private laptopScreen: LaptopScreen;
-    private mill: Mill;
+
     private combinePass: CombinePass;
     private numberOfQueries: number=10;
     private blurBloomPass: BlurBloom;
-    private fpsScreen: FpsScreen;
+
 
     private shadowPass: ShadowCube;
-    private mainLight: MainLight;
 
-    private centerRightHolder: Object3D;
+
+
     private glFTLoaderChar: GLFTLoader;
     //private transformDebugger: TransformDebugger;
     private animationMixer: AnimationMixer;
-private characterHandler:CharacterHandler;
+    private characterHandler:CharacterHandler;
 
+    private sceneHeight =3;
+    private room: Room;
+    private outside: Outside;
+    private sceneIndex: number =0
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -103,13 +107,15 @@ private characterHandler:CharacterHandler;
 
         this.camera = new Camera(this.renderer, "mainCamera")
         this.renderer.camera = this.camera;
+
+        this.room = new Room(this.renderer,this.preloader);
+        this.outside = new Outside(this.renderer,this.preloader);
+
         new TextureLoader(this.renderer,this.preloader,"brdf_lut.png",{});
-        new TextureLoader(this.renderer,this.preloader,"triangle.png",{});
-        new TextureLoader(this.renderer,this.preloader,"text_s.png",{});
-        new TextureLoader(this.renderer,this.preloader,"7dig.png",{});
+
         ImagePreloader.load(this.renderer, this.preloader);
 
-        this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", this.preloader);
+
         this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation", this.preloader);
         this.lightJson = new JSONLoader("light", this.preloader);
         UI.setWebGPU(this.renderer)
@@ -124,45 +130,37 @@ private characterHandler:CharacterHandler;
 
     private init() {
 
-        this.leftHolder = this.glFTLoader.objectsByName["left"]
-        this.rightHolder = this.glFTLoader.objectsByName["right"]
-        this.centerRightHolder = this.glFTLoader.objectsByName["centerRight"]
 
-        this.mainLight =new MainLight(this.renderer)
-        this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
-        this.glFTLoader.objectsByName["mainLight"].castShadow =false
-        this.shadowPass = new ShadowCube(this.renderer,this.mainLight)
+
+
+
         this.gBufferPass = new GBufferRenderPass(this.renderer)
+        this.room.init()
+        this.outside.init();
+        this.shadowPass = new ShadowCube(this.renderer)
         this.aoPass = new AORenderPass(this.renderer)
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
-        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data,this.mainLight,[this.leftHolder ,this.rightHolder,this.centerRightHolder]);
+
+        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data,this.room.mainLight,[this.room.leftHolder ,this.room.rightHolder,this.room.centerRightHolder]);
+
         this.blurLightPass =new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
         this.glassPass =new GlassRenderPass(this.renderer)
         this.combinePass=new CombinePass(this.renderer)
         this.blurBloomPass = new BlurBloom(this.renderer)
 
-
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
-
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
+        this.room.makeTransParent();
 
-        this.glFTLoader.root.setPosition(0, -1.5, 0)
-
-        this.mill =new Mill(this.glFTLoader.objectsByName["mill"])
-
-        for (let m of this.glFTLoader.models) {
-           this.gBufferPass.modelRenderer.addModel(m)
-
-        }
-
+        //this.gBufferPass.modelRenderer =this.outside.modelRenderer;
 
 
         for (let m of this.glFTLoaderChar.models) {
-            this.gBufferPass.modelRenderer.addModel(m)
-
-
+            //this.gBufferPass.modelRenderer.addModel(m)
+            this.outside.modelRenderer.addModel(m)
+            this.room.modelRenderer.addModel(m)
         }
 
         this.animationMixer = new AnimationMixer()
@@ -170,21 +168,13 @@ private characterHandler:CharacterHandler;
 
 
         this.characterHandler =new CharacterHandler(this.renderer,this.camera, this.glFTLoaderChar.root,this.animationMixer)
-        this.gBufferPass.modelRenderer.addModel( this.characterHandler.floorHitIndicator);
-        this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
+        this.outside.modelRenderer.addModel( this.characterHandler.floorHitIndicator);
+        this.room.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
 
-        this.laptopScreen =new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
-        this.gBufferPass.modelRenderer.addModel(this.laptopScreen);
-        this.fpsScreen =new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);
-        this.gBufferPass.modelRenderer.addModel(  this.fpsScreen);
 
-        for (let m of this.glFTLoader.modelsGlass) {
 
-            m.material.uniforms.setTexture("gDepth",this.renderer.texturesByLabel["GDepth"])
-            m.material.uniforms.setTexture("reflectTexture",this.renderer.texturesByLabel["BlurLightPass"])
-            this.glassPass.modelRenderer.addModel(m)
+        this.setScene(0);
 
-        }
         this.tick()
     }
     onDraw() {
@@ -231,20 +221,17 @@ private characterHandler:CharacterHandler;
 
 
 
-        this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
-        this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
-        this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 +2, 0, 0)
-
-        this.glFTLoader.root.setPosition(0, -1.5, 0)
 
 
         this.updateCamera();
-        this.mill.update();
+if(this.sceneIndex==0){
+    this.room.update();
+}else{
+    this.outside.update()
+}
 
 
-
-
-        this.shadowPass.setLightPos(this.mainLight.getWorldPos());
+        this.shadowPass.setLightPos(this.room.mainLight.getWorldPos());
 
         UI.pushWindow("Performance")
         if(!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis","",true)
@@ -261,9 +248,30 @@ private characterHandler:CharacterHandler;
         RenderSettings.onUI();
         UI.popWindow()
 
-
-
+        UI.pushWindow("Scenes")
+        if(UI.LButton("Inside")){
+            this.setScene(0);
+        }
+        if( UI.LButton("Outside"))
+        {
+            this.setScene(1);
+        }
+        UI.popWindow()
         this.mouseListener.reset()
+    }
+    public setScene(id:number){
+        this.sceneIndex =id;
+        if(id==0){
+            this.sceneHeight =3
+            this.gBufferPass.modelRenderer =this.room.modelRenderer;
+            this.glassPass.modelRenderer =this.room.modelRendererTrans;
+        }else{
+            this.sceneHeight =4
+            this.gBufferPass.modelRenderer =this.outside.modelRenderer;
+            this.glassPass.modelRenderer =this.outside.modelRendererTrans;
+        }
+
+        this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
     }
     updateCamera(){
         let mp = this.mouseListener.mousePos.clone()
@@ -278,9 +286,10 @@ private characterHandler:CharacterHandler;
         let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, 1.0 + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraLookAt = new Vector3(cameraPositionMap.x, cameraPositionMap.y, 0);
-        let screenLocal = new Vector2(this.renderer.ratio * 3, 3)
+        let screenLocal = new Vector2(this.renderer.ratio * this.sceneHeight, this.sceneHeight)
 
         this.camera.fovy = Math.atan2(screenLocal.y / 2, cameraPositionMap.z) * 2;
+
         this.camera.ratio =this.renderer.ratio;
 
         this.camera.lensShift.x = -cameraPositionMap.x / (screenLocal.x / 2);

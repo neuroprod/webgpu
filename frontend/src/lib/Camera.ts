@@ -44,24 +44,24 @@ export default class Camera extends UniformGroup {
     setProjection() {
 
 
-        let frustumTop = this.near * Math.tan(this.fovy / 2);
-        let frustumBottom = -frustumTop;
+        let fustrumTop = this.near * Math.tan(this.fovy / 2);
+        let fustrumBottom = -fustrumTop;
 
-        let frustumRight = frustumTop * this.ratio;
-        let frustumLeft = -frustumRight;
+        let fustrumRight = fustrumTop * this.ratio;
+        let fustrumLeft = -fustrumRight;
 
 
         if (this.lensShift.y != 0.0) {
-            frustumTop = lerp(0.0, 2.0 * frustumTop, 0.5 + 0.5 * this.lensShift.y);
-            frustumBottom = lerp(2.0 * frustumBottom, 0.0, 0.5 + 0.5 * this.lensShift.y);
+            fustrumTop = lerp(0.0, 2.0 * fustrumTop, 0.5 + 0.5 * this.lensShift.y);
+            fustrumBottom = lerp(2.0 * fustrumBottom, 0.0, 0.5 + 0.5 * this.lensShift.y);
         }
 
         if (this.lensShift.x != 0.0) {
-            frustumRight = lerp(2.0 * frustumRight, 0.0, 0.5 - 0.5 * this.lensShift.x);
-            frustumLeft = lerp(0.0, 2.0 * frustumLeft, 0.5 - 0.5 * this.lensShift.x);
+            fustrumRight = lerp(2.0 * fustrumRight, 0.0, 0.5 - 0.5 * this.lensShift.x);
+            fustrumLeft = lerp(0.0, 2.0 * fustrumLeft, 0.5 - 0.5 * this.lensShift.x);
         }
-        const dx = (frustumRight - frustumLeft);
-        const dy = (frustumTop - frustumBottom);
+        const dx = (fustrumRight - fustrumLeft);
+        const dy = (fustrumTop - fustrumBottom);
         const dz = (this.near -this.far);
 
         this.projection[0] = 2.0 * this.near /dx;
@@ -74,8 +74,8 @@ export default class Camera extends UniformGroup {
         this.projection[6] = 0.0;
         this.projection[7] = 0.0;
 
-        this.projection[8] = (frustumRight + frustumLeft) / dx;
-        this.projection[9] = (frustumTop + frustumBottom) / dy;
+        this.projection[8] = (fustrumRight + fustrumLeft) / dx;
+        this.projection[9] = (fustrumTop + fustrumBottom) / dy;
         this.projection[10] = this.far/dz;
         this.projection[11] = -1.0;
 

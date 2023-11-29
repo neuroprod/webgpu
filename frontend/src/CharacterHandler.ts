@@ -76,7 +76,7 @@ export default class CharacterHandler {
                 } else {
                     rayDir.scale(t);
                     rayStart.add(rayDir);
-                    if ( rayStart.z<-3){
+                    if ( rayStart.z<-5){
                         this.floorHit =false;
                         return;
                     }
