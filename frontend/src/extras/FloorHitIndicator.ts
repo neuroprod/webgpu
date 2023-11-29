@@ -12,7 +12,7 @@ export class FloorHitIndicator extends Model{
         super(renderer,"fpsScreen");
         this.mesh = new Plane(renderer);
         this.material =new Material(this.renderer,this.label,new FloorHitShader(this.renderer,this.label));
-
+this.material.depthWrite =false;
         this.material.blendModes=[{
             color: {
                 srcFactor: 'one',

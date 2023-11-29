@@ -89,7 +89,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;
     let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText);
     let mra =textureSample(mraTexture, mySampler,  uv0) ;
-    let roughness =mra.y+0.01;
+    let roughness =0.01;//mra.y+0.01;
     let metallic = mra.x;
 
     let V = normalize(camera.worldPosition.xyz - world);

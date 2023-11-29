@@ -36,7 +36,17 @@ export default class Outside{
 
     }
     public update(){
-       
-        this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2+UI.LFloat('offset'), -1.5, 0)
+       // UI.LFloat('offset',0)
+        this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)
+    }
+
+    makeTransParent() {
+        for (let m of this.glFTLoader.modelsGlass) {
+
+            m.material.uniforms.setTexture("gDepth",this.renderer.texturesByLabel["GDepth"])
+            m.material.uniforms.setTexture("reflectTexture",this.renderer.texturesByLabel["LightPass"])
+            this.modelRendererTrans.addModel(m)
+
+        }
     }
 }
