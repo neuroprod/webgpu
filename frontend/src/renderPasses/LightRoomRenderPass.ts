@@ -8,20 +8,19 @@ import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 
 import Material from "../lib/core/Material";
 
-import {Vector2, Vector3} from "math.gl";
-import {IResizable} from "../lib/IResizable";
+import {Vector3} from "math.gl";
 
 import UI from "../lib/UI/UI";
 import PointLight from "./PointLight";
 
 import Blit from "../lib/Blit";
-import GlobalLightShader from "../shaders/GlobalLightShader";
+import GlobalLightInsideShader from "../shaders/GlobalLightInsideShader";
 import ColorV from "../lib/ColorV";
 import {saveToJsonFile} from "../lib/SaveUtils";
 import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
 
-export default class extends RenderPass implements IResizable {
+export default class LightRoomRenderPass extends RenderPass {
 
 
     public target: RenderTexture;
@@ -38,28 +37,12 @@ export default class extends RenderPass implements IResizable {
     private bottomColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
     private mainLight: MainLight;
     private mainLightColor: ColorV = new ColorV(1.00, 0.92, 0.81, 1);
-    private mainLightStrength: number =1;
+    private mainLightStrength: number = 1;
     private lightParents: Array<Object3D>;
 
-    constructor(renderer: Renderer,data:any,mainLight:MainLight,lightParents:Array<Object3D>) {
+    constructor(renderer: Renderer) {
 
         super(renderer, "LightRenderPass");
-        this.lightParents = lightParents;
-        this.mainLight =mainLight;
-        this.modelRenderer = new ModelRenderer(this.renderer, "lightModels")
-        if(data){
-
-           this.mainLightColor.set(data.mainLightColor[0],data.mainLightColor[1],data.mainLightColor[2],data.mainLightColor[3]) ;
-            this.mainLightStrength  =data.mainLightStrength;
-            this.topColor.set(data.topColor[0],data.topColor[1],data.topColor[2],data.topColor[3]) ;
-            this.midColor.set(data.midColor[0],data.midColor[1],data.midColor[2],data.midColor[3]) ;
-            this.bottomColor.set(data.bottomColor[0],data.bottomColor[1],data.bottomColor[2],data.bottomColor[3]) ;
-            for (let plData of data.pointLights){
-                let p = new PointLight(renderer, "light1", this.modelRenderer,plData,this.lightParents)
-                this.lights.push(p)
-
-            }
-        }
 
         this.target = new RenderTexture(renderer, "LightPass", {
             format: TextureFormat.RGBA16Float,
@@ -79,20 +62,35 @@ export default class extends RenderPass implements IResizable {
         });
 
 
+    }
+
+    init(data: any, mainLight: MainLight, lightParents: Array<Object3D>) {
+        this.lightParents = lightParents;
+        this.mainLight = mainLight;
+        this.modelRenderer = new ModelRenderer(this.renderer, "lightModels")
+        if (data) {
+
+            this.mainLightColor.set(data.mainLightColor[0], data.mainLightColor[1], data.mainLightColor[2], data.mainLightColor[3]);
+            this.mainLightStrength = data.mainLightStrength;
+            this.topColor.set(data.topColor[0], data.topColor[1], data.topColor[2], data.topColor[3]);
+            this.midColor.set(data.midColor[0], data.midColor[1], data.midColor[2], data.midColor[3]);
+            this.bottomColor.set(data.bottomColor[0], data.bottomColor[1], data.bottomColor[2], data.bottomColor[3]);
+            for (let plData of data.pointLights) {
+                let p = new PointLight(this.renderer, "light1", this.modelRenderer, plData, this.lightParents)
+                this.lights.push(p)
+
+            }
+        }
 
 
-
-
-
-
-        this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightShader(this.renderer, "globalLight"))
+        this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightInsideShader(this.renderer, "globalLight"))
 
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor);
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor);
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor);
 
-        this.globalLightMaterial.uniforms.setUniform("lightColor",this.mainLight.color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos",this.mainLight.getWorldPos());
+        this.globalLightMaterial.uniforms.setUniform("lightColor", this.mainLight.color);
+        this.globalLightMaterial.uniforms.setUniform("lightPos", this.mainLight.getWorldPos());
 
         this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
         this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
@@ -119,40 +117,38 @@ export default class extends RenderPass implements IResizable {
         ]
 
 
-        this.blitGlobalLight = new Blit(renderer, 'blitPost', this.globalLightMaterial)
+        this.blitGlobalLight = new Blit(this.renderer, 'blitPost', this.globalLightMaterial)
+
 
     }
 
-    onScreenResize(size: Vector2) {
-        //   this.material.uniforms.setUniform("textureSize",new Vector2(this.renderer.width,this.renderer.height))
-    }
 
     onUI() {
-        UI.pushWindow("Light")
-        for(let p of this.lights){
+        UI.pushWindow("Light Room")
+        for (let p of this.lights) {
             p.update()
         }
         if (UI.LButton("Save Light")) {
 
 
             let lightsData = []
-            for(let p of this.lights){
+            for (let p of this.lights) {
                 lightsData.push(p.getData())
             }
             let lightData = {
-                mainLightColor:this.mainLightColor,
-                mainLightStrength:this.mainLightStrength,
+                mainLightColor: this.mainLightColor,
+                mainLightStrength: this.mainLightStrength,
                 topColor: this.topColor,
                 midColor: this.midColor,
                 bottomColor: this.bottomColor,
                 pointLights: lightsData,
             }
-            saveToJsonFile(lightData,"light")
+            saveToJsonFile(lightData, "lightRoom")
         }
         UI.separator("Main Light")
         UI.LColor("color", this.mainLightColor)
         this.mainLightStrength = UI.LFloatSlider("strength", this.mainLightStrength, 0, 20);
-        this.mainLight.color.set( this.mainLightColor.x, this.mainLightColor.y, this.mainLightColor.z,this.mainLightStrength)
+        this.mainLight.color.set(this.mainLightColor.x, this.mainLightColor.y, this.mainLightColor.z, this.mainLightStrength)
 
 
         UI.separator("Global Light")
@@ -160,8 +156,8 @@ export default class extends RenderPass implements IResizable {
         UI.LColor("midLight", this.midColor)
         UI.LColor("bottomLight", this.bottomColor)
 
-        this.globalLightMaterial.uniforms.setUniform("lightColor",this.mainLight.color)
-        this.globalLightMaterial.uniforms.setUniform("lightPos",this.mainLight.getWorldPos())
+        this.globalLightMaterial.uniforms.setUniform("lightColor", this.mainLight.color)
+        this.globalLightMaterial.uniforms.setUniform("lightPos", this.mainLight.getWorldPos())
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor)
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor)
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor)
@@ -179,7 +175,7 @@ export default class extends RenderPass implements IResizable {
         UI.popList();
 
         if (UI.LButton("+ add Light")) {
-            let p = new PointLight(this.renderer, "light2", this.modelRenderer,null,this.lightParents)
+            let p = new PointLight(this.renderer, "light2", this.modelRenderer, null, this.lightParents)
             this.lights.push(p)
             this.currentLight = p;
 
@@ -210,6 +206,6 @@ export default class extends RenderPass implements IResizable {
     }
 
     setLightPos(lightPos: Vector3) {
-        this.globalLightMaterial.uniforms.setUniform("lightPos",lightPos)
+        this.globalLightMaterial.uniforms.setUniform("lightPos", lightPos)
     }
 }

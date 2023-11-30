@@ -15,7 +15,7 @@ import TimeStampQuery from "./lib/TimeStampQuery";
 import UI from "./lib/UI/UI";
 import GBufferRenderPass from "./renderPasses/GBufferRenderPass";
 import Timer from "./lib/Timer";
-import LightRenderPass from "./renderPasses/LightRenderPass";
+import LightRenderPass from "./renderPasses/LightRoomRenderPass";
 
 import JSONLoader from "./JSONLoader";
 import AORenderPass from "./renderPasses/AORenderPass";
@@ -33,6 +33,8 @@ import AnimationMixer from "./lib/animation/AnimationMixer";
 import CharacterHandler from "./CharacterHandler";
 import Room from "./Room";
 import Outside from "./Outside";
+import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
+import ShadowPass from "./renderPasses/ShadowPass";
 
 
 export default class Main {
@@ -51,9 +53,9 @@ export default class Main {
     private canvasRenderPass: CanvasRenderPass
     private gBufferPass: GBufferRenderPass;
     private timeStampQuery: TimeStampQuery;
-    private lightPass: LightRenderPass;
+    private lightRoomPass: LightRenderPass;
 
-    private lightJson: JSONLoader;
+    private lightRoomJson: JSONLoader;
     private aoPass: AORenderPass;
     private aoBlurPass: AOBlurRenderPass;
     private reflectionPass: ReflectionRenderPass;
@@ -65,7 +67,7 @@ export default class Main {
     private blurBloomPass: BlurBloom;
 
 
-    private shadowPass: ShadowCube;
+    private shadowPassCube: ShadowCube;
 
 
     private glFTLoaderChar: GLFTLoader;
@@ -79,6 +81,8 @@ export default class Main {
     private sceneIndex: number = 0
     private yMouseCenter: number = 1;
     private yMouseScale: number = 1;
+    private lightOutsidePass: LightOutsideRenderPass;
+    private shadowPass: ShadowPass;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -112,21 +116,30 @@ export default class Main {
 
 
         this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation", this.preloader);
-        this.lightJson = new JSONLoader("light", this.preloader);
+        this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
         UI.setWebGPU(this.renderer)
 
     }
 
     onDraw() {
         this.timeStampQuery.start();
-        this.shadowPass.add();
+        if (this.sceneIndex == 0) {
+            this.shadowPassCube.add();
+        }else {
+            this.shadowPass.add();
+        }
+
         this.timeStampQuery.setStamp("ShadowPass");
         this.gBufferPass.add();
         this.timeStampQuery.setStamp("GBufferPass");
         this.aoPass.add();
         this.aoBlurPass.add();
         this.timeStampQuery.setStamp("AOPass");
-        this.lightPass.add();
+        if (this.sceneIndex == 0) {
+            this.lightRoomPass.add();
+        } else {
+            this.lightOutsidePass.add();
+        }
         this.timeStampQuery.setStamp("LightPass");
         this.blurLightPass.add()
         this.timeStampQuery.setStamp("blurLight");
@@ -151,19 +164,23 @@ export default class Main {
             this.sceneHeight = 3
             this.gBufferPass.modelRenderer = this.room.modelRenderer;
             this.glassPass.modelRenderer = this.room.modelRendererTrans;
-
+            this.lightRoomPass.setDirty();
             this.characterHandler.setRoot(this.room.root);
+            this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube.setDirty();
         } else {
             this.yMouseScale = 1.5
             this.yMouseCenter = 0
             this.sceneHeight = 4
             this.gBufferPass.modelRenderer = this.outside.modelRenderer;
             this.glassPass.modelRenderer = this.outside.modelRendererTrans;
-
+            this.lightOutsidePass.setDirty();
+            this.shadowPass.setDirty();
             this.characterHandler.setRoot(this.outside.root);
-        }
 
+        }
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
+        this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
     }
 
     updateCamera() {
@@ -200,11 +217,13 @@ export default class Main {
         this.gBufferPass = new GBufferRenderPass(this.renderer)
         this.room.init()
         this.outside.init();
-        this.shadowPass = new ShadowCube(this.renderer)
+        this.shadowPassCube = new ShadowCube(this.renderer)
+        this.shadowPass = new ShadowPass(this.renderer)
         this.aoPass = new AORenderPass(this.renderer)
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
 
-        this.lightPass = new LightRenderPass(this.renderer, this.lightJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerRightHolder]);
+        this.lightRoomPass = new LightRenderPass(this.renderer);
+        this.lightOutsidePass = new LightOutsideRenderPass(this.renderer, this.lightRoomPass.target);
 
         this.blurLightPass = new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
@@ -212,13 +231,15 @@ export default class Main {
         this.combinePass = new CombinePass(this.renderer)
         this.blurBloomPass = new BlurBloom(this.renderer)
 
+        this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerRightHolder])
+        this.lightOutsidePass.init();
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
         this.room.makeTransParent();
         this.outside.makeTransParent();
         //this.gBufferPass.modelRenderer =this.outside.modelRenderer;
-
+        this.shadowPass.init();
 
         for (let m of this.glFTLoaderChar.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
@@ -235,7 +256,7 @@ export default class Main {
         this.room.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
 
 
-        this.setScene(0);
+        this.setScene(1);
 
         this.tick()
     }
@@ -264,16 +285,29 @@ export default class Main {
         } else {
             this.outside.update()
         }
+        UI.pushWindow("Scenes")
+        if (UI.LButton("Inside")) {
+            this.setScene(0);
+        }
+        if (UI.LButton("Outside")) {
+            this.setScene(1);
+        }
+        UI.popWindow()
 
-
-        this.shadowPass.setLightPos(this.room.mainLight.getWorldPos());
+        this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
 
         UI.pushWindow("Performance")
         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
         this.timeStampQuery.onUI();
         UI.popWindow()
+        if (this.sceneIndex == 0) {
+            this.lightRoomPass.onUI();
+        } else {
+            this.lightOutsidePass.onUI(this.shadowPass.camera.viewProjection);
+            this.shadowPass.setLightDir(this.lightOutsidePass.sunDir)
+            this.shadowPass.onUI()
+        }
 
-        this.lightPass.onUI();
 
         UI.pushWindow("Render Setting")
         this.canvasRenderPass.onUI();
@@ -283,14 +317,7 @@ export default class Main {
         RenderSettings.onUI();
         UI.popWindow()
 
-        UI.pushWindow("Scenes")
-        if (UI.LButton("Inside")) {
-            this.setScene(0);
-        }
-        if (UI.LButton("Outside")) {
-            this.setScene(1);
-        }
-        UI.popWindow()
+
         this.mouseListener.reset()
     }
 

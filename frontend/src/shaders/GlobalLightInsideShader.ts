@@ -8,7 +8,7 @@ import {TextureViewDimension} from "../lib/WebGPUConstants";
 
 
 
-export default class GlobalLightShader extends Shader{
+export default class GlobalLightInsideShader extends Shader{
 
 
     init(){

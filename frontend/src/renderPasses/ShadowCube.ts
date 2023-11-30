@@ -94,4 +94,10 @@ export default class ShadowCube{
             count++;
         }
     }
+
+    setDirty() {
+        for (let i=0;i<6;i++){
+            this.passes[i].setDirty();
+        }
+    }
 }

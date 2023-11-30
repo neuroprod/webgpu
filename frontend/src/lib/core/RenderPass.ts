@@ -1,62 +1,62 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
-import Model from "../model/Model";
 
 import ColorAttachment from "../textures/ColorAttachment";
 import DepthStencilAttachment from "../textures/DepthStencilAttachment";
-import UI from "../UI/UI";
 
 export default class RenderPass extends ObjectGPU {
 
-    protected renderPassDescriptor: GPURenderPassDescriptor;
-    public colorAttachments: Array<ColorAttachment>=[];
+    public colorAttachments: Array<ColorAttachment> = [];
     public depthStencilAttachment: DepthStencilAttachment;
     public passEncoder: GPURenderPassEncoder;
-    public sampleCount: 1|4 =1
+    public sampleCount: 1 | 4 = 1
+    protected renderPassDescriptor: GPURenderPassDescriptor;
+    private isDirty: boolean = true;
+
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
 
     }
-    add() {
-        this.updateDescriptor()
 
-        this.passEncoder = this.renderer.commandEncoder.beginRenderPass(
+    public setDirty() {
+        this.isDirty = true;
+    }
+
+    add() {
+
+            this.updateDescriptor()
+       this.passEncoder = this.renderer.commandEncoder.beginRenderPass(
             this.renderPassDescriptor
         );
-
-       this.draw()
-
+        this.draw()
 
         this.passEncoder.end();
     }
-    onSettingsChange(){
 
-    }
-    draw()
-    {
+    onSettingsChange() {
 
     }
 
+    draw() {
+
+    }
 
 
     private updateDescriptor() {
-       let dirty =false;
+        let dirty = this.isDirty;
 
-        if(this.depthStencilAttachment && this.depthStencilAttachment.isDirty())
-        {
-            dirty =true;
-
-        }
-        for(let c of this.colorAttachments)
-        {
-            if(c.isDirty())dirty =true;
+        if (this.depthStencilAttachment && this.depthStencilAttachment.isDirty()) {
+            dirty = true;
 
         }
-        if(!dirty)return;
+        for (let c of this.colorAttachments) {
+            if (c.isDirty()) dirty = true;
+
+        }
+        if (!dirty) return;
 
         let attachments = []
-        for(let c of this.colorAttachments)
-        {
+        for (let c of this.colorAttachments) {
             attachments.push(c.getAttachment())
         }
 
@@ -65,9 +65,9 @@ export default class RenderPass extends ObjectGPU {
             label: this.label,
             colorAttachments: attachments,
         };
-        if(this.depthStencilAttachment)
-        this.renderPassDescriptor.depthStencilAttachment = this.depthStencilAttachment.getAttachment()
-
+        if (this.depthStencilAttachment)
+            this.renderPassDescriptor.depthStencilAttachment = this.depthStencilAttachment.getAttachment()
+        this.isDirty = false;
 
     }
 

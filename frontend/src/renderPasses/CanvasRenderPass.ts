@@ -67,7 +67,11 @@ export default class CanvasRenderPass extends RenderPass {
 
 
 
+
         this.passSelect.push(new SelectItem("Final", {texture: "final", type: 0}));
+
+        this.passSelect.push(new SelectItem("Shadow Outside", {texture: "Shadow", type: 0}));
+
         this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
         this.passSelect.push(new SelectItem("PreBloom", {texture: "BloomPrePass", type: 0}));
         this.passSelect.push(new SelectItem("Combine", {texture: "CombinePass", type: 0}));
