@@ -151,12 +151,16 @@ export default class Main {
             this.sceneHeight = 3
             this.gBufferPass.modelRenderer = this.room.modelRenderer;
             this.glassPass.modelRenderer = this.room.modelRendererTrans;
+
+            this.characterHandler.setRoot(this.room.root);
         } else {
             this.yMouseScale = 1.5
             this.yMouseCenter = 0
             this.sceneHeight = 4
             this.gBufferPass.modelRenderer = this.outside.modelRenderer;
             this.glassPass.modelRenderer = this.outside.modelRendererTrans;
+
+            this.characterHandler.setRoot(this.outside.root);
         }
 
         this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);

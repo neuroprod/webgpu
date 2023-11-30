@@ -23,7 +23,7 @@ export default class Room{
     private fpsScreen: FpsScreen;
     private mill: Mill;
 
-
+    root:Object3D;
 
 
     constructor(renderer:Renderer,preloader:PreLoader) {
@@ -40,7 +40,7 @@ export default class Room{
         this.modelRenderer =new ModelRenderer(this.renderer,"room");
         this.modelRendererTrans =new ModelRenderer(this.renderer,"roomTrans");
 
-
+        this.root =this.glFTLoader.root
         this.glFTLoader.root.setPosition(0, -1.5, 0)
 
         this.mill =new Mill(this.glFTLoader.objectsByName["mill"])
@@ -77,8 +77,8 @@ makeTransParent(){
 
     }
 }
-    addCharacter(char:Object3D){
-
+    addCharacter(charRoot:Object3D){
+        this.glFTLoader.root.addChild(charRoot)
     }
     update() {
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)

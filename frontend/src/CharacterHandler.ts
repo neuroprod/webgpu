@@ -21,10 +21,15 @@ export default class CharacterHandler {
     private floorPlane:Vector3 =new Vector3(0,-1.5,0);
     public floorHitIndicator: FloorHitIndicator;
 
-    private charPos:Vector3  =new Vector3(1,-1.5,-1);
+    private charPos:Vector3  =new Vector3(0,0,0);
+    private root:Object3D
+    private rootTarget=new Vector3(0,-1.5,0);
+
     // @ts-ignore
     private tl :Timeline;
     private characterRot: number =0;
+    private targetOffset=0;
+    private offset =0;
     constructor(renderer: Renderer, camera: Camera, characterRoot:Object3D, animationMixer: AnimationMixer) {
         this.renderer = renderer;
         this.camera = camera;
@@ -33,11 +38,22 @@ export default class CharacterHandler {
         this.animationMixer.setAnimation("idle");
         this.characterRoot.setPosition(this.charPos.x,this.charPos.y,this.charPos.z)
         this.floorHitIndicator =new FloorHitIndicator(this.renderer)
-    }
 
+    }
+setRoot(r:Object3D){
+        this.root =r;
+        this.root.addChild(this.characterRoot)
+        this.root.addChild(this.floorHitIndicator)
+}
     update(mousePos: Vector2, down: boolean) {
 
         this.setMouseFloorPos(mousePos.clone());
+        let screen =this.characterRoot.getWorldPos().x -this.root.getPosition().x;
+        this.targetOffset =(-screen );
+
+        this.offset+=(this.targetOffset-this.offset)/20;
+
+        this.root.setPosition(this.offset,-1.5,0)
 
         if(this.floorHit){
           //  this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
@@ -57,6 +73,9 @@ export default class CharacterHandler {
     }
 
     private setMouseFloorPos(mousePos: Vector2) {
+        let posFloor=this.root.getPosition();
+        this.floorPlane.set(posFloor.x,posFloor.y,posFloor.z);
+
         mousePos.scale(new Vector2(2 / (this.renderer.width / this.renderer.pixelRatio), 2 / (this.renderer.height / this.renderer.pixelRatio)))
         let pos = new Vector4(mousePos.x - 1, (mousePos.y - 1)*-1, 1, 1);
         if (this.camera.viewProjectionInv) {
@@ -81,7 +100,7 @@ export default class CharacterHandler {
                         return;
                     }
                     this.floorHit =true;
-                    this.floorPos = rayStart.clone()
+                    this.floorPos = rayStart.clone().subtract(posFloor)
 
                 }
 
@@ -114,7 +133,7 @@ export default class CharacterHandler {
 
         pos+=duration;
       let nextAnime = "idle"
-if(Math.random()>0.7)nextAnime ="bored"
+        if(Math.random()>0.7)nextAnime ="bored"
       this.tl.call(()=>{ this.animationMixer.setAnimation(nextAnime ,0);},[],pos)
         this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
        this.tl.to(this,{"characterRot":0 ,duration:0.5,ease: "none"},pos)
