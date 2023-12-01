@@ -38,6 +38,8 @@ export default class GLFTLoader {
     public objects: Array<Object3D> = []
     public objectsByID: { [id: number]: Object3D } = {};
     public objectsByName: { [name: string]: Object3D } = {};
+    public materialsByName: { [name: string]: Material } = {};
+    public meshByName: { [name: string]: Mesh } = {};
     public meshes: Array<Mesh> = []
 
 
@@ -94,7 +96,8 @@ export default class GLFTLoader {
     private makeModels(){
         for(let m of this.modelData){
             m.model.mesh = this.meshes[m.meshID]
-            m.model.material = this.makeMaterial( m.model.label,m.skinID) //this.materials[m.meshID]
+            console.log( m.model.mesh.label);
+            m.model.material = this.makeMaterial( m.model.mesh.label,m.skinID) //this.materials[m.meshID]
             if ( m.model.label.includes("_G")) {
                  this.modelsGlass.push(m.model);
             } else {
@@ -103,6 +106,8 @@ export default class GLFTLoader {
         }
     }
     private makeMaterial(name: string,skinID:number) {
+
+        if(this.materialsByName[name]!= undefined)return this.materialsByName[name];
         let material: Material;
         if (name.includes("_G")) {
             material = new Material(this.renderer, name, this.glassShader);
@@ -125,7 +130,7 @@ export default class GLFTLoader {
 
         let mraTexture = ImagePreloader.getTexture(name + "_MRA");
         if (mraTexture) material.uniforms.setTexture("mraTexture", mraTexture)
-
+        this.materialsByName[name] =material;
         return material;
 
 

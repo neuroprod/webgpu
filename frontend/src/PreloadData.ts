@@ -1,5 +1,8 @@
 // to generate this file -> node FileHandler
 export const preloadImages = [
+  "bigtree_Color",
+  "bigtree_MRA",
+  "bigtree_Normal",
   "body_Color",
   "body_MRA",
   "body_Normal",
@@ -18,6 +21,9 @@ export const preloadImages = [
   "chartest_Color",
   "chartest_MRA",
   "chartest_Normal",
+  "clover_AC_Color",
+  "clover_AC_MRA",
+  "clover_AC_Normal",
   "coffeeControler_Color",
   "coffeeControler_MRA",
   "coffeeControler_Normal",

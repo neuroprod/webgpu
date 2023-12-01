@@ -124,6 +124,7 @@ export default class Main {
     onDraw() {
         this.timeStampQuery.start();
         if (this.sceneIndex == 0) {
+
             this.shadowPassCube.add();
         }else {
             this.shadowPass.add();
@@ -165,9 +166,9 @@ export default class Main {
             this.gBufferPass.modelRenderer = this.room.modelRenderer;
             this.glassPass.modelRenderer = this.room.modelRendererTrans;
             this.lightRoomPass.setDirty();
-            this.characterHandler.setRoot(this.room.root);
+            this.characterHandler.setRoot(this.room.root,0);
             this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
-            this.shadowPassCube.setDirty();
+           // this.shadowPassCube.setDirty();
         } else {
             this.yMouseScale = 1.5
             this.yMouseCenter = 0
@@ -175,12 +176,12 @@ export default class Main {
             this.gBufferPass.modelRenderer = this.outside.modelRenderer;
             this.glassPass.modelRenderer = this.outside.modelRendererTrans;
             this.lightOutsidePass.setDirty();
-            this.shadowPass.setDirty();
-            this.characterHandler.setRoot(this.outside.root);
+           // this.shadowPass.setDirty();
+            this.characterHandler.setRoot(this.outside.root,1);
 
         }
-        this.shadowPass.setModels(this.gBufferPass.modelRenderer.models);
-        this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
+        this.shadowPass.setModels(this.outside.modelRenderer.models);
+        this.shadowPassCube.setModels(this.room.modelRenderer.models);
     }
 
     updateCamera() {
@@ -251,12 +252,12 @@ export default class Main {
         this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
 
 
-        this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar.root, this.animationMixer)
+        this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar.root, this.animationMixer,this)
         this.outside.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
         this.room.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
 
 
-        this.setScene(1);
+        this.setScene(0);
 
         this.tick()
     }
