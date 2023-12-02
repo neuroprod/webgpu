@@ -32,10 +32,10 @@ export const GPUFrontFace = {
     CW: 'cw'
 };
 
-export const GPUCullMode = {
-    None: 'none',
-    Front: 'front',
-    Back: 'back'
+export const CullMode = {
+    None: 'none' as GPUCullMode,
+    Front: 'front' as GPUCullMode,
+    Back: 'back' as GPUCullMode
 };
 
 export const IndexFormat = {

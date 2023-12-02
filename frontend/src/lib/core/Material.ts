@@ -20,6 +20,7 @@ export default class Material extends ObjectGPU {
     private depthStencilState: GPUDepthStencilState;
     private needsDepth: boolean = true;
     public skin:Skin
+    public cullMode: "none" | "front" | "back" = "back";
     constructor(renderer: Renderer, label: string, shader: Shader) {
         super(renderer, label);
         this.shader = shader;
@@ -75,7 +76,7 @@ export default class Material extends ObjectGPU {
 
             primitive: {
                 topology: "triangle-list",
-                cullMode: "back",
+                cullMode: this.cullMode,
             },
             multisample: {
                 count: pass.sampleCount,

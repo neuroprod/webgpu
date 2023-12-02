@@ -13,6 +13,7 @@ export default class Model extends Object3D
 
    public modelTransform: ModelTransform;
     public visible: boolean =true;
+
     constructor(renderer:Renderer,label:string) {
         super(renderer,label);
         this.modelTransform =new ModelTransform(renderer,label+"_transform")

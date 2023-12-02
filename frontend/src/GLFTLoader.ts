@@ -14,6 +14,7 @@ import AnimationChannelQuaternion from "./lib/animation/AnimationChannelQuaterni
 import AnimationChannelVector3 from "./lib/animation/AnimationChannelVector3";
 import Skin from "./lib/animation/Skin";
 import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
+import {CullMode, GPUCullMode} from "./lib/WebGPUConstants";
 
 
 type Accessor = {
@@ -105,6 +106,7 @@ export default class GLFTLoader {
             }
             if (m.model.mesh.label.includes("_AC")) {
 m.model.castShadow=false;
+m.model.material.cullMode =CullMode.None
             }
         }
     }
