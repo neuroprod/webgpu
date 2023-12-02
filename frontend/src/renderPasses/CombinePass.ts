@@ -64,6 +64,8 @@ export default class CombinePass extends RenderPass{
 
         this.blitMaterial.uniforms.setUniform("threshold", RenderSettings.bloom_threshold);
         this.blitMaterial.uniforms.setUniform("softThreshold", RenderSettings.bloom_softThreshold);
+
+
     }
 
     onUI(){

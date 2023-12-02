@@ -103,6 +103,9 @@ export default class GLFTLoader {
             } else {
                 this.models.push(m.model);
             }
+            if (m.model.mesh.label.includes("_AC")) {
+m.model.castShadow=false;
+            }
         }
     }
     private makeMaterial(name: string,skinID:number) {
@@ -119,6 +122,7 @@ export default class GLFTLoader {
         }
         else {
             material = new Material(this.renderer, name, this.mainShader);
+
         }
 
 
@@ -284,7 +288,7 @@ export default class GLFTLoader {
                 mesh.setIndices(indices)
 
 
-            } else if (accessorIndices.accessor.componentType == 5123) {
+            } else if (accessorIndices.accessor.componentType == 5125) {
                 let indices = new Uint32Array(indexData);
                 mesh.setIndices32(indices)
             }
