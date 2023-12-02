@@ -53,13 +53,13 @@ export default class DOFRenderPass extends RenderPass{
 
 
     }
-    init(
+    init(){
         this.colorAttachments = [this.colorAttachment, this.bloomAttachment];
         this.blitMaterial = new Material(this.renderer, "blitDof", new DofShader(this.renderer, "dofPass"))
         this.blitMaterial.uniforms.setTexture("combineTexture",this.renderer.texturesByLabel["CombinePass"])
 
-         this.blit = new Blit(renderer, 'blitCombine', this.blitMaterial)
-    )
+         this.blit = new Blit(this.renderer, 'blitCombine', this.blitMaterial)
+}
     onSettingsChange() {
         super.onSettingsChange();
 
