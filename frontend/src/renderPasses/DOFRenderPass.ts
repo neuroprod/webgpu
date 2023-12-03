@@ -20,12 +20,12 @@ export default class DOFRenderPass extends RenderPass{
 
 
 
-    constructor(renderer: Renderer,targetName) {
+    constructor(renderer: Renderer,targetName:string) {
 
         super(renderer, "DofPass");
 
         RenderSettings.registerPass(this);
-        this.target = new RenderTexture(renderer, "DOFPass", {
+        this.target = new RenderTexture(renderer, targetName, {
             format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
@@ -37,7 +37,7 @@ export default class DOFRenderPass extends RenderPass{
 
 
 
-
+        this.colorAttachments = [this.colorAttachment];
 
 
 
@@ -46,21 +46,22 @@ export default class DOFRenderPass extends RenderPass{
 
 
     }
-    init(){
-        this.colorAttachments = [this.colorAttachment];
-        this.blitMaterial = new Material(this.renderer, "blitDof", new DofShader(this.renderer, "dofPass"))
-        this.blitMaterial.uniforms.setTexture("combineTexture",this.renderer.texturesByLabel["CombinePass"])
+    init(horizontal:boolean,inputTexture:string){
 
-         this.blit = new Blit(this.renderer, 'blitCombine', this.blitMaterial)
+        let dofShader= new DofShader(this.renderer, "dofPass",horizontal)
+        this.blitMaterial = new Material(this.renderer, "blitDof", dofShader)
+        this.blitMaterial.uniforms.setTexture("inputTexture",this.renderer.texturesByLabel[inputTexture])
+
+        this.blit = new Blit(this.renderer, 'blitDof', this.blitMaterial)
 }
     onSettingsChange() {
         super.onSettingsChange();
 
-       // this.blitMaterial.uniforms.setUniform("threshold", RenderSettings.bloom_threshold);
-       // this.blitMaterial.uniforms.setUniform("softThreshold", RenderSettings.bloom_softThreshold);
+       this.blitMaterial.uniforms.setUniform("settings", RenderSettings.dof_Settings);
+
     }
 
- 
+
     draw() {
 
         this.blit.draw(this);

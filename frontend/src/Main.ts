@@ -35,6 +35,7 @@ import Room from "./Room";
 import Outside from "./Outside";
 import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
 import ShadowPass from "./renderPasses/ShadowPass";
+import DOFPass from "./renderPasses/DOFPass";
 
 
 export default class Main {
@@ -63,7 +64,7 @@ export default class Main {
     private blurLightPass: BlurLight;
 
     private combinePass: CombinePass;
-    private numberOfQueries: number = 10;
+    private numberOfQueries: number = 11;
     private blurBloomPass: BlurBloom;
 
 
@@ -83,6 +84,7 @@ export default class Main {
     private yMouseScale: number = 1;
     private lightOutsidePass: LightOutsideRenderPass;
     private shadowPass: ShadowPass;
+    private dofPass: DOFPass;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -150,6 +152,8 @@ export default class Main {
         this.timeStampQuery.setStamp("GlassPass");
         this.combinePass.add()
         this.timeStampQuery.setStamp("CombinePass");
+        this.dofPass.add()
+        this.timeStampQuery.setStamp("dofPass");
         this.blurBloomPass.add();
         this.timeStampQuery.setStamp("BlurBloomPass");
         this.canvasRenderPass.add();
@@ -230,6 +234,7 @@ export default class Main {
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
         this.glassPass = new GlassRenderPass(this.renderer)
         this.combinePass = new CombinePass(this.renderer)
+        this.dofPass = new DOFPass(this.renderer);
         this.blurBloomPass = new BlurBloom(this.renderer)
 
         this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerRightHolder])
@@ -241,7 +246,7 @@ export default class Main {
         this.outside.makeTransParent();
         //this.gBufferPass.modelRenderer =this.outside.modelRenderer;
         this.shadowPass.init();
-
+        this.dofPass.init();
         for (let m of this.glFTLoaderChar.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
             this.outside.modelRenderer.addModel(m)

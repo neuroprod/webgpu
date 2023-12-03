@@ -67,9 +67,10 @@ export default class CanvasRenderPass extends RenderPass {
 
 
 
-
+        this.passSelect.push(new SelectItem("DoF ", {texture: "DOF", type: 0 }));
         this.passSelect.push(new SelectItem("Final", {texture: "final", type: 0}));
-        this.passSelect.push(new SelectItem("DOF filter", {texture: "CombinePass", type: 4 }));
+     -
+        this.passSelect.push(new SelectItem("DoF filter", {texture: "CombinePass", type: 4 }));
         this.passSelect.push(new SelectItem("Shadow Outside", {texture: "Shadow", type: 0}));
 
         this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
@@ -104,7 +105,7 @@ export default class CanvasRenderPass extends RenderPass {
 
 
         this.blitMaterial = new Material(this.renderer, "blitPost", new PostShader(this.renderer, "post"))
-        this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["CombinePass"])
+        this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["DOF"])
         this.blitMaterial.uniforms.setTexture("bloomTexture",this.renderer.texturesByLabel["BlurBloom"])
 
 
