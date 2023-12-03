@@ -4,7 +4,7 @@ export default class CanvasManager {
   public pixelRatio: number = 1;
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
-    this.pixelRatio = window.devicePixelRatio;
+    this.pixelRatio =window.devicePixelRatio;
     this.resize();
     window.onresize = this.delayedResize.bind(this);
 

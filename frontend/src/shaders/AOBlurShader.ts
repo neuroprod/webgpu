@@ -54,8 +54,11 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
        let textureSize =vec2<f32>( textureDimensions(aoTexture));
   
      let pixelSize = 1.0/textureSize *1.5;
-     var color= textureSample(aoTexture, mySampler, uv0).x ;
+     var color= textureSample(aoTexture, mySampler, uv0).x*2.0 ;
      
+    
+     
+      
      color+= textureSample(aoTexture, mySampler, uv0+pixelSize*vec2(1.0,0)).x*0.75 ;
      color+= textureSample(aoTexture, mySampler, uv0+pixelSize*vec2(-1.0,0.0)).x*0.75  ;
      color+= textureSample(aoTexture, mySampler, uv0+pixelSize*vec2(0.0,-1.0)).x*0.75  ;
@@ -69,9 +72,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
      color+= textureSample(aoTexture, mySampler, uv0+pixelSize*vec2(1.0,-1.0)).x*0.5 ;
      color+= textureSample(aoTexture, mySampler, uv0+pixelSize*vec2(-1.0,1.0)).x*0.5 ;
      
-     
-     
-     color/=6;
+     color/=7.0;
      
      
      return vec4(color,1.0,1.0,1.0) ;

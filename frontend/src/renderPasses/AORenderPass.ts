@@ -53,7 +53,7 @@ export default class AORenderPass extends RenderPass{
             if(this.halfSize){
                 options.sizeMultiplier =0.5;
             }else{
-                options.sizeMultiplier =1;
+                options.sizeMultiplier =1.0;
             }
             this.renderer.forceRescaleTextures()
         }

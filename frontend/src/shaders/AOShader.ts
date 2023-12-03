@@ -44,8 +44,8 @@ export default class AOShader extends Shader {
             v.normalize();
             v.y += 0.01;
             v.normalize();
-            let p = Math.random();
-            v.multiplyByScalar(p * p);
+            let p = Math.random()+0.01;
+            v.multiplyByScalar(p );
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";
         }
@@ -68,7 +68,7 @@ struct VertexOutput
 
 ${Camera.getShaderText(0)}
 ${this.getShaderUniforms(1)}
-${this.getNiceKernel()}
+${this.getKernel()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -132,7 +132,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
          let dif = posDistance-sampleDistance;
         if(dif>0.01){
        
-        value+=1.0-pow( kernelDistance/uniforms.radius,4.0);
+        value+=1.0-pow( kernelDistance/uniforms.radius,2.0);
         }
       
          

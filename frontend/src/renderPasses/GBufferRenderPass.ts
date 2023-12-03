@@ -63,7 +63,7 @@ export default class extends RenderPass {
 
 
         this.depthTarget = new RenderTexture(renderer, "GDepth", {
-            format: TextureFormat.Depth24Plus,
+            format: TextureFormat.Depth16Unorm,
             sampleCount: 1,
             scaleToCanvas: true,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING

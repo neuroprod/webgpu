@@ -67,9 +67,9 @@ export default class CanvasRenderPass extends RenderPass {
 
 
 
-        this.passSelect.push(new SelectItem("DoF ", {texture: "DOF", type: 0 }));
+
         this.passSelect.push(new SelectItem("Final", {texture: "final", type: 0}));
-     -
+     -  this.passSelect.push(new SelectItem("DoF ", {texture: "DOF", type: 0 }));
         this.passSelect.push(new SelectItem("DoF filter", {texture: "CombinePass", type: 4 }));
         this.passSelect.push(new SelectItem("Shadow Outside", {texture: "Shadow", type: 0}));
 

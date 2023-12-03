@@ -20,7 +20,7 @@ class RenderSettings{
     public ref_settings1:Vector4 =new Vector4(1,0,0.01,1.4);
     public ref_settings2:Vector4=new Vector4(20,10,1,1);
 
-    public dof_Settings:Vector4=new Vector4(0.88,0.94,5,0);
+    public dof_Settings:Vector4=new Vector4(0.88,0.94,3,1.5);
 
     constructor() {
 
@@ -54,9 +54,10 @@ class RenderSettings{
        this.ref_settings2.w =UI.LBool("debugColors",false)?1:0 ;
        UI.popGroup()
        UI.pushGroup("Dof");
-       this.dof_Settings.z =UI.LFloatSlider("DOF-size",   this.dof_Settings.z ,0,10) ;
-       this.dof_Settings.x =UI.LFloatSlider("DOF-min",   this.dof_Settings.x ,0,1) ;
-       this.dof_Settings.y =UI.LFloatSlider("DOF-max",   this.dof_Settings.y ,0,1) ;
+       this.dof_Settings.z =UI.LFloatSlider("Samples",   this.dof_Settings.z ,0,10) ;
+       this.dof_Settings.w =UI.LFloatSlider("Step",   this.dof_Settings.w ,0,10) ;
+       this.dof_Settings.x =UI.LFloatSlider("Min",   this.dof_Settings.x ,0,1) ;
+       this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
        UI.popGroup()
        UI.pushGroup("Post");
        this.exposure=UI.LFloatSlider("Exposure",this.exposure,0,10);
