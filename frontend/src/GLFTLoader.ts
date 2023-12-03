@@ -132,8 +132,8 @@ export default class GLFTLoader {
                 this.models.push(m.model);
             }
             if (m.model.mesh.label.includes("_AC")) {
-                m.model.castShadow = false;
-                m.model.material.cullMode = CullMode.None
+                m.model.castShadow = true;
+               // m.model.material.cullMode = CullMode.None
             }
         }
     }

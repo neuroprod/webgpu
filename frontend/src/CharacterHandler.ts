@@ -33,6 +33,7 @@ export default class CharacterHandler {
     private offset =0;
     private scene: number=0;
     private main: Main;
+    private isWalking: boolean =false;
     constructor(renderer: Renderer, camera: Camera, characterRoot:Object3D, animationMixer: AnimationMixer,main:Main) {
         this.main =main;
         this.renderer = renderer;
@@ -143,29 +144,59 @@ export default class CharacterHandler {
     }
 
     private moveCharToFloorHit() {
-        let dist =this.charPos.distance(this.floorPos);
 
-        let dir = this.floorPos.clone().subtract(this.charPos)
 
-        let angle = Math.atan2(dir.x,dir.z);
+
+
         if(this.tl)this.tl.clear()
         this.tl = gsap.timeline({});
-        let pos =0
+        if(this.isWalking ==false){
+            this.startWalking()
+        }else{
+            this.continueWalking()
+        }
 
-       this.tl.call(()=>{ this.animationMixer.setAnimation("walking",0)    },[],pos)
-        this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
+    }
+    public startWalking()
+    {
+        let pos =0
+        let dist =this.charPos.distance(this.floorPos);
+        let dir = this.floorPos.clone().subtract(this.charPos)
+        let angle = Math.atan2(dir.x,dir.z);
+
+        this.tl.call(()=>{ this.animationMixer.setAnimation("walking",0)  ,this.isWalking =true  },[],pos)
+        this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "power1.inOut"},pos)
         this.tl.to(this,{"characterRot":angle,duration:0.5,ease: "none"},pos)
 
         pos+=0.3;
         let duration =dist*0.75;
-      this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
+        this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
 
         pos+=duration;
-      let nextAnime = "idle"
+        let nextAnime = "idle"
         if(Math.random()>0.7)nextAnime ="bored"
-      this.tl.call(()=>{ this.animationMixer.setAnimation(nextAnime ,0);},[],pos)
+        this.tl.call(()=>{ this.animationMixer.setAnimation(nextAnime ,0);this.isWalking =false},[],pos)
         this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
-       this.tl.to(this,{"characterRot":0 ,duration:0.5,ease: "none"},pos)
+        this.tl.to(this,{"characterRot":0 ,duration:0.5,ease: "power1.inOut"},pos)
+    }
 
+    private continueWalking() {
+        let pos =0
+        let dist =this.charPos.distance(this.floorPos);
+        let dir = this.floorPos.clone().subtract(this.charPos)
+        let angle = Math.atan2(dir.x,dir.z);
+
+
+        this.tl.to(this,{"characterRot":angle,duration:0.5,ease: "power1.inOut"},pos)
+
+        let duration =dist*0.75;
+        this.tl.to(this.charPos,{"x":this.floorPos.x,"y":this.floorPos.y,"z":this.floorPos.z,duration:duration ,ease: "none"},pos)
+
+        pos+=duration;
+        let nextAnime = "idle"
+        if(Math.random()>0.7)nextAnime ="bored"
+        this.tl.call(()=>{ this.animationMixer.setAnimation(nextAnime ,0);this.isWalking =false},[],pos)
+        this.tl.to(this.animationMixer,{"mixValue":1,duration:0.5,ease: "none"},pos)
+        this.tl.to(this,{"characterRot":0 ,duration:0.5,ease: "none"},pos)
     }
 }

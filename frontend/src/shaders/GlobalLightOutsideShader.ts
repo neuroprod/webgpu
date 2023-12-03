@@ -25,6 +25,7 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
+        this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
         this.addTexture("shadow",DefaultTextures.getWhite(this.renderer),"depth")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -137,8 +138,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
     let textureSize =vec2<f32>( textureDimensions(gColor));
     let uvPos = vec2<i32>(floor(uv0*textureSize));
-   
-    let world=getWorldFromUVDepth(uv0 ,textureLoad(gDepth,  uvPos ,0).x); 
+   let depth = textureLoad(gDepth,  uvPos ,0).x;
+    let world=getWorldFromUVDepth(uv0 ,depth); 
     
     
     //shadow
@@ -198,7 +199,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
 
 
-    return vec4(color+lightL*shadowVal*ao,1.0) ;
+    return vec4(color+lightL*shadowVal*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }
 ///////////////////////////////////////////////////////////
         `

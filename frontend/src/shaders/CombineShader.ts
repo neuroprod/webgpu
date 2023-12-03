@@ -67,7 +67,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> ColorOutput
  var output : ColorOutput;
     let textureSize =vec2<f32>( textureDimensions(lightTexture));
     let uvPos = vec2<i32>(floor(uv0*textureSize));
-    var color=textureLoad(lightTexture,  uvPos ,0).xyz; ;
+    let light = textureLoad(lightTexture,  uvPos ,0);
+    var color=light.xyz; ;
     color+=textureLoad(refTexture,  uvPos ,0).xyz; ;
     
     
@@ -85,8 +86,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> ColorOutput
     var contribution = max(soft, brightness - uniforms.threshold);
     contribution /= max(brightness, 0.00001);
     
-    output.color = vec4f(color,1.0);
-    output.bloom = vec4f(color*contribution,1.0);
+    output.color = vec4f(color,light.w);
+    output.bloom = vec4f(color*contribution,0.0);
    
     return output;
 }

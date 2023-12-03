@@ -125,7 +125,7 @@ fn mainFragment(@location(0) projPos: vec4f) -> @location(0) vec4f
     
      let an=(1.0/pow(dist,2.0))*(1.0- pow(dist/uniforms.position.w,2.0)) ; 
  
-    if( dist>uniforms.position.w){return vec4(0,0,0,1.0);}
+    if( dist>uniforms.position.w){return vec4(0,0,0,0.0);}
 
 
 
@@ -154,7 +154,7 @@ if( uniforms.shadow.x>0.5){
         let worldDist = distance(worldS,camera.worldPosition.xyz);
         let diff = distance(tracePos,camera.worldPosition.xyz)-distance(worldS,camera.worldPosition.xyz);
         if(diff>0.01 && diff <uniforms.shadow.w){
-           return vec4(0.0,0.0,0.0,1.0);
+           return vec4(0.0,0.0,0.0,0.0);
        
         }
     }
@@ -195,7 +195,7 @@ if( uniforms.shadow.x>0.5){
         let NdotL = max(dot(N, L), 0.0);
         let light= (kD * albedo / PI + specular) * radiance * NdotL ;
         
-        return vec4( light,1.0);
+        return vec4( light,0.0);
 }
 ///////////////////////////////////////////////////////////
        

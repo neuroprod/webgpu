@@ -36,14 +36,7 @@ export default class DOFRenderPass extends RenderPass{
         this.colorAttachment= new ColorAttachment(this.target);
 
 
-        this.bloomTarget = new RenderTexture(renderer, "BloomPrePass2", {
-            format: TextureFormat.RGBA16Float,
-            sampleCount: this.sampleCount,
-            scaleToCanvas: true,
-            sizeMultiplier:1,
-            usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
-        });
-        this.bloomAttachment = new ColorAttachment(this.bloomTarget);
+
 
 
 
@@ -54,7 +47,7 @@ export default class DOFRenderPass extends RenderPass{
 
     }
     init(){
-        this.colorAttachments = [this.colorAttachment, this.bloomAttachment];
+        this.colorAttachments = [this.colorAttachment];
         this.blitMaterial = new Material(this.renderer, "blitDof", new DofShader(this.renderer, "dofPass"))
         this.blitMaterial.uniforms.setTexture("combineTexture",this.renderer.texturesByLabel["CombinePass"])
 
@@ -67,10 +60,7 @@ export default class DOFRenderPass extends RenderPass{
        // this.blitMaterial.uniforms.setUniform("softThreshold", RenderSettings.bloom_softThreshold);
     }
 
-    onUI(){
-
-
-    }
+ 
     draw() {
 
         this.blit.draw(this);

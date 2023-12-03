@@ -220,7 +220,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
 
 
-    return vec4(color+lightL,1.0) ;
+    return vec4(color+lightL,0.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

@@ -21,6 +21,7 @@ import ColorV from "../lib/ColorV";
 import MainLight from "../MainLight";
 
 import GlobalLightOutsideShader from "../shaders/GlobalLightOutsideShader";
+import RenderSettings from "../RenderSettings";
 
 export default class LightOutsideRenderPass extends RenderPass  {
 
@@ -42,7 +43,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
     constructor(renderer: Renderer, target: RenderTexture) {
 
         super(renderer, "LightOutsideRenderPass");
-
+        RenderSettings.registerPass(this);
         this.target = target;
         this.colorAttachment = new ColorAttachment(this.target);
         this.colorAttachments = [this.colorAttachment];
@@ -123,6 +124,10 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.globalLightMaterial.uniforms.setUniform( "shadowMatrix",matrix)
         UI.popWindow()
     }
+onSettingsChange() {
+    super.onSettingsChange();
+    this.globalLightMaterial.uniforms.setUniform("dof",RenderSettings.dof_Settings)
+}
 
     draw() {
 

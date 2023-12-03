@@ -54,7 +54,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment() -> @location(0) vec4f
 {
-     return vec4( uniforms.color.xyz *uniforms.color.w,1.0);
+     return vec4( uniforms.color.xyz *uniforms.color.w,0.0);
 }
 //////////////////////////////////////////////////////////
         

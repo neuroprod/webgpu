@@ -10,7 +10,7 @@ export type ColorAttachmentOptions = {
     arrayLayerCount :GPUIntegerCoordinate,
 }
 export const ColorAttachmentOptionsDefault: ColorAttachmentOptions = {
-    clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 1.0},
+    clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 0.0},
     loadOp: LoadOp.Clear,
     storeOp: StoreOp.Store,
     baseArrayLayer:0,
