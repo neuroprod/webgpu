@@ -36,6 +36,8 @@ import Outside from "./Outside";
 import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
 import ShadowPass from "./renderPasses/ShadowPass";
 import DOFPass from "./renderPasses/DOFPass";
+import PostRenderPass from "./renderPasses/PostRenderPass";
+import FXAARenderPass from "./renderPasses/FXAARenderPass";
 
 
 export default class Main {
@@ -85,6 +87,8 @@ export default class Main {
     private lightOutsidePass: LightOutsideRenderPass;
     private shadowPass: ShadowPass;
     private dofPass: DOFPass;
+    private postPass: PostRenderPass;
+    private FXAAPass: FXAARenderPass;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -156,6 +160,8 @@ export default class Main {
         this.timeStampQuery.setStamp("dofPass");
         this.blurBloomPass.add();
         this.timeStampQuery.setStamp("BlurBloomPass");
+        this.postPass.add();
+        this.FXAAPass.add();
         this.canvasRenderPass.add();
         this.timeStampQuery.setStamp("CanvasPass");
         this.timeStampQuery.stop();
@@ -236,7 +242,8 @@ export default class Main {
         this.combinePass = new CombinePass(this.renderer)
         this.dofPass = new DOFPass(this.renderer);
         this.blurBloomPass = new BlurBloom(this.renderer)
-
+        this.postPass = new PostRenderPass(this.renderer)
+        this.FXAAPass = new FXAARenderPass(this.renderer);
         this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerRightHolder])
         this.lightOutsidePass.init();
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);

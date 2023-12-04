@@ -22,7 +22,7 @@ export default class AORenderPass extends RenderPass{
     private aoRadius =1;
     private  aoStrength=1.3;
     private aoNumSamples =16;
-    private halfSize: boolean =true;
+    private halfSize: boolean =false;
     constructor(renderer: Renderer) {
 
         super(renderer, "OAPass");
