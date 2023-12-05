@@ -11,10 +11,12 @@ export default class TextureLoader extends Texture{
     }
     async loadURL(url: string) {
         const response = await fetch(url);
+        console.log(url)
         const imageBitmap = await createImageBitmap(await response.blob());
         this.options.width = imageBitmap.width;
         this.options.height = imageBitmap.height;
         this.options.usage =  GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT ;
+      // this.options.mipLevelCount=2;
         this.make();
 
 
