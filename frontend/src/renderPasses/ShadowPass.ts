@@ -73,12 +73,12 @@ export default class ShadowPass extends RenderPass {
         this.camera.near =-13;
         this.camera.far =35;
     }
-    public setLightDir(dir:Vector3){
+    public update(dir:Vector3,camPos:number){
 
         this.camera.cameraLookAt =new Vector3(5,0,-10)
         this.camera.cameraWorld =this.camera.cameraLookAt.clone().add(dir.clone().scale(-20))
-
-
+        this.camera.cameraWorld.x +=camPos;
+        this.camera.cameraLookAt.x +=camPos;
     }
     onUI()
     {

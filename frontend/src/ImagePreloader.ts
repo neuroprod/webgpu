@@ -2,11 +2,11 @@ import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
 import {preloadImages} from "./PreloadData";
 import TextureLoader from "./lib/textures/TextureLoader";
-import Texture from "./lib/textures/Texture";
+
 
  class ImagePreloader{
 
-    private textureByName:{ [name: string]: Texture } = {};
+
     constructor() {
 
     }
@@ -15,13 +15,14 @@ import Texture from "./lib/textures/Texture";
 
         for(let img of preloadImages){
 
-            this.textureByName[img] =new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:5});
+            let name = "textures/"+img+".png";
+            if(renderer.texturesByLabel[name]== undefined){
+                new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:5});
+            }
         }
+        console.log(renderer.texturesByLabel)
     }
-    getTexture(name:string){
 
-        return this.textureByName[name];
-    }
 
 }
 export default new ImagePreloader()

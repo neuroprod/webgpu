@@ -24,6 +24,7 @@ export default class MipMapQueue{
         return p;
     }
     processQue(){
+        for(let i=0;i<20;i++)
        this.processTexture();
     }
     processTexture(){
@@ -33,7 +34,7 @@ export default class MipMapQueue{
         if(texture.options.width !=texture.options.height){console.log("only squares");return;}
         let maxMips =Math.log2(texture.options.width)-1;
 
-        console.log(texture.label,texture.options.mipLevelCount,texture.options.width )
+
         let count =1;
 
         let prevTexture = texture;
@@ -43,7 +44,7 @@ export default class MipMapQueue{
 
             let size =Math.pow(2,i);
             let pass = this.getPassBySize(size)
-            console.log(i,"miplevel "+count,prevTexture.options.width+"->",size)
+          //  console.log(i,"miplevel "+count,prevTexture.options.width+"->",size)
             pass.setInputTexture(prevTexture)
             pass.add();
 

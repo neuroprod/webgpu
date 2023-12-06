@@ -155,20 +155,23 @@ export default class GLFTLoader {
         }
 
 
-        let colorTexture = ImagePreloader.getTexture(name + "_Color");
+        let colorTexture = this.getTexture(name + "_Color");
         if (colorTexture) material.uniforms.setTexture("colorTexture", colorTexture)
 
-        let normalTexture = ImagePreloader.getTexture(name + "_Normal");
+        let normalTexture = this.getTexture(name + "_Normal");
         if (normalTexture) material.uniforms.setTexture("normalTexture", normalTexture)
 
-        let mraTexture = ImagePreloader.getTexture(name + "_MRA");
+        let mraTexture = this.getTexture(name + "_MRA");
         if (mraTexture) material.uniforms.setTexture("mraTexture", mraTexture)
         this.materialsByName[name] = material;
         return material;
 
 
     }
+    private getTexture(text:string){
 
+        return this.renderer.texturesByLabel["textures/"+text+".png"];
+    }
     private parseAnimations() {
         // for(an)
         if (!this.json.animations) return;
