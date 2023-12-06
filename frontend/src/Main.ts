@@ -21,7 +21,7 @@ import JSONLoader from "./JSONLoader";
 import AORenderPass from "./renderPasses/AORenderPass";
 import AOBlurRenderPass from "./renderPasses/AOBlurRenderPass";
 import ReflectionRenderPass from "./renderPasses/ReflectionRenderPass";
-import TextureLoader from "./lib/loaders/TextureLoader";
+import TextureLoader from "./lib/textures/TextureLoader";
 import GlassRenderPass from "./renderPasses/GlassRenderPass";
 import BlurLight from "./renderPasses/BlurLight";
 import CombinePass from "./renderPasses/CombinePass";
@@ -106,7 +106,6 @@ export default class Main {
             this.init.bind(this)
         );
 
-        this.renderer.init()
         this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
 
 

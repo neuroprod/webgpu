@@ -84,9 +84,7 @@ export const preloadImages = [
   "grassBase_Color",
   "grassBase_MRA",
   "grassBase_Normal",
-  "grassMain_Color",
-  "grassMain_MRA",
-  "grassMain_Normal",
+
   "grinder_Color",
   "grinder_MRA",
   "grinder_Normal",

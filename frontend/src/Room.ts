@@ -1,6 +1,6 @@
 import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
-import TextureLoader from "./lib/loaders/TextureLoader";
+import TextureLoader from "./lib/textures/TextureLoader";
 import GLFTLoader from "./GLFTLoader";
 import MainLight from "./MainLight";
 import Object3D from "./lib/core/Object3D";

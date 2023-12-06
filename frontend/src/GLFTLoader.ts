@@ -124,7 +124,7 @@ export default class GLFTLoader {
     private makeModels() {
         for (let m of this.modelData) {
             m.model.mesh = this.meshes[m.meshID]
-            console.log(m.model.mesh.label);
+
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {
                 this.modelsGlass.push(m.model);
@@ -387,6 +387,6 @@ export default class GLFTLoader {
             let skin = new Skin(this.renderer, s.name, nodeArray, inverseMatrixes)
             this.skins.push(skin);
         }
-        console.log(this.skins);
+
     }
 }

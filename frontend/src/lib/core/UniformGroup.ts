@@ -102,7 +102,7 @@ export default class UniformGroup extends ObjectGPU {
     }
 
     addSampler(name: string) {
-        let sampler = this.renderer.device.createSampler({magFilter: "linear", minFilter: "linear"})
+        let sampler = this.renderer.device.createSampler({magFilter: "linear", minFilter: "linear",mipmapFilter:"linear",maxAnisotropy:2})
         this.samplerUniforms.push({name: name, sampler: sampler, usage: GPUShaderStage.FRAGMENT, compare: false})
 
 

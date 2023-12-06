@@ -12,6 +12,7 @@ import Model from "./model/Model";
 import {IResizable} from "./IResizable";
 import {Vector2} from "math.gl";
 import Skin from "./animation/Skin";
+import MipMapQueue from "./textures/MipMapQueue";
 
 export default class Renderer {
     public device: GPUDevice;
@@ -38,10 +39,11 @@ export default class Renderer {
     private resizables:Array<IResizable>=[];
     public pixelRatio: number;
     public skin: Skin;
+    public mipmapQueue:MipMapQueue
     constructor() {
     }
 
-    async setup(canvas: HTMLCanvasElement, needsDepth: boolean = true) {
+    async setup(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         const adapter = await navigator.gpu.requestAdapter({powerPreference:"high-performance"});
         //--enable-dawn-features=allow_unsafe_apis
@@ -55,10 +57,10 @@ export default class Renderer {
 
         }
         //extentions
-        for (let a of adapter.features.keys()) {
-            console.log(a)
-        }
-        console.log("timestamps?", this.useTimeStampQuery)
+       // for (let a of adapter.features.keys()) {
+         //   console.log(a)
+        //}
+        //console.log("timestamps?", this.useTimeStampQuery)
         this.device = await adapter.requestDevice({requiredFeatures: requiredFeatures,});
 
         this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
@@ -71,13 +73,11 @@ export default class Renderer {
 
         });
 
-
+        this.mipmapQueue =new MipMapQueue(this)
         //this.ratio = this.canvas.width / this.canvas.height;
     }
 
-    init() {
 
-    }
 
     public setCanvasColorAttachment(canvasColorAttachment: ColorAttachment) {
         this.canvasColorAttachment = canvasColorAttachment
@@ -99,7 +99,7 @@ export default class Renderer {
 
         this.commandEncoder = this.device.createCommandEncoder();
 
-
+        this.mipmapQueue.processQue();
         setCommands();
 
 

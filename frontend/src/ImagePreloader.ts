@@ -1,7 +1,7 @@
 import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
 import {preloadImages} from "./PreloadData";
-import TextureLoader from "./lib/loaders/TextureLoader";
+import TextureLoader from "./lib/textures/TextureLoader";
 import Texture from "./lib/textures/Texture";
 
  class ImagePreloader{
@@ -15,7 +15,7 @@ import Texture from "./lib/textures/Texture";
 
         for(let img of preloadImages){
 
-            this.textureByName[img] =new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:1});
+            this.textureByName[img] =new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:5});
         }
     }
     getTexture(name:string){
