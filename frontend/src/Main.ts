@@ -270,14 +270,7 @@ export default class Main {
         }
 
 
-        UI.pushWindow("Scenes")
-        if (UI.LButton("Inside")) {
-            this.setScene(0);
-        }
-        if (UI.LButton("Outside")) {
-            this.setScene(1);
-        }
-        UI.popWindow()
+
 
 
         UI.pushWindow("Performance")
@@ -286,9 +279,7 @@ export default class Main {
         UI.popWindow()
 
             this.lightRoomPass.onUI();
-
             this.lightOutsidePass.onUI(this.shadowPass.camera.viewProjection);
-
             this.shadowPass.onUI()
 
 

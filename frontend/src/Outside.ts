@@ -4,27 +4,31 @@ import PreLoader from "./lib/PreLoader";
 import GLFTLoader from "./GLFTLoader";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Object3D from "./lib/core/Object3D";
-import UI from "./lib/UI/UI";
+import GameModel from "./GameModel";
+import mapRange = gsap.utils.mapRange;
+import {clamp} from "math.gl";
 
 
-export default class Outside{
-    private renderer: Renderer;
-    private glFTLoader: GLFTLoader;
+
+export default class Outside {
     modelRenderer: ModelRenderer;
     modelRendererTrans: ModelRenderer;
-root:Object3D
-    constructor(renderer:Renderer,preloader:PreLoader) {
+    root: Object3D
+    private renderer: Renderer;
+    private glFTLoader: GLFTLoader;
 
-        this.renderer=renderer;
+    constructor(renderer: Renderer, preloader: PreLoader) {
+
+        this.renderer = renderer;
         this.glFTLoader = new GLFTLoader(this.renderer, "outside", preloader);
 
     }
-    init(){
-        this.modelRenderer =new ModelRenderer(this.renderer,"outside");
-        this.modelRendererTrans =new ModelRenderer(this.renderer,"outsideTrans");
 
-this.root =this.glFTLoader.root
+    init() {
+        this.modelRenderer = new ModelRenderer(this.renderer, "outside");
+        this.modelRendererTrans = new ModelRenderer(this.renderer, "outsideTrans");
 
+        this.root = this.glFTLoader.root
 
 
         for (let m of this.glFTLoader.models) {
@@ -33,16 +37,22 @@ this.root =this.glFTLoader.root
         }
     }
 
-    public update(){
-       // UI.LFloat('offset',0)
-      //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)
+    public update() {
+
+        let pos =-GameModel.characterPos.x;
+
+
+        GameModel.dayNight =clamp((pos-13)/8,0,1);
+        //GameModel.dayNight
+        // UI.LFloat('offset',0)
+        //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)
     }
 
     makeTransParent() {
         for (let m of this.glFTLoader.modelsGlass) {
 
-            m.material.uniforms.setTexture("gDepth",this.renderer.texturesByLabel["GDepth"])
-            m.material.uniforms.setTexture("reflectTexture",this.renderer.texturesByLabel["LightPass"])
+            m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
+            m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["LightPass"])
             this.modelRendererTrans.addModel(m)
 
         }

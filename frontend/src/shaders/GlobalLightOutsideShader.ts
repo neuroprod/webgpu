@@ -155,6 +155,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
   }
   }
   shadowVal/=9.0;
+    //
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
     let N = normalize((textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);
@@ -166,7 +167,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
       
     let ao = textureLoad(aoTexture,  uvPosAO ,0).x ;
     let l = dot(N,vec3(0,1.0,0));
-    let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
+   let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
     let color = albedo*light*ao*(1.0-mra.x) +albedo*pow(mra.z,2.0)*10.0;
 
 
