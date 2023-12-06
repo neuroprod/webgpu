@@ -33,15 +33,15 @@ export default class LightOutsideRenderPass extends RenderPass  {
     private globalLightMaterial: Material;
     private blitGlobalLight: Blit;
 
-    private sunLightColor: ColorV = new ColorV(0.99,0.88,0.73,1.00);
-    private sunLightStrength: number = 4;
+    private sunLightColor: ColorV = new ColorV(1.00,0.71,0.39,1.00);
+    private sunLightStrength: number =5.6;
 
     private topColorDay: ColorV = new ColorV(   0.73,0.99,0.95,0.40);
     private midColorDay: ColorV = new ColorV(1.00, 0.91, 0.82, 0.19);
     private bottomColorDay: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
 
 
-    private moonLightColor: ColorV = new ColorV( 0.00,0.40,1.00,1.00);
+    private moonLightColor: ColorV = new ColorV( 0.2,0.40,1.00,1.00);
     private moonLightStrength: number = 2.4;
 
     private topColorNight: ColorV = new ColorV(    0.01,0.40,1.00,0.40*0.5);
