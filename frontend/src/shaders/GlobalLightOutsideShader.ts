@@ -175,7 +175,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
       
     let ao = textureLoad(aoTexture,  uvPosAO ,0).x ;
     let l = dot(N,vec3(0,1.0,0));
-   let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
+    let midTop = mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,clamp(l,0.0,1.0));
+   let light =mix( midTop,uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
     let color = albedo*light*ao*(1.0-mra.x) +albedo*pow(mra.z,2.0)*10.0;
 
 
@@ -209,7 +210,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
 
    
- //return vec4( color,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
+
     return vec4(color+(lightL+lightP)*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }
 ///////////////////////////////////////////////////////////

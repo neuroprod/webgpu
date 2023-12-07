@@ -132,7 +132,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.sunLightColor.w=this.sunLightStrength = UI.LFloatSlider("strength", this.sunLightStrength, 0, 20);
 
         UI.separator("Global Light Day")
-        UI.LColor("topLightDay",this.midColorDay)
+        UI.LColor("topLightDay",this.topColorDay)
         UI.LColor("midLightDay", this.midColorDay)
         UI.LColor("bottomLightDay", this.bottomColorDay)
 
@@ -142,7 +142,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.moonLightColor.w=this.moonLightStrength = UI.LFloatSlider("strength Moon", this.moonLightStrength , 0, 20);
 
         UI.separator("Global Light Night")
-        UI.LColor("topLightNight",this.midColorNight)
+        UI.LColor("topLightNight",this.topColorNight)
         UI.LColor("midLightNight", this.midColorNight)
         UI.LColor("bottomLightNight", this.bottomColorNight)
 
