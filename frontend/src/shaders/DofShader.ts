@@ -79,7 +79,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     var div =0.0;
 
     
-   let s = step(0.01,color.w);
+
     let dir =vec2(${this.getDir()})*pixelSize*color.w*uniforms.settings.w ;
     let stepp =round(uniforms.settings.z);
     for(var i=-stepp;i<(stepp+1.0);i+=1.0)
@@ -99,11 +99,11 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     
     
-    
+    if(color.w<0.01){return vec4(color); }
      
  
     //return vec4(color.xyz *step(0.99,1.0-color.w),color.w);
-    return vec4(colorBlur*s +color.xyz*(1.0-s),color.w) ;
+    return vec4(colorBlur,color.w) ;
 }
 ///////////////////////////////////////////////////////////
         `
