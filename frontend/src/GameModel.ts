@@ -50,7 +50,7 @@ class GameModel {
         t.set(this.transitionComplete.bind(this));
     }
     transitionComplete(){
-        console.log("complete")
+       // console.log("complete")
     }
 
 }

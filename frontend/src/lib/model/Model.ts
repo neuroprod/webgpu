@@ -4,6 +4,7 @@ import Material from "../core/Material";
 import Mesh from "../core/Mesh";
 import Object3D from "../core/Object3D";
 import ModelTransform from "./ModelTransform";
+import HitTestObject from "../meshes/HitTestObject";
 
 
 export default class Model extends Object3D
@@ -11,8 +12,10 @@ export default class Model extends Object3D
     material!: Material;
     mesh!:Mesh
 
-   public modelTransform: ModelTransform;
+    public modelTransform: ModelTransform;
     public visible: boolean =true;
+    public hitTestObject: HitTestObject;
+    public canHitTest: boolean =false;
 
     constructor(renderer:Renderer,label:string) {
         super(renderer,label);

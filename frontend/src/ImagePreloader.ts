@@ -20,7 +20,7 @@ import TextureLoader from "./lib/textures/TextureLoader";
                 new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:6});
             }
         }
-        console.log(renderer.texturesByLabel)
+
     }
 
 

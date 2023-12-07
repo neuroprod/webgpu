@@ -5,7 +5,6 @@ import Object3D from "./lib/core/Object3D";
 import Model from "./lib/model/Model";
 import TestShader from "./shaders/TestShader";
 import Material from "./lib/core/Material";
-import ImagePreloader from "./ImagePreloader";
 import GBufferShader from "./shaders/GBufferShader";
 import GlassShader from "./shaders/GlassShader";
 import {Matrix4, Quaternion, Vector3} from "math.gl";
@@ -14,7 +13,7 @@ import AnimationChannelQuaternion from "./lib/animation/AnimationChannelQuaterni
 import AnimationChannelVector3 from "./lib/animation/AnimationChannelVector3";
 import Skin from "./lib/animation/Skin";
 import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
-import {CullMode} from "./lib/WebGPUConstants";
+import HitTestObject from "./lib/meshes/HitTestObject";
 
 
 type Accessor = {
@@ -124,7 +123,10 @@ export default class GLFTLoader {
     private makeModels() {
         for (let m of this.modelData) {
             m.model.mesh = this.meshes[m.meshID]
-
+            if (m.model.mesh.hitTestObject) {
+                m.model.hitTestObject = m.model.mesh.hitTestObject;
+                m.model.canHitTest = true;
+            }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {
                 this.modelsGlass.push(m.model);
@@ -133,7 +135,7 @@ export default class GLFTLoader {
             }
             if (m.model.mesh.label.includes("_AC")) {
                 m.model.castShadow = true;
-               // m.model.material.cullMode = CullMode.None
+                // m.model.material.cullMode = CullMode.None
             }
         }
     }
@@ -168,10 +170,12 @@ export default class GLFTLoader {
 
 
     }
-    private getTexture(text:string){
 
-        return this.renderer.texturesByLabel["textures/"+text+".png"];
+    private getTexture(text: string) {
+
+        return this.renderer.texturesByLabel["textures/" + text + ".png"];
     }
+
     private parseAnimations() {
         // for(an)
         if (!this.json.animations) return;
@@ -320,10 +324,19 @@ export default class GLFTLoader {
                 let indices = new Uint32Array(indexData);
                 mesh.setIndices32(indices)
             }
+
+
             //POSITION, NORMAL TANGENT TEXCOORD_0,....
             let posAccessor = this.accessors[primitive.attributes.POSITION];
-            let positionData = this.getSlize(posAccessor);
 
+            let positionData = this.getSlize(posAccessor);
+            if (m.name.includes("_HO")) {
+
+
+                mesh.hitTestObject = new HitTestObject()
+                mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])
+                mesh.hitTestObject.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2])
+            }
 
             mesh.setVertices(new Float32Array(positionData));
 
@@ -340,7 +353,7 @@ export default class GLFTLoader {
                 let tangentAccessor = this.accessors[primitive.attributes.TANGENT];
                 let tangentData = this.getSlize(tangentAccessor);
                 mesh.setTangents(new Float32Array(tangentData));
-            }else{
+            } else {
                 console.warn("no tangent for mesh", m.name)
             }
 

@@ -2,6 +2,7 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import {IndexFormat} from "../WebGPUConstants";
 import {byteLength} from "next/dist/server/api-utils/web";
+import HitTestObject from "../meshes/HitTestObject";
 
 export default class Mesh extends ObjectGPU {
 
@@ -11,7 +12,7 @@ export default class Mesh extends ObjectGPU {
     public numIndices: GPUSize32;
     public hasIndices: boolean = false;
 
-
+    public hitTestObject:HitTestObject;
 
 
     private buffers: Array<GPUBuffer> = [];
