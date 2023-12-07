@@ -17,7 +17,7 @@ import TextureLoader from "./lib/textures/TextureLoader";
 
             let name = "textures/"+img+".png";
             if(renderer.texturesByLabel[name]== undefined){
-                new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:5});
+                new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:6});
             }
         }
         console.log(renderer.texturesByLabel)

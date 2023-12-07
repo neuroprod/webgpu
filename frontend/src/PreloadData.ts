@@ -27,9 +27,6 @@ export const preloadImages = [
   "chartest_Color",
   "chartest_MRA",
   "chartest_Normal",
-  "clover_AC.010_Color",
-  "clover_AC.010_MRA",
-  "clover_AC.010_Normal",
   "clover_AC_Color",
   "clover_AC_MRA",
   "clover_AC_Normal",
@@ -84,7 +81,9 @@ export const preloadImages = [
   "grassBase_Color",
   "grassBase_MRA",
   "grassBase_Normal",
-
+  "grass_AC_Color",
+  "grass_AC_MRA",
+  "grass_AC_Normal",
   "grinder_Color",
   "grinder_MRA",
   "grinder_Normal",
@@ -136,7 +135,6 @@ export const preloadImages = [
   "paperWallLeft_Color",
   "paperWallLeft_MRA",
   "paperWallLeft_Normal",
-
   "pineLeaves_AC_Color",
   "pineLeaves_AC_MRA",
   "pineLeaves_AC_Normal",

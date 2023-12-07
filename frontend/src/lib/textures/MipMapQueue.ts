@@ -31,6 +31,7 @@ export default class MipMapQueue{
         if(this.textures.length==0)return;
         let texture =  this.textures.pop()
         let targetMips = texture.options.mipLevelCount;
+        if (targetMips==0)return;
         if(texture.options.width !=texture.options.height){console.log("only squares");return;}
         let maxMips =Math.log2(texture.options.width)-1;
 

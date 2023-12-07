@@ -106,3 +106,39 @@ fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)
 } 
 `
 }
+
+export function pointLight(){
+  return   /* wgsl */ `
+  
+  
+  
+
+  
+  
+  
+  
+fn pointLight(lightPos:vec3f ,lightColor:vec4f,albedo:vec3f,world:vec3f,N:vec3f,V:vec3f,F0:vec3f,roughness:f32)->vec3f
+{       let distToLight=distance (lightPos.xyz,world);
+    let lightVec = lightPos - world;
+    let L = normalize(lightVec);
+    let H = normalize(V + L);
+    let NdotV = max(0.0, dot(N, V));
+    let NDF = DistributionGGX(N, H, roughness);
+    let G   = GeometrySmith(N, V, L, roughness);
+    let F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
+
+    let kS = F;
+    let kD = vec3(1.0) - kS;
+
+    let numerator    = NDF * G * F;
+    let denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+    let specular     = numerator / denominator;
+    let an  =1.0/pow( distToLight,2.0);
+    let radiance =lightColor.xyz *lightColor.w*an;
+
+    let NdotL = max(dot(N, L), 0.0);
+    let lightL= (kD * albedo / PI + specular) * radiance * NdotL ;
+    return lightL;
+}
+`
+}

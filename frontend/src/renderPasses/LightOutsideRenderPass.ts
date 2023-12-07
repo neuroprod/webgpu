@@ -23,6 +23,7 @@ import MainLight from "../MainLight";
 import GlobalLightOutsideShader from "../shaders/GlobalLightOutsideShader";
 import RenderSettings from "../RenderSettings";
 import GameModel from "../GameModel";
+import Object3D from "../lib/core/Object3D";
 
 export default class LightOutsideRenderPass extends RenderPass  {
 
@@ -49,11 +50,13 @@ export default class LightOutsideRenderPass extends RenderPass  {
     private bottomColorNight: ColorV = new ColorV( 0.01,0.40,1.00, 0.1*0.5);
 
 
-
+    private lightColor: ColorV = new ColorV( 0.85,0.75,0.55,1.00);
+    private lightStrength: number =3;
 
 
 
     public sunDir =new Vector3(-0.172996,-0.694981,-0.697907);
+    public lightGrave: Object3D;
 
 
     constructor(renderer: Renderer, target: RenderTexture) {
@@ -143,6 +146,14 @@ export default class LightOutsideRenderPass extends RenderPass  {
         UI.LColor("midLightNight", this.midColorNight)
         UI.LColor("bottomLightNight", this.bottomColorNight)
 
+
+        UI.separator("Light")
+        this.lightColor.w =1;
+        UI.LColor("lightColor", this.lightColor)
+        this.lightColor.w=this.lightStrength = UI.LFloatSlider("strength Light", this.lightStrength , 0, 20);
+
+
+
         this.globalLightMaterial.uniforms.setUniform("lightColor",  this.sunLightColor.clone().lerp(this.moonLightColor,GameModel.dayNight))
         this.globalLightMaterial.uniforms.setUniform("lightDir", new Vector4( this.sunDir.x,this.sunDir.y,this.sunDir.z, 1));
 
@@ -150,7 +161,11 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColorDay.clone().lerp(this.midColorNight,GameModel.dayNight))
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay.clone().lerp(this.bottomColorNight,GameModel.dayNight))
 
-        this.globalLightMaterial.uniforms.setUniform( "shadowMatrix",matrix)
+        this.globalLightMaterial.uniforms.setUniform( "shadowMatrix",matrix);
+
+        this.globalLightMaterial.uniforms.setUniform("pointlightColor",this.lightColor);
+        this.globalLightMaterial.uniforms.setUniform("pointlightPos",this.lightGrave.getWorldPos());
+
         UI.popWindow()
     }
 

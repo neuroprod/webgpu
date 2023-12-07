@@ -2,7 +2,7 @@ import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector3, Vector4} from "math.gl";
-import {getWorldFromUVDepth} from "./ShaderChunks";
+import {getWorldFromUVDepth, pointLight} from "./ShaderChunks";
 import Camera from "../lib/Camera";
 import {TextureViewDimension} from "../lib/WebGPUConstants";
 
@@ -22,6 +22,8 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addUniform("shadowMatrix",0,GPUShaderStage.FRAGMENT,ShaderType.mat4)
         this.addUniform("lightDir",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("lightColor",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("pointlightColor",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("pointlightPos",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
@@ -111,6 +113,7 @@ fn GeometrySchlickGGX(NdotV:f32,  roughness:f32)-> f32
 ${Camera.getShaderText(0)}
 ${this.getShaderUniforms(1)}
 ${getWorldFromUVDepth()}
+${pointLight()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -195,12 +198,12 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let radiance =uniforms.lightColor.xyz *uniforms.lightColor.w;
     
         let NdotL = max(dot(N, L), 0.0);
-        let lightL= (kD * albedo / PI + specular) * radiance * NdotL ;
+        let lightL= (kD * albedo / PI + specular) * radiance * NdotL *shadowVal;
 
+    let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness);
 
-
-
-    return vec4(color+lightL*shadowVal*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
+ //return vec4( color,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
+    return vec4(color+(lightL+lightP)*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }
 ///////////////////////////////////////////////////////////
         `

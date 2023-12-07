@@ -185,6 +185,8 @@ export default class Main {
 
         this.room.makeTransParent();
         this.outside.makeTransParent();
+        this.lightOutsidePass.lightGrave =this.outside.lightGrave;
+
         //this.gBufferPass.modelRenderer =this.outside.modelRenderer;
         this.shadowPass.init();
         this.dofPass.init();

@@ -32,7 +32,7 @@ export default class GameCamera{
 
 
         this.mouseTarget.lerp(mp, 0.1);
-        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, GameModel.yMouseCenter + this.mouseTarget.y+1.5, 10);
+        let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, GameModel.yMouseCenter + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraWorld.x+=offsetX
         //this.camera.cameraWorld.y-=1.5;

@@ -2,7 +2,7 @@ import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector3, Vector4} from "math.gl";
-import {getWorldFromUVDepth} from "./ShaderChunks";
+import {getWorldFromUVDepth, pointLight} from "./ShaderChunks";
 import Camera from "../lib/Camera";
 import {TextureViewDimension} from "../lib/WebGPUConstants";
 
@@ -110,6 +110,7 @@ fn GeometrySchlickGGX(NdotV:f32,  roughness:f32)-> f32
 ${Camera.getShaderText(0)}
 ${this.getShaderUniforms(1)}
 ${getWorldFromUVDepth()}
+${pointLight()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -128,6 +129,9 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn random(st : vec2f ) -> f32 {
   return fract(sin(dot(st.xy, vec2f(12.9898, 78.233))) * 43758.5453123)-0.5;
 }
+
+
+
 @fragment
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
@@ -149,7 +153,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let uvPosAO = vec2<i32>(floor(uv0*textureSizeAO));
       
     let ao = textureLoad(aoTexture,  uvPosAO ,0).x ;
-    let l = dot(N,vec3(0,1.0,0));
+    let l = dot(N,vec3(0.0,1.0,0.0));
     let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
     let color = albedo*light*ao*(1.0-mra.x) +albedo*pow(mra.z,2.0)*10.0;
 
@@ -158,25 +162,19 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     var dir = uniforms.lightPos.xyz-world;
     
    
-   /* let near =0.01;
-    let far =10.0;
-    var dd =(((1/distToLight)*(near*far))-far) /(near - far);
-    let shadow = textureSampleCompare(shadowCube, mySamplerComp,normalize(dir)+0.01, dd);
-   */
+ 
 
-      var shadowColor =0.0;
-       let dirN = normalize(dir);
-      let distToLight=distance (uniforms.lightPos.xyz,world);
+    var shadowColor =0.0;
+    let dirN = normalize(dir);
+    let distToLight=distance (uniforms.lightPos.xyz,world);
       
-        let randomVec =normalize(vec3f(random(uv0),random(uv0.yx +vec2f(3.9333)),random(uv0.yx+vec2f(0.9))));
-     let tangent   = normalize(randomVec - N * dot(randomVec, N));
-     let bitangent = cross(N, tangent);
-     let TBN       = mat3x3<f32>(tangent, bitangent, N); 
+    let randomVec =normalize(vec3f(random(uv0),random(uv0.yx +vec2f(3.9333)),random(uv0.yx+vec2f(0.9))));
+    let tangent   = normalize(randomVec - N * dot(randomVec, N));
+    let bitangent = cross(N, tangent);
+    let TBN       = mat3x3<f32>(tangent, bitangent, N); 
       
       
       for(var i=0;i<16;i++){
-      
-   
       
         let distToLightL=distance (uniforms.lightPos.xyz,world);
         let shadowDist = textureSample(shadowCubeDebug, mySampler,normalize(dirN +TBN*kernel[i])).x;
@@ -187,37 +185,17 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
 
 
-     if(shadowColor==0.0)
-     {
-    // return vec4(color,1.0);
-     }
 
         let roughness = mra.y;
         let metallic = mra.x;
         let V = normalize(camera.worldPosition.xyz - world);
         let F0 = mix(vec3(0.04), albedo, metallic);
        
-        let lightVec = uniforms.lightPos.xyz - world;
-        let L = normalize(lightVec);
-        let H = normalize(V + L);
-        let NdotV = max(0.0, dot(N, V));
-        let NDF = DistributionGGX(N, H, roughness);
-        let G   = GeometrySmith(N, V, L, roughness);
-        let F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
- 
-        let kS = F;
-        let kD = vec3(1.0) - kS;
-    
-        let numerator    = NDF * G * F;
-        let denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
-        let specular     = numerator / denominator;
-        let an  =1.0/pow( distToLight,2.0);
-        let radiance =uniforms.lightColor.xyz *uniforms.lightColor.w*an;
-    
-        let NdotL = max(dot(N, L), 0.0);
-        let lightL= (kD * albedo / PI + specular) * radiance * NdotL *shadowColor;
 
+       
+       
 
+    let lightL =  pointLight(uniforms.lightPos.xyz,uniforms.lightColor,albedo,world,N,V,F0,roughness)*shadowColor;
 
 
     return vec4(color+lightL,0.0) ;
