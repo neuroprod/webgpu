@@ -2,7 +2,7 @@ import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector3, Vector4} from "math.gl";
-import {getWorldFromUVDepth, pointLight} from "./ShaderChunks";
+import {cubeShadow, getWorldFromUVDepth, pointLight} from "./ShaderChunks";
 import Camera from "../lib/Camera";
 import {TextureViewDimension} from "../lib/WebGPUConstants";
 
@@ -28,6 +28,7 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
         this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
+        this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadow",DefaultTextures.getWhite(this.renderer),"depth")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -35,7 +36,7 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addTexture("gMRA",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("aoTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addSamplerComparison("mySamplerComp");
-
+        this.addSampler("mySampler");
         this.needsCamera =true;
 this.logShaderCode=true;
 
@@ -114,6 +115,12 @@ ${Camera.getShaderText(0)}
 ${this.getShaderUniforms(1)}
 ${getWorldFromUVDepth()}
 ${pointLight()}
+
+fn random(st : vec2f ) -> f32 {
+  return fract(sin(dot(st.xy, vec2f(12.9898, 78.233))) * 43758.5453123)-0.5;
+}
+
+${cubeShadow()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -129,9 +136,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     return output;
 }
 
-fn random(st : vec2f ) -> f32 {
-  return fract(sin(dot(st.xy, vec2f(12.9898, 78.233))) * 43758.5453123)-0.5;
-}
+
 @fragment
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 {
@@ -199,9 +204,11 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
         let NdotL = max(dot(N, L), 0.0);
         let lightL= (kD * albedo / PI + specular) * radiance * NdotL *shadowVal;
+        
+        let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0);
+        let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
 
-    let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness);
-
+   
  //return vec4( color,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
     return vec4(color+(lightL+lightP)*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }

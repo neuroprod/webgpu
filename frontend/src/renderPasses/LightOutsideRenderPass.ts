@@ -43,15 +43,15 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
 
     private moonLightColor: ColorV = new ColorV( 0.2,0.40,1.00,1.00);
-    private moonLightStrength: number = 2.4;
+    private moonLightStrength: number = 0.86;
 
-    private topColorNight: ColorV = new ColorV(    0.01,0.40,1.00,0.40*0.5);
-    private midColorNight: ColorV = new ColorV( 0.01,0.96,1.00,0.10);
-    private bottomColorNight: ColorV = new ColorV( 0.01,0.40,1.00, 0.1*0.5);
+    private topColorNight: ColorV = new ColorV(    0.01,0.40,1.00,0.1);
+    private midColorNight: ColorV = new ColorV( 0.01,0.96,1.00,0.05);
+    private bottomColorNight: ColorV = new ColorV( 0.01,0.40,1.00, 0.0);
 
 
-    private lightColor: ColorV = new ColorV( 0.85,0.75,0.55,1.00);
-    private lightStrength: number =3;
+    private lightColor: ColorV = new ColorV( 0.99,0.55,0.00,1.00);
+    private lightStrength: number =10;
 
 
 
@@ -94,7 +94,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
         this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);
         this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
-
+        this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
         this.globalLightMaterial.blendModes = [
             {
                 color: {

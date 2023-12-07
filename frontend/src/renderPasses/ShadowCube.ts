@@ -72,6 +72,7 @@ export default class ShadowCube{
 
     }
     setModels(models:Array<Model>){
+
         for (let i=0;i<6;i++){
             this.passes[i].models=models;
         }

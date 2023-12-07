@@ -222,6 +222,7 @@ export default class Main {
             this.lightRoomPass.setDirty();
             this.characterHandler.setRoot(this.room.root,0);
             this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos())
 
         } else {
             GameModel.yMouseScale = 1.5
@@ -233,6 +234,8 @@ export default class Main {
             this.lightOutsidePass.setDirty();
             this.characterHandler.setRoot(this.outside.root,1);
             this.shadowPass.setModels(this.outside.modelRenderer.models);
+            this.shadowPassCube.setModels(this.outside.modelRenderer.models);
+            this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos())
         }
 
 
@@ -262,13 +265,15 @@ export default class Main {
         this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
 
         this.gameCamera.update();
-        this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
+        //this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         this.shadowPass.update(this.lightOutsidePass.sunDir,this.gameCamera.posSmooth)
             //this.updateCamera();
         if (GameModel.currentScene== Scenes.ROOM) {
             this.room.update();
+            this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         } else {
             this.outside.update()
+            this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos());
         }
 
 
@@ -305,6 +310,7 @@ export default class Main {
             this.shadowPassCube.add();
         }else {
             this.shadowPass.add();
+            this.shadowPassCube.add();
         }
 
         this.timeStampQuery.setStamp("ShadowPass");

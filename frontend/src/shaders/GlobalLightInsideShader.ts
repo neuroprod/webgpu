@@ -2,7 +2,7 @@ import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector3, Vector4} from "math.gl";
-import {getWorldFromUVDepth, pointLight} from "./ShaderChunks";
+import {cubeShadow, getWorldFromUVDepth, pointLight} from "./ShaderChunks";
 import Camera from "../lib/Camera";
 import {TextureViewDimension} from "../lib/WebGPUConstants";
 
@@ -25,7 +25,7 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
         this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
+       // this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -34,7 +34,7 @@ export default class GlobalLightInsideShader extends Shader{
         this.addSamplerComparison("mySamplerComp");
         this.addSampler("mySampler");
         this.needsCamera =true;
-
+this.logShaderCode=true;
 
     }
     getKernel() {
@@ -106,7 +106,7 @@ fn GeometrySchlickGGX(NdotV:f32,  roughness:f32)-> f32
 
     return num / denom;
 }
- ${this.getKernel()}
+
 ${Camera.getShaderText(0)}
 ${this.getShaderUniforms(1)}
 ${getWorldFromUVDepth()}
@@ -125,12 +125,12 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
    
     return output;
 }
-
+ ${this.getKernel()}
 fn random(st : vec2f ) -> f32 {
   return fract(sin(dot(st.xy, vec2f(12.9898, 78.233))) * 43758.5453123)-0.5;
 }
 
-
+${cubeShadow()}
 
 @fragment
 fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
@@ -159,31 +159,10 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
 
     ////shadow
-    var dir = uniforms.lightPos.xyz-world;
-    
    
- 
-
-    var shadowColor =0.0;
-    let dirN = normalize(dir);
-    let distToLight=distance (uniforms.lightPos.xyz,world);
-      
-    let randomVec =normalize(vec3f(random(uv0),random(uv0.yx +vec2f(3.9333)),random(uv0.yx+vec2f(0.9))));
-    let tangent   = normalize(randomVec - N * dot(randomVec, N));
-    let bitangent = cross(N, tangent);
-    let TBN       = mat3x3<f32>(tangent, bitangent, N); 
-      
-      
-      for(var i=0;i<16;i++){
-      
-        let distToLightL=distance (uniforms.lightPos.xyz,world);
-        let shadowDist = textureSample(shadowCubeDebug, mySampler,normalize(dirN +TBN*kernel[i])).x;
-        if(shadowDist>distToLightL-0.05){shadowColor +=1.0;};
-      }
-      shadowColor/=8.0;
 
 
-
+   let shadowColor =cubeShadow(shadowCubeDebug,uniforms.lightPos.xyz,world,uv0);
 
 
         let roughness = mra.y;

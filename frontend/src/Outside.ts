@@ -43,7 +43,7 @@ export default class Outside {
         let pos =-GameModel.characterPos.x;
 
 
-        GameModel.dayNight =clamp((pos-13)/5,0,1);
+        GameModel.dayNight =clamp((pos-13)/7,0,1);
         //GameModel.dayNight
         // UI.LFloat('offset',0)
         //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)

@@ -106,16 +106,39 @@ fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)
 } 
 `
 }
+export function cubeShadow() {
+    return   /* wgsl */ `
+fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f) -> f32
+{
+    var dir = lightPos-world;
 
-export function pointLight(){
+    var shadowColor =0.0;
+    let dirN = normalize(dir);
+    let distToLight=distance (lightPos,world);
+      
+    let randomVec =normalize(vec3f(random(uv0),random(uv0.yx +vec2f(3.9333)),random(uv0.yx+vec2f(0.9))));
+    let tangent   = normalize(randomVec -dirN * dot(randomVec, dirN));
+    let bitangent = cross(dirN , tangent);
+    let TBN       = mat3x3<f32>(tangent, bitangent,dirN); 
+      
+      
+      for(var i=0;i<16;i++){
+      
+        let distToLightL=distance (lightPos,world);
+        let shadowDist = textureSample(cube, mySampler,normalize(dirN +TBN*kernel[i])).x;
+        if(shadowDist>distToLightL-0.05){shadowColor +=1.0;};
+      }
+        return      shadowColor/8.0;
+
+}
+
+        `
+}
+
+
+
+  export function pointLight(){
   return   /* wgsl */ `
-  
-  
-  
-
-  
-  
-  
   
 fn pointLight(lightPos:vec3f ,lightColor:vec4f,albedo:vec3f,world:vec3f,N:vec3f,V:vec3f,F0:vec3f,roughness:f32)->vec3f
 {       let distToLight=distance (lightPos.xyz,world);
