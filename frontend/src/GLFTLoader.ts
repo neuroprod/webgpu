@@ -31,6 +31,7 @@ export default class GLFTLoader {
     public root: Object3D;
     public models: Array<Model> = []
     public modelsGlass: Array<Model> = []
+    public modelsHit: Array<Model> = []
     public modelsByName: { [name: string]: Model } = {};
 
     public modelData: Array<ModelData> = [];
@@ -126,6 +127,7 @@ export default class GLFTLoader {
             if (m.model.mesh.hitTestObject) {
                 m.model.hitTestObject = m.model.mesh.hitTestObject;
                 m.model.canHitTest = true;
+                this.modelsHit.push(m.model);
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {

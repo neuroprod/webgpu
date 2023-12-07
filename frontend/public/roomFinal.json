@@ -1,13 +1,9 @@
 {
 	"asset":{
+		"copyright":"kris temmerman",
 		"generator":"Khronos glTF Blender I/O v3.6.28",
 		"version":"2.0"
 	},
-	"extensionsUsed":[
-		"KHR_materials_specular",
-		"KHR_materials_ior",
-		"KHR_materials_clearcoat"
-	],
 	"scene":0,
 	"scenes":[
 		{
@@ -354,7 +350,7 @@
 			"translation":[
 				1.5574629306793213,
 				1.5711133480072021,
-				-6.06105375289917
+				-4.368174076080322
 			]
 		},
 		{
@@ -646,542 +642,6 @@
 			]
 		}
 	],
-	"materials":[
-		{
-			"doubleSided":true,
-			"extensions":{
-				"KHR_materials_specular":{
-					"specularColorFactor":[
-						0,
-						0,
-						0
-					]
-				},
-				"KHR_materials_ior":{
-					"ior":1.4500000476837158
-				}
-			},
-			"name":"millBed",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.45746633410453796,
-					0.45746633410453796,
-					0.45746633410453796,
-					1
-				],
-				"roughnessFactor":0.4680851101875305
-			}
-		},
-		{
-			"name":"millControle",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"millHead",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"mill",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"grinder",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.015218856744468212,
-					0.03307860717177391,
-					0.007108626887202263,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"hamer",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.16259333491325378,
-					0.0790315791964531,
-					0.01001888420432806,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"table",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.8000000715255737,
-					0.5866008996963501,
-					0.2509189546108246,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"wallRight",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.02061128243803978,
-					0.18165166676044464,
-					0.021439019590616226,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"wireTest",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"ceiling",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"chair",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.11943675577640533,
-					0.03941350057721138,
-					0.01244253758341074,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5658436417579651
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"coffeeControler",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"coffeeWires",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"coffeeMaker",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					1,
-					0.3861828148365021,
-					0.1001439243555069,
-					1
-				],
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"corck",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.21396780014038086,
-					0.20785121619701385,
-					0.20785121619701385,
-					1
-				],
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"flaskContent_T",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.1111471876502037,
-					0.8000000715255737,
-					0.03389674052596092,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"flaskHolder",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"alphaMode":"BLEND",
-			"extensions":{
-				"KHR_materials_clearcoat":{
-					"clearcoatFactor":1,
-					"clearcoatRoughnessFactor":0
-				}
-			},
-			"name":"flask_G",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					0.28082191944122314
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.05961844325065613
-			}
-		},
-		{
-			"name":"coffeeTable",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.03966446593403816,
-					0.012924391776323318,
-					0.0034502192866057158,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.49481481313705444
-			}
-		},
-		{
-			"doubleSided":true,
-			"extras":{
-				"transparent":true
-			},
-			"name":"floor",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.2202463299036026,
-					0.11763014644384384,
-					0.032668404281139374,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"planets",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"mainLight",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"outside",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"paperWallLeft",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"plant1",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"plant2",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"plate",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"powersup",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"oscilloscope",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.25471195578575134,
-					0.2544279992580414,
-					0.32637572288513184,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"shelf",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"extras":{
-				"Effect":"<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Trait Data=\"..\\..\\..\\Program Files\\Microsoft Visual Studio 11.0\\Common7\\IDE\\Extensions\\Microsoft\\VsGraphics\\Assets\\Effects\\Phong.dgsl\" Desc=\"\" Flags=\"9240\" Id=\"Effect\" Name=\"Effect\" Type=\"9\" Vis=\"1\" xmlns=\"Trait\" />",
-				"MaterialSpecularPower":1.0,
-				"Texture1":"<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Trait Data=\"\" Desc=\"\" Flags=\"8200\" Id=\"Texture1\" Name=\"Texture1\" Type=\"9\" Vis=\"4\" xmlns=\"Trait\" />"
-			},
-			"name":"teapot",
-			"pbrMetallicRoughness":{
-				"metallicFactor":0,
-				"roughnessFactor":0.5527864098548889
-			}
-		},
-		{
-			"name":"wallBack",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.47699084877967834,
-					0.47699084877967834,
-					0.47699084877967834,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"wallLeft",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.5704718828201294,
-					0.009521274827420712,
-					0.005633073393255472,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.6962962746620178
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"books1",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"box",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.2529378831386566,
-					0.13299404084682465,
-					0.05328608304262161,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"name":"coffee",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"extras":{
-				"prop":1.0
-			},
-			"name":"desk",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.22025306522846222,
-					0.09509418904781342,
-					0.010002668015658855,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.8989636898040771
-			}
-		},
-		{
-			"doubleSided":true,
-			"name":"labtop",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		}
-	],
 	"meshes":[
 		{
 			"name":"millBed",
@@ -1193,8 +653,7 @@
 						"TEXCOORD_0":2,
 						"TANGENT":3
 					},
-					"indices":4,
-					"material":0
+					"indices":4
 				}
 			]
 		},
@@ -1208,8 +667,7 @@
 						"TEXCOORD_0":7,
 						"TANGENT":8
 					},
-					"indices":9,
-					"material":1
+					"indices":9
 				}
 			]
 		},
@@ -1223,8 +681,7 @@
 						"TEXCOORD_0":12,
 						"TANGENT":13
 					},
-					"indices":14,
-					"material":2
+					"indices":14
 				}
 			]
 		},
@@ -1238,8 +695,7 @@
 						"TEXCOORD_0":17,
 						"TANGENT":18
 					},
-					"indices":19,
-					"material":3
+					"indices":19
 				}
 			]
 		},
@@ -1253,8 +709,7 @@
 						"TEXCOORD_0":22,
 						"TANGENT":23
 					},
-					"indices":24,
-					"material":4
+					"indices":24
 				}
 			]
 		},
@@ -1268,8 +723,7 @@
 						"TEXCOORD_0":27,
 						"TANGENT":28
 					},
-					"indices":29,
-					"material":5
+					"indices":29
 				}
 			]
 		},
@@ -1283,8 +737,7 @@
 						"TEXCOORD_0":32,
 						"TANGENT":33
 					},
-					"indices":34,
-					"material":6
+					"indices":34
 				}
 			]
 		},
@@ -1298,8 +751,7 @@
 						"TEXCOORD_0":37,
 						"TANGENT":38
 					},
-					"indices":39,
-					"material":7
+					"indices":39
 				}
 			]
 		},
@@ -1313,8 +765,7 @@
 						"TEXCOORD_0":42,
 						"TANGENT":43
 					},
-					"indices":44,
-					"material":8
+					"indices":44
 				}
 			]
 		},
@@ -1328,8 +779,7 @@
 						"TEXCOORD_0":47,
 						"TANGENT":48
 					},
-					"indices":49,
-					"material":9
+					"indices":49
 				}
 			]
 		},
@@ -1343,8 +793,7 @@
 						"TEXCOORD_0":52,
 						"TANGENT":53
 					},
-					"indices":54,
-					"material":10
+					"indices":54
 				}
 			]
 		},
@@ -1358,8 +807,7 @@
 						"TEXCOORD_0":57,
 						"TANGENT":58
 					},
-					"indices":59,
-					"material":11
+					"indices":59
 				}
 			]
 		},
@@ -1373,8 +821,7 @@
 						"TEXCOORD_0":62,
 						"TANGENT":63
 					},
-					"indices":64,
-					"material":12
+					"indices":64
 				}
 			]
 		},
@@ -1388,8 +835,7 @@
 						"TEXCOORD_0":67,
 						"TANGENT":68
 					},
-					"indices":69,
-					"material":13
+					"indices":69
 				}
 			]
 		},
@@ -1403,8 +849,7 @@
 						"TEXCOORD_0":72,
 						"TANGENT":73
 					},
-					"indices":74,
-					"material":14
+					"indices":74
 				}
 			]
 		},
@@ -1418,8 +863,7 @@
 						"TEXCOORD_0":77,
 						"TANGENT":78
 					},
-					"indices":79,
-					"material":15
+					"indices":79
 				}
 			]
 		},
@@ -1433,8 +877,7 @@
 						"TEXCOORD_0":82,
 						"TANGENT":83
 					},
-					"indices":84,
-					"material":16
+					"indices":84
 				}
 			]
 		},
@@ -1448,8 +891,7 @@
 						"TEXCOORD_0":87,
 						"TANGENT":88
 					},
-					"indices":89,
-					"material":17
+					"indices":89
 				}
 			]
 		},
@@ -1463,8 +905,7 @@
 						"TEXCOORD_0":92,
 						"TANGENT":93
 					},
-					"indices":94,
-					"material":18
+					"indices":94
 				}
 			]
 		},
@@ -1492,8 +933,7 @@
 						"TEXCOORD_0":102,
 						"TANGENT":103
 					},
-					"indices":104,
-					"material":19
+					"indices":104
 				}
 			]
 		},
@@ -1507,8 +947,7 @@
 						"TEXCOORD_0":107,
 						"TANGENT":108
 					},
-					"indices":109,
-					"material":20
+					"indices":109
 				}
 			]
 		},
@@ -1522,8 +961,7 @@
 						"TEXCOORD_0":112,
 						"TANGENT":113
 					},
-					"indices":114,
-					"material":21
+					"indices":114
 				}
 			]
 		},
@@ -1537,8 +975,7 @@
 						"TEXCOORD_0":117,
 						"TANGENT":118
 					},
-					"indices":119,
-					"material":22
+					"indices":119
 				}
 			]
 		},
@@ -1552,8 +989,7 @@
 						"TEXCOORD_0":122,
 						"TANGENT":123
 					},
-					"indices":124,
-					"material":23
+					"indices":124
 				}
 			]
 		},
@@ -1567,8 +1003,7 @@
 						"TEXCOORD_0":127,
 						"TANGENT":128
 					},
-					"indices":129,
-					"material":24
+					"indices":129
 				}
 			]
 		},
@@ -1582,8 +1017,7 @@
 						"TEXCOORD_0":132,
 						"TANGENT":133
 					},
-					"indices":134,
-					"material":25
+					"indices":134
 				}
 			]
 		},
@@ -1597,8 +1031,7 @@
 						"TEXCOORD_0":137,
 						"TANGENT":138
 					},
-					"indices":139,
-					"material":26
+					"indices":139
 				}
 			]
 		},
@@ -1612,8 +1045,7 @@
 						"TEXCOORD_0":142,
 						"TANGENT":143
 					},
-					"indices":144,
-					"material":27
+					"indices":144
 				}
 			]
 		},
@@ -1627,8 +1059,7 @@
 						"TEXCOORD_0":147,
 						"TANGENT":148
 					},
-					"indices":149,
-					"material":28
+					"indices":149
 				}
 			]
 		},
@@ -1642,8 +1073,7 @@
 						"TEXCOORD_0":152,
 						"TANGENT":153
 					},
-					"indices":154,
-					"material":29
+					"indices":154
 				}
 			]
 		},
@@ -1657,8 +1087,7 @@
 						"TEXCOORD_0":157,
 						"TANGENT":158
 					},
-					"indices":159,
-					"material":30
+					"indices":159
 				}
 			]
 		},
@@ -1672,8 +1101,7 @@
 						"TEXCOORD_0":162,
 						"TANGENT":163
 					},
-					"indices":164,
-					"material":31
+					"indices":164
 				}
 			]
 		},
@@ -1687,8 +1115,7 @@
 						"TEXCOORD_0":167,
 						"TANGENT":168
 					},
-					"indices":169,
-					"material":32
+					"indices":169
 				}
 			]
 		},
@@ -1702,8 +1129,7 @@
 						"TEXCOORD_0":172,
 						"TANGENT":173
 					},
-					"indices":174,
-					"material":33
+					"indices":174
 				}
 			]
 		},
@@ -1717,8 +1143,7 @@
 						"TEXCOORD_0":177,
 						"TANGENT":178
 					},
-					"indices":179,
-					"material":34
+					"indices":179
 				}
 			]
 		},
@@ -1732,8 +1157,7 @@
 						"TEXCOORD_0":182,
 						"TANGENT":183
 					},
-					"indices":184,
-					"material":35
+					"indices":184
 				}
 			]
 		},
@@ -1747,8 +1171,7 @@
 						"TEXCOORD_0":187,
 						"TANGENT":188
 					},
-					"indices":189,
-					"material":36
+					"indices":189
 				}
 			]
 		},
@@ -1762,8 +1185,7 @@
 						"TEXCOORD_0":192,
 						"TANGENT":193
 					},
-					"indices":194,
-					"material":37
+					"indices":194
 				}
 			]
 		},

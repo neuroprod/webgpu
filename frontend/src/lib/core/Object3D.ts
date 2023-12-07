@@ -11,6 +11,7 @@ export default class Object3D extends ObjectGPU {
     private _scale = new Vector3(1, 1, 1);
     private _rotation = new Quaternion(0, 0, 0, 1);
     public castShadow :boolean=true;
+    public worldMatrixInv: Matrix4;
     constructor(renderer: Renderer, label: string = "") {
         super(renderer, label);
     }
@@ -98,6 +99,8 @@ export default class Object3D extends ObjectGPU {
         } else {
             this._worldMatrix.copy(this._localMatrix)
         }
+        this.worldMatrixInv =  this._worldMatrix.clone();
+        this.worldMatrixInv.invert();
         this._dirty = false;
     }
 

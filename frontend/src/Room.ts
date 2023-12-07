@@ -8,6 +8,7 @@ import {LaptopScreen} from "./extras/LaptopScreen";
 import {FpsScreen} from "./extras/FpsScreen";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Mill from "./extras/Mill";
+import Ray from "./lib/Ray";
 
 export default class Room {
     leftHolder: Object3D;
@@ -81,5 +82,11 @@ export default class Room {
 
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.mill.update();
+    }
+
+    checkMouseHit(mouseRay: Ray) {
+        for (let m of this.glFTLoader.modelsHit) {
+            m.checkHit(mouseRay);
+        }
     }
 }

@@ -5,6 +5,7 @@ import Mesh from "../core/Mesh";
 import Object3D from "../core/Object3D";
 import ModelTransform from "./ModelTransform";
 import HitTestObject from "../meshes/HitTestObject";
+import Ray from "../Ray";
 
 
 export default class Model extends Object3D
@@ -34,7 +35,10 @@ export default class Model extends Object3D
 
         this.modelTransform.setWorldMatrix(this.worldMatrix);
     }
-
+    public checkHit(ray:Ray)
+    {
+        this.hitTestObject.checkHit(ray,this.worldMatrixInv)
+    }
     destroy() {
         if(this.parent)this.parent.removeChild(this);
     }

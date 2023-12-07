@@ -40,6 +40,7 @@ import PostRenderPass from "./renderPasses/PostRenderPass";
 import FXAARenderPass from "./renderPasses/FXAARenderPass";
 import GameModel, {Scenes, Transitions} from "./GameModel";
 import GameCamera from "./GameCamera";
+import Ray from "./lib/Ray";
 
 
 export default class Main {
@@ -80,10 +81,10 @@ export default class Main {
     private animationMixer: AnimationMixer;
     private characterHandler: CharacterHandler;
 
-    private sceneHeight = 3;
+
     private room: Room;
     private outside: Outside;
-    private sceneIndex: number = 0
+
 
     private lightOutsidePass: LightOutsideRenderPass;
     private shadowPass: ShadowPass;
@@ -91,7 +92,7 @@ export default class Main {
     private postPass: PostRenderPass;
     private FXAAPass: FXAARenderPass;
     private gameCamera: GameCamera;
-
+    public mouseRay:Ray;
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -109,6 +110,7 @@ export default class Main {
             this.startPreload.bind(this)
         );
         this.camera = new Camera(this.renderer, "mainCamera")
+        this.mouseRay =new Ray(this.renderer);
         this.renderer.camera = this.camera;
         this.gameCamera =new GameCamera(this.camera,this.renderer)
         this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
@@ -263,13 +265,14 @@ export default class Main {
 
 
         this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
-
         this.gameCamera.update();
+        this.mouseRay.setFromCamera(this.camera,this.mouseListener.mousePos)
         //this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         this.shadowPass.update(this.lightOutsidePass.sunDir,this.gameCamera.posSmooth)
             //this.updateCamera();
         if (GameModel.currentScene== Scenes.ROOM) {
             this.room.update();
+            this.room.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         } else {
             this.outside.update()

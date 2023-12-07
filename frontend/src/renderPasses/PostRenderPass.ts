@@ -36,7 +36,7 @@ export default class PostRenderPass extends RenderPass {
         this.colorAttachments = [this.colorAttachment];
 
         this.blitMaterial = new Material(this.renderer, "blitPost", new PostShader(this.renderer, "post"))
-        this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["DOF"])
+        this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["CombinePass"])
         this.blitMaterial.uniforms.setTexture("bloomTexture",this.renderer.texturesByLabel["BlurBloom"])
 
 
