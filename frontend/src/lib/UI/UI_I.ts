@@ -49,7 +49,7 @@ export default class UI_I {
   static rendererGPU: RendererGPU;
   static rendererGL: RendererGL;
   private static mainDrawBatch: DrawBatch;
-  private static mouseOverComponent: Component | null = null;
+   static mouseOverComponent: Component | null = null;
   private static mouseDownComponent: Component | null = null;
   private static canvas: HTMLCanvasElement;
   private static keyboardListener: KeyboardListener;

@@ -530,7 +530,11 @@ export default class UI {
     UI_I.popComponent();
     return comp;
   }
-  static needsMouse() {}
+  static needsMouse() {
+
+    if(UI_I.mouseOverComponent)return true;
+    return false;
+  }
   static clearLocalData() {
     if (!UI.initialized) return;
     Local.clearLocalData();

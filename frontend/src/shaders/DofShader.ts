@@ -99,7 +99,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     
     
-    if(color.w<0.01){return vec4(color); }
+    if(color.w<0.05){return vec4(color); }
      
  
     //return vec4(color.xyz *step(0.99,1.0-color.w),color.w);

@@ -21,6 +21,7 @@ export default class Material extends ObjectGPU {
     private needsDepth: boolean = true;
     public skin:Skin
     public cullMode: "none" | "front" | "back" = "back";
+    private extraGroup: UniformGroup;
     constructor(renderer: Renderer, label: string, shader: Shader) {
         super(renderer, label);
         this.shader = shader;
@@ -101,6 +102,7 @@ export default class Material extends ObjectGPU {
         if (this.shader.needsTransform) layouts.push(ModelTransform.getBindGroupLayout())
         if(this.uniforms) layouts.push(this.uniforms.bindGroupLayout)
         if(this.skin) layouts.push(this.skin.bindGroupLayout)
+        if(this.extraGroup) layouts.push(this.extraGroup.bindGroupLayout)
         this.pipeLineLayout = this.device.createPipelineLayout({
             label: "Material_pipelineLayout_" + this.label,
             bindGroupLayouts: layouts,
@@ -108,4 +110,7 @@ export default class Material extends ObjectGPU {
     }
 
 
+    addUniformGroup(uniformGroup: UniformGroup) {
+        this.extraGroup = uniformGroup;
+    }
 }

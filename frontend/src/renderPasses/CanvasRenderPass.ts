@@ -13,11 +13,13 @@ import SelectItem from "../lib/UI/math/SelectItem";
 import {Vector2} from "math.gl";
 import PostShader from "../shaders/PostShader";
 import RenderSettings from "../RenderSettings";
+import DrawingRenderer from "../drawing/DrawingRenderer";
+import Drawing from "../drawing/Drawing";
 
 
 export default class CanvasRenderPass extends RenderPass {
     public canvasColorAttachment: ColorAttachment;
-    public modelRenderer: ModelRenderer;
+   // public modelRenderer: ModelRenderer;
     private canvasColorTarget: RenderTexture;
     private canvasDepthTarget: RenderTexture;
 
@@ -32,14 +34,17 @@ export default class CanvasRenderPass extends RenderPass {
 
 
     private renderTest: boolean =false;
+    private drawingRenderer: DrawingRenderer;
+    private drawing: Drawing;
     constructor(renderer: Renderer) {
 
         super(renderer, "canvasRenderPass");
         RenderSettings.registerPass(this);
         this.sampleCount = 4
 
-        this.modelRenderer = new ModelRenderer(renderer)
-
+        this.drawingRenderer = new DrawingRenderer(renderer,"drawing")
+        this.drawing =new Drawing(this.renderer,"drawing")
+        this.drawingRenderer.addDrawing(this.drawing);
         this.canvasColorTarget = new RenderTexture(renderer, "canvasColor", {
             format: renderer.presentationFormat,
             sampleCount: this.sampleCount,
@@ -132,8 +137,8 @@ export default class CanvasRenderPass extends RenderPass {
     draw() {
 
 
-    this.blitTest.draw(this);
-
+        this.blitTest.draw(this);
+        this.drawingRenderer.draw(this);
         UI.drawGPU(this.passEncoder, true)
     }
 

@@ -41,6 +41,7 @@ import FXAARenderPass from "./renderPasses/FXAARenderPass";
 import GameModel, {Scenes, Transitions} from "./GameModel";
 import GameCamera from "./GameCamera";
 import Ray from "./lib/Ray";
+import UI_I from "./lib/UI/UI_I";
 
 
 export default class Main {
@@ -262,7 +263,9 @@ export default class Main {
     }
 
     private update() {
-
+        if(UI.needsMouse()) {
+            this.mouseListener.isDownThisFrame =false;
+        }
 
         this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
         this.gameCamera.update();

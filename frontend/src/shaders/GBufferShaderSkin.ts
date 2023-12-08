@@ -19,7 +19,7 @@ export default class GBufferShaderSkin extends Shader{
             this.addAttribute("aJoints", ShaderType.vec4i);
         }
        // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
-        this.addUniform("skinMatrices",0);
+    //    this.addUniform("skinMatrices",0);
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
