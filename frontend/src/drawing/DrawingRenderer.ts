@@ -22,22 +22,26 @@ export default class DrawingRenderer{
 
         for (let model of this.drawings) {
             if(!model.visible)continue
+            if( model.numDrawInstances==0)continue;
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
             passEncoder.setBindGroup(2,model.material.uniforms.bindGroup);
-            passEncoder.setBindGroup(3,model.drawData.bindGroup);
+
 
 
             for (let attribute of model.material.shader.attributes) {
+
                 let buffer  = model.mesh.getBufferByName(attribute.name);
+                if(!buffer) buffer = model.getBufferByName(attribute.name);
                 if(buffer){
                     passEncoder.setVertexBuffer(
                         attribute.slot,
                         buffer,
                     );
                 }else{
+
                     console.log("buffer not found" ,attribute.name)
                 }
             }

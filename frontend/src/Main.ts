@@ -42,6 +42,7 @@ import GameModel, {Scenes, Transitions} from "./GameModel";
 import GameCamera from "./GameCamera";
 import Ray from "./lib/Ray";
 import UI_I from "./lib/UI/UI_I";
+import Drawer from "./drawing/Drawer";
 
 
 export default class Main {
@@ -94,6 +95,7 @@ export default class Main {
     private FXAAPass: FXAARenderPass;
     private gameCamera: GameCamera;
     public mouseRay:Ray;
+    private drawer:Drawer
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -162,6 +164,10 @@ export default class Main {
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
         GameModel.main=this;
+
+
+
+
         console.log("startPreload2")
         console.log("ready to render")
         this.preloader = new PreLoader(
@@ -207,6 +213,8 @@ export default class Main {
         this.outside.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
         this.room.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
 
+        this.drawer =new Drawer(this.renderer);
+        this.canvasRenderPass.drawingRenderer.addDrawing(this.drawer.drawing)
         GameModel.setTransition(Transitions.START_GAME)
 
 
@@ -267,9 +275,18 @@ export default class Main {
             this.mouseListener.isDownThisFrame =false;
         }
 
-        this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
-        this.gameCamera.update();
+
+
+
+        if(!GameModel.lockView) {
+
+            this.gameCamera.update();
+
+        }
         this.mouseRay.setFromCamera(this.camera,this.mouseListener.mousePos)
+        this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
+
+        if(this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame,this.mouseListener.isUpThisFrame,this.mouseRay)
         //this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         this.shadowPass.update(this.lightOutsidePass.sunDir,this.gameCamera.posSmooth)
             //this.updateCamera();
@@ -305,7 +322,7 @@ export default class Main {
         RenderSettings.onUI();
         UI.popWindow()
 
-
+this.drawer.onUI();
 
     }
 

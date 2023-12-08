@@ -57,8 +57,8 @@ export default class Shader extends ObjectGPU {
 
     }
 
-    public addAttribute(name: string, type: string, arrayLength = 1) {
-        let at = new Attribute(name, type, arrayLength);
+    public addAttribute(name: string, type: string, arrayLength = 1,stepMode:GPUVertexStepMode="vertex") {
+        let at = new Attribute(name, type, arrayLength,stepMode);
         at.slot = this.attributes.length;
         this.attributes.push(at);
     }
@@ -104,12 +104,13 @@ export default class Shader extends ObjectGPU {
         for (let atr of this.attributes) {
 
             let vertexAtr: GPUVertexAttribute = {
-                shaderLocation: atr.slot, offset: 0, format: atr.format
+                shaderLocation: atr.slot, offset: 0, format: atr.format,
 
             }
 
             bufferLayout.push({
-                arrayStride: atr.size * 4,
+                arrayStride: atr.size*4,
+                stepMode:atr.stepMode,
                 attributes: [
                     vertexAtr,
                 ],

@@ -12,9 +12,11 @@ export default class Attribute {
   format:GPUVertexFormat;
   arrayLength: number;
   size:number;
-  constructor(name: string, type: string,arrayLength=1) {
+   stepMode: GPUVertexStepMode;
+  constructor(name: string, type: string,arrayLength=1,stepMode:GPUVertexStepMode) {
     this.name = name;
     this.type = type;
+    this.stepMode =stepMode;
     this.arrayLength =arrayLength
     this.format =getFormatForShaderType(type);
     this.size = getSizeForShaderType( type, arrayLength)

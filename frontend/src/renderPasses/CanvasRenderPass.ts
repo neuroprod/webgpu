@@ -34,8 +34,8 @@ export default class CanvasRenderPass extends RenderPass {
 
 
     private renderTest: boolean =false;
-    private drawingRenderer: DrawingRenderer;
-    private drawing: Drawing;
+    public drawingRenderer: DrawingRenderer;
+
     constructor(renderer: Renderer) {
 
         super(renderer, "canvasRenderPass");
@@ -43,8 +43,7 @@ export default class CanvasRenderPass extends RenderPass {
         this.sampleCount = 4
 
         this.drawingRenderer = new DrawingRenderer(renderer,"drawing")
-        this.drawing =new Drawing(this.renderer,"drawing")
-        this.drawingRenderer.addDrawing(this.drawing);
+
         this.canvasColorTarget = new RenderTexture(renderer, "canvasColor", {
             format: renderer.presentationFormat,
             sampleCount: this.sampleCount,
@@ -52,7 +51,8 @@ export default class CanvasRenderPass extends RenderPass {
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT
         });
-        this.canvasColorAttachment = new ColorAttachment(this.canvasColorTarget);
+
+        this.canvasColorAttachment = new ColorAttachment(this.canvasColorTarget,{clearValue:{r:1,g:1,b:1,a:1}});
         this.colorAttachments = [this.canvasColorAttachment];
 
         this.canvasDepthTarget = new RenderTexture(renderer, "canvasDepth", {

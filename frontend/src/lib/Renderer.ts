@@ -31,6 +31,8 @@ export default class Renderer {
     private materials: Array<Material> = [];
     private textures: Array<Texture> = [];
     private models: Array<Model> = [];
+    public modelByLabel: { [label: string]: Model } = {};
+    public modelLabels:Array<string>=[];
     private scaleToCanvasTextures: Array<RenderTexture> = [];
     private uniformGroups: Array<UniformGroup> = [];
     private canvasColorAttachment: ColorAttachment;
@@ -56,12 +58,18 @@ export default class Renderer {
             this.useTimeStampQuery = true;
 
         }
+        console.log(adapter.limits)
         //extentions
        // for (let a of adapter.features.keys()) {
          //   console.log(a)
         //}
         //console.log("timestamps?", this.useTimeStampQuery)
-        this.device = await adapter.requestDevice({requiredFeatures: requiredFeatures,});
+        //let limits={
+          //  maxUniformBufferBindingSize: Math.pow(2,18)
+        //} //=adapter.limits
+        //limits.maxUniformBufferBindingSize = limits.maxUniformBufferBindingSize*2
+
+        this.device = await adapter.requestDevice({requiredFeatures: requiredFeatures});
 
         this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
         this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
@@ -125,6 +133,8 @@ export default class Renderer {
 
     addModel(model: Model) {
         this.models.push(model)
+        this.modelByLabel[model.label]=model;
+        this.modelLabels.push(model.label);
     }
 
     addMaterial(material: Material) {

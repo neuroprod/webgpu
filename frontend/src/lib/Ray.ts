@@ -4,9 +4,10 @@ import Renderer from "./Renderer";
 
 export default class Ray{
     private renderer: Renderer;
-    private rayStart: Vector3;
-    private rayDir: Vector3;
-
+    private rayStart: Vector3 =new Vector3();
+    private rayDir: Vector3 =new Vector3();
+    public hit:boolean=false;
+    public hitPos:Vector3 =new Vector3();
     constructor(renderer:Renderer) {
         this.renderer =renderer;
 
@@ -22,6 +23,30 @@ export default class Ray{
         }
     }
 
+intersectPlane(position:Vector3,normal:Vector3){
 
+        let denom = normal.dot(this.rayDir);
+        if (Math.abs(denom) > 0.0001) // your favorite epsilon
+        {
+
+        let t = (position.clone().subtract(this.rayStart)).dot(normal) / denom;
+        if (t < 0) {
+            this.hit = false;
+            return;
+        } else {
+            this.hit =true;
+            this.rayDir.clone().scale(t);
+            this.hitPos =  this.rayStart.clone().add(  this.rayDir.clone().scale(t)).subtract(position);
+
+
+        }
+
+
+    } else {
+        this.hit = false;
+    }
+
+
+}
 
 }

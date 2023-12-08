@@ -35,6 +35,7 @@ class GameModel {
 
     public characterPos: Vector3 = new Vector3(0, 0, 0);
     dayNight: number = 0;
+    lockView: boolean =false;
     constructor() {
     }
 

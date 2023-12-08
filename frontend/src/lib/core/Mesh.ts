@@ -51,6 +51,7 @@ export default class Mesh extends ObjectGPU {
             size: data.byteLength,
             usage: GPUBufferUsage.VERTEX,
             mappedAtCreation: true,
+
         });
         const dst = new Uint32Array(buffer.getMappedRange());
         dst.set(data);
