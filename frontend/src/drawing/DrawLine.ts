@@ -11,7 +11,21 @@ export default class DrawLine{
     }
     smoothing(){
 
+        let temp :Array<Vector2>=[]
+        for(let p of this.points){
+            temp.push(p.clone())
+        }
+        for(let i=1;i<this.points.length-1;i++){
 
+            let p1 = temp[i-1]
+            let p2 = temp[i+1]
+            p1.add(p2)
+            p1.scale(0.5)
+            p1.subtract(temp[i])
+           // p1.scale(0.5)
+
+            this.points[i].add(p1);
+        }
     }
     addPoint(p:Vector2)
     {

@@ -14,8 +14,9 @@ export default class Drawing extends Model{
     public numDrawInstancesMax: number;
     private buffer: GPUBuffer;
     worldParent: Object3D;
+    progress:number =1
     offset =new Vector3();
-
+    position=new Vector3();
     constructor(renderer:Renderer,label:string,data:any=null,numInstances:number=0) {
         super(renderer,label);
         this.numInstances =numInstances
@@ -44,15 +45,20 @@ export default class Drawing extends Model{
     }
     update(){
         if(this.visible) {
+
+            let target  =this.offset.clone();
+
             if (this.worldParent) {
-                let p = this.worldParent.getWorldPos()
-                this.setPosition(p.x+this.offset.x,p.y+this.offset.y,p.z+this.offset.z);
-            } else {
-                this.setPosition(this.offset.x,this.offset.y,this.offset.z);
+                target.add (this.worldParent.getWorldPos())
+
             }
+            this.position.lerp(target,0.1)
+            this.setPosition(this.position.x,this.position.y,this.position.z);
         }
+        this.numDrawInstances =Math.floor(this.progress*this.numDrawInstancesMax)
         super.update()
     }
+
     createBuffer(data: Float32Array, name: string) {
 
         if(this.buffer)this.buffer.destroy();

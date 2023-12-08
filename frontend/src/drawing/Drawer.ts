@@ -7,7 +7,8 @@ import Renderer from "../lib/Renderer";
 import SelectItem from "../lib/UI/math/SelectItem";
 import GameModel from "../GameModel";
 import ColorV from "../lib/ColorV";
-
+import gsap  from "gsap";
+import {saveToBinFile} from "../lib/SaveUtils";
 export default class Drawer {
     enabled: boolean = true;
     drawing: Drawing;
@@ -20,6 +21,8 @@ export default class Drawer {
     private parentArray:Array<SelectItem>=[]
     private currentParent ="world"
     private color:ColorV =new ColorV(1,1,1,1)
+    private dataArr: Float32Array;
+    private dataArrSmall: Int16Array;
     constructor(renderer: Renderer) {
         this.drawing = new Drawing(renderer, "drawerDrawing")
         this.renderer =renderer;
@@ -50,7 +53,10 @@ export default class Drawer {
             if (this.isDrawing) {
 
                 this.isDrawing = false;
+                this.currentLine.smoothing()
+                this.currentLine.smoothing()
 
+                this.updateDrawing()
             }
         }
 
@@ -67,6 +73,12 @@ export default class Drawer {
             //this.drawing.visible = false;
         }
         GameModel.lockView =UI.LBool("LockView", GameModel.lockView);
+        UI.LFloatSlider(this.drawing,"progress",0.0,1.0)
+
+        if(UI.LButton("Play")){
+            this.drawing.progress=0;
+            gsap.to(this.drawing,{progress:1,duration:2,ease:"power2.inOut"})
+        }
         UI.LText(Math.round((this.pointCount*2*3)/1000)+"Kb","dataComp?")
 
         let  p = UI.LSelect("parent",this.parentArray)
@@ -84,13 +96,20 @@ export default class Drawer {
             this.currentParent =p;
         }
         this.drawSize = UI.LFloatSlider("Size", this.drawSize * 10, 0.01, 1,) / 10;
+        if (UI.LButton("Undo")) {
+            this.lines.pop();
+            this.updateDrawing()
+        }
+
         if (UI.LButton("clear")) {
             this.lines = [];
             this.updateDrawing()
         }
-        if (UI.LButton("Undo")) {
-            this.lines.pop();
-            this.updateDrawing()
+        let name =UI.LTextInput("name","name")
+        if (UI.LButton("save")) {
+
+
+            saveToBinFile( this.dataArrSmall,name+"_"+this.currentParent)
         }
         UI.popWindow()
     }
@@ -98,28 +117,34 @@ export default class Drawer {
 
     private updateDrawing() {
         let size = 0;
+        let sizeS = 0;
         for (let l of this.lines) {
            size+= l.points.length*4;
+           sizeS+= l.points.length*3;
         }
-
-        let dataArr = new Float32Array(size);
+        this.dataArrSmall =new Int16Array(sizeS)
+        this.dataArr = new Float32Array(size);
         let pointCount = 0;
         for (let l of this.lines) {
 
             for (let p of l.points) {
 
                 let pos = pointCount * 4;
+                let posS = pointCount * 3;
+                this.dataArrSmall[posS++]=Math.round(p.x*1000)
+                this.dataArrSmall[posS++]=Math.round(p.y*1000)
+                this.dataArrSmall[posS++]=Math.round(l.drawSize*1000)
 
-                dataArr[pos++] = p.x;
-                dataArr[pos++] = p.y;
-                dataArr[pos++] = l.drawSize;
-                dataArr[pos++] = 0.0;
+                this.dataArr[pos++] = p.x;
+                this.dataArr[pos++] = p.y;
+                this.dataArr[pos++] = l.drawSize;
+                this.dataArr[pos++] = 0.0;
                 pointCount++;
             }
 
 
         }
-        this.drawing.createBuffer(dataArr,"instanceBuffer")
+        this.drawing.createBuffer(this.dataArr,"instanceBuffer")
         this.drawing.numDrawInstancesMax = pointCount;
         this.drawing.numDrawInstances = pointCount;
         this.pointCount =pointCount;
