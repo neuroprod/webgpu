@@ -26,20 +26,9 @@ export default class Drawing extends Model{
         let shader =new DrawShader(this.renderer,"drawShader");
         shader.numInstances =this.numInstances;
         this.material =new Material(this.renderer,label,shader)
-        this.material.depthWrite =false
 
-        this.material.blendModes=[{
-            color: {
-                srcFactor: "one",
-                dstFactor: "one-minus-src-alpha",
-                operation: "add",
-            },
-            alpha: {
-                srcFactor: "src-alpha",
-                dstFactor: "one-minus-src-alpha",
-                operation: "add",
-            },
-        }]
+
+
 
         this.mesh =new Quad(this.renderer);
     }
@@ -52,7 +41,7 @@ export default class Drawing extends Model{
                 target.add (this.worldParent.getWorldPos())
 
             }
-            this.position.lerp(target,0.1)
+            this.position.lerp(target,1.0)
             this.setPosition(this.position.x,this.position.y,this.position.z);
         }
         this.numDrawInstances =Math.floor(this.progress*this.numDrawInstancesMax)

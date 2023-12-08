@@ -214,7 +214,7 @@ export default class Main {
         this.room.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
 
         this.drawer =new Drawer(this.renderer);
-        this.canvasRenderPass.drawingRenderer.addDrawing(this.drawer.drawing)
+        this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
         GameModel.setTransition(Transitions.START_GAME)
 
 

@@ -5,6 +5,7 @@ import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 import RenderPass from "../lib/core/RenderPass";
 import Renderer from "../lib/Renderer";
 import ModelRenderer from "../lib/model/ModelRenderer";
+import DrawingRenderer from "../drawing/DrawingRenderer";
 
 
 
@@ -18,6 +19,7 @@ export default class extends RenderPass {
     private colorAttachment: ColorAttachment;
     private normalAttachment: ColorAttachment;
     private mraAttachment: ColorAttachment;
+    drawingRenderer: DrawingRenderer;
 
 
 
@@ -26,7 +28,7 @@ export default class extends RenderPass {
         super(renderer, "GbufferRenderPass");
 
         this.modelRenderer = new ModelRenderer(renderer)
-
+this.drawingRenderer =new DrawingRenderer(renderer);
         this.colorTarget = new RenderTexture(renderer, "GColor", {
             format: TextureFormat.RGBA8Unorm,
             sampleCount: this.sampleCount,
@@ -76,7 +78,7 @@ export default class extends RenderPass {
     draw() {
 
         this.modelRenderer.draw(this);
-
+this.drawingRenderer.draw(this);
 
     }
 

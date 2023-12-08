@@ -167,7 +167,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
     let N = normalize((textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);
-    let mra =textureLoad(gMRA,  uvPos ,0).xyz ;
+    let mra =textureLoad(gMRA,  uvPos ,0) ;
     
     
     let textureSizeAO =vec2<f32>( textureDimensions(aoTexture));
@@ -209,7 +209,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0);
         let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
 
-   
+    if(mra.w==0.0){return vec4(albedo,0.0);}
 
     return vec4(color+(lightL+lightP)*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }

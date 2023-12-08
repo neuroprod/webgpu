@@ -76,8 +76,8 @@ export default class Drawer {
         UI.LFloatSlider(this.drawing,"progress",0.0,1.0)
 
         if(UI.LButton("Play")){
-            this.drawing.progress=0;
-            gsap.to(this.drawing,{progress:1,duration:2,ease:"power2.inOut"})
+            this.drawing.progress=0.0;
+            gsap.to(this.drawing,{progress:1,duration:2,ease:"power4.inOut"})
         }
         UI.LText(Math.round((this.pointCount*2*3)/1000)+"Kb","dataComp?")
 

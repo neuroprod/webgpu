@@ -31,6 +31,14 @@ struct VertexOutput
    @location(0) uv0 : vec2f,
     @builtin(position) position : vec4f 
 }
+
+struct GBufferOutput {
+  @location(0) color : vec4f,
+  @location(1) normal : vec4f,
+    @location(2) mra : vec4f,
+   
+}
+
 ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
 ${this.getShaderUniforms(2)}
@@ -52,12 +60,17 @@ fn mainVertex( @builtin(instance_index) instanceIdx : u32,${this.getShaderAttrib
 }
 
 @fragment
-fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
+fn mainFragment(@location(0)  uv0: vec2f)  -> GBufferOutput
 {
+ var output : GBufferOutput;
         let uv =uv0-vec2f(0.5,0.5);
-        let l  =1.0-saturate(smoothstep(0.8,1.0,length(uv)*2.0));
-       let color = vec4(vec3(uniforms.color.xyz)*l ,l);
-  return color;
+        let l  =length(uv)*2.0;
+        if(l>1){discard;}
+         output.mra = vec4(0.0,1.0,0.1,0.0);
+       output.color = uniforms.color;
+       
+  output.normal =vec4(0.0,0.0,1.0,0.0);
+    return output;
      //return textureSample(brushTexture, mySampler,  uv0);
 }
 ///////////////////////////////////////////////////////////
