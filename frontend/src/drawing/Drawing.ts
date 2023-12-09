@@ -6,6 +6,7 @@ import DrawShader from "../shaders/DrawShader";
 import Quad from "../lib/meshes/Quad";
 import Object3D from "../lib/core/Object3D";
 import {Vector3} from "math.gl";
+import ColorV from "../lib/ColorV";
 
 export default class Drawing extends Model{
     public drawData: DrawData;
@@ -16,8 +17,9 @@ export default class Drawing extends Model{
     worldParent: Object3D;
     progress:number =1
     offset =new Vector3();
+    protected color: ColorV = new ColorV(1, 1, 1, 1)
     position=new Vector3();
-    constructor(renderer:Renderer,label:string,data:any=null,numInstances:number=0) {
+    constructor(renderer:Renderer,label:string,numInstances:number=0) {
         super(renderer,label);
         this.numInstances =numInstances
         this.numDrawInstances=numInstances
@@ -69,5 +71,17 @@ export default class Drawing extends Model{
 
     getBufferByName(name: string) {
         return this.buffer;
+    }
+
+    resolveParent() {
+
+
+                 let a =this.label.split("_");
+                 a.shift();
+                 let sa=a.join("_")
+        let parent=sa.split(".")[0];
+
+       if(parent=="world")return;
+        this.worldParent = this.renderer.modelByLabel[parent];
     }
 }

@@ -209,7 +209,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0);
         let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
 
-    if(mra.w==0.0){return vec4(albedo,0.0);}
+    if(mra.w==0.0){return vec4(albedo*1.5,0.0);}
 
     return vec4(color+(lightL+lightP)*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }

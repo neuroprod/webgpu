@@ -43,6 +43,8 @@ import GameCamera from "./GameCamera";
 import Ray from "./lib/Ray";
 import UI_I from "./lib/UI/UI_I";
 import Drawer from "./drawing/Drawer";
+import DrawingPreloader from "./drawing/DrawingPreloader";
+import {preloadImages} from "./PreloadData";
 
 
 export default class Main {
@@ -96,6 +98,7 @@ export default class Main {
     private gameCamera: GameCamera;
     public mouseRay:Ray;
     private drawer:Drawer
+    private drawingPreloader: DrawingPreloader;
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -110,7 +113,7 @@ export default class Main {
     public setup() {
         this.preloader = new PreLoader(
             ()=>{},
-            this.startPreload.bind(this)
+            this.startFinalPreload.bind(this)
         );
         this.camera = new Camera(this.renderer, "mainCamera")
         this.mouseRay =new Ray(this.renderer);
@@ -140,8 +143,7 @@ export default class Main {
 
 
     }
-    public startPreload(){
-
+    public startFinalPreload(){
 
 
         this.gBufferPass = new GBufferRenderPass(this.renderer);
@@ -163,6 +165,7 @@ export default class Main {
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
+        UI.setWebGPU(this.renderer)
         GameModel.main=this;
 
 
@@ -170,10 +173,16 @@ export default class Main {
 
         console.log("startPreload2")
         console.log("ready to render")
+
+        //
         this.preloader = new PreLoader(
             ()=>{},
             this.init.bind(this)
         );
+
+        this.drawingPreloader = new DrawingPreloader()
+        this.drawingPreloader.load(this.renderer,this.preloader)
+
         this.room = new Room(this.renderer, this.preloader);
         this.outside = new Outside(this.renderer, this.preloader);
 
@@ -181,7 +190,7 @@ export default class Main {
 
 
        this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
-        UI.setWebGPU(this.renderer)
+
     }
     private init() {
 
@@ -215,6 +224,10 @@ export default class Main {
 
         this.drawer =new Drawer(this.renderer);
         this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
+        for(let d of this.drawingPreloader.drawings){
+            d.resolveParent();
+            this.gBufferPass.drawingRenderer.addDrawing(d)
+        }
         GameModel.setTransition(Transitions.START_GAME)
 
 
@@ -284,7 +297,7 @@ export default class Main {
 
         }
         this.mouseRay.setFromCamera(this.camera,this.mouseListener.mousePos)
-        this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
+        if(!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
 
         if(this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame,this.mouseListener.isUpThisFrame,this.mouseRay)
         //this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
