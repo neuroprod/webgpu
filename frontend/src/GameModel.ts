@@ -8,6 +8,9 @@ import mapRange = gsap.utils.mapRange;
 import Trigger from "./trigers/Trigger";
 import HitTrigger from "./trigers/HitTrigger";
 import UI from "./lib/UI/UI";
+import HitInfoTrigger from "./trigers/HitInfoTrigger";
+import Texture from "./lib/textures/Texture";
+import Drawing from "./drawing/Drawing";
 
 
 
@@ -41,7 +44,7 @@ class GameModel {
     dayNight: number = 0;
     lockView: boolean =false;
 
-
+    public drawingByLabel: { [label: string]: Drawing } = {};
     private triggers:Array<Trigger>=[]
 
     private _hitObjectLabel: string ="";
@@ -52,7 +55,7 @@ class GameModel {
         this.makeTriggers();
     }
     private makeTriggers() {
-        this.triggers.push(new HitTrigger(Scenes.ROOM, "door_HO"))
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "door_HO"))
     }
     update(){
         for(let t of this.triggers){
@@ -80,7 +83,7 @@ class GameModel {
         if(value == this._hitObjectLabel){
             return;
         }
-      UI.logEvent("HIT",value)
+
 
         this.hitStateChange =true;
         this.hitObjectLabelPrev =   this._hitObjectLabel;
@@ -88,6 +91,9 @@ class GameModel {
     }
 
 
+    getDrawingByLabel(label: string) {
+        return this.drawingByLabel[label];
+    }
 }
 
 export default new GameModel()

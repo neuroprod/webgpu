@@ -3,7 +3,7 @@ import GameModel, {Scenes} from "../GameModel";
 import UI from "../lib/UI/UI";
 
 export default class HitTrigger extends Trigger{
-    private objectLabel: string;
+    protected objectLabel: string;
     constructor(scene:Scenes,objectLabel:string) {
         super(scene);
         this.objectLabel =objectLabel;
@@ -11,6 +11,15 @@ export default class HitTrigger extends Trigger{
     }
     check() {
         if(!super.check())return false;
+
+        if(GameModel.mouseDownThisFrame){
+            if(GameModel.hitObjectLabel ==this.objectLabel){
+                this.click()
+            }
+
+        }
+
+
         if(!GameModel.hitStateChange)return
         if(GameModel.hitObjectLabel ==this.objectLabel) {
            this.over()
@@ -26,11 +35,15 @@ export default class HitTrigger extends Trigger{
 
     }
 
-    private over() {
+    protected over() {
         //UI.logEvent("Over", this.objectLabel);
     }
 
-    private out() {
+    protected out() {
       //  UI.logEvent("Out", this.objectLabel);
+    }
+
+    protected click() {
+
     }
 }

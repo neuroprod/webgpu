@@ -336,7 +336,7 @@ export default class Main {
         RenderSettings.onUI();
         UI.popWindow()
 
-this.drawer.onUI();
+        this.drawer.onUI();
 
     }
 

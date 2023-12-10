@@ -53,7 +53,8 @@ export default class DrawingRenderer{
                     model.mesh.numIndices,
                     model.numDrawInstances,
                     0,
-                    0
+                    0,
+                    model.firstDrawInstances,
                 );
             }
 
