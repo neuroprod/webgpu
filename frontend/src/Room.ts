@@ -9,6 +9,7 @@ import {FpsScreen} from "./extras/FpsScreen";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Mill from "./extras/Mill";
 import Ray from "./lib/Ray";
+import GameModel from "./GameModel";
 
 export default class Room {
     leftHolder: Object3D;
@@ -86,7 +87,11 @@ export default class Room {
 
     checkMouseHit(mouseRay: Ray) {
         for (let m of this.glFTLoader.modelsHit) {
-            m.checkHit(mouseRay);
+           if( m.checkHit(mouseRay)){
+
+               return;
+           }
         }
+        GameModel.hitObjectLabel =""
     }
 }

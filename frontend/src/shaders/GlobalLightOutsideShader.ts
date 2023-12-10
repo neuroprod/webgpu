@@ -159,7 +159,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
   for (var y = -1; y <= 1; y++) {
     for (var x = -1; x <= 1; x++) {
       let offset = vec2<f32>(vec2i(x, y)) * oneOverShadowDepthTextureSize;
-    shadowVal += textureSampleCompare(shadow, mySamplerComp, shadowUV+offset, shadowProjN.z-0.003);
+    shadowVal += textureSampleCompare(shadow, mySamplerComp, shadowUV+offset, shadowProjN.z-0.007);
   }
   }
   shadowVal/=9.0;

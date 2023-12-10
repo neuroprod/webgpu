@@ -309,10 +309,11 @@ export default class Main {
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         } else {
             this.outside.update()
+
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos());
         }
 
-
+        GameModel.update()
 
 
 

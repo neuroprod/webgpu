@@ -34,7 +34,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
     private globalLightMaterial: Material;
     private blitGlobalLight: Blit;
 
-    private sunLightColor: ColorV = new ColorV(1.00,0.71,0.39,1.00);
+    private sunLightColor: ColorV = new ColorV(1.00,0.83,0.63,1.00);
     private sunLightStrength: number =5.6;
 
     private topColorDay: ColorV = new ColorV(   0.73,0.99,0.95,0.40);

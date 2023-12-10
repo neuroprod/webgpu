@@ -14,7 +14,7 @@ export default class Camera extends UniformGroup {
     public far = 100;
     public ratio = 1
     public lensShift = new Vector2(0, 0)
-    public viewProjectionInv!: Matrix4;
+    public viewProjectionInv= new Matrix4();
     public viewInv!: Matrix4;
     public projectionInv!: Matrix4;
     public perspective: boolean = true;
