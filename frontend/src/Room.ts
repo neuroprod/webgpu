@@ -94,4 +94,8 @@ export default class Room {
         }
         GameModel.hitObjectLabel =""
     }
+
+    onUI() {
+        this.glFTLoader.root.onUI();
+    }
 }

@@ -127,6 +127,7 @@ export default class GLFTLoader {
             if (m.model.mesh.hitTestObject) {
                 m.model.hitTestObject = m.model.mesh.hitTestObject;
                 m.model.canHitTest = true;
+                m.model.needsHitTest = true;
                 this.modelsHit.push(m.model);
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
@@ -136,8 +137,7 @@ export default class GLFTLoader {
                 this.models.push(m.model);
             }
             if (m.model.mesh.label.includes("_AC")) {
-                m.model.castShadow = true;
-                // m.model.material.cullMode = CullMode.None
+
             }
         }
     }

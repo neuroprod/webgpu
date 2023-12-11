@@ -60,4 +60,7 @@ export default class Outside {
     }
 
 
+    onUI() {
+        this.glFTLoader.root.onUI();
+    }
 }

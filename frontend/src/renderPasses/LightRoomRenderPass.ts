@@ -190,7 +190,7 @@ export default class LightRoomRenderPass extends RenderPass {
                 this.currentLight.destroy()
                 this.currentLight = null;
             } else {
-                this.currentLight.onUI()
+                this.currentLight.onDataUI()
             }
 
         }

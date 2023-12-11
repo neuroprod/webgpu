@@ -115,6 +115,7 @@ export default class Main {
             ()=>{},
             this.startFinalPreload.bind(this)
         );
+        UI.setWebGPU(this.renderer)
         this.camera = new Camera(this.renderer, "mainCamera")
         this.mouseRay =new Ray(this.renderer);
         this.renderer.camera = this.camera;
@@ -165,7 +166,7 @@ export default class Main {
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
-        UI.setWebGPU(this.renderer)
+
         GameModel.main=this;
 
 
@@ -343,6 +344,17 @@ export default class Main {
 
         this.drawer.onUI();
 
+        UI.pushWindow("Objects")
+        UI.pushGroup("Room");
+        this.room.onUI()
+        UI.popGroup()
+        UI.pushGroup("Outside");
+        this.outside.onUI()
+        UI.popGroup()
+        UI.popWindow()
+
+        UI.pushWindow("Object Data")
+        UI.popWindow()
     }
 
     onDraw() {

@@ -29,6 +29,7 @@ import LList, { LListSettings } from "./components/LList";
 import LListItem, { LListItemSettings } from "./components/LListItem";
 import WebGPU from "../../../components/WebGPU";
 import Renderer from "../Renderer";
+import ButtonGroup, {ButtonGroupSettings} from "./components/ButtonGroup";
 
 export default class UI {
   private static viewPort: Viewport | null;
@@ -143,7 +144,18 @@ export default class UI {
     }
     UI_I.groupDepth++;
   }
+  static pushButtonGroup(label: string, settings?: ButtonGroupSettings) {
+    if (!UI.initialized) return;
+    if (!UI_I.setComponent(label)) {
+      if (!settings) settings = new ButtonGroupSettings();
+      let comp = new ButtonGroup(UI_I.getID(label), label, settings);
+      UI_I.addComponent(comp);
+    }
+    UI_I.groupDepth++;
+    let result = UI_I.currentComponent.parent.getReturnValue();
+    return result;
 
+  }
   static popGroup() {
     if (!UI.initialized) return;
     UI_I.groupDepth--;

@@ -1,6 +1,9 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import {Euler, Matrix4, Quaternion, Vector3, Vector4} from "math.gl";
+import UI from "../UI/UI";
+import Group, {GroupSettings} from "../UI/components/Group";
+import {ButtonGroupSettings} from "../UI/components/ButtonGroup";
 
 export default class Object3D extends ObjectGPU {
     public parent: Object3D | null = null
@@ -12,8 +15,10 @@ export default class Object3D extends ObjectGPU {
     private _rotation = new Quaternion(0, 0, 0, 1);
     public castShadow :boolean=true;
     public worldMatrixInv: Matrix4=new Matrix4();
+    public buttonGroupSetting =new ButtonGroupSettings()
     constructor(renderer: Renderer, label: string = "") {
         super(renderer, label);
+        this.buttonGroupSetting.color.setHex("#406618")
     }
 
     private _worldMatrix: Matrix4 = new Matrix4()
@@ -123,5 +128,19 @@ export default class Object3D extends ObjectGPU {
 
     getPosition() {
         return this._position;
+    }
+    onDataUI(){}
+    onUI() {
+
+        this.buttonGroupSetting.hasChildren = this.children.length > 0;
+        if(UI.pushButtonGroup(this.label,this.buttonGroupSetting)){
+         console.log("pressed",this.label)
+        }
+
+        for (let c of this.children) {
+            c.onUI()
+        }
+       // this.onDataUI()
+        UI.popGroup();
     }
 }

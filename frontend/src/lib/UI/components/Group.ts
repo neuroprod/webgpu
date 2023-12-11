@@ -21,7 +21,7 @@ export default class Group extends Component {
 
   private label: string;
   private verticalLSettings: VerticalLayoutSettings;
-  private open: boolean = true;
+  private open: boolean =false;
 
   constructor(id: number, label: string, settings: GroupSettings) {
     super(id, settings);

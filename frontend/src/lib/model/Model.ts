@@ -6,6 +6,7 @@ import ModelTransform from "./ModelTransform";
 import HitTestObject from "../meshes/HitTestObject";
 import Ray from "../Ray";
 import GameModel from "../../GameModel";
+import UI from "../UI/UI";
 
 
 export default class Model extends Object3D {
@@ -16,11 +17,11 @@ export default class Model extends Object3D {
     public visible: boolean = true;
     public hitTestObject: HitTestObject;
     public canHitTest: boolean = false;
-
+    public needsHitTest:boolean =false;
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
-
+        this.buttonGroupSetting.color.setHex("#7b2e00")
         this.renderer.addModel(this);
     }
 
@@ -37,6 +38,10 @@ export default class Model extends Object3D {
             return true;
         }
         return false;
+    }
+    onDataUI() {
+        super.onDataUI();
+        this.needsHitTest =UI.LBool("needs HitTest",this.needsHitTest)
     }
 
     destroy() {

@@ -157,7 +157,7 @@ export default class PointLight extends Object3D {
 
     }
 
-    onUI() {
+    onDataUI()  {
         UI.pushID(this.UUID + "");
         UI.separator(this.label)
         UI.setIndent(20)
@@ -220,4 +220,6 @@ export default class PointLight extends Object3D {
         let world = this.getWorldPos()
         this.material.uniforms.setUniform("position", new Vector4(world.x, world.y, world.z, this.size))
     }
+
+
 }
