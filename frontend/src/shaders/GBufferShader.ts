@@ -70,7 +70,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
 {
   var output : GBufferOutput;
     output.color = textureSample(colorTexture, mySampler,  uv0);
-    if(output.color.w<0.9){discard;}
+    if(output.color.w<0.5){discard;}
   
  
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;

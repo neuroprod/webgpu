@@ -82,9 +82,9 @@ export default class ShadowPass extends RenderPass {
     }
     onUI()
     {
-        UI.pushWindow("shadowCam");
+        UI.pushGroup("shadowCam");
 this.camera.onUI();
-        UI.popWindow();
+        UI.popGroup();
     }
     draw() {
 

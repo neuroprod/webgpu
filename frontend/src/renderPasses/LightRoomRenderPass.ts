@@ -124,7 +124,7 @@ export default class LightRoomRenderPass extends RenderPass {
 
 
     onUI() {
-        UI.pushWindow("Light Room")
+        UI.pushGroup("Light Inside")
         for (let p of this.lights) {
             p.update()
         }
@@ -194,8 +194,8 @@ export default class LightRoomRenderPass extends RenderPass {
             }
 
         }
+UI.popGroup()
 
-        UI.popWindow()
     }
 
     draw() {

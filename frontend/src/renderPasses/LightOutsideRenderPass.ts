@@ -120,7 +120,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
 
     onUI(matrix:Matrix4) {
-        UI.pushWindow("Light Outside")
+        UI.pushGroup("Light Outside")
 
         UI.separator("Sun Light")
         UI.LVector("dir",this.sunDir,true);
@@ -166,7 +166,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.globalLightMaterial.uniforms.setUniform("pointlightColor",this.lightColor);
         this.globalLightMaterial.uniforms.setUniform("pointlightPos",this.lightGrave.getWorldPos());
 
-        UI.popWindow()
+        UI.popGroup()
     }
 
     onSettingsChange() {

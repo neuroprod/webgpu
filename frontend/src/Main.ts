@@ -317,18 +317,23 @@ export default class Main {
 
 
 
-        UI.pushWindow("Performance")
+       /* UI.pushWindow("Performance")
         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
         this.timeStampQuery.onUI();
-        UI.popWindow()
-
+        UI.popWindow()*/
+        UI.pushWindow("Light")
             this.lightRoomPass.onUI();
             this.lightOutsidePass.onUI(this.shadowPass.camera.viewProjection);
             this.shadowPass.onUI()
-
+        UI.popWindow()
 
 
         UI.pushWindow("Render Setting")
+        UI.pushGroup("Performance");
+        if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
+        this.timeStampQuery.onUI();
+        UI.popGroup()
+
         this.canvasRenderPass.onUI();
         UI.pushGroup("AO");
         this.aoPass.onUI();
