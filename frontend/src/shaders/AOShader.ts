@@ -42,9 +42,9 @@ export default class AOShader extends Shader {
                 Math.random()
             );
             v.normalize();
-            v.y += 0.01;
+            v.z += 0.5;
             v.normalize();
-            let p = Math.random()+0.01;
+            let p = Math.random()+0.02;
             v.multiplyByScalar(p );
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";

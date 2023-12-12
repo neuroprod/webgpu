@@ -248,7 +248,7 @@ this.computeShadertest =new ComputeShaderTest(this.renderer)
         this.room.init()
         this.outside.init();
 
-        this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerRightHolder])
+        this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
 
 

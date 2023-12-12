@@ -4,7 +4,7 @@ import gsap from "gsap";
 export default class GoRightRoom extends Transition{
     set(onComplete: () => void){
 
-        gsap.to(GameModel,{roomCamOffset:1});
+        gsap.to(GameModel,{roomCamOffset:1,duration:2});
         GameModel.isLeftRoom =false;
         onComplete();
     }

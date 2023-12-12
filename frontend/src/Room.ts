@@ -14,6 +14,7 @@ import GameModel from "./GameModel";
 export default class Room {
     leftHolder: Object3D;
     rightHolder: Object3D;
+    centerHolder: Object3D;
     mainLight: MainLight;
 
     modelRenderer: ModelRenderer;
@@ -24,7 +25,7 @@ export default class Room {
     private laptopScreen: LaptopScreen;
     private fpsScreen: FpsScreen;
     private mill: Mill;
-    private centerHolder: Object3D;
+
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
