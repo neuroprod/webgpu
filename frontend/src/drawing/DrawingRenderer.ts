@@ -8,6 +8,7 @@ export default class DrawingRenderer{
     public drawings: Array<Drawing>=[];
     private renderer: Renderer;
     private label: string;
+    public currentScene =0;
     constructor(renderer:Renderer,label ="")
     {
         this.label = label;
@@ -21,7 +22,9 @@ export default class DrawingRenderer{
         passEncoder.setBindGroup(0,this.renderer.camera.bindGroup);
 
         for (let model of this.drawings) {
+
             if(!model.visible)continue
+            if(model.sceneID>=0 && model.sceneID!=this.currentScene )continue;
             if( model.numDrawInstances==0)continue;
             model.material.makePipeLine(pass);
 

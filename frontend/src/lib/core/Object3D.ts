@@ -18,7 +18,7 @@ export default class Object3D extends ObjectGPU {
     public buttonGroupSetting =new ButtonGroupSettings()
     constructor(renderer: Renderer, label: string = "") {
         super(renderer, label);
-        this.buttonGroupSetting.color.setHex("#406618")
+        this.buttonGroupSetting.color.setHex("#534741")
     }
 
     private _worldMatrix: Matrix4 = new Matrix4()
@@ -129,12 +129,15 @@ export default class Object3D extends ObjectGPU {
     getPosition() {
         return this._position;
     }
-    onDataUI(){}
+    onDataUI(){
+        UI.LText(this.label,"name");
+
+    }
     onUI() {
 
         this.buttonGroupSetting.hasChildren = this.children.length > 0;
         if(UI.pushButtonGroup(this.label,this.buttonGroupSetting)){
-         console.log("pressed",this.label)
+        this.renderer.selectedUIObject =this;
         }
 
         for (let c of this.children) {

@@ -11,13 +11,13 @@ export default class HitInfoTrigger extends HitTrigger{
     }
     public over() {
         UI.logEvent("Over", this.objectLabel);
-        let drawing =GameModel.getDrawingByLabel("gooutside_door_HO")
+        let drawing =GameModel.getDrawingByLabel("inside_world")
         drawing.show()
     }
 
     public out() {
           UI.logEvent("Out", this.objectLabel);
-        let drawing =GameModel.getDrawingByLabel("gooutside_door_HO")
+        let drawing =GameModel.getDrawingByLabel("inside_world")
         drawing.hideDelay(2);
     }
     public  click(){

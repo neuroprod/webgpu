@@ -14,6 +14,7 @@ import AnimationChannelVector3 from "./lib/animation/AnimationChannelVector3";
 import Skin from "./lib/animation/Skin";
 import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
 import HitTestObject from "./lib/meshes/HitTestObject";
+import {materialData} from "./PreloadData";
 
 
 type Accessor = {
@@ -122,13 +123,21 @@ export default class GLFTLoader {
     }
 
     private makeModels() {
+        let data = materialData;
         for (let m of this.modelData) {
             m.model.mesh = this.meshes[m.meshID]
+
+
             if (m.model.mesh.hitTestObject) {
                 m.model.hitTestObject = m.model.mesh.hitTestObject;
                 m.model.canHitTest = true;
                 m.model.needsHitTest = true;
                 this.modelsHit.push(m.model);
+            }
+            let mData = materialData[m.model.mesh.label]
+            if(mData){
+
+                m.model.needsAlphaClip =   mData.needsAlphaClip
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {
@@ -136,9 +145,7 @@ export default class GLFTLoader {
             } else {
                 this.models.push(m.model);
             }
-            if (m.model.mesh.label.includes("_AC")) {
 
-            }
         }
     }
 
@@ -167,6 +174,14 @@ export default class GLFTLoader {
 
         let mraTexture = this.getTexture(name + "_MRA");
         if (mraTexture) material.uniforms.setTexture("mraTexture", mraTexture)
+
+        let opTexture = this.getTexture(name + "_Op");
+        if (opTexture) {
+            material.uniforms.setTexture("opTexture", opTexture)
+        }
+
+
+
         this.materialsByName[name] = material;
         return material;
 
@@ -332,9 +347,8 @@ export default class GLFTLoader {
             let posAccessor = this.accessors[primitive.attributes.POSITION];
 
             let positionData = this.getSlize(posAccessor);
-            if (m.name.includes("_HO")) {
-
-
+            let md = materialData[m.name];
+           if(md.needsHitTest){
                 mesh.hitTestObject = new HitTestObject()
                 mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])
                 mesh.hitTestObject.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2])

@@ -13,6 +13,7 @@ import {IResizable} from "./IResizable";
 import {Vector2} from "math.gl";
 import Skin from "./animation/Skin";
 import MipMapQueue from "./textures/MipMapQueue";
+import Object3D from "./core/Object3D";
 
 export default class Renderer {
     public device: GPUDevice;
@@ -30,7 +31,7 @@ export default class Renderer {
     private context: GPUCanvasContext;
     private materials: Array<Material> = [];
     private textures: Array<Texture> = [];
-    private models: Array<Model> = [];
+    models: Array<Model> = [];
     public modelByLabel: { [label: string]: Model } = {};
     public modelLabels:Array<string>=[];
     private scaleToCanvasTextures: Array<RenderTexture> = [];
@@ -42,6 +43,7 @@ export default class Renderer {
     public pixelRatio: number;
     public skin: Skin;
     public mipmapQueue:MipMapQueue
+    selectedUIObject: Object3D;
     constructor() {
     }
 

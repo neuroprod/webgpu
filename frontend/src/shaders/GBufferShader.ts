@@ -18,6 +18,7 @@ export default class GBufferShader extends Shader{
 
         }
         this.addUniform("scale",1);
+        this.addTexture("opTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
@@ -68,9 +69,13 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) tangent: vec3f,@location(3) biTangent: vec3f) -> GBufferOutput
 {
-  var output : GBufferOutput;
+    var output : GBufferOutput;
+  
+    let a= textureSample(opTexture, mySampler,  uv0).x;
+    if(a<0.5){discard;}
+
     output.color = textureSample(colorTexture, mySampler,  uv0);
-    if(output.color.w<0.5){discard;}
+ 
   
  
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;

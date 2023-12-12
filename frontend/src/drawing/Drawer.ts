@@ -19,11 +19,13 @@ export default class Drawer {
     private isDrawing: boolean = false;
     private pointCount: number = 0;
     private renderer: Renderer;
+    private sceneArray: Array<SelectItem> = []
     private parentArray: Array<SelectItem> = []
     private currentParent = "world"
     private color: ColorV = new ColorV(1, 1, 1, 1)
     private dataArr: Float32Array;
     private dataArrSmall: Int16Array;
+    private sceneID: number=0;
 
     constructor(renderer: Renderer) {
         this.drawing = new Drawing(renderer, "drawerDrawing")
@@ -33,6 +35,9 @@ export default class Drawer {
         for (let l of this.renderer.modelLabels) {
             this.parentArray.push(new SelectItem(l, l));
         }
+        this.sceneArray.push(new SelectItem('Inside', 0));
+        this.sceneArray.push(new SelectItem('Outside', 1));
+        this.sceneArray.push(new SelectItem('Intro', 2));
     }
 
     setMouseData(mouseDown: boolean, mouseUp: boolean, ray: Ray) {
@@ -81,9 +86,10 @@ export default class Drawer {
             this.drawing.progress = 0.0;
             gsap.to(this.drawing, {progress: 1, duration: 2, ease: "power4.Out"})
         }
-        UI.LText(Math.round((this.pointCount * 2 * 3) / 1000) + "Kb", "dataComp?")
 
+        this.sceneID = UI.LSelect("scene", this.sceneArray)
         let p = UI.LSelect("parent", this.parentArray)
+
         UI.LVector("offset", this.drawing.offset)
         UI.LColor("color", this.color);
         this.drawing.material.uniforms.setUniform('color', this.color)
@@ -124,26 +130,35 @@ export default class Drawer {
             size += l.points.length * 4;
             sizeS += l.points.length * 3;
         }
-        this.dataArrSmall = new Int16Array(sizeS + 6)
-        this.dataArrSmall[0] = Math.round(this.drawing.offset.x *1000);
-        this.dataArrSmall[1] =Math.round(this.drawing.offset.y *1000);
-        this.dataArrSmall[2] =Math.round(this.drawing.offset.z *1000);
+        this.dataArrSmall = new Int16Array(sizeS + 16)
+        this.dataArrSmall[0] = this.sceneID;
+        this.dataArrSmall[1] = Math.round(this.drawing.offset.x *1000);
+        this.dataArrSmall[2] =Math.round(this.drawing.offset.y *1000);
+        this.dataArrSmall[3] =Math.round(this.drawing.offset.z *1000);
 
-        this.dataArrSmall[3] =Math.round( this.color.x*255);
-        this.dataArrSmall[4] = Math.round(this.color.y*255);
-        this.dataArrSmall[5] =Math.round(this.color.z*255);
+        this.dataArrSmall[4] =Math.round( this.color.x*255);
+        this.dataArrSmall[5] = Math.round(this.color.y*255);
+        this.dataArrSmall[6] =Math.round(this.color.z*255);
 
         this.dataArr = new Float32Array(size);
         let pointCount = 0;
+
+
+        let min = new Vector3(Number.MAX_VALUE,Number.MAX_VALUE,0)
+        let max = new Vector3(Number.MIN_VALUE,Number.MIN_VALUE,0)
         for (let l of this.lines) {
 
             for (let p of l.points) {
-
                 let pos = pointCount * 4;
-                let posS = pointCount * 3 + 6;
+                let posS = pointCount * 3 + 16;
                 this.dataArrSmall[posS++] = Math.round(p.x * 1000)
                 this.dataArrSmall[posS++] = Math.round(p.y * 1000)
                 this.dataArrSmall[posS++] = Math.round(l.drawSize * 1000)
+
+                if(p.x<min.x)min.x=p.x;
+                if(p.y<min.y)min.y=p.y;
+                if(p.x>max.x)max.x=p.x;
+                if(p.y>max.y)max.y=p.y;
 
                 this.dataArr[pos++] = p.x;
                 this.dataArr[pos++] = p.y;
@@ -154,7 +169,10 @@ export default class Drawer {
 
 
         }
-
+        this.dataArrSmall[7] =Math.round( min.x*1000);
+        this.dataArrSmall[8] = Math.round(min.y*1000);
+        this.dataArrSmall[9] =Math.round(max.x*1000);
+        this.dataArrSmall[10] =Math.round(max.y*1000);
         this.drawing.createBuffer(this.dataArr, "instanceBuffer")
         this.drawing.numDrawInstancesMax = pointCount;
         this.drawing.numDrawInstances = pointCount;

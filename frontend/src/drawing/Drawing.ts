@@ -26,7 +26,7 @@ export default class Drawing extends Model{
     protected color: ColorV = new ColorV(1, 1, 1, 1)
     position=new Vector3();
     private tl:gsap.core.Timeline;
-
+    public sceneID: number=-1;
     constructor(renderer:Renderer,label:string,numInstances:number=0) {
         super(renderer,label);
 

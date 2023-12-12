@@ -41,8 +41,8 @@ export default class DefaultTextures {
         this.white.make()
 
         let f = new Uint8ClampedArray(4);
-        f.fill(150);
-        f[3]=255
+        f.fill(255);
+
         this.white.writeTexture(f,1,1,4);
 
         return this.white;

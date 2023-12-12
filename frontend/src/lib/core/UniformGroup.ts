@@ -2,7 +2,7 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Texture from "../textures/Texture";
-import {SamplerBindingType, TextureViewDimension} from "../WebGPUConstants";
+import {SamplerBindingType, TextureDimension, TextureFormat, TextureViewDimension} from "../WebGPUConstants";
 import {getSizeForShaderType, ShaderType} from "./ShaderTypes";
 
 type Uniform = {
@@ -21,6 +21,13 @@ type TextureUniform = {
     sampleType: GPUTextureSampleType
     dimension: GPUTextureViewDimension,
 }
+type StorageTextureUniform = {
+    name: string,
+    texture: Texture;
+    usage: GPUShaderStageFlags,
+    access: GPUStorageTextureAccess,
+    dimension: GPUTextureViewDimension,
+}
 type SamplerUniform = {
     name: string,
     sampler: GPUSampler;
@@ -36,6 +43,7 @@ export default class UniformGroup extends ObjectGPU {
     public isBindGroupDirty: boolean = true;
     public uniforms: Array<Uniform> = [];
     public textureUniforms: Array<TextureUniform> = [];
+    public storageTextureUniforms: Array<StorageTextureUniform> = [];
     public samplerUniforms: Array<SamplerUniform> = [];
 
     public buffer!: GPUBuffer;
@@ -83,7 +91,18 @@ export default class UniformGroup extends ObjectGPU {
 
         this.uniforms.push(u);
     }
+    addStorageTexture(name:string, value: Texture,format:GPUTextureFormat=TextureFormat.RGBA8Unorm){
+        this.storageTextureUniforms.push({
 
+            name: name,
+            texture: value,
+            usage: GPUShaderStage.COMPUTE,
+            access: "write-only",
+            dimension: TextureDimension.TwoD,
+
+
+        } )
+    }
     addTexture(name: string, value: Texture, sampleType: GPUTextureSampleType, dimension: GPUTextureViewDimension, usage: GPUShaderStageFlags) {
         this.textureUniforms.push({
             name: name,
@@ -286,6 +305,19 @@ struct ${this.typeInShader}
             })
             bindingCount++;
         }
+       /* for (let t of this.storageTextureUniforms) {
+            entriesLayout.push({
+                binding: bindingCount,
+                visibility: t.usage,
+                texture: {
+                    access: t.sampleType,
+                    viewDimension: t.dimension,
+                    multisampled: false,
+
+                },
+            })
+            bindingCount++;
+        }*/
         for (let t of this.samplerUniforms) {
             let s: GPUSamplerBindingLayout = {type: SamplerBindingType.Filtering}
             if (t.compare) {

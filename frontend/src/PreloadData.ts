@@ -27,6 +27,9 @@ export const preloadImages = [
   "chartest_Color",
   "chartest_MRA",
   "chartest_Normal",
+  "clover_AC.010_Color",
+  "clover_AC.010_MRA",
+  "clover_AC.010_Normal",
   "clover_AC_Color",
   "clover_AC_MRA",
   "clover_AC_Normal",
@@ -60,6 +63,7 @@ export const preloadImages = [
   "fern_AC_Color",
   "fern_AC_MRA",
   "fern_AC_Normal",
+  "fern_AC_Op",
   "fish_Color",
   "fish_MRA",
   "fish_Normal",
@@ -78,6 +82,7 @@ export const preloadImages = [
   "flowerBase_AC_Color",
   "flowerBase_AC_MRA",
   "flowerBase_AC_Normal",
+  "flowerBase_AC_Op",
   "grass.001_Color",
   "grass.001_MRA",
   "grass.001_Normal",
@@ -87,6 +92,7 @@ export const preloadImages = [
   "grass_AC_Color",
   "grass_AC_MRA",
   "grass_AC_Normal",
+  "grass_AC_Op",
   "grinder_Color",
   "grinder_MRA",
   "grinder_Normal",
@@ -144,6 +150,7 @@ export const preloadImages = [
   "pineLeaves_AC_Color",
   "pineLeaves_AC_MRA",
   "pineLeaves_AC_Normal",
+  "pineLeaves_AC_Op",
   "planets_Color",
   "planets_MRA",
   "planets_Normal",
@@ -205,3 +212,9 @@ export const preloadImages = [
   "wireTest_MRA",
   "wireTest_Normal"
 ]
+export const preloadDrawings = [
+  "inside_world",
+  "name_world",
+  "outside_world"
+]
+export const materialData ={"body":{"needsHitTest":false,"needsAlphaClip":false},"Quad":{"needsHitTest":false,"needsAlphaClip":false},"mill":{"needsHitTest":false,"needsAlphaClip":false},"millBed":{"needsHitTest":false,"needsAlphaClip":false},"millControle":{"needsHitTest":false,"needsAlphaClip":false},"millHead":{"needsHitTest":false,"needsAlphaClip":false},"table":{"needsHitTest":false,"needsAlphaClip":false},"grinder":{"needsHitTest":false,"needsAlphaClip":false},"hamer":{"needsHitTest":false,"needsAlphaClip":false},"wallRight":{"needsHitTest":false,"needsAlphaClip":false},"wireTest":{"needsHitTest":false,"needsAlphaClip":false},"ceiling":{"needsHitTest":false,"needsAlphaClip":false},"chair":{"needsHitTest":false,"needsAlphaClip":false},"coffeeTable":{"needsHitTest":false,"needsAlphaClip":false},"coffeeControler":{"needsHitTest":false,"needsAlphaClip":false},"coffeeWires":{"needsHitTest":false,"needsAlphaClip":false},"flask_G":{"needsHitTest":false,"needsAlphaClip":false},"coffeeMaker":{"needsHitTest":false,"needsAlphaClip":false},"corck":{"needsHitTest":false,"needsAlphaClip":false},"flaskContent_T":{"needsHitTest":false,"needsAlphaClip":false},"flaskHolder":{"needsHitTest":false,"needsAlphaClip":false},"door_HO":{"needsHitTest":true,"needsAlphaClip":false},"floor":{"needsHitTest":false,"needsAlphaClip":false},"mainLight":{"needsHitTest":false,"needsAlphaClip":false},"planets":{"needsHitTest":false,"needsAlphaClip":false},"outside":{"needsHitTest":false,"needsAlphaClip":false},"paperWallLeft":{"needsHitTest":false,"needsAlphaClip":false},"plant1":{"needsHitTest":false,"needsAlphaClip":false},"plant2":{"needsHitTest":false,"needsAlphaClip":false},"plate":{"needsHitTest":false,"needsAlphaClip":false},"powersup":{"needsHitTest":false,"needsAlphaClip":false},"shelf":{"needsHitTest":false,"needsAlphaClip":false},"oscilloscope":{"needsHitTest":false,"needsAlphaClip":false},"teapot":{"needsHitTest":false,"needsAlphaClip":false},"wallBack":{"needsHitTest":false,"needsAlphaClip":false},"wallLeft":{"needsHitTest":false,"needsAlphaClip":false},"books1":{"needsHitTest":false,"needsAlphaClip":false},"box":{"needsHitTest":false,"needsAlphaClip":false},"coffee":{"needsHitTest":false,"needsAlphaClip":false},"desk":{"needsHitTest":false,"needsAlphaClip":false},"labtop":{"needsHitTest":false,"needsAlphaClip":false},"pants":{"needsHitTest":false,"needsAlphaClip":false},"house":{"needsHitTest":false,"needsAlphaClip":false},"water_G":{"needsHitTest":false,"needsAlphaClip":false},"fish":{"needsHitTest":false,"needsAlphaClip":false},"ground":{"needsHitTest":false,"needsAlphaClip":false},"waterplant":{"needsHitTest":false,"needsAlphaClip":false},"midGround":{"needsHitTest":false,"needsAlphaClip":false},"groundFront":{"needsHitTest":false,"needsAlphaClip":false},"mailBox":{"needsHitTest":false,"needsAlphaClip":false},"door":{"needsHitTest":true,"needsAlphaClip":false},"shovel":{"needsHitTest":false,"needsAlphaClip":false},"birdHouse":{"needsHitTest":true,"needsAlphaClip":false},"can":{"needsHitTest":false,"needsAlphaClip":false},"pot":{"needsHitTest":false,"needsAlphaClip":false},"BezierCurve":{"needsHitTest":false,"needsAlphaClip":false},"BezierCurve.001":{"needsHitTest":false,"needsAlphaClip":false},"smallPine":{"needsHitTest":false,"needsAlphaClip":false},"pineLeaves_AC":{"needsHitTest":false,"needsAlphaClip":true},"pineLeaves.094":{"needsHitTest":false,"needsAlphaClip":true},"pineLeaves.095":{"needsHitTest":false,"needsAlphaClip":true},"sky":{"needsHitTest":false,"needsAlphaClip":false},"grass_AC":{"needsHitTest":false,"needsAlphaClip":true},"flowerBase_AC":{"needsHitTest":false,"needsAlphaClip":true},"cross":{"needsHitTest":false,"needsAlphaClip":false},"cross.001":{"needsHitTest":false,"needsAlphaClip":false},"lightGrave":{"needsHitTest":false,"needsAlphaClip":false},"bigtree":{"needsHitTest":false,"needsAlphaClip":false},"fens":{"needsHitTest":false,"needsAlphaClip":false},"fern_AC":{"needsHitTest":false,"needsAlphaClip":true},"rock.001":{"needsHitTest":false,"needsAlphaClip":false},"rock.005":{"needsHitTest":false,"needsAlphaClip":false},"rock.006":{"needsHitTest":false,"needsAlphaClip":false},"rock.004":{"needsHitTest":false,"needsAlphaClip":false},"rock.008":{"needsHitTest":false,"needsAlphaClip":false},"rock.009":{"needsHitTest":false,"needsAlphaClip":false},"rock.010":{"needsHitTest":false,"needsAlphaClip":false},"rock.011":{"needsHitTest":false,"needsAlphaClip":false},"rock.012":{"needsHitTest":false,"needsAlphaClip":false},"rock.013":{"needsHitTest":false,"needsAlphaClip":false},"rock.015":{"needsHitTest":false,"needsAlphaClip":false},"rock.017":{"needsHitTest":false,"needsAlphaClip":false},"rock.018":{"needsHitTest":false,"needsAlphaClip":false},"rock.019":{"needsHitTest":false,"needsAlphaClip":false},"rock.007":{"needsHitTest":false,"needsAlphaClip":false},"rocksLeft":{"needsHitTest":false,"needsAlphaClip":false},"rocksMedium":{"needsHitTest":false,"needsAlphaClip":false},"plane":{"needsHitTest":false,"needsAlphaClip":false},"sphere":{"needsHitTest":false,"needsAlphaClip":false}}

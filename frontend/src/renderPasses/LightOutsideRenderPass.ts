@@ -110,8 +110,6 @@ export default class LightOutsideRenderPass extends RenderPass  {
             }
 
         ]
-
-
         this.blitGlobalLight = new Blit(this.renderer, 'blitPost', this.globalLightMaterial)
 
 
@@ -162,7 +160,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay.clone().lerp(this.bottomColorNight,GameModel.dayNight))
 
         this.globalLightMaterial.uniforms.setUniform( "shadowMatrix",matrix);
-
+        this.lightColor.w=this.lightStrength*GameModel.dayNight;
         this.globalLightMaterial.uniforms.setUniform("pointlightColor",this.lightColor);
         this.globalLightMaterial.uniforms.setUniform("pointlightPos",this.lightGrave.getWorldPos());
 
@@ -171,6 +169,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
     onSettingsChange() {
         super.onSettingsChange();
+
         this.globalLightMaterial.uniforms.setUniform("dof",RenderSettings.dof_Settings)
     }
 

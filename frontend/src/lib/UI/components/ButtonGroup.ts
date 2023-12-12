@@ -101,7 +101,9 @@ export default class ButtonGroup extends Component {
         let s =new ButtonBaseSettings()
         s.box.size.set(-1,20)
         if(b.hasChildren) {
-            UI_IC.toggleIcon("icon", this, "open", 1, 2)
+           if( UI_IC.toggleIcon("icon", this, "open", 1, 2)){
+               this.saveToLocal();
+           }
             s.box.marginLeft=20;
         }
 
