@@ -348,12 +348,13 @@ export default class GLFTLoader {
 
             let positionData = this.getSlize(posAccessor);
             let md = materialData[m.name];
-           if(md.needsHitTest){
-                mesh.hitTestObject = new HitTestObject()
-                mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])
-                mesh.hitTestObject.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2])
+            if(md) {
+                if (md.needsHitTest) {
+                    mesh.hitTestObject = new HitTestObject()
+                    mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])
+                    mesh.hitTestObject.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2])
+                }
             }
-
             mesh.setVertices(new Float32Array(positionData));
 
 

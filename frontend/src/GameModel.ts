@@ -11,6 +11,8 @@ import UI from "./lib/UI/UI";
 import HitInfoTrigger from "./trigers/HitInfoTrigger";
 import Texture from "./lib/textures/Texture";
 import Drawing from "./drawing/Drawing";
+import GoRightRoom from "./transitions/GoRightRoom";
+import GoLeftRoom from "./transitions/GoLeftRoom";
 
 
 
@@ -19,6 +21,8 @@ export const Transitions=
    GO_OUTSIDE:new GoOutside() ,
     START_GAME:new StartGame() ,
     GO_INSIDE:new GoInside(),
+    GO_RIGHT_ROOM: new GoRightRoom(),
+    GO_LEFT_ROOM:  new GoLeftRoom(),
 
 
 }
@@ -29,7 +33,8 @@ export enum Scenes
 }
 class GameModel {
 
-
+    public roomCamOffset:number =0;
+    public isLeftRoom =true;
 
     public currentScene:Scenes =Scenes.ROOM
 

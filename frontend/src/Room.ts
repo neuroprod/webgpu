@@ -15,7 +15,7 @@ export default class Room {
     leftHolder: Object3D;
     rightHolder: Object3D;
     mainLight: MainLight;
-    centerRightHolder: Object3D;
+
     modelRenderer: ModelRenderer;
     modelRendererTrans: ModelRenderer;
     root: Object3D;
@@ -24,6 +24,7 @@ export default class Room {
     private laptopScreen: LaptopScreen;
     private fpsScreen: FpsScreen;
     private mill: Mill;
+    private centerHolder: Object3D;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -32,7 +33,7 @@ export default class Room {
         new TextureLoader(this.renderer, preloader, "text_s.png", {});
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
 
-        this.glFTLoader = new GLFTLoader(this.renderer, "roomFinal", preloader);
+        this.glFTLoader = new GLFTLoader(this.renderer, "room", preloader);
 
     }
 
@@ -52,7 +53,7 @@ export default class Room {
 
         this.leftHolder = this.glFTLoader.objectsByName["left"]
         this.rightHolder = this.glFTLoader.objectsByName["right"]
-        this.centerRightHolder = this.glFTLoader.objectsByName["centerRight"]
+        this.centerHolder = this.glFTLoader.objectsByName["center"]
 
         this.mainLight = new MainLight(this.renderer)
         this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
@@ -78,9 +79,9 @@ export default class Room {
     }
     update() {
         this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
-        this.rightHolder.setPosition(this.renderer.ratio * 3 / 2, 0, 0)
-        this.centerRightHolder.setPosition(-this.renderer.ratio * 3 / 4 + 2, 0, 0)
 
+        this.centerHolder.setPosition(this.renderer.ratio * 3 / 2 +0.15, 0, 0)
+        this.rightHolder.setPosition(this.renderer.ratio * 3*1.5 +0.3, 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.mill.update();
     }

@@ -76,8 +76,19 @@ export default class CharacterHandler {
 
 
         if (GameModel.currentScene == Scenes.ROOM) {
-            if (screen - 0.2 < -this.renderer.ratio * 3 / 2) {
-                GameModel.setTransition(Transitions.GO_OUTSIDE)
+            if(GameModel.isLeftRoom){
+                if (screen - 0.2 < -this.renderer.ratio * 3 / 2) {
+                    GameModel.setTransition(Transitions.GO_OUTSIDE)
+                }
+                if (screen  > this.renderer.ratio * 3 / 2+0.15) {
+                    GameModel.setTransition(Transitions.GO_RIGHT_ROOM)
+                }
+            }
+            else if(!GameModel.isLeftRoom){
+                if (screen  < this.renderer.ratio * 3 / 2+0.15) {
+                    GameModel.setTransition(Transitions.GO_LEFT_ROOM)
+
+                }
             }
         }
         else if (GameModel.currentScene == Scenes.OUTSIDE) {
