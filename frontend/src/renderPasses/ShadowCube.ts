@@ -15,12 +15,13 @@ export default class ShadowCube{
 
     private colorTarget: RenderTexture;
     private  offsets =[new Vector3(-1,0,0),new Vector3(1,0,0),new Vector3(0,-1,0),new Vector3(0,1,0),new Vector3(0,0,-1),new Vector3(0,0,1)]
+    private drawAll: boolean =true;
 
-    constructor(renderer:Renderer) {
+    constructor(renderer:Renderer,depthTarget:RenderTexture, name:string) {
 
 
-        this.depthTarget = new RenderTexture(renderer, "ShadowCube", {
-            format: TextureFormat.Depth24Plus,
+        this.depthTarget = new RenderTexture(renderer, "ShadowCubeDepth", {
+            format: TextureFormat.Depth16Unorm,
             sampleCount: 1,
             scaleToCanvas: false,
             width:1024,
@@ -76,6 +77,7 @@ export default class ShadowCube{
         for (let i=0;i<6;i++){
             this.passes[i].models=models;
         }
+        this.drawAll =true;
     }
     public add(){
        for (let p of this.passes){

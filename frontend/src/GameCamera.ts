@@ -52,7 +52,7 @@ export default class GameCamera{
 
         if(GameModel.currentScene ==Scenes.ROOM){
 
-            return 0+(GameModel.roomCamOffset*(this.renderer.ratio * GameModel.sceneHeight+0.3));
+            return GameModel.roomCamOffset*(this.renderer.ratio * GameModel.sceneHeight/2 +0.15);
         }
         let halfWidth = this.renderer.ratio * GameModel.sceneHeight/2;
 

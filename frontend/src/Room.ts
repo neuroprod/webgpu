@@ -10,6 +10,7 @@ import ModelRenderer from "./lib/model/ModelRenderer";
 import Mill from "./extras/Mill";
 import Ray from "./lib/Ray";
 import GameModel from "./GameModel";
+import {WindowOutside} from "./extras/WindowOutside";
 
 export default class Room {
     leftHolder: Object3D;
@@ -25,6 +26,7 @@ export default class Room {
     private laptopScreen: LaptopScreen;
     private fpsScreen: FpsScreen;
     private mill: Mill;
+    private windowOutside: WindowOutside;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -67,6 +69,9 @@ export default class Room {
         this.modelRenderer.addModel(this.fpsScreen);
 
 
+        this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
+        this.modelRenderer.addModel( this.windowOutside );
+
     }
 
     makeTransParent() {
@@ -79,10 +84,10 @@ export default class Room {
         }
     }
     update() {
-        this.leftHolder.setPosition(-this.renderer.ratio * 3 / 2, 0, 0)
+        this.leftHolder.setPosition(-this.renderer.ratio * 3-0.15,  0, 0)
 
-        this.centerHolder.setPosition(this.renderer.ratio * 3 / 2 +0.15, 0, 0)
-        this.rightHolder.setPosition(this.renderer.ratio * 3*1.5 +0.3, 0, 0)
+        this.centerHolder.setPosition(0, 0, 0)
+        this.rightHolder.setPosition(this.renderer.ratio * 3+0.15 , 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.mill.update();
     }

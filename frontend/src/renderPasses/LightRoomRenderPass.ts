@@ -19,6 +19,7 @@ import ColorV from "../lib/ColorV";
 import {saveToJsonFile} from "../lib/SaveUtils";
 import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
+import GameModel from "../GameModel";
 
 export default class LightRoomRenderPass extends RenderPass {
 
@@ -35,6 +36,15 @@ export default class LightRoomRenderPass extends RenderPass {
     private topColor: ColorV = new ColorV(1.00, 0.92, 0.81, 0.30);
     private midColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.19);
     private bottomColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
+
+    private topColorNight: ColorV = new ColorV(1.00, 0.92, 0.81, 0.10);
+    private midColorNight: ColorV = new ColorV(1.00, 0.91, 0.82, 0.09);
+    private bottomColorNight: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
+
+    private topColorRight: ColorV = new ColorV(1.00, 0.92, 0.81, 0.0);
+    private midColorRight: ColorV = new ColorV(1.00, 0.91, 0.82, 0.0);
+    private bottomColorRight: ColorV = new ColorV(1.00, 0.91, 0.82, 0);
+
     private mainLight: MainLight;
     private mainLightColor: ColorV = new ColorV(1.00, 0.92, 0.81, 1);
     private mainLightStrength: number = 1;
@@ -75,6 +85,18 @@ export default class LightRoomRenderPass extends RenderPass {
             this.topColor.set(data.topColor[0], data.topColor[1], data.topColor[2], data.topColor[3]);
             this.midColor.set(data.midColor[0], data.midColor[1], data.midColor[2], data.midColor[3]);
             this.bottomColor.set(data.bottomColor[0], data.bottomColor[1], data.bottomColor[2], data.bottomColor[3]);
+
+            this.topColorNight.set(data.topColorNight[0], data.topColorNight[1], data.topColorNight[2], data.topColorNight[3]);
+            this.midColorNight.set(data.midColorNight[0], data.midColorNight[1], data.midColorNight[2], data.midColorNight[3]);
+            this.bottomColorNight.set(data.bottomColorNight[0], data.bottomColorNight[1], data.bottomColorNight[2], data.bottomColorNight[3]);
+
+
+            this.topColorRight.set(data.topColorRight[0], data.topColorRight[1], data.topColorRight[2], data.topColorRight[3]);
+            this.midColorRight.set(data.midColorRight[0], data.midColorRight[1], data.midColorRight[2], data.midColorRight[3]);
+            this.bottomColorRight.set(data.bottomColorRight[0], data.bottomColorRight[1], data.bottomColorRight[2], data.bottomColorRight[3]);
+
+
+
             for (let plData of data.pointLights) {
                 let p = new PointLight(this.renderer, "light1", this.modelRenderer, plData, this.lightParents)
                 this.lights.push(p)
@@ -141,6 +163,12 @@ export default class LightRoomRenderPass extends RenderPass {
                 topColor: this.topColor,
                 midColor: this.midColor,
                 bottomColor: this.bottomColor,
+                topColorNight: this.topColorNight,
+                midColorNight: this.midColorNight,
+                bottomColorNight: this.bottomColorNight,
+                topColorRight: this.topColorRight,
+                midColorRight: this.midColorRight,
+                bottomColorRight: this.bottomColorRight,
                 pointLights: lightsData,
             }
             saveToJsonFile(lightData, "lightRoom")
@@ -152,15 +180,30 @@ export default class LightRoomRenderPass extends RenderPass {
 
 
         UI.separator("Global Light")
-        UI.LColor("topLight", this.topColor)
-        UI.LColor("midLight", this.midColor)
-        UI.LColor("bottomLight", this.bottomColor)
+        UI.LColor("topLightDay", this.topColor)
+        UI.LColor("midLightDay", this.midColor)
+        UI.LColor("bottomLightDay", this.bottomColor)
+
+        UI.LColor("topLightNight", this.topColorNight)
+        UI.LColor("midLightNight", this.midColorNight)
+        UI.LColor("bottomLightNight", this.bottomColorNight)
+
+        UI.LColor("topLightRight", this.topColorRight)
+        UI.LColor("midLightRight", this.midColorRight)
+        UI.LColor("bottomLightRight", this.bottomColorRight)
 
         this.globalLightMaterial.uniforms.setUniform("lightColor", this.mainLight.color)
         this.globalLightMaterial.uniforms.setUniform("lightPos", this.mainLight.getWorldPos())
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor)
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor)
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor)
+
+
+
+        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor.clone().lerp(this.topColorNight,GameModel.dayNight))
+        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor.clone().lerp(this.midColorNight,GameModel.dayNight))
+        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor.clone().lerp(this.bottomColorNight,GameModel.dayNight))
+
+        this.globalLightMaterial.uniforms.setUniform("topColorRight", this.topColorRight)
+        this.globalLightMaterial.uniforms.setUniform("midColorRight", this.midColorRight)
+        this.globalLightMaterial.uniforms.setUniform("bottomColorRight", this.bottomColorRight)
 
 
         UI.separator("Lights")

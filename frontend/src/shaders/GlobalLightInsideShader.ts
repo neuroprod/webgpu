@@ -21,9 +21,16 @@ export default class GlobalLightInsideShader extends Shader{
 
         this.addUniform("lightPos",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("lightColor",new Vector4(1,0.7,0.7,0.1))
+
+
         this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
+        this.addUniform("topColorRight",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
+        this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
+
+
         this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
        // this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -153,8 +160,14 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let uvPosAO = vec2<i32>(floor(uv0*textureSizeAO));
       
     let ao = textureLoad(aoTexture,  uvPosAO ,0).x ;
+    
+    
     let l = dot(N,vec3(0.0,1.0,0.0));
-    let light =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
+    let lightLeft =mix( mix(uniforms.midColor.xyz*uniforms.midColor.w,uniforms.topColor.xyz*uniforms.topColor.w,max(0.0,l)),uniforms.bottomColor.xyz*uniforms.bottomColor.w,max(0.0,-l));
+     let lightRight =mix( mix(uniforms.midColorRight.xyz*uniforms.midColorRight.w,uniforms.topColorRight.xyz*uniforms.topColorRight.w,max(0.0,l)),uniforms.bottomColorRight.xyz*uniforms.bottomColorRight.w,max(0.0,-l));
+    
+    let light = mix(lightLeft,lightRight, smoothstep(-0.13,0.13,world.x));
+    
     let color = albedo*light*ao*(1.0-mra.x) +albedo*pow(mra.z,2.0)*10.0;
 
 

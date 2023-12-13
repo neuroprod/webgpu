@@ -33,7 +33,7 @@ export enum Scenes
 }
 class GameModel {
 
-    public roomCamOffset:number =0;
+    public roomCamOffset:number =-1;
     public isLeftRoom =true;
 
     public currentScene:Scenes =Scenes.ROOM

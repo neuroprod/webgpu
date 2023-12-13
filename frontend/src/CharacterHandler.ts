@@ -54,8 +54,8 @@ export default class CharacterHandler {
 
 
         if (scene == 0) {
-            GameModel.characterPos.set(-this.renderer.ratio * 3 / 2 + 0.3, 0, -1.5)
-            this.floorPos.set(0, 0, -1.5)
+            GameModel.characterPos.set(-this.renderer.ratio * 3 +0.5, 0, -1.5)
+            this.floorPos.set(-this.renderer.ratio * 3 +2, 0, -1.5)
             this.moveCharToFloorHit()
 
         } else {
@@ -77,15 +77,15 @@ export default class CharacterHandler {
 
         if (GameModel.currentScene == Scenes.ROOM) {
             if(GameModel.isLeftRoom){
-                if (screen - 0.2 < -this.renderer.ratio * 3 / 2) {
+                if (screen  < -this.renderer.ratio * 3) {
                     GameModel.setTransition(Transitions.GO_OUTSIDE)
                 }
-                if (screen  > this.renderer.ratio * 3 / 2+0.15) {
+                if (screen  > 0) {
                     GameModel.setTransition(Transitions.GO_RIGHT_ROOM)
                 }
             }
             else if(!GameModel.isLeftRoom){
-                if (screen  < this.renderer.ratio * 3 / 2+0.15) {
+                if (screen  < 0) {
                     GameModel.setTransition(Transitions.GO_LEFT_ROOM)
 
                 }
