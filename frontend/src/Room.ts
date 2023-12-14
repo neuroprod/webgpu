@@ -27,6 +27,7 @@ export default class Room {
     private fpsScreen: FpsScreen;
     private mill: Mill;
     private windowOutside: WindowOutside;
+    private bookCase: Object3D;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -57,7 +58,7 @@ export default class Room {
         this.leftHolder = this.glFTLoader.objectsByName["left"]
         this.rightHolder = this.glFTLoader.objectsByName["right"]
         this.centerHolder = this.glFTLoader.objectsByName["center"]
-
+        this.bookCase =  this.glFTLoader.objectsByName["bookCase"];
         this.mainLight = new MainLight(this.renderer)
         this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
         this.glFTLoader.objectsByName["mainLight"].castShadow = false
@@ -84,11 +85,17 @@ export default class Room {
         }
     }
     update() {
-        this.leftHolder.setPosition(-this.renderer.ratio * 3-0.15,  0, 0)
+        let left = -this.renderer.ratio * 3-0.15;
+        this.leftHolder.setPosition(left,  0, 0)
 
         this.centerHolder.setPosition(0, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3+0.15 , 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
+
+        let bookPos =( (Math.abs(left)-3.7)+1.3)/2; //right edge +left edge /2
+
+       this.bookCase.setPosition(bookPos,0,-4)
+
         this.mill.update();
     }
 
