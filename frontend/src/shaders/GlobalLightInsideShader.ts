@@ -55,7 +55,7 @@ export default class GlobalLightInsideShader extends Shader{
             );
             v.normalize();
 
-          v.scale(.005);
+          v.scale(.002);
 
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";
@@ -190,7 +190,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let lightL =  pointLight(uniforms.lightPos.xyz,uniforms.lightColor,albedo,world,N,V,F0,roughness)*shadowColor;
  if(mra.w==0.0){return vec4(albedo,0.0);}
 
-    return vec4(color+lightL,0.0) ;
+    return vec4(color+lightL*ao,0.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

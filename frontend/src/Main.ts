@@ -113,14 +113,14 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
 
-this.computeShadertest =new ComputeShaderTest(this.renderer)
+        this.computeShadertest =new ComputeShaderTest(this.renderer)
     }
 
     public startFinalPreload() {
 
 
         this.gBufferPass = new GBufferRenderPass(this.renderer);
-        this.shadowPassCube = new ShadowCube(this.renderer);
+        this.shadowPassCube = new ShadowCube(this.renderer,null,null);
         this.shadowPass = new ShadowPass(this.renderer);
         this.aoPass = new AORenderPass(this.renderer);
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
@@ -178,6 +178,8 @@ this.computeShadertest =new ComputeShaderTest(this.renderer)
             this.characterHandler.setRoot(this.room.root, 0);
             this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos())
+            RenderSettings.exposure =1.6;
+
 
         } else {
             GameModel.yMouseScale = 1.5
@@ -192,6 +194,8 @@ this.computeShadertest =new ComputeShaderTest(this.renderer)
             this.shadowPass.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos())
+            RenderSettings.exposure =1.0;
+
         }
 
 

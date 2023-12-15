@@ -6,7 +6,7 @@ class RenderSettings{
     private passes:Array<RenderPass>=[];
     public bloom_threshold: number=2;
     public bloom_softThreshold:number=1;
-    public bloom_strength: number =0.4;
+    public bloom_strength: number =0.2;
 
     public exposure=1;
     public contrast =1;
@@ -60,7 +60,8 @@ class RenderSettings{
        this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
        UI.popGroup()
        UI.pushGroup("Post");
-       this.exposure=UI.LFloatSlider("Exposure",this.exposure,0,10);
+
+       this.exposure=UI.LFloatSlider(this ,"exposure",0,10);
        this.brightness=UI.LFloatSlider("Brightness",this.brightness,-1,1);
        this.contrast=UI.LFloatSlider("Contrast",this.contrast,0,2);
 
