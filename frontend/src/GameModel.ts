@@ -53,14 +53,19 @@ class GameModel {
     private triggers:Array<Trigger>=[]
 
     private _hitObjectLabel: string ="";
-   public hitStateChange: boolean =false;
+    public hitStateChange: boolean =false;
     public hitObjectLabelPrev: string ="";
+    hitWorldPos: Vector3;
+    hitWorldNormal: Vector3;
     constructor() {
 
         this.makeTriggers();
     }
     private makeTriggers() {
-        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "door_HO"))
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "door_HO","goOutside_door_HO"))
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "teapot","tea_teapot"))
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "coffee","coffe_coffee"))
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "pan","pan_pan"))
     }
     update(){
         for(let t of this.triggers){
@@ -85,6 +90,7 @@ class GameModel {
     }
 
     set hitObjectLabel(value: string) {
+
         if(value == this._hitObjectLabel){
             return;
         }

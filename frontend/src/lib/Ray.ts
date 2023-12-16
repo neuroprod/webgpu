@@ -2,13 +2,46 @@ import {Matrix4, Vector2, Vector3, Vector4} from "math.gl";
 import Camera from "./Camera";
 import Renderer from "./Renderer";
 
+export class HitTriangle {
+    public normal: Vector3;
+
+    public edge0: Vector3;
+    public edge1: Vector3;
+    public edge2: Vector3;
+    public p0: Vector3;
+    public p1: Vector3;
+    public p2: Vector3;
+
+    constructor(p0: Vector3, p1: Vector3, p2: Vector3) {
+
+
+
+        this.p0 = p0;
+        this.p1 = p1;
+        this.p2 = p2;
+
+        let v0v1 = p1.clone().subtract(p0);
+        let v0v2 = p2.clone().subtract(p0);
+        // no need to normalize
+        this.normal = v0v1.cross(v0v2);
+        this.normal.normalize()
+        this.edge0 = p1.clone().subtract(p0);
+        this.edge1 = p2.clone().subtract(p1);
+        this.edge2 = p0.clone().subtract(p2);
+
+    }
+
+}
+
 export default class Ray {
     public hit: boolean = false;
-    public hitPos: Vector3 = new Vector3();
+
     private renderer: Renderer;
     private rayStart: Vector3 = new Vector3();
     private rayDir: Vector3 = new Vector3();
-
+    public hitDistance: number = -1;
+    public hitPos: Vector3;
+    public hitNormal: Vector3;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -16,8 +49,8 @@ export default class Ray {
 
     clone() {
         let r = new Ray(this.renderer)
-        r.rayStart = this.rayStart;
-        r.rayDir = this.rayDir;
+        r.rayStart = this.rayStart.clone();
+        r.rayDir = this.rayDir.clone();
         return r;
     }
 
@@ -43,15 +76,16 @@ export default class Ray {
                 return;
             } else {
                 this.hit = true;
+                this.hitDistance = t;
                 this.rayDir.clone().scale(t);
-                this.hitPos = this.rayStart.clone().add(this.rayDir.clone().scale(t)).subtract(position);
+                this.hitPos = this.rayStart.clone().add(this.rayDir.clone().scale(t));//.subtract(position);
+                return;
             }
 
-        } else {
-            this.hit = false;
         }
 
     }
+
 
     intersectsBox(min: Vector3, max: Vector3) {
 
@@ -77,5 +111,33 @@ export default class Ray {
         this.rayStart.transform(invModel);
         this.rayDir.subtract(this.rayStart);
 
+    }
+
+    intersectHitTriangel(tri: HitTriangle) {
+        this.hit = false;
+        this.intersectPlane(tri.p0, tri.normal.clone());
+        if (!this.hit) {
+            return false;
+        }
+
+        let vp0 = this.hitPos.clone().subtract(tri.p0);
+        let C = tri.edge0.clone().cross(vp0);
+        if (tri.normal.dot(C) < 0) {
+            return false
+        }
+
+        let vp1 = this.hitPos.clone().subtract(tri.p1);
+        C = tri.edge1.clone().cross(vp1);
+        if (tri.normal.dot(C) < 0) {
+            return false
+        }
+
+        let vp2 = this.hitPos.clone().subtract(tri.p2);
+        C = tri.edge2.clone().cross(vp2);
+        if (tri.normal.dot(C) < 0) {
+            return false
+        }
+        this.hitNormal=tri.normal.clone();
+        return true;
     }
 }

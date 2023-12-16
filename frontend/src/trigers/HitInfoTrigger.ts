@@ -3,21 +3,22 @@ import GameModel, {Scenes} from "../GameModel";
 import UI from "../lib/UI/UI";
 
 export default class HitInfoTrigger extends HitTrigger{
+    private infoTextLabel: string;
 
-    constructor(scene:Scenes,objectLabel:string) {
+    constructor(scene:Scenes,objectLabel:string,infoTextLabel:string) {
         super(scene,objectLabel);
-
+        this.infoTextLabel = infoTextLabel;
 
     }
     public over() {
         UI.logEvent("Over", this.objectLabel);
-        let drawing =GameModel.getDrawingByLabel("goOutside_door_HO")
+        let drawing =GameModel.getDrawingByLabel(this.infoTextLabel);
         drawing.show()
     }
 
     public out() {
           UI.logEvent("Out", this.objectLabel);
-        let drawing =GameModel.getDrawingByLabel("goOutside_door_HO")
+        let drawing =GameModel.getDrawingByLabel(this.infoTextLabel);
         drawing.hideDelay(2);
     }
     public  click(){

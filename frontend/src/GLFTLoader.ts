@@ -129,15 +129,18 @@ export default class GLFTLoader {
 
 
             if (m.model.mesh.hitTestObject) {
+
                 m.model.hitTestObject = m.model.mesh.hitTestObject;
                 m.model.canHitTest = true;
                 m.model.needsHitTest = true;
+
                 this.modelsHit.push(m.model);
             }
             let mData = materialData[m.model.mesh.label]
             if(mData){
 
                 m.model.needsAlphaClip =   mData.needsAlphaClip
+                m.model.visible = mData.visible;
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {
@@ -330,15 +333,15 @@ export default class GLFTLoader {
             //5121 ubyte
             let accessorIndices = this.accessors[primitive.indices]
             let indexData = this.getSlize(accessorIndices);
-
+            let indices;
             if (accessorIndices.accessor.componentType == 5123) {
-                let indices = new Uint16Array(indexData);
+                indices = new Uint16Array(indexData);
 
                 mesh.setIndices(indices)
 
 
             } else if (accessorIndices.accessor.componentType == 5125) {
-                let indices = new Uint32Array(indexData);
+               indices = new Uint32Array(indexData);
                 mesh.setIndices32(indices)
             }
 
@@ -347,15 +350,18 @@ export default class GLFTLoader {
             let posAccessor = this.accessors[primitive.attributes.POSITION];
 
             let positionData = this.getSlize(posAccessor);
+            let floatPos =new Float32Array(positionData)
             let md = materialData[m.name];
             if(md) {
                 if (md.needsHitTest) {
-                    mesh.hitTestObject = new HitTestObject()
+                    mesh.hitTestObject = new HitTestObject( m.name)
+                    mesh.hitTestObject.setTriangles(indices,floatPos)
                     mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])
                     mesh.hitTestObject.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2])
+
                 }
             }
-            mesh.setVertices(new Float32Array(positionData));
+            mesh.setVertices(floatPos);
 
 
             let normalAccessor = this.accessors[primitive.attributes.NORMAL];

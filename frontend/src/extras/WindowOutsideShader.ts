@@ -62,7 +62,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
 {
     var output : GBufferOutput;
 
-     output.color=vec4(1.0,1.0,1.0,0.0);
+     output.color=vec4(0.8,0.8,1.0,0.0);
 output.color*=uniforms.time;
 
   

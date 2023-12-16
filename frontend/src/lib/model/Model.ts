@@ -33,9 +33,10 @@ export default class Model extends Object3D {
     }
 
     public checkHit(ray: Ray) {
-        if(!this.visible) return false;
+
         if(this.hitTestObject.checkHit(ray, this.worldMatrixInv)){
             GameModel.hitObjectLabel =this.label;
+
             return true;
         }
         return false;
@@ -44,6 +45,7 @@ export default class Model extends Object3D {
         super.onDataUI();
         this.needsHitTest =UI.LBool("needs HitTest",this.needsHitTest)
         this.needsAlphaClip =UI.LBool("needs AlphaClip", this.needsAlphaClip)
+        this.visible =UI.LBool("visible", this.visible)
     }
 
     destroy() {
@@ -61,7 +63,7 @@ export default class Model extends Object3D {
         data[this.mesh.label]={
             needsHitTest :this.needsHitTest,
             needsAlphaClip:this.needsAlphaClip,
-
+            visible:this.visible,
         }
 
     }

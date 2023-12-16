@@ -5,7 +5,7 @@ import {Matrix3, Matrix4} from "math.gl";
 export default class ModelTransform extends UniformGroup{
 
     private modelMatrix: Matrix4 =new Matrix4();
-    private normalMatrix: Matrix3=new Matrix3();
+    public normalMatrix: Matrix3=new Matrix3();
     private normalMatrixTemp: Matrix4=new Matrix4();
     public instance:ModelTransform;
     constructor(renderer:Renderer,label:string) {

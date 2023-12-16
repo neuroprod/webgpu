@@ -11,6 +11,7 @@ import Mill from "./extras/Mill";
 import Ray from "./lib/Ray";
 import GameModel from "./GameModel";
 import {WindowOutside} from "./extras/WindowOutside";
+import UI from "./lib/UI/UI";
 
 export default class Room {
     leftHolder: Object3D;
@@ -28,6 +29,8 @@ export default class Room {
     private mill: Mill;
     private windowOutside: WindowOutside;
     private bookCase: Object3D;
+    private hitLeftRoomCenter: Object3D;
+    private hitRightRoom: Object3D;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -59,6 +62,10 @@ export default class Room {
         this.rightHolder = this.glFTLoader.objectsByName["right"]
         this.centerHolder = this.glFTLoader.objectsByName["center"]
         this.bookCase =  this.glFTLoader.objectsByName["bookCase"];
+
+        this.hitLeftRoomCenter = this.glFTLoader.objectsByName["_HitLeftRoomCenter"]
+        this.hitRightRoom = this.glFTLoader.objectsByName["_HitRightRoom"];
+
         this.mainLight = new MainLight(this.renderer)
         this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
         this.glFTLoader.objectsByName["mainLight"].castShadow = false
@@ -91,7 +98,8 @@ export default class Room {
         this.centerHolder.setPosition(0, 0, 0)
         this.rightHolder.setPosition(this.renderer.ratio * 3+0.15 , 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-
+        this.hitLeftRoomCenter.setScale(Math.max(0,this.renderer.ratio * 3-4.4),1,1)
+        this.hitRightRoom.setScale(this.renderer.ratio * 3-1.1,1,1)
         let bookPos =( (Math.abs(left)-3.7)+1.3)/2; //right edge +left edge /2
 
        this.bookCase.setPosition(bookPos,0,-4)
@@ -100,13 +108,26 @@ export default class Room {
     }
 
     checkMouseHit(mouseRay: Ray) {
-        for (let m of this.glFTLoader.modelsHit) {
-           if( m.checkHit(mouseRay)){
+       let label =""
 
-               return;
+
+        for (let m of this.glFTLoader.modelsHit) {
+
+
+           if( m.checkHit(mouseRay)){
+               label =m.label
+
+               GameModel.hitWorldPos =  m.getWorldPos(m.hitTestObject.localPos)
+               GameModel.hitWorldNormal =m.hitTestObject.localNormal.transformByMatrix3( m.modelTransform.normalMatrix) //transform by normal matrix?
+           }else{
+
            }
         }
-        GameModel.hitObjectLabel =""
+        GameModel.hitObjectLabel =label
+        if(label!=""){
+        UI.logEvent("HIT",label+" pos:"+  GameModel.hitWorldPos)
+        UI.logEvent("HIT N"," normal:"+  GameModel.hitWorldNormal)
+        }
     }
 
     onUI() {

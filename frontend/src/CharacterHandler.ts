@@ -117,7 +117,17 @@ export default class CharacterHandler {
         this.characterRoot.setEuler(0, this.characterRot, 0)
 
     }
+    setPostion(){
 
+    }
+    public walkTo(target:Vector3,lookAt:Vector3){
+
+        if (this.isWalking == false) {
+            this.startWalking()
+        } else {
+            this.continueWalking()
+        }
+    }
     public startWalking() {
         let pos = 0
         let dist = GameModel.characterPos.distance(this.floorPos);
