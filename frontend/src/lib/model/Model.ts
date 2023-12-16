@@ -35,7 +35,7 @@ export default class Model extends Object3D {
     public checkHit(ray: Ray) {
 
         if(this.hitTestObject.checkHit(ray, this.worldMatrixInv)){
-            GameModel.hitObjectLabel =this.label;
+
 
             return true;
         }

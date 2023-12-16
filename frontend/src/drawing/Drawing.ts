@@ -105,13 +105,14 @@ export default class Drawing extends Model {
     }
 
     hideDelay(delay: number) {
+
         if (!this.tl)return;
         if (this.tl && this.tl.isActive()) {
             delay += this.tl.duration() - this.tl.time();
 
         } else {
             if (this.tl) this.tl.clear();
-
+            this.tl = gsap.timeline();
         }
 
         this.tl.to(this, {start: 0.5, progress: 0.5, ease: "power2.in", duration: 0.2}, delay);

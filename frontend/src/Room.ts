@@ -110,7 +110,7 @@ export default class Room {
     checkMouseHit(mouseRay: Ray) {
        let label =""
 
-
+//TODO check closest hit
         for (let m of this.glFTLoader.modelsHit) {
 
 
@@ -123,6 +123,7 @@ export default class Room {
 
            }
         }
+
         GameModel.hitObjectLabel =label
         if(label!=""){
         UI.logEvent("HIT",label+" pos:"+  GameModel.hitWorldPos)
