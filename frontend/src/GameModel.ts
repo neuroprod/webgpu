@@ -17,6 +17,7 @@ import CharacterHandler from "./CharacterHandler";
 import DoorGoOutsideTrigger from "./trigers/DoorGoOutsideTrigger";
 import DoorGoInsideTrigger from "./trigers/DoorGoInsideTrigger";
 import DoorInsideTrigger from "./trigers/DoorInsideTrigger";
+import GoWorkTrigger from "./trigers/GoWorkTrigger";
 
 
 export const Transitions =
@@ -132,6 +133,7 @@ class GameModel {
         this.triggers.push(new DoorGoOutsideTrigger(Scenes.ROOM, "door_HO"));
         this.triggers.push(new DoorGoInsideTrigger(Scenes.OUTSIDE, "door"));
         this.triggers.push(new DoorInsideTrigger(Scenes.ROOM, "_HitCenterDoor"));
+        this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
     }
