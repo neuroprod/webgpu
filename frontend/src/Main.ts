@@ -46,6 +46,7 @@ import DrawingPreloader from "./drawing/DrawingPreloader";
 import {saveToJsonFile} from "./lib/SaveUtils";
 import ComputeShaderTest from "./ComputeShaderTest";
 import {FloorHitIndicator} from "./extras/FloorHitIndicator";
+import OutlinePass from "./renderPasses/OutlinePass";
 
 
 export default class Main {
@@ -84,6 +85,7 @@ export default class Main {
     private drawer: Drawer
     private drawingPreloader: DrawingPreloader;
     private computeShadertest: ComputeShaderTest;
+    private outlinePass: OutlinePass;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -133,6 +135,7 @@ export default class Main {
         this.combinePass = new CombinePass(this.renderer)
         this.dofPass = new DOFPass(this.renderer);
         this.blurBloomPass = new BlurBloom(this.renderer)
+        this.outlinePass = new OutlinePass(this.renderer);
         this.postPass = new PostRenderPass(this.renderer)
         this.FXAAPass = new FXAARenderPass(this.renderer);
 
@@ -141,7 +144,8 @@ export default class Main {
 
 
         GameModel.main = this;
-
+        GameModel.renderer = this.renderer;
+        GameModel.outlinePass = this.outlinePass;
 
         console.log("startPreload2")
         console.log("ready to render")
@@ -241,6 +245,7 @@ export default class Main {
         this.timeStampQuery.setStamp("dofPass");
         this.blurBloomPass.add();
         this.timeStampQuery.setStamp("BlurBloomPass");
+        this.outlinePass.add();
         this.postPass.add();
         this.FXAAPass.add();
         this.canvasRenderPass.add();

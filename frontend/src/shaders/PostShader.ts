@@ -25,6 +25,7 @@ export default class PostShader extends Shader{
         this.addUniform("bloom_strength",0.0)
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"float")
         this.addTexture("bloomTexture",DefaultTextures.getWhite(this.renderer),"float")
+        this.addTexture("outlineTexture",DefaultTextures.getWhite(this.renderer),"float")
          this.addSampler("mySampler");
 
     }
@@ -106,8 +107,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     color = mix(color, vec3(luminance), -uniforms.saturation);
    let dist = distance( uv0, vec2(0.5, 0.5));
     color =color* smoothstep(0.8, uniforms.falloff * 0.799, dist * (uniforms.amount + uniforms.falloff));
-    
-    
+    let outline=   textureSample(outlineTexture, mySampler,uv0).x;
+    color =mix(color,vec3f(1.0,0.0,0.0),outline);
     return vec4(color,1.0) ;
 }
 ///////////////////////////////////////////////////////////
