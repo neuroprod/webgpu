@@ -40,8 +40,8 @@ export default class Ray {
     private rayStart: Vector3 = new Vector3();
     private rayDir: Vector3 = new Vector3();
     public hitDistance: number = -1;
-    public hitPos: Vector3;
-    public hitNormal: Vector3;
+    public hitPos: Vector3=new Vector3();
+    public hitNormal: Vector3=new Vector3();
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -85,21 +85,27 @@ export default class Ray {
         }
 
     }
+
+    tempPos =new Vector3()
+    tempDir =new Vector3()
     intersectPlane(position: Vector3, normal: Vector3) {
 
+        this.tempPos.from(position)
         let denom = normal.dot(this.rayDir);
         if (Math.abs(denom) > 0.0001) // your favorite epsilon
         {
 
-            let t = (position.clone().subtract(this.rayStart)).dot(normal) / denom;
+            let t = (this.tempPos.subtract(this.rayStart)).dot(normal) / denom;
             if (t < 0) {
                 this.hit = false;
                 return;
             } else {
                 this.hit = true;
                 this.hitDistance = t;
-                this.rayDir.clone().scale(t);
-                this.hitPos = this.rayStart.clone().add(this.rayDir.clone().scale(t));//.subtract(position);
+                this.hitPos.from(this.rayDir)
+                this.hitPos.scale(t);
+                this.hitPos.add(this.rayStart)
+
                 return;
             }
 
@@ -134,28 +140,39 @@ export default class Ray {
 
     }
 
+    tempVP =new Vector3()
+    tempC =new Vector3()
+
     intersectHitTriangel(tri: HitTriangle) {
         this.hit = false;
-        this.intersectPlane(tri.p0, tri.normal.clone());
+        this.intersectPlane(tri.p0, tri.normal);
         if (!this.hit) {
             return false;
         }
-
-        let vp0 = this.hitPos.clone().subtract(tri.p0);
-        let C = tri.edge0.clone().cross(vp0);
-        if (tri.normal.dot(C) < 0) {
+        this.tempVP.from(this.hitPos);
+        this.tempVP.subtract(tri.p0)
+        //let vp0 = this.hitPos.clone().subtract(tri.p0);
+        this.tempC.from(tri.edge0).cross(this.tempVP)
+       // let C = tri.edge0.clone().cross(vp0);
+        if (tri.normal.dot(this.tempC) < 0) {
             return false
         }
 
-        let vp1 = this.hitPos.clone().subtract(tri.p1);
-        C = tri.edge1.clone().cross(vp1);
-        if (tri.normal.dot(C) < 0) {
+        this.tempVP.from(this.hitPos);
+        this.tempVP.subtract(tri.p1)
+        this.tempC.from(tri.edge1).cross(this.tempVP)
+       // let vp1 = this.hitPos.clone().subtract(tri.p1);
+       // C = tri.edge1.clone().cross(vp1);
+        if (tri.normal.dot(this.tempC) < 0) {
             return false
         }
+        this.tempVP.from(this.hitPos);
+        this.tempVP.subtract(tri.p2)
 
-        let vp2 = this.hitPos.clone().subtract(tri.p2);
-        C = tri.edge2.clone().cross(vp2);
-        if (tri.normal.dot(C) < 0) {
+        this.tempC.from(tri.edge2).cross(this.tempVP)
+        //let vp2 = this.hitPos.clone().subtract(tri.p2);
+       // C = tri.edge2.clone().cross(vp2);
+        if (tri.normal.dot(this.tempC) < 0) {
             return false
         }
         this.hitNormal=tri.normal.clone();
