@@ -117,10 +117,11 @@ export default class CharacterHandler {
         this.characterRoot.setEuler(0, this.characterRot, 0)
 
     }
-    setPostion(){
-
-    }
+  
     public walkTo(target:Vector3,lookAt:Vector3){
+
+        if (this.tl) this.tl.clear()
+        this.tl = gsap.timeline({});
 
         if (this.isWalking == false) {
             this.startWalking()
