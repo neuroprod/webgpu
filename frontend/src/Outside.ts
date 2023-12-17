@@ -7,6 +7,7 @@ import Object3D from "./lib/core/Object3D";
 import GameModel from "./GameModel";
 
 import Scene from "./Scene";
+import {clamp} from "math.gl";
 
 
 
@@ -30,7 +31,7 @@ export default class Outside extends Scene{
         this.modelRendererTrans = new ModelRenderer(this.renderer, "outsideTrans");
 
         this.root = this.glFTLoader.root
-
+        this.root.setPosition(0,-1.5,0)
         this.lightGrave = this.glFTLoader.objectsByName["lightGrave"];
         for (let m of this.glFTLoader.models) {
             this.modelRenderer.addModel(m)
@@ -43,7 +44,7 @@ export default class Outside extends Scene{
         let pos =-GameModel.characterPos.x;
 
 
-        //GameModel.dayNight =clamp((pos-13)/7,0,1);
+        GameModel.dayNight =clamp((pos-13)/7,0,1);
         //GameModel.dayNight
         // UI.LFloat('offset',0)
         //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)

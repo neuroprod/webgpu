@@ -9,10 +9,14 @@ import HitInfoTrigger from "./trigers/HitInfoTrigger";
 import Drawing from "./drawing/Drawing";
 import GoRightRoom from "./transitions/GoRightRoom";
 import GoLeftRoom from "./transitions/GoLeftRoom";
-import {FloorHitTrigger} from "./trigers/FloorHitTriger";
+import {FloorHitTrigger} from "./trigers/FloorHitTrigger";
 import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 import OutlinePass from "./renderPasses/OutlinePass";
 import Renderer from "./lib/Renderer";
+import CharacterHandler from "./CharacterHandler";
+import DoorGoOutsideTrigger from "./trigers/DoorGoOutsideTrigger";
+import DoorGoInsideTrigger from "./trigers/DoorGoInsideTrigger";
+import DoorInsideTrigger from "./trigers/DoorInsideTrigger";
 
 
 export const Transitions =
@@ -57,6 +61,7 @@ class GameModel {
     outlinePass: OutlinePass;
     private triggers: Array<Trigger> = []
     private groundArray = ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft", "_HitGround"]
+    characterHandler: CharacterHandler;
 
     constructor() {
 
@@ -123,8 +128,10 @@ class GameModel {
         this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "coffee", "coffe_coffee"))
         this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "pan", "pan_pan"))
         this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "hamer", "CR_hamer"))
-
-
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "paperWallLeft", "CR_paperWallLeft"))
+        this.triggers.push(new DoorGoOutsideTrigger(Scenes.ROOM, "door_HO"));
+        this.triggers.push(new DoorGoInsideTrigger(Scenes.OUTSIDE, "door"));
+        this.triggers.push(new DoorInsideTrigger(Scenes.ROOM, "_HitCenterDoor"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
     }

@@ -280,6 +280,7 @@ export default class Main {
 
 
         this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar.root, this.animationMixer)
+        GameModel.characterHandler = this.characterHandler;
         GameModel.floorHitIndicator =new FloorHitIndicator(this.renderer) ;
 
         this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);

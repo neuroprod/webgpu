@@ -1,6 +1,7 @@
 import Trigger from "./Trigger";
 import GameModel, {Scenes} from "../GameModel";
 import UI from "../lib/UI/UI";
+import {Vector3} from "math.gl";
 
 export class FloorHitTrigger extends Trigger {
     private objectLabels: Array<String>;
@@ -18,6 +19,8 @@ export class FloorHitTrigger extends Trigger {
 
         if (this.objectLabels.includes(GameModel.hitObjectLabel)) {
 
+            this.update()
+
             if (!this.hit) {
                 this.over()
             }
@@ -27,7 +30,7 @@ export class FloorHitTrigger extends Trigger {
             }
 
 
-            this.update()
+
         } else {
             if (this.hit) {
                 this.hit = false;
@@ -53,12 +56,13 @@ export class FloorHitTrigger extends Trigger {
 
     protected click() {
 
+        GameModel.characterHandler.walkTo(GameModel.hitWorldPos,new Vector3(0,0,0))
     }
 
 
     private update() {
         GameModel.floorHitIndicator.setPosition(GameModel.hitWorldPos.x,GameModel.hitWorldPos.y,GameModel.hitWorldPos.z);
-        UI.logEvent("HITFLOOR"," pos:"+  GameModel.hitWorldPos)
+       // UI.logEvent("HITFLOOR"," pos:"+  GameModel.hitWorldPos)
 
     }
 }
