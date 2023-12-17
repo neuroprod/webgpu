@@ -10,7 +10,7 @@ export default class GoInside extends Transition{
         GameModel.characterHandler.characterRot =0
         GameModel.characterPos.y=0;
         let target = door.getWorldPos(new Vector3(2,0,0))
-        GameModel.characterHandler.walkTo(target,new Vector3(0,0,0))
+        GameModel.characterHandler.walkTo(target)
 
 
         onComplete();

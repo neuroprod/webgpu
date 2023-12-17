@@ -49,8 +49,8 @@ export default class Ray {
 
     clone() {
         let r = new Ray(this.renderer)
-        r.rayStart = this.rayStart.clone();
-        r.rayDir = this.rayDir.clone();
+        r.rayStart.from(this.rayStart);
+        r.rayDir.from(this.rayDir);
         return r;
     }
 
@@ -63,22 +63,27 @@ export default class Ray {
         this.rayDir = new Vector3(pos.x - this.rayStart.x, pos.y - this.rayStart.y, pos.z - this.rayStart.z).normalize()
 
     }
-    //temp
-    intersectPlaneWorld(position: Vector3, normal: Vector3) {
+    tempPos =new Vector3()
+
+
+    intersectPlaneLocal(position: Vector3, normal: Vector3) {
 
         let denom = normal.dot(this.rayDir);
         if (Math.abs(denom) > 0.0001) // your favorite epsilon
         {
-
-            let t = (position.clone().subtract(this.rayStart)).dot(normal) / denom;
+            this.tempPos.from(position)
+            let t = (this.tempPos.subtract(this.rayStart)).dot(normal) / denom;
             if (t < 0) {
                 this.hit = false;
                 return;
             } else {
                 this.hit = true;
                 this.hitDistance = t;
-                this.rayDir.clone().scale(t);
-                this.hitPos = this.rayStart.clone().add(this.rayDir.clone().scale(t)).subtract(position);
+
+                this.hitPos.from(this.rayDir)
+                this.hitPos.scale(t);
+                this.hitPos.add(this.rayStart)
+                this.hitPos.subtract(position);
                 return;
             }
 
@@ -86,15 +91,15 @@ export default class Ray {
 
     }
 
-    tempPos =new Vector3()
-    tempDir =new Vector3()
+
+
     intersectPlane(position: Vector3, normal: Vector3) {
 
-        this.tempPos.from(position)
+
         let denom = normal.dot(this.rayDir);
         if (Math.abs(denom) > 0.0001) // your favorite epsilon
         {
-
+            this.tempPos.from(position)
             let t = (this.tempPos.subtract(this.rayStart)).dot(normal) / denom;
             if (t < 0) {
                 this.hit = false;

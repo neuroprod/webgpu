@@ -52,7 +52,7 @@ export default class Drawer {
         }
         if (this.isDrawing) {
 
-            ray.intersectPlaneWorld(this.drawing.getWorldPos(), new Vector3(0, 0, 1));
+            ray.intersectPlaneLocal(this.drawing.getWorldPos(), new Vector3(0, 0, 1));
             let pos = new Vector2(ray.hitPos.x, ray.hitPos.y)
             console.log(pos)
             this.currentLine.addPoint(pos);

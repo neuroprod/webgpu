@@ -8,7 +8,7 @@ export default class DoorInsideTrigger extends HitTrigger{
         let door = GameModel.renderer.modelByLabel["_HitCenterDoor"]
         let world = door.getWorldPos()
 
-        GameModel.characterHandler.walkTo(world,new Vector3(-1,0,0).add(world),this.onCompleteWalk,true)
+        GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk,true)
     }
     onCompleteWalk(){
 

@@ -10,7 +10,7 @@ export default class GoRightRoom extends Transition{
         let door = GameModel.renderer.modelByLabel["_HitCenterDoor"]
         let world = door.getWorldPos()
         world.x +=2;
-        GameModel.characterHandler.walkTo(world,new Vector3())
+        GameModel.characterHandler.walkTo(world,0)
         onComplete();
     }
 }

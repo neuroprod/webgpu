@@ -34,6 +34,7 @@ export default class CharacterHandler {
     private main: Main;
     private isWalking: boolean = false;
     private targetPos: Vector3 =new Vector3();
+    private targetRot: number=0;
 
     constructor(renderer: Renderer, camera: Camera, characterRoot: Object3D, animationMixer: AnimationMixer) {
 
@@ -64,8 +65,9 @@ export default class CharacterHandler {
 
     }
 
-    public walkTo(target:Vector3,lookAt:Vector3,completeCall:() => any=()=>{},keepWalking:boolean=false){
+    public walkTo(target:Vector3,targetRot=0,completeCall:() => any=()=>{},keepWalking:boolean=false){
 
+        this.targetRot =targetRot;
         this.targetPos.from(target);
         this.targetPos.y=0;
         if (this.tl) this.tl.clear()
@@ -112,7 +114,7 @@ export default class CharacterHandler {
             this.isWalking = false
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
-        this.tl.to(this, {"characterRot": 0, duration: 0.5, ease: "power1.inOut"}, pos)
+        this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "power1.inOut"}, pos)
     }
 
 
@@ -146,6 +148,6 @@ export default class CharacterHandler {
             this.isWalking = false
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
-        this.tl.to(this, {"characterRot": 0, duration: 0.5, ease: "none"}, pos)
+        this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "none"}, pos)
     }
 }
