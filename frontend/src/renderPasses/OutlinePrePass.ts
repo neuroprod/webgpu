@@ -22,7 +22,7 @@ export default class OutlinePrePass extends RenderPass {
 
         super(renderer, "OutlinePrePass");
         RenderSettings.registerPass(this);
-        this.material = new Material(this.renderer, "shadow", new SolidShader(this.renderer, "solidShader"))
+        this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
         this.material.depthCompare = CompareFunction.LessEqual;
         this.material.depthWrite =false;
         this.modelRenderer = new ModelRenderer(renderer)

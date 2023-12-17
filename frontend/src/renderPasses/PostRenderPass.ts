@@ -39,7 +39,7 @@ export default class PostRenderPass extends RenderPass {
         this.blitMaterial.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["DOF"])
         this.blitMaterial.uniforms.setTexture("bloomTexture",this.renderer.texturesByLabel["BlurBloom"])
         this.blitMaterial.uniforms.setTexture("outlineTexture",this.renderer.texturesByLabel["OutlinePrePass"])
-
+        this.blitMaterial.uniforms.setTexture("outlineBlurTexture",this.renderer.texturesByLabel["OutlineBlur"])
 
         this.blitFinal = new Blit(renderer, 'blitPost', this.blitMaterial)
 

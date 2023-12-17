@@ -257,7 +257,7 @@ export default class Main {
 
         this.room.init()
         this.outside.init();
-
+        this.outlinePass.init()
         this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
 
