@@ -63,7 +63,28 @@ export default class Ray {
         this.rayDir = new Vector3(pos.x - this.rayStart.x, pos.y - this.rayStart.y, pos.z - this.rayStart.z).normalize()
 
     }
+    //temp
+    intersectPlaneWorld(position: Vector3, normal: Vector3) {
 
+        let denom = normal.dot(this.rayDir);
+        if (Math.abs(denom) > 0.0001) // your favorite epsilon
+        {
+
+            let t = (position.clone().subtract(this.rayStart)).dot(normal) / denom;
+            if (t < 0) {
+                this.hit = false;
+                return;
+            } else {
+                this.hit = true;
+                this.hitDistance = t;
+                this.rayDir.clone().scale(t);
+                this.hitPos = this.rayStart.clone().add(this.rayDir.clone().scale(t)).subtract(position);
+                return;
+            }
+
+        }
+
+    }
     intersectPlane(position: Vector3, normal: Vector3) {
 
         let denom = normal.dot(this.rayDir);

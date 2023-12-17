@@ -13,6 +13,8 @@ import Texture from "./lib/textures/Texture";
 import Drawing from "./drawing/Drawing";
 import GoRightRoom from "./transitions/GoRightRoom";
 import GoLeftRoom from "./transitions/GoLeftRoom";
+import {FloorHitTrigger} from "./trigers/FloorHitTriger";
+import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 
 
 
@@ -37,7 +39,7 @@ class GameModel {
     public isLeftRoom =true;
 
     public currentScene:Scenes =Scenes.ROOM
-
+    public floorHitIndicator :FloorHitIndicator;
     public yMouseCenter: number = 1;
     public yMouseScale: number = 1;
     public sceneHeight =3;
@@ -66,6 +68,11 @@ class GameModel {
         this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "teapot","tea_teapot"))
         this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "coffee","coffe_coffee"))
         this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "pan","pan_pan"))
+        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "hamer","CR_hamer"))
+
+
+        this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom","_HitLeftRoomCenter","_HitLeftRoomRight","_HitLeftRoomLeft"]))
+        this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
     }
     update(){
         for(let t of this.triggers){

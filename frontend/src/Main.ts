@@ -45,6 +45,7 @@ import Drawer from "./drawing/Drawer";
 import DrawingPreloader from "./drawing/DrawingPreloader";
 import {saveToJsonFile} from "./lib/SaveUtils";
 import ComputeShaderTest from "./ComputeShaderTest";
+import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 
 
 export default class Main {
@@ -274,8 +275,10 @@ export default class Main {
 
 
         this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar.root, this.animationMixer)
-        this.outside.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
-        this.room.modelRenderer.addModel(this.characterHandler.floorHitIndicator);
+        GameModel.floorHitIndicator =new FloorHitIndicator(this.renderer) ;
+
+        this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);
+        this.room.modelRenderer.addModel(GameModel.floorHitIndicator);
 
         this.drawer = new Drawer(this.renderer);
         this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
@@ -327,7 +330,7 @@ export default class Main {
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         } else {
             this.outside.update()
-
+            this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos());
         }
 

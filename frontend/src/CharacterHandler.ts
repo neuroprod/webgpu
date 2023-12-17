@@ -12,7 +12,7 @@ import GameModel, {Scenes, Transitions} from "./GameModel";
 
 
 export default class CharacterHandler {
-    public floorHitIndicator: FloorHitIndicator;
+   /// public floorHitIndicator: FloorHitIndicator;
     private renderer: Renderer;
     private camera: Camera;
     private animationMixer: AnimationMixer;
@@ -42,7 +42,7 @@ export default class CharacterHandler {
         this.characterRoot = characterRoot;
         this.animationMixer.setAnimation("idle");
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
-        this.floorHitIndicator = new FloorHitIndicator(this.renderer)
+       // this.floorHitIndicator = new FloorHitIndicator(this.renderer)
 
     }
 
@@ -50,7 +50,7 @@ export default class CharacterHandler {
         this.scene = scene;
         this.root = r;
         this.root.addChild(this.characterRoot)
-        this.root.addChild(this.floorHitIndicator)
+        //this.root.addChild(this.floorHitIndicator)
 
 
         if (scene == 0) {
@@ -103,14 +103,14 @@ export default class CharacterHandler {
         if (this.floorHit) {
             //  this.characterRoot.setPosition(this.floorPos.x,this.floorPos.y,this.floorPos.z)
 
-            this.floorHitIndicator.setPosition(this.floorPos.x, this.floorPos.y + 0.01, this.floorPos.z)
+           // this.floorHitIndicator.setPosition(this.floorPos.x, this.floorPos.y + 0.01, this.floorPos.z)
             if (down) {
 
                 this.moveCharToFloorHit()
 
             }
         }
-        this.floorHitIndicator.visible = this.floorHit
+      //  this.floorHitIndicator.visible = this.floorHit
 
         this.animationMixer.update();
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)

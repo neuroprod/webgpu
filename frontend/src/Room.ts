@@ -12,8 +12,9 @@ import Ray from "./lib/Ray";
 import GameModel from "./GameModel";
 import {WindowOutside} from "./extras/WindowOutside";
 import UI from "./lib/UI/UI";
+import Scene from "./Scene";
 
-export default class Room {
+export default class Room extends Scene{
     leftHolder: Object3D;
     rightHolder: Object3D;
     centerHolder: Object3D;
@@ -22,8 +23,8 @@ export default class Room {
     modelRenderer: ModelRenderer;
     modelRendererTrans: ModelRenderer;
     root: Object3D;
-    private renderer: Renderer;
-    private glFTLoader: GLFTLoader;
+
+
     private laptopScreen: LaptopScreen;
     private fpsScreen: FpsScreen;
     private mill: Mill;
@@ -35,12 +36,12 @@ export default class Room {
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
-        this.renderer = renderer;
+        super(renderer,preloader,"room")
         new TextureLoader(this.renderer, preloader, "triangle.png", {});
         new TextureLoader(this.renderer, preloader, "text_s.png", {});
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
 
-        this.glFTLoader = new GLFTLoader(this.renderer, "room", preloader);
+
 
     }
 
@@ -107,29 +108,6 @@ export default class Room {
         this.mill.update();
     }
 
-    checkMouseHit(mouseRay: Ray) {
-       let label =""
-
-//TODO check closest hit
-        for (let m of this.glFTLoader.modelsHit) {
-
-
-           if( m.checkHit(mouseRay)){
-               label =m.label
-
-               GameModel.hitWorldPos =  m.getWorldPos(m.hitTestObject.localPos)
-               GameModel.hitWorldNormal =m.hitTestObject.localNormal.transformByMatrix3( m.modelTransform.normalMatrix) //transform by normal matrix?
-           }else{
-
-           }
-        }
-
-        GameModel.hitObjectLabel =label
-        if(label!=""){
-        UI.logEvent("HIT",label+" pos:"+  GameModel.hitWorldPos)
-        UI.logEvent("HIT N"," normal:"+  GameModel.hitWorldNormal)
-        }
-    }
 
     onUI() {
         this.glFTLoader.root.onUI();

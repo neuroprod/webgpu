@@ -25,6 +25,7 @@ export default class Drawing extends Model {
     protected color: ColorV = new ColorV(1, 1, 1, 1)
     private buffer: GPUBuffer;
     private tl: gsap.core.Timeline;
+    private isShowing: boolean=false;
 
     constructor(renderer: Renderer, label: string, numInstances: number = 0) {
         super(renderer, label);
@@ -93,15 +94,17 @@ export default class Drawing extends Model {
     }
 
     show() {
-
+        if(this.isShowing)return;
         if (this.tl) this.tl.clear();
         this.tl = gsap.timeline();
         if (this.start == 0 && this.progress == 1) {
             return;
         }
+        this.isShowing =true;
         this.start = 0;
         this.progress = 0;
         this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 1.0}, 0);
+        this.tl.set(this,{isShowing:false},1.0)
     }
 
     hideDelay(delay: number) {
@@ -116,5 +119,6 @@ export default class Drawing extends Model {
         }
 
         this.tl.to(this, {start: 0.5, progress: 0.5, ease: "power2.in", duration: 0.2}, delay);
+
     }
 }

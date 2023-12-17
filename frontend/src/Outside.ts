@@ -5,23 +5,23 @@ import GLFTLoader from "./GLFTLoader";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Object3D from "./lib/core/Object3D";
 import GameModel from "./GameModel";
-import mapRange = gsap.utils.mapRange;
-import {clamp} from "math.gl";
+
+import Scene from "./Scene";
 
 
 
-export default class Outside {
+export default class Outside extends Scene{
     modelRenderer: ModelRenderer;
     modelRendererTrans: ModelRenderer;
     root: Object3D
-    private renderer: Renderer;
-    private glFTLoader: GLFTLoader;
+
+
    public lightGrave: Object3D;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
-        this.renderer = renderer;
-        this.glFTLoader = new GLFTLoader(this.renderer, "outside", preloader);
+        super(renderer,preloader,"outside")
+
 
     }
 

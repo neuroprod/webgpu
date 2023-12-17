@@ -1,6 +1,6 @@
 import Trigger from "./Trigger";
 import GameModel, {Scenes} from "../GameModel";
-import UI from "../lib/UI/UI";
+
 
 export default class HitTrigger extends Trigger{
     protected objectLabel: string;

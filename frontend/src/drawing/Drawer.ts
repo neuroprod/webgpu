@@ -51,8 +51,10 @@ export default class Drawer {
             this.isDrawing = true;
         }
         if (this.isDrawing) {
-            ray.intersectPlane(this.drawing.getWorldPos(), new Vector3(0, 0, 1));
+
+            ray.intersectPlaneWorld(this.drawing.getWorldPos(), new Vector3(0, 0, 1));
             let pos = new Vector2(ray.hitPos.x, ray.hitPos.y)
+            console.log(pos)
             this.currentLine.addPoint(pos);
             this.updateDrawing()
         }
@@ -75,6 +77,7 @@ export default class Drawer {
         if (UI.LBool("Enable", this.enabled)) {
             this.enabled = true;
             this.drawing.visible = true;
+            this.drawing.progress = 1.0;
         } else {
             this.enabled = false
             //this.drawing.visible = false;
