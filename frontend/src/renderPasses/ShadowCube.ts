@@ -81,7 +81,7 @@ export default class ShadowCube{
     }
     public add(){
        for (let p of this.passes){
-       p.add();
+    p.add();
        }
     }
 

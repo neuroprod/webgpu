@@ -29,6 +29,8 @@ export default class MipMapQueue{
     }
     processTexture(){
         if(this.textures.length==0)return;
+
+
         let texture =  this.textures.pop()
         let targetMips = texture.options.mipLevelCount;
         if (targetMips==0)return;

@@ -169,7 +169,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
     onSettingsChange() {
         super.onSettingsChange();
-
+if(this.globalLightMaterial)
         this.globalLightMaterial.uniforms.setUniform("dof",RenderSettings.dof_Settings)
     }
 

@@ -6,7 +6,7 @@ import Timer from "./lib/Timer";
 
 export default class GameCamera{
     private camera: Camera;
-    private mouseTarget = new Vector2(1,1)
+    private mouseTarget = new Vector2(-1,-0.5)
     private renderer: Renderer;
     public posSmooth=0;
     constructor(camera:Camera,renderer:Renderer){
@@ -51,7 +51,7 @@ export default class GameCamera{
     private getCameraOffsetX() {
 
 
-        if(GameModel.currentScene ==Scenes.ROOM){
+        if(GameModel.currentScene ==Scenes.ROOM || GameModel.currentScene ==Scenes.PRELOAD){
 
             return GameModel.roomCamOffset*(this.renderer.ratio * GameModel.sceneHeight/2 +0.15);
         }

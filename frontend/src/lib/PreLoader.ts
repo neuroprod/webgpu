@@ -1,8 +1,8 @@
 export default class PreLoader {
   private progress: (n: number) => any;
   private complete: () => any;
-  private count: number;
-  private totalCount: number;
+  public count: number;
+  public totalCount: number;
 
   constructor(progress: (n: number) => any, complete: () => any) {
     this.progress = progress;
@@ -23,4 +23,6 @@ export default class PreLoader {
       this.progress(this.count / this.totalCount);
     }
   }
+
+
 }

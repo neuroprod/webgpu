@@ -33,7 +33,8 @@ export const Transitions =
 
 export enum Scenes {
     OUTSIDE,
-    ROOM
+    ROOM,
+    PRELOAD,
 }
 
 class GameModel {
@@ -41,7 +42,7 @@ class GameModel {
     public roomCamOffset: number = -1;
     public isLeftRoom = true;
 
-    public currentScene: Scenes = Scenes.ROOM
+    public currentScene: Scenes = Scenes.PRELOAD
     public floorHitIndicator: FloorHitIndicator;
     public yMouseCenter: number = 1;
     public yMouseScale: number = 1;

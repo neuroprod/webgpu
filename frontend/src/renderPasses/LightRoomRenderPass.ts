@@ -96,11 +96,12 @@ export default class LightRoomRenderPass extends RenderPass {
             this.bottomColorRight.set(data.bottomColorRight[0], data.bottomColorRight[1], data.bottomColorRight[2], data.bottomColorRight[3]);
 
 
+            if (lightParents.length) {
+                for (let plData of data.pointLights) {
+                    let p = new PointLight(this.renderer, "light1", this.modelRenderer, plData, this.lightParents)
+                    this.lights.push(p)
 
-            for (let plData of data.pointLights) {
-                let p = new PointLight(this.renderer, "light1", this.modelRenderer, plData, this.lightParents)
-                this.lights.push(p)
-
+                }
             }
         }
 
@@ -115,7 +116,7 @@ export default class LightRoomRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("lightPos", this.mainLight.getWorldPos());
 
         this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
-       // this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
+        // this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
         this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["OABlurPass"]);
         this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
         this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
@@ -196,14 +197,14 @@ export default class LightRoomRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("lightPos", this.mainLight.getWorldPos())
 
 
-
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor.clone().lerp(this.topColorNight,GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor.clone().lerp(this.midColorNight,GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor.clone().lerp(this.bottomColorNight,GameModel.dayNight))
+        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor.clone().lerp(this.topColorNight, GameModel.dayNight))
+        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor.clone().lerp(this.midColorNight, GameModel.dayNight))
+        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor.clone().lerp(this.bottomColorNight, GameModel.dayNight))
 
         this.globalLightMaterial.uniforms.setUniform("topColorRight", this.topColorRight)
         this.globalLightMaterial.uniforms.setUniform("midColorRight", this.midColorRight)
         this.globalLightMaterial.uniforms.setUniform("bottomColorRight", this.bottomColorRight)
+      //  this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
 
 
         UI.separator("Lights")
@@ -237,11 +238,12 @@ export default class LightRoomRenderPass extends RenderPass {
             }
 
         }
-UI.popGroup()
+        UI.popGroup()
 
     }
 
     draw() {
+        //console.log(this.target,this.target.getView() )
         this.blitGlobalLight.draw(this);
         this.modelRenderer.draw(this);
 

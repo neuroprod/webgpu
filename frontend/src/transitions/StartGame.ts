@@ -6,7 +6,7 @@ export default class StartGame extends Transition{
     set(onComplete: () => void){
 
         GameModel.setScene(Scenes.ROOM)
-        GameModel.characterPos = new Vector3( -GameModel.renderer.ratio * GameModel.sceneHeight,0,-1)
+        GameModel.characterPos = new Vector3( (-GameModel.renderer.ratio * GameModel.sceneHeight)/2,0,-1)
         onComplete();
     }
 }

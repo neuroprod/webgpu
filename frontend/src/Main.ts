@@ -47,6 +47,8 @@ import {saveToJsonFile} from "./lib/SaveUtils";
 import ComputeShaderTest from "./ComputeShaderTest";
 import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 import OutlinePass from "./renderPasses/OutlinePass";
+import MainLight from "./MainLight";
+import ModelRenderer from "./lib/model/ModelRenderer";
 
 
 export default class Main {
@@ -86,6 +88,7 @@ export default class Main {
     private drawingPreloader: DrawingPreloader;
     private computeShadertest: ComputeShaderTest;
     private outlinePass: OutlinePass;
+    private mainLight: MainLight;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -115,18 +118,20 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "textures/body_MRA.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
-
-        this.computeShadertest =new ComputeShaderTest(this.renderer)
+        this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
+        this.computeShadertest = new ComputeShaderTest(this.renderer)
+        this.mainLight = new MainLight(this.renderer)
     }
 
     public startFinalPreload() {
 
 
         this.gBufferPass = new GBufferRenderPass(this.renderer);
-        this.shadowPassCube = new ShadowCube(this.renderer,null,null);
+        this.shadowPassCube = new ShadowCube(this.renderer, null, null);
         this.shadowPass = new ShadowPass(this.renderer);
         this.aoPass = new AORenderPass(this.renderer);
         this.aoBlurPass = new AOBlurRenderPass(this.renderer);
+
         this.lightRoomPass = new LightRenderPass(this.renderer);
         this.lightOutsidePass = new LightOutsideRenderPass(this.renderer, this.lightRoomPass.target);
         this.blurLightPass = new BlurLight(this.renderer);
@@ -147,8 +152,8 @@ export default class Main {
         GameModel.renderer = this.renderer;
         GameModel.outlinePass = this.outlinePass;
 
-        console.log("startPreload2")
-        console.log("ready to render")
+
+        this.lightRoomPass.init(this.lightRoomJson.data, this.mainLight, [])
 
         //
         this.preloader = new PreLoader(
@@ -166,8 +171,27 @@ export default class Main {
         ImagePreloader.load(this.renderer, this.preloader);
 
 
-        this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
+//init char
+        this.animationMixer = new AnimationMixer()
+        this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
 
+
+        this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar, this.animationMixer)
+
+        GameModel.characterHandler = this.characterHandler;
+        //  this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
+        this.gBufferPass.modelRenderer = new ModelRenderer(this.renderer, "introModels")
+        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[0])
+
+
+        this.drawer = new Drawer(this.renderer);
+        this.dofPass.init();
+        this.outlinePass.init()
+        RenderSettings.onChange()
+        this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
+        this.shadowPassCube.setLightPos(this.mainLight.getWorldPos())
+
+        this.tick()
     }
 
     public setScene(scene: Scenes) {
@@ -176,21 +200,21 @@ export default class Main {
             GameModel.yMouseScale = 1
             GameModel.yMouseCenter = 1
             GameModel.sceneHeight = 3
-            this.gBufferPass.drawingRenderer.currentScene=0;
+            this.gBufferPass.drawingRenderer.currentScene = 0;
             this.gBufferPass.modelRenderer = this.room.modelRenderer;
             this.glassPass.modelRenderer = this.room.modelRendererTrans;
             this.lightRoomPass.setDirty();
             this.characterHandler.setRoot(this.room.root, 0);
             this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos())
-            RenderSettings.exposure =1.6;
+            RenderSettings.exposure = 1.6;
 
 
         } else {
             GameModel.yMouseScale = 1.5
             GameModel.yMouseCenter = 0
             GameModel.sceneHeight = 4
-            this.gBufferPass.drawingRenderer.currentScene=1;
+            this.gBufferPass.drawingRenderer.currentScene = 1;
             this.gameCamera.setOutsidePos();
             this.gBufferPass.modelRenderer = this.outside.modelRenderer;
             this.glassPass.modelRenderer = this.outside.modelRendererTrans;
@@ -199,7 +223,7 @@ export default class Main {
             this.shadowPass.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos())
-            RenderSettings.exposure =1.0;
+            RenderSettings.exposure = 1.0;
 
         }
 
@@ -207,16 +231,17 @@ export default class Main {
     }
 
     onDraw() {
+
         this.timeStampQuery.start();
 
 
         this.computeShadertest.add()
 
 
-        if (GameModel.currentScene == Scenes.ROOM) {
+        if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube.add();
-        } else {
+        } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.shadowPass.add();
             this.shadowPassCube.add();
         }
@@ -227,9 +252,9 @@ export default class Main {
         this.aoPass.add();
         this.aoBlurPass.add();
         this.timeStampQuery.setStamp("AOPass");
-        if (GameModel.currentScene == Scenes.ROOM) {
+        if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
             this.lightRoomPass.add();
-        } else {
+        } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.lightOutsidePass.add();
         }
         this.timeStampQuery.setStamp("LightPass");
@@ -251,13 +276,13 @@ export default class Main {
         this.canvasRenderPass.add();
         this.timeStampQuery.setStamp("CanvasPass");
         this.timeStampQuery.stop();
+
     }
 
     private init() {
-
         this.room.init()
         this.outside.init();
-        this.outlinePass.init()
+        //  this.outlinePass.init()
         this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
 
@@ -266,37 +291,32 @@ export default class Main {
         this.outside.makeTransParent();
         this.lightOutsidePass.lightGrave = this.outside.lightGrave;
 
-        //this.gBufferPass.modelRenderer =this.outside.modelRenderer;
+
         this.shadowPass.init();
-        this.dofPass.init();
+
         for (let m of this.glFTLoaderChar.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
             this.outside.modelRenderer.addModel(m)
             this.room.modelRenderer.addModel(m)
         }
 
-        this.animationMixer = new AnimationMixer()
-        this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
 
-
-        this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar, this.animationMixer)
-
-        GameModel.characterHandler = this.characterHandler;
-        GameModel.floorHitIndicator =new FloorHitIndicator(this.renderer) ;
+        GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
 
         this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);
         this.room.modelRenderer.addModel(GameModel.floorHitIndicator);
 
-        this.drawer = new Drawer(this.renderer);
+        //this.drawer = new Drawer(this.renderer);
         this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
         for (let d of this.drawingPreloader.drawings) {
             d.resolveParent();
             this.gBufferPass.drawingRenderer.addDrawing(d)
         }
+
         GameModel.setTransition(Transitions.START_GAME)
 
 
-        this.tick()
+        //this.tick()
     }
 
     private tick() {
@@ -314,6 +334,7 @@ export default class Main {
     }
 
     private update() {
+
         if (UI.needsMouse()) {
             this.mouseListener.isDownThisFrame = false;
         }
@@ -324,32 +345,43 @@ export default class Main {
             this.gameCamera.update();
 
         }
+
         this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
         if (!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
         //this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
-        this.shadowPass.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
-        //this.updateCamera();
-        if (GameModel.currentScene == Scenes.ROOM) {
+
+        if (GameModel.currentScene == Scenes.PRELOAD) {
+            this.shadowPassCube.setLightPos(this.mainLight.getWorldPos());
+
+            GameModel.characterPos.set(-(this.renderer.ratio * GameModel.sceneHeight) / 2, -1.5, -1);
+        } else if (GameModel.currentScene == Scenes.ROOM) {
             this.room.update();
             this.room.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
-        } else {
+        } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
+            this.shadowPass.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
             this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos());
         }
 
         GameModel.update()
 
+        if (GameModel.currentScene == Scenes.PRELOAD) {
+            UI.pushWindow("Loading")
+            UI.LText(this.preloader.count + "/" + this.preloader.totalCount, "loading");
+            UI.popWindow()
 
+            return;
+        }
         /* UI.pushWindow("Performance")
          if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
          this.timeStampQuery.onUI();
          UI.popWindow()*/
         UI.pushWindow("Light")
-        GameModel.dayNight =UI.LFloatSlider("dayNight",GameModel.dayNight,0,1);
+        GameModel.dayNight = UI.LFloatSlider("dayNight", GameModel.dayNight, 0, 1);
 
         this.lightRoomPass.onUI();
         this.lightOutsidePass.onUI(this.shadowPass.camera.viewProjection);
@@ -373,9 +405,9 @@ export default class Main {
         this.drawer.onUI();
 
         UI.pushWindow("Objects")
-        if(UI.LButton("saveData")){
-            let data ={}
-            for(let m of this.renderer.models){
+        if (UI.LButton("saveData")) {
+            let data = {}
+            for (let m of this.renderer.models) {
                 m.saveData(data)
             }
             saveToJsonFile(data, "materialData")
