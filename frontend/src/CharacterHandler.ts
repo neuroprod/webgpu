@@ -9,6 +9,8 @@ import gsap from "gsap";
 import Timeline from "gsap";
 import Main from "./Main";
 import GameModel, {Scenes, Transitions} from "./GameModel";
+import GLFTLoader from "./GLFTLoader";
+import Timer from "./lib/Timer";
 
 
 export default class CharacterHandler {
@@ -35,13 +37,17 @@ export default class CharacterHandler {
     private isWalking: boolean = false;
     private targetPos: Vector3 =new Vector3();
     private targetRot: number=0;
+    private neck: Object3D;
+    private head: Object3D;
 
-    constructor(renderer: Renderer, camera: Camera, characterRoot: Object3D, animationMixer: AnimationMixer) {
+    constructor(renderer: Renderer, camera: Camera, glft:GLFTLoader, animationMixer: AnimationMixer) {
 
         this.renderer = renderer;
         this.camera = camera;
         this.animationMixer = animationMixer;
-        this.characterRoot = characterRoot;
+        this.characterRoot = glft.root;
+        this.neck = glft.objectsByName[ "mixamorig:Neck"]
+        this.head= glft.objectsByName[ "mixamorig:Head"]
         this.animationMixer.setAnimation("idle");
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
 
@@ -58,6 +64,10 @@ export default class CharacterHandler {
     update(mousePos: Vector2, down: boolean) {
 
         this.animationMixer.update();
+      //  this.head.setEuler(Timer.time*7,Timer.time*5,Timer.time*3);
+
+        //console.log(this.neck)
+
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
         this.characterRoot.setEuler(0, this.characterRot, 0)
 

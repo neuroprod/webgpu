@@ -2,10 +2,11 @@ import Camera from "./lib/Camera";
 import {Vector2, Vector3} from "math.gl";
 import Renderer from "./lib/Renderer";
 import GameModel, {Scenes} from "./GameModel";
+import Timer from "./lib/Timer";
 
 export default class GameCamera{
     private camera: Camera;
-    private mouseTarget = new Vector2()
+    private mouseTarget = new Vector2(1,1)
     private renderer: Renderer;
     public posSmooth=0;
     constructor(camera:Camera,renderer:Renderer){
@@ -29,9 +30,9 @@ export default class GameCamera{
         let offsetX = this.getCameraOffsetX();
 
 
+        let L =1-Math.pow(0.01,Timer.delta)
+        this.mouseTarget.lerp(mp, L);
 
-
-        this.mouseTarget.lerp(mp, 0.1);
         let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, GameModel.yMouseCenter + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraWorld.x+=offsetX

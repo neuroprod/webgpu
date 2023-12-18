@@ -279,7 +279,8 @@ export default class Main {
         this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
 
 
-        this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar.root, this.animationMixer)
+        this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar, this.animationMixer)
+
         GameModel.characterHandler = this.characterHandler;
         GameModel.floorHitIndicator =new FloorHitIndicator(this.renderer) ;
 

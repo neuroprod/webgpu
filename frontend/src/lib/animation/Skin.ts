@@ -20,6 +20,8 @@ export default class Skin extends UniformGroup{
         //console.log(this.getShaderText(4))
     }
     public updateData(){
+
+
        for(let i=0;i<this.objects.length;i++){
             let invMatrix =  this.invBindMatrices[i]
             let objMatrix =  this.objects[i].worldMatrix;

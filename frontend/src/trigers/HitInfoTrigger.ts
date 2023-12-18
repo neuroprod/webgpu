@@ -13,6 +13,7 @@ export default class HitInfoTrigger extends HitTrigger{
     public over() {
         UI.logEvent("Over", this.objectLabel);
         let drawing =GameModel.getDrawingByLabel(this.infoTextLabel);
+        console.log(drawing)
         drawing.show()
     }
 
