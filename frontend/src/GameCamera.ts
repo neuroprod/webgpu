@@ -13,6 +13,7 @@ export default class GameCamera{
         this.camera =camera;
         this.renderer =renderer;
 
+        this.camera.near=8
 
     }
     public update(){

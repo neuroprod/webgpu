@@ -22,11 +22,14 @@ type TextureUniform = {
     dimension: GPUTextureViewDimension,
 }
 type StorageTextureUniform = {
+
     name: string,
     texture: Texture;
     usage: GPUShaderStageFlags,
     access: GPUStorageTextureAccess,
     dimension: GPUTextureViewDimension,
+    baseMipLevel: number,
+    format:GPUTextureFormat,
 }
 type SamplerUniform = {
     name: string,
@@ -99,8 +102,8 @@ export default class UniformGroup extends ObjectGPU {
             usage: GPUShaderStage.COMPUTE,
             access: "write-only",
             dimension: TextureDimension.TwoD,
-
-
+            format:format,
+            baseMipLevel:0
         } )
     }
     addTexture(name: string, value: Texture, sampleType: GPUTextureSampleType, dimension: GPUTextureViewDimension, usage: GPUShaderStageFlags) {
@@ -305,19 +308,20 @@ struct ${this.typeInShader}
             })
             bindingCount++;
         }
-       /* for (let t of this.storageTextureUniforms) {
+       for (let t of this.storageTextureUniforms) {
             entriesLayout.push({
                 binding: bindingCount,
                 visibility: t.usage,
-                texture: {
-                    access: t.sampleType,
+                storageTexture: {
+                    access: t.access,
+                    format:t.format,
                     viewDimension: t.dimension,
-                    multisampled: false,
+
 
                 },
             })
             bindingCount++;
-        }*/
+        }
         for (let t of this.samplerUniforms) {
             let s: GPUSamplerBindingLayout = {type: SamplerBindingType.Filtering}
             if (t.compare) {
@@ -410,6 +414,17 @@ struct ${this.typeInShader}
                 {
                     binding: bindingCount,
                     resource: t.texture.textureGPU.createView({dimension: t.dimension}),
+
+                }
+            )
+
+            bindingCount++;
+        }
+        for (let t of this.storageTextureUniforms) {
+            entries.push(
+                {
+                    binding: bindingCount,
+                    resource: t.texture.textureGPU.createView({dimension: t.dimension,mipLevelCount:t.texture.options.mipLevelCount,baseMipLevel:t.baseMipLevel}),
 
                 }
             )

@@ -15,7 +15,7 @@ export class WindowOutside extends Model{
         this.material =new Material(this.renderer,this.label,new WindowOutsideShader(this.renderer,this.label));
 
         this.setPosition(0.00,0,0.0)
-        this.setScale(1,1,1)
+        this.setScale(2,2,2)
         this.setEuler(0,0,0)
         parent.addChild(this)
     }
