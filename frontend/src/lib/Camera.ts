@@ -15,8 +15,8 @@ export default class Camera extends UniformGroup {
     public ratio = 1
     public lensShift = new Vector2(0, 0)
     public viewProjectionInv= new Matrix4();
-    public viewInv!: Matrix4;
-    public projectionInv!: Matrix4;
+    public viewInv: Matrix4= new Matrix4();
+    public projectionInv: Matrix4= new Matrix4();
     public perspective: boolean = true;
     private view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
@@ -27,8 +27,12 @@ export default class Camera extends UniformGroup {
     public orthoBottom: number =-10;
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
+
         this.addUniform("viewProjectionMatrix", this.viewProjection)
         this.addUniform("inverseViewProjectionMatrix", this.viewProjection)
+        this.addUniform("inverseViewMatrix", this.viewInv)
+        this.addUniform("inverseProjectionMatrix", this.projectionInv)
+        this.addUniform( "projectionMatrix",this.projection)
         this.addUniform("worldPosition", this.cameraWorldU)
         if (!Camera.instance) Camera.instance = this;
     }
@@ -119,10 +123,10 @@ onUI(){
             center: this.cameraLookAt,
             up: this.cameraUp,
         });
-        this.viewInv = this.view.clone();
+        this.viewInv.from(this.view) ;
         this.viewInv.invert();
 
-        this.projectionInv = this.projection.clone();
+        this.projectionInv .from(this.projection);
         this.projectionInv.invert();
 
 
@@ -137,5 +141,8 @@ onUI(){
         this.setUniform("viewProjectionMatrix", this.viewProjection)
         this.cameraWorldU.set(this.cameraWorld.x, this.cameraWorld.y, this.cameraWorld.z, 1)
         this.setUniform("worldPosition", this.cameraWorldU)
+        this.setUniform("inverseViewMatrix", this.viewInv)
+        this.setUniform("inverseProjectionMatrix", this.projectionInv)
+        this.setUniform( "projectionMatrix",this.projection)
     }
 }

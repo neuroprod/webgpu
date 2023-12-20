@@ -105,6 +105,7 @@ export default class PointLight extends Object3D {
         this.material.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"])
         this.material.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"])
         this.material.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"])
+        this.material.uniforms.setTexture("ao", this.renderer.texturesByLabel["GTAOdenoise"])
         modelRenderer.addModel(this.model)
 
 

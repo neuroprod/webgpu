@@ -54,17 +54,18 @@ export default class Renderer {
         // on mac: /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --enable-dawn-features=allow_unsafe_apis
         this.pixelRatio = window.devicePixelRatio;
 
-        const requiredFeatures: Array<GPUFeatureName> = ["rg11b10ufloat-renderable"];
+        const requiredFeatures: Array<GPUFeatureName> = ["rg11b10ufloat-renderable","float32-filterable"];
         if (adapter.features.has('timestamp-query')) {
             requiredFeatures.push('timestamp-query');
             this.useTimeStampQuery = true;
 
         }
+        //TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES
         console.log(adapter.limits)
         //extentions
-       // for (let a of adapter.features.keys()) {
-         //   console.log(a)
-        //}
+        for (let a of adapter.features.keys()) {
+           console.log(a)
+        }
         //console.log("timestamps?", this.useTimeStampQuery)
         //let limits={
           //  maxUniformBufferBindingSize: Math.pow(2,18)

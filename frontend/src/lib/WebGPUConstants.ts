@@ -97,19 +97,19 @@ export const TextureFormat = {
 
     // 32-bit formats
 
-    R32Uint: 'r32uint',
-    R32Sint: 'r32sint',
-    R32Float: 'r32float',
-    RG16Uint: 'rg16uint',
-    RG16Sint: 'rg16sint',
-    RG16Float: 'rg16float',
+    R32Uint: 'r32uint'as GPUTextureFormat,
+    R32Sint: 'r32sint'as GPUTextureFormat,
+    R32Float: 'r32float' as GPUTextureFormat,
+    RG16Uint: 'rg16uint'as GPUTextureFormat,
+    RG16Sint: 'rg16sint'as GPUTextureFormat,
+    RG16Float: 'rg16float'as GPUTextureFormat,
     RGBA8Unorm: 'rgba8unorm' as GPUTextureFormat,
     RGBA8UnormSRGB: 'rgba8unorm-srgb' as GPUTextureFormat,
     RGBA8Snorm: 'rgba8snorm' as GPUTextureFormat,
-    RGBA8Uint: 'rgba8uint',
-    RGBA8Sint: 'rgba8sint',
-    BGRA8Unorm: 'bgra8unorm',
-    BGRA8UnormSRGB: 'bgra8unorm-srgb',
+    RGBA8Uint: 'rgba8uint'as GPUTextureFormat,
+    RGBA8Sint: 'rgba8sint'as GPUTextureFormat,
+    BGRA8Unorm: 'bgra8unorm'as GPUTextureFormat,
+    BGRA8UnormSRGB: 'bgra8unorm-srgb'as GPUTextureFormat,
 
     // Packed 32-bit formats
     RGB9E5UFloat: 'rgb9e5ufloat' as GPUTextureFormat,//hdr
@@ -118,18 +118,18 @@ export const TextureFormat = {
 
     // 64-bit formats
 
-    RG32Uint: 'rg32uint',
-    RG32Sint: 'rg32sint',
-    RG32Float: 'rg32float',
-    RGBA16Uint: 'rgba16uint',
-    RGBA16Sint: 'rgba16sint',
+    RG32Uint: 'rg32uint'as GPUTextureFormat,
+    RG32Sint: 'rg32sint'as GPUTextureFormat,
+    RG32Float: 'rg32float'as GPUTextureFormat,
+    RGBA16Uint: 'rgba16uint'as GPUTextureFormat,
+    RGBA16Sint: 'rgba16sint'as GPUTextureFormat,
     RGBA16Float: 'rgba16float' as GPUTextureFormat,
 
     // 128-bit formats
 
-    RGBA32Uint: 'rgba32uint',
-    RGBA32Sint: 'rgba32sint',
-    RGBA32Float: 'rgba32float',
+    RGBA32Uint: 'rgba32uint'as GPUTextureFormat,
+    RGBA32Sint: 'rgba32sint'as GPUTextureFormat,
+    RGBA32Float: 'rgba32float'as GPUTextureFormat,
 
     // Depth and stencil formats
 
@@ -141,7 +141,7 @@ export const TextureFormat = {
 
     // 'depth32float-stencil8' extension
 
-    Depth32FloatStencil8: 'depth32float-stencil8',
+    Depth32FloatStencil8: 'depth32float-stencil8'as GPUTextureFormat,
 
     // BC compressed formats usable if 'texture-compression-bc' is both
     // supported by the device/user agent and enabled in requestDevice.
@@ -221,9 +221,9 @@ export const SamplerBindingType = {
     Comparison: 'comparison'as GPUSamplerBindingType
 };
 
-export const GPUFilterMode = {
-    Linear: 'linear',
-    Nearest: 'nearest'
+export const FilterMode = {
+    Linear: 'linear' as GPUFilterMode,
+    Nearest: 'nearest'as GPUFilterMode
 };
 
 export const GPUBlendFactor = {

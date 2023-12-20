@@ -10,6 +10,7 @@ export default class DefaultTextures {
     private static normal: Texture;
     private static mre: Texture;
     private static cube: Texture;
+    private static hilbert: Texture;
 
 
     static getMRE(render: Renderer) {
@@ -22,11 +23,11 @@ export default class DefaultTextures {
         this.mre.make()
 
         let f = new Uint8ClampedArray(4);
-        f[0]=0;
-        f[1]=180;
-        f[2]=0;
-        f[3]=255;
-        this.mre.writeTexture(f,1,1,4);
+        f[0] = 0;
+        f[1] = 180;
+        f[2] = 0;
+        f[3] = 255;
+        this.mre.writeTexture(f, 1, 1, 4);
 
         return this.mre;
     }
@@ -43,31 +44,33 @@ export default class DefaultTextures {
         let f = new Uint8ClampedArray(4);
         f.fill(255);
 
-        this.white.writeTexture(f,1,1,4);
+        this.white.writeTexture(f, 1, 1, 4);
 
         return this.white;
     }
+
     static getCube(render: Renderer) {
         if (this.cube) return this.cube;
 
         this.cube = new Texture(render, "defaultCube", {
             format: TextureFormat.RGBA8Unorm,
             usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
-            width:1, height: 1, depthOrArrayLayers:6
+            width: 1, height: 1, depthOrArrayLayers: 6
         })
 
         this.cube.make()
 
         let f = new Uint8ClampedArray(4);
-        f[0]=255;
-        f[1]=0.0;
-        f[2]=255;
-        f[3]=255;
-        this.cube.writeTexture(f,1,1,4);
+        f[0] = 255;
+        f[1] = 0.0;
+        f[2] = 255;
+        f[3] = 255;
+        this.cube.writeTexture(f, 1, 1, 4);
 
 
         return this.cube;
     }
+
     static getBlack(render: Renderer) {
         if (this.black) return this.black;
 
@@ -79,10 +82,11 @@ export default class DefaultTextures {
 
         let f = new Uint8ClampedArray(4);
         f.fill(0);
-        this.black.writeTexture(f,1,1,4);
+        this.black.writeTexture(f, 1, 1, 4);
 
         return this.black;
     }
+
     static getNormal(render: Renderer) {
         if (this.normal) return this.normal;
 
@@ -93,34 +97,33 @@ export default class DefaultTextures {
         this.normal.make()
 
         let f = new Uint8ClampedArray(4);
-        f[0]=128;
-        f[1]=128;
-        f[2]=255;
-        f[3]=255;
-        this.normal.writeTexture(f,1,1,4);
+        f[0] = 128;
+        f[1] = 128;
+        f[2] = 255;
+        f[3] = 255;
+        this.normal.writeTexture(f, 1, 1, 4);
 
         return this.normal;
     }
+
     static getGrid(render: Renderer) {
         if (this.grid) return this.grid;
 
-        this.grid= new Texture(render, "defaultGrid", {
-            width:20,
-            height:20,
+        this.grid = new Texture(render, "defaultGrid", {
+            width: 20,
+            height: 20,
             format: TextureFormat.RGBA8Unorm,
             usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
         })
         this.grid.make()
 
-        let f = new Uint8ClampedArray(20*20*4);
-        let count=0;
+        let f = new Uint8ClampedArray(20 * 20 * 4);
+        let count = 0;
 
-        for(let x=0;x<20;x++)
-        {
-            for(let y=0;y<20;y++)
-            {
-                let countColor =x+y;
-                let s =Math.floor(((countColor%2)*0.5+0.3)*256);
+        for (let x = 0; x < 20; x++) {
+            for (let y = 0; y < 20; y++) {
+                let countColor = x + y;
+                let s = Math.floor(((countColor % 2) * 0.5 + 0.3) * 256);
 
                 f[count++] = s
                 f[count++] = s
@@ -129,8 +132,14 @@ export default class DefaultTextures {
             }
         }
 
-        this.grid.writeTexture(f,20,20,4*20);
+        this.grid.writeTexture(f, 20, 20, 4 * 20);
 
         return this.grid;
     }
+
+
+
+
+
+
 }

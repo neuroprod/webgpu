@@ -71,7 +71,7 @@ export default class Texture extends ObjectGPU {
         return this.view;
     }
 
-    writeTexture(f: Uint8ClampedArray, width: number, height: number, bytesPerRow: number, depthOrArrayLayers = 1) {
+    writeTexture(f: any, width: number, height: number, bytesPerRow: number, depthOrArrayLayers = 1) {
         this.renderer.device.queue.writeTexture(
             {texture: this.textureGPU},
             f,

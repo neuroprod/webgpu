@@ -1,7 +1,7 @@
-import Renderer from "./lib/Renderer";
-import UniformGroup from "./lib/core/UniformGroup";
-import Texture from "./lib/textures/Texture";
-import {TextureFormat} from "./lib/WebGPUConstants";
+import Renderer from "../lib/Renderer";
+import UniformGroup from "../lib/core/UniformGroup";
+import Texture from "../lib/textures/Texture";
+import {TextureFormat} from "../lib/WebGPUConstants";
 
 export default class ComputeShaderTest {
     private renderer: Renderer;

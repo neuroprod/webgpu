@@ -44,11 +44,15 @@ import Ray from "./lib/Ray";
 import Drawer from "./drawing/Drawer";
 import DrawingPreloader from "./drawing/DrawingPreloader";
 import {saveToJsonFile} from "./lib/SaveUtils";
-import ComputeShaderTest from "./ComputeShaderTest";
+import ComputeShaderTest from "./ComputePasses/ComputeShaderTest";
 import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 import OutlinePass from "./renderPasses/OutlinePass";
 import MainLight from "./MainLight";
 import ModelRenderer from "./lib/model/ModelRenderer";
+import DefaultTextures from "./lib/textures/DefaultTextures";
+import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth";
+import GTAO from "./ComputePasses/GTAO";
+import GTAOdenoise from "./ComputePasses/GTAOdenoise";
 
 
 export default class Main {
@@ -89,6 +93,9 @@ export default class Main {
     private computeShadertest: ComputeShaderTest;
     private outlinePass: OutlinePass;
     private mainLight: MainLight;
+    private aoPreCompDepth: AOPreprocessDepth;
+    private gtaoPass: GTAO;
+    private gtaoDenoise: GTAOdenoise;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -118,8 +125,9 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "textures/body_MRA.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
+        new TextureLoader(this.renderer, this.preloader, "BlueNoise.png", {});
         this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
-        this.computeShadertest = new ComputeShaderTest(this.renderer)
+
         this.mainLight = new MainLight(this.renderer)
     }
 
@@ -127,10 +135,15 @@ export default class Main {
 
 
         this.gBufferPass = new GBufferRenderPass(this.renderer);
+
+        this.aoPreCompDepth =new AOPreprocessDepth(this.renderer)
+        this.gtaoPass = new GTAO(this.renderer);
+        this.gtaoDenoise = new GTAOdenoise(this.renderer)
+
         this.shadowPassCube = new ShadowCube(this.renderer, null, null);
         this.shadowPass = new ShadowPass(this.renderer);
-        this.aoPass = new AORenderPass(this.renderer);
-        this.aoBlurPass = new AOBlurRenderPass(this.renderer);
+       // this.aoPass = new AORenderPass(this.renderer);
+        //this.aoBlurPass = new AOBlurRenderPass(this.renderer);
 
         this.lightRoomPass = new LightRenderPass(this.renderer);
         this.lightOutsidePass = new LightOutsideRenderPass(this.renderer, this.lightRoomPass.target);
@@ -235,7 +248,7 @@ export default class Main {
         this.timeStampQuery.start();
 
 
-        this.computeShadertest.add()
+
 
 
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
@@ -249,8 +262,14 @@ export default class Main {
         this.timeStampQuery.setStamp("ShadowPass");
         this.gBufferPass.add();
         this.timeStampQuery.setStamp("GBufferPass");
-        this.aoPass.add();
-        this.aoBlurPass.add();
+
+        this.aoPreCompDepth.add();
+        this.gtaoPass.add();
+        this.gtaoDenoise.add();
+
+       // this.timeStampQuery.setStamp("AOTestPass");
+       // this.aoPass.add();
+       // this.aoBlurPass.add();
         this.timeStampQuery.setStamp("AOPass");
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
             this.lightRoomPass.add();
@@ -396,9 +415,7 @@ export default class Main {
         UI.popGroup()
 
         this.canvasRenderPass.onUI();
-        UI.pushGroup("AO");
-        this.aoPass.onUI();
-        UI.popGroup()
+
         RenderSettings.onUI();
         UI.popWindow()
 

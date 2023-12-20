@@ -2,7 +2,13 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Texture from "../textures/Texture";
-import {SamplerBindingType, TextureDimension, TextureFormat, TextureViewDimension} from "../WebGPUConstants";
+import {
+    FilterMode,
+    SamplerBindingType,
+    TextureDimension,
+    TextureFormat,
+    TextureViewDimension
+} from "../WebGPUConstants";
 import {getSizeForShaderType, ShaderType} from "./ShaderTypes";
 
 type Uniform = {
@@ -50,7 +56,7 @@ export default class UniformGroup extends ObjectGPU {
     public samplerUniforms: Array<SamplerUniform> = [];
 
     public buffer!: GPUBuffer;
-    public visibility: GPUShaderStageFlags = GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT;
+    public visibility: GPUShaderStageFlags = GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT| GPUShaderStage.COMPUTE;
     private bufferData: Float32Array;
     private nameInShader: string;
     private typeInShader: string;
@@ -94,7 +100,7 @@ export default class UniformGroup extends ObjectGPU {
 
         this.uniforms.push(u);
     }
-    addStorageTexture(name:string, value: Texture,format:GPUTextureFormat=TextureFormat.RGBA8Unorm){
+    addStorageTexture(name:string, value: Texture,format:GPUTextureFormat=TextureFormat.RGBA8Unorm,baseMipLevel=0){
         this.storageTextureUniforms.push({
 
             name: name,
@@ -103,7 +109,7 @@ export default class UniformGroup extends ObjectGPU {
             access: "write-only",
             dimension: TextureDimension.TwoD,
             format:format,
-            baseMipLevel:0
+            baseMipLevel:baseMipLevel
         } )
     }
     addTexture(name: string, value: Texture, sampleType: GPUTextureSampleType, dimension: GPUTextureViewDimension, usage: GPUShaderStageFlags) {
@@ -123,9 +129,9 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addSampler(name: string) {
-        let sampler = this.renderer.device.createSampler({magFilter: "linear", minFilter: "linear",mipmapFilter:"linear",maxAnisotropy:2})
-        this.samplerUniforms.push({name: name, sampler: sampler, usage: GPUShaderStage.FRAGMENT, compare: false})
+    addSampler(name: string, usage= GPUShaderStage.FRAGMENT,filter:GPUFilterMode=FilterMode.Linear) {
+        let sampler = this.renderer.device.createSampler({magFilter: filter, minFilter: filter,mipmapFilter:filter})
+        this.samplerUniforms.push({name: name, sampler: sampler, usage:  usage, compare: false})
 
 
         //let sampler =this.renderer.device.createSampler({magFilter:"linear",minFilter:"linear" })
@@ -246,7 +252,12 @@ struct ${this.typeInShader}
                 } else if (s.dimension == TextureViewDimension.TwoD) {
                     if (s.sampleType == "depth") {
                         textureType = "texture_depth_2d"
-                    } else {
+                    }
+                    else if(s.sampleType=="uint"){
+                        textureType = "texture_2d<u32>"
+                    }
+                    else {
+
                         textureType = "texture_2d<f32>"
                     }
                 } else {
@@ -340,7 +351,6 @@ struct ${this.typeInShader}
 
         }
 
-
         this.bindGroupLayout = this.device.createBindGroupLayout(bindGroupLayoutDescriptor);
 
 
@@ -424,7 +434,7 @@ struct ${this.typeInShader}
             entries.push(
                 {
                     binding: bindingCount,
-                    resource: t.texture.textureGPU.createView({dimension: t.dimension,mipLevelCount:t.texture.options.mipLevelCount,baseMipLevel:t.baseMipLevel}),
+                    resource: t.texture.textureGPU.createView({dimension: t.dimension,mipLevelCount:1,baseMipLevel:t.baseMipLevel}),
 
                 }
             )

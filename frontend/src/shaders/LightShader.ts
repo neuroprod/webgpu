@@ -30,7 +30,7 @@ export default class LightShader extends Shader{
         this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gMRA",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-
+        this.addTexture("ao",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.needsTransform =true;
         this.needsCamera=true;
 
@@ -169,6 +169,7 @@ if( uniforms.shadow.x>0.5){
    
    
         let mra =textureLoad(gMRA,  uvPos ,0).xyz ;
+         let ao =textureLoad(ao,  uvPos ,0).x ;
         let roughness = mra.y;
         let metallic = mra.x;
 
@@ -195,7 +196,7 @@ if( uniforms.shadow.x>0.5){
         let NdotL = max(dot(N, L), 0.0);
         let light= (kD * albedo / PI + specular) * radiance * NdotL ;
         
-        return vec4( light,0.0);
+        return vec4( light*ao,0.0);
 }
 ///////////////////////////////////////////////////////////
        
