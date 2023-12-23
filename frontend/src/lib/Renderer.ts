@@ -111,6 +111,7 @@ export default class Renderer {
         this.commandEncoder = this.device.createCommandEncoder();
 
         this.mipmapQueue.processQue();
+
         setCommands();
 
 

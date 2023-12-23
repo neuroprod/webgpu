@@ -50,7 +50,7 @@ export default class GTAOdenoise {
         );
         this.passEncoder.setPipeline(this.getPipeLine());
         this.passEncoder.setBindGroup(0, this.uniformGroup.bindGroup);
-        this.passEncoder.setBindGroup(1,this.renderer.camera.bindGroup)
+
         this.passEncoder.dispatchWorkgroups(Math.ceil(this.texture.options.width / 8), Math.ceil(this.texture.options.height / 8), 1);
 
         this.passEncoder.end();
@@ -60,7 +60,7 @@ export default class GTAOdenoise {
         if(this.computePipeline)return this.computePipeline
         this.pipeLineLayout = this.renderer.device.createPipelineLayout({
             label: "Compute_pipelineLayout_",
-            bindGroupLayouts: [this.uniformGroup.bindGroupLayout,this.renderer.camera.bindGroupLayout],
+            bindGroupLayouts: [this.uniformGroup.bindGroupLayout],
         });
 
         let shaderCode = this.getShaderCode()
@@ -90,7 +90,7 @@ export default class GTAOdenoise {
 @group(0) @binding(2) var ambient_occlusion: texture_storage_2d<r32float, write>;
 @group(0) @binding(3) var point_clamp_sampler: sampler;
 
-${Camera.getShaderText(1)}
+
  @compute
 @workgroup_size(8, 8, 1)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {

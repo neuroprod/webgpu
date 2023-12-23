@@ -69,10 +69,12 @@ export default class CanvasRenderPass extends RenderPass {
 
         this.blitTest = new Blit(renderer, 'blit', this.blitTestMaterial)
 
+        this.passSelect.push(new SelectItem("FXAA", {texture: "FXAAPass", type: 0 }));
+
         this.passSelect.push(new SelectItem("GTAOdenoise", {texture: "GTAOdenoise", type: 1 }));
         this.passSelect.push(new SelectItem("GTAO", {texture: "GTAO", type: 1 }));
         this.passSelect.push(new SelectItem("AOPreDepth", {texture: "AOPreprocessedDepth", type: 1 }));
-        this.passSelect.push(new SelectItem("FXAA", {texture: "FXAAPass", type: 0 }));
+
         this.passSelect.push(new SelectItem("OutlinePrePass", {texture: "OutlinePrePass", type: 0 }));
         this.passSelect.push(new SelectItem( "OutlineBlur", {texture: "OutlineBlur", type: 0 }));
         //this.passSelect.push(new SelectItem("Final", {texture: "final", type: 0}));

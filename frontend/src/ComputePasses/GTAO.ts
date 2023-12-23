@@ -185,8 +185,8 @@ fn fast_acos(in_x: f32) -> f32 {
 @compute
 @workgroup_size(8, 8, 1)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
-    let slice_count = 5.0;
-    let samples_per_slice_side =3.0;
+    let slice_count = 4.0;
+    let samples_per_slice_side =2.0;
     let effect_radius = 0.5 * 1.457;
     let falloff_range = 0.615 * effect_radius;
     let falloff_from = effect_radius * (1.0 - 0.615);
