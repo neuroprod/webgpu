@@ -15,6 +15,7 @@ import Skin from "./lib/animation/Skin";
 import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
 import HitTestObject from "./lib/meshes/HitTestObject";
 import {materialData} from "./PreloadData";
+import GBufferShaderWind from "./shaders/GbufferShaderWind";
 
 
 type Accessor = {
@@ -54,6 +55,7 @@ export default class GLFTLoader {
     private url: string;
     private skins: Array<Skin> = [];
     private skinShader: GBufferShaderSkin;
+    private windShader: GBufferShaderWind;
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
@@ -62,6 +64,7 @@ export default class GLFTLoader {
         this.root = new Object3D(renderer, "sceneRoot");
         this.skinShader = new GBufferShaderSkin(this.renderer, "gBufferShaderSkin");
         this.mainShader = new GBufferShader(this.renderer, "gBufferShader");
+        this.windShader = new GBufferShaderWind(this.renderer, "gBufferShaderWind");
         this.glassShader = new GlassShader(this.renderer, "glassShader");
         this.url = url;
         preLoader.startLoad();
@@ -137,10 +140,11 @@ export default class GLFTLoader {
                 this.modelsHit.push(m.model);
             }
             let mData = materialData[m.model.mesh.label]
-            if(mData){
+            if (mData) {
 
-                m.model.needsAlphaClip =   mData.needsAlphaClip
+                m.model.needsAlphaClip = mData.needsAlphaClip
                 m.model.visible = mData.visible;
+                m.model.needsWind =mData.needsWind;
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {
@@ -155,6 +159,7 @@ export default class GLFTLoader {
     private makeMaterial(name: string, skinID: number) {
 
         if (this.materialsByName[name] != undefined) return this.materialsByName[name];
+        let md = materialData[name];
         let material: Material;
         if (name.includes("_G")) {
             material = new Material(this.renderer, name, this.glassShader);
@@ -163,7 +168,10 @@ export default class GLFTLoader {
         } else if (skinID != undefined) {
             material = new Material(this.renderer, name, this.skinShader);
             material.skin = this.skins[skinID];
-        } else {
+        } else if ( md &&   md.needsWind){
+            material = new Material(this.renderer, name, this.windShader);
+
+        }else  {
             material = new Material(this.renderer, name, this.mainShader);
 
         }
@@ -180,9 +188,9 @@ export default class GLFTLoader {
 
         let opTexture = this.getTexture(name + "_Op");
         if (opTexture) {
+            console.log(name + "_Op", material)
             material.uniforms.setTexture("opTexture", opTexture)
         }
-
 
 
         this.materialsByName[name] = material;
@@ -341,7 +349,7 @@ export default class GLFTLoader {
 
 
             } else if (accessorIndices.accessor.componentType == 5125) {
-               indices = new Uint32Array(indexData);
+                indices = new Uint32Array(indexData);
                 mesh.setIndices32(indices)
             }
 
@@ -350,12 +358,12 @@ export default class GLFTLoader {
             let posAccessor = this.accessors[primitive.attributes.POSITION];
 
             let positionData = this.getSlize(posAccessor);
-            let floatPos =new Float32Array(positionData)
+            let floatPos = new Float32Array(positionData)
             let md = materialData[m.name];
-            if(md) {
+            if (md) {
                 if (md.needsHitTest) {
-                    mesh.hitTestObject = new HitTestObject( m.name)
-                    mesh.hitTestObject.setTriangles(indices,floatPos)
+                    mesh.hitTestObject = new HitTestObject(m.name)
+                    mesh.hitTestObject.setTriangles(indices, floatPos)
                     mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])
                     mesh.hitTestObject.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2])
 
@@ -378,6 +386,12 @@ export default class GLFTLoader {
                 mesh.setTangents(new Float32Array(tangentData));
             } else {
                 console.warn("no tangent for mesh", m.name)
+            }
+            if (primitive.attributes.COLOR_0 && md.needsWind) {
+
+                let colorAccessor = this.accessors[primitive.attributes.COLOR_0];
+                let colorData = this.getSlize(colorAccessor);
+                mesh.setColor0(new Float32Array(colorData));
             }
 
             if (primitive.attributes.WEIGHTS_0) {

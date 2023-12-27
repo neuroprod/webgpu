@@ -16,7 +16,7 @@ export default class AnimationMixer{
         this.animations =animations;
         for(let a of this.animations){
             this.animationsByName[a.label] =a;
-          //  console.log(a.label);
+          console.log(a.label);
         }
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
@@ -63,7 +63,7 @@ export default class AnimationMixer{
     setAnimation(name: string,startTime =0) {
         this.anime1 =  this.anime2
        this.anime2 =this.animationsByName[name]
-        this.anime2.time
+        this.anime2.time=0;
         this.mixValue =0;
        // this.animation2 = this.getAnimationIndexByName()
 

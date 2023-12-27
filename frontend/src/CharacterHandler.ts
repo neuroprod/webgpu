@@ -11,6 +11,8 @@ import Main from "./Main";
 import GameModel, {Scenes, Transitions} from "./GameModel";
 import GLFTLoader from "./GLFTLoader";
 import Timer from "./lib/Timer";
+import UI from "./lib/UI/UI";
+import Material from "./lib/core/Material";
 
 
 export default class CharacterHandler {
@@ -39,6 +41,7 @@ export default class CharacterHandler {
     private targetRot: number=0;
     private neck: Object3D;
     private head: Object3D;
+    private pants: Material;
 
     constructor(renderer: Renderer, camera: Camera, glft:GLFTLoader, animationMixer: AnimationMixer) {
 
@@ -46,6 +49,7 @@ export default class CharacterHandler {
         this.camera = camera;
         this.animationMixer = animationMixer;
         this.characterRoot = glft.root;
+        this.pants = glft.materialsByName[ "pants"]
         this.neck = glft.objectsByName[ "mixamorig:Neck"]
         this.head= glft.objectsByName[ "mixamorig:Head"]
         this.animationMixer.setAnimation("idle");
@@ -91,6 +95,35 @@ export default class CharacterHandler {
         } else {
             this.continueWalking(keepWalking)
         }
+    }
+
+    public onUI(){
+
+        UI.pushWindow("character")
+        UI.separator("animations")
+        if(UI.LButton("dance"))this.setAnimation("dance")
+        if(UI.LButton("sit"))this.setAnimation("sit")
+        UI.separator("underpants")
+        if(UI.LButton("base"))this.setPants("")
+        if(UI.LButton("hunting"))this.setPants("Army")
+        if(UI.LButton("gold"))this.setPants("Gold")
+        UI.popWindow()
+    }
+    public setPants(name=""){
+        this.pants.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pants"+name+"_Color.png"])
+        this.pants.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pants"+name+"_Normal.png"])
+        this.pants.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pants"+name+"_MRA.png"])
+
+
+    }
+    public setAnimation(name:string){
+        if (this.tl) this.tl.clear()
+        this.tl = gsap.timeline();
+        this.tl.call(() => {
+            this.animationMixer.setAnimation(name, 0);
+            this.isWalking = false
+        }, [], 0)
+        this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, 0)
     }
     public startWalking(keepWalking:boolean=false) {
         let pos = 0

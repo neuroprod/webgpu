@@ -8,6 +8,7 @@ import GameModel from "./GameModel";
 
 import Scene from "./Scene";
 import {clamp} from "math.gl";
+import Timer from "./lib/Timer";
 
 
 
@@ -18,6 +19,7 @@ export default class Outside extends Scene{
 
 
    public lightGrave: Object3D;
+
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -45,6 +47,13 @@ export default class Outside extends Scene{
 
 
         GameModel.dayNight =clamp((pos-13)/7,0,1);
+
+
+        for (let m of this.glFTLoader.models) {
+            if(m.needsWind){
+                m.material.uniforms.setUniform("time",Timer.time)
+            }
+        }
         //GameModel.dayNight
         // UI.LFloat('offset',0)
         //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)

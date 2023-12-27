@@ -36,6 +36,9 @@ export default class Mesh extends ObjectGPU {
     setTangents(tangents: Float32Array) {
         this.createBuffer(tangents, "aTangent");
     }
+    setColor0(colors: Float32Array) {
+        this.createBuffer(colors, "aColor");
+    }
     setUV0(uv0: Float32Array) {
         this.createBuffer(uv0, "aUV0");
     }
@@ -122,4 +125,6 @@ export default class Mesh extends ObjectGPU {
 
         return this.bufferMap.get(name);
     }
+
+
 }

@@ -19,6 +19,7 @@ export default class Model extends Object3D {
     public canHitTest: boolean = false;
     public needsHitTest:boolean =false;
     public needsAlphaClip:boolean =false;
+    public needsWind:boolean =false;
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
@@ -46,6 +47,7 @@ export default class Model extends Object3D {
         this.needsHitTest =UI.LBool("needs HitTest",this.needsHitTest)
         this.needsAlphaClip =UI.LBool("needs AlphaClip", this.needsAlphaClip)
         this.visible =UI.LBool("visible", this.visible)
+        this.needsWind =UI.LBool("wind", this.needsWind)
     }
 
     destroy() {
@@ -64,6 +66,7 @@ export default class Model extends Object3D {
             needsHitTest :this.needsHitTest,
             needsAlphaClip:this.needsAlphaClip,
             visible:this.visible,
+            needsWind:this.needsWind,
         }
 
     }

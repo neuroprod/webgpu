@@ -21,7 +21,7 @@ function makeJson() {
                 use = false;
                 let indexS = file.indexOf("_Op.png");
                 let nameS = file.substring(0, indexS);
-                console.log(nameS,configJ[nameS]["needsAlphaClip"])
+               // console.log(nameS,configJ[nameS]["needsAlphaClip"])
                 if (!configJ[nameS]) {
                     use = false;
                 } else {

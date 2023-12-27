@@ -20,6 +20,7 @@ export default class GBufferShaderSkin extends Shader{
         }
        // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
     //    this.addUniform("skinMatrices",0);
+        this.addTexture("opTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
@@ -88,11 +89,12 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
   var output : GBufferOutput;
     output.color = textureSample(colorTexture, mySampler,  uv0);
     
-
+   let a= textureSample(opTexture, mySampler,  uv0).x;
+    if(a<0.5){discard;}
  
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;
     normalText.y=normalText.y*-1.0; 
-    
+    //normalText.z=normalText.z*-1.0; 
   let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText);
     
     output.normal =vec4(normalize(N)*0.5+0.5,1.0);

@@ -124,6 +124,16 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "textures/body_Color.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_MRA.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
+
+        new TextureLoader(this.renderer, this.preloader, "textures/pants_Color.png", {});
+        new TextureLoader(this.renderer, this.preloader, "textures/pants_MRA.png", {});
+        new TextureLoader(this.renderer, this.preloader, "textures/pants_Normal.png", {});
+
+        new TextureLoader(this.renderer, this.preloader, "textures/face_Color.png", {});
+        new TextureLoader(this.renderer, this.preloader, "textures/face_MRA.png", {});
+        new TextureLoader(this.renderer, this.preloader, "textures/face_Normal.png", {});
+        new TextureLoader(this.renderer, this.preloader, "textures/face_Op.png", {});
+
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
         new TextureLoader(this.renderer, this.preloader, "BlueNoise.png", {});
         this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
@@ -384,6 +394,10 @@ export default class Main {
             this.shadowPass.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
             this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos());
+
+
+
+
         }
 
         GameModel.update()
@@ -395,6 +409,8 @@ export default class Main {
 
             return;
         }
+
+        this.characterHandler.onUI()
         /* UI.pushWindow("Performance")
          if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
          this.timeStampQuery.onUI();
