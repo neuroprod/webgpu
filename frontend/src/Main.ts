@@ -53,6 +53,7 @@ import DefaultTextures from "./lib/textures/DefaultTextures";
 import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth";
 import GTAO from "./ComputePasses/GTAO";
 import GTAOdenoise from "./ComputePasses/GTAOdenoise";
+import Simplex from "./ComputePasses/Simplex";
 
 
 export default class Main {
@@ -96,6 +97,7 @@ export default class Main {
     private aoPreCompDepth: AOPreprocessDepth;
     private gtaoPass: GTAO;
     private gtaoDenoise: GTAOdenoise;
+    private simplexNoisePass: Simplex;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -143,7 +145,7 @@ export default class Main {
 
     public startFinalPreload() {
 
-
+    this.simplexNoisePass = new Simplex(this.renderer)
         this.gBufferPass = new GBufferRenderPass(this.renderer);
 
         this.aoPreCompDepth =new AOPreprocessDepth(this.renderer)
@@ -230,7 +232,7 @@ export default class Main {
             this.characterHandler.setRoot(this.room.root, 0);
             this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos())
-            RenderSettings.exposure = 1.6;
+            RenderSettings.exposure = 2.0;
 
 
         } else {
@@ -246,7 +248,7 @@ export default class Main {
             this.shadowPass.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos())
-            RenderSettings.exposure = 1.0;
+            RenderSettings.exposure = 1.3;
 
         }
 
@@ -260,11 +262,12 @@ export default class Main {
 
 
 
-
+        this.simplexNoisePass.add()
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube.add();
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
+
             this.shadowPass.add();
             this.shadowPassCube.add();
         }
@@ -363,7 +366,7 @@ export default class Main {
     }
 
     private update() {
-
+        this.simplexNoisePass.update();
         if (UI.needsMouse()) {
             this.mouseListener.isDownThisFrame = false;
         }

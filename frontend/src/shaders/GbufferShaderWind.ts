@@ -4,6 +4,7 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
+import {TextureDimension} from "../lib/WebGPUConstants";
 
 export default class GBufferShaderWind extends Shader{
 
@@ -19,11 +20,13 @@ export default class GBufferShaderWind extends Shader{
 
         }
         this.addUniform("time",1);
+        this.addTexture("wind",this.renderer.texturesByLabel["SimplexNoise"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
+
         this.addTexture("opTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
-        this.addSampler("mySampler")
+        this.addSampler("mySampler",GPUShaderStage.FRAGMENT|GPUShaderStage.VERTEX)
 
         this.needsTransform =true;
         this.needsCamera=true;
@@ -56,10 +59,14 @@ ${this.getShaderUniforms(2)}
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    
-    output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
-    output.position.x = output.position.x+(aColor.x*sin(uniforms.time))*0.1;
-      output.position.z = output.position.z+(aColor.x*cos(uniforms.time*0.33))*0.1;
+
+     var world = model.modelMatrix *vec4( aPos,1.0);
+     let t = textureLoad( wind, vec2<i32>(floor(world.xy*30.0)+vec2(1024.0,0)),0).xyz-vec3(0.5,0.5,0.0);
+   world.x=world.x+t.x*aColor.x*0.1*t.z;
+      world.z=world.z+t.y*aColor.x*0.1*t.z;
+       
+    output.position =camera.viewProjectionMatrix*world;
+   
     output.uv0 =aUV0;
 
     output.normal =model.normalMatrix *aNormal;
