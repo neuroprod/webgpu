@@ -20,6 +20,8 @@ export default class Model extends Object3D {
     public needsHitTest:boolean =false;
     public needsAlphaClip:boolean =false;
     public needsWind:boolean =false;
+    public hitFriends:Array<Model>=[];
+
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")

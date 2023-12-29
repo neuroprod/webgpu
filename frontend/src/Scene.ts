@@ -18,7 +18,7 @@ export default class Scene{
 
 //TODO check closest hit
         for (let m of this.glFTLoader.modelsHit) {
-
+            if(!m.needsHitTest)continue;
 
             if( m.checkHit(mouseRay)){
                 label =m.label

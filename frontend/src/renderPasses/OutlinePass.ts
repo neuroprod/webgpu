@@ -27,6 +27,7 @@ export default class OutlinePass {
 
         if(m){
             this.outlinePrePass.models=[m]
+            this.outlinePrePass.models = this.outlinePrePass.models.concat(m.hitFriends)
         }else{
             this.outlinePrePass.models=[];
         }

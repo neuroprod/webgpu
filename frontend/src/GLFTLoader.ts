@@ -387,7 +387,7 @@ export default class GLFTLoader {
             } else {
                 console.warn("no tangent for mesh", m.name)
             }
-            if (primitive.attributes.COLOR_0 && md.needsWind) {
+            if (primitive.attributes.COLOR_0 && md && md.needsWind) {
 
                 let colorAccessor = this.accessors[primitive.attributes.COLOR_0];
                 let colorData = this.getSlize(colorAccessor);

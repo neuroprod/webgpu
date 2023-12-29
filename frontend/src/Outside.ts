@@ -9,6 +9,7 @@ import GameModel from "./GameModel";
 import Scene from "./Scene";
 import {clamp} from "math.gl";
 import Timer from "./lib/Timer";
+import MailBox from "./extras/MailBox";
 
 
 
@@ -19,7 +20,7 @@ export default class Outside extends Scene{
 
 
    public lightGrave: Object3D;
-
+    public mailBox:MailBox;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -39,6 +40,8 @@ export default class Outside extends Scene{
             this.modelRenderer.addModel(m)
 
         }
+
+        this.mailBox =new MailBox(this.glFTLoader);
     }
 
     public update() {
@@ -69,7 +72,9 @@ export default class Outside extends Scene{
         }
     }
 
-
+    onUIGame(){
+    this.mailBox.onUI()
+    }
     onUI() {
         this.glFTLoader.root.onUI();
     }

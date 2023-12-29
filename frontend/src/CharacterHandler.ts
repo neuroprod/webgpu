@@ -99,7 +99,7 @@ export default class CharacterHandler {
 
     public onUI(){
 
-        UI.pushWindow("character")
+
         UI.separator("animations")
         if(UI.LButton("dance"))this.setAnimation("dance")
         if(UI.LButton("sit"))this.setAnimation("sit")
@@ -107,7 +107,7 @@ export default class CharacterHandler {
         if(UI.LButton("base"))this.setPants("")
         if(UI.LButton("hunting"))this.setPants("Army")
         if(UI.LButton("gold"))this.setPants("Gold")
-        UI.popWindow()
+
     }
     public setPants(name=""){
         this.pants.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pants"+name+"_Color.png"])

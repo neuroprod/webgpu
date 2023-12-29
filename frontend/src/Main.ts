@@ -412,8 +412,11 @@ export default class Main {
 
             return;
         }
+        UI.pushWindow("Game")
 
         this.characterHandler.onUI()
+        this.outside.onUIGame();
+        UI.popWindow()
         /* UI.pushWindow("Performance")
          if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
          this.timeStampQuery.onUI();

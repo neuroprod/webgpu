@@ -55,13 +55,13 @@ export default class OutlinePrePass extends RenderPass {
         this.material.makePipeLine(this);
 
         //passEncoder.setPipeline(this.material.pipeLine);
-
+        passEncoder.setPipeline(this.material.pipeLine);
         for (let model of this.models) {
 
 
             passEncoder.setBindGroup(1, model.modelTransform.bindGroup);
 
-            passEncoder.setPipeline(this.material.pipeLine);
+
             for (let attribute of this.material.shader.attributes) {
                 passEncoder.setVertexBuffer(
                     attribute.slot,
