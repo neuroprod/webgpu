@@ -75,7 +75,5 @@ export default class Outside extends Scene{
     onUIGame(){
     this.mailBox.onUI()
     }
-    onUI() {
-        this.glFTLoader.root.onUI();
-    }
+
 }

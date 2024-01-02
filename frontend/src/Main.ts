@@ -49,11 +49,11 @@ import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 import OutlinePass from "./renderPasses/OutlinePass";
 import MainLight from "./MainLight";
 import ModelRenderer from "./lib/model/ModelRenderer";
-import DefaultTextures from "./lib/textures/DefaultTextures";
 import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth";
 import GTAO from "./ComputePasses/GTAO";
 import GTAOdenoise from "./ComputePasses/GTAOdenoise";
 import Simplex from "./ComputePasses/Simplex";
+import GameUI from "./GameUI";
 
 
 export default class Main {
@@ -98,6 +98,7 @@ export default class Main {
     private gtaoPass: GTAO;
     private gtaoDenoise: GTAOdenoise;
     private simplexNoisePass: Simplex;
+    private gameUI: GameUI;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -145,16 +146,16 @@ export default class Main {
 
     public startFinalPreload() {
 
-    this.simplexNoisePass = new Simplex(this.renderer)
+        this.simplexNoisePass = new Simplex(this.renderer)
         this.gBufferPass = new GBufferRenderPass(this.renderer);
 
-        this.aoPreCompDepth =new AOPreprocessDepth(this.renderer)
+        this.aoPreCompDepth = new AOPreprocessDepth(this.renderer)
         this.gtaoPass = new GTAO(this.renderer);
         this.gtaoDenoise = new GTAOdenoise(this.renderer)
 
         this.shadowPassCube = new ShadowCube(this.renderer, null, null);
         this.shadowPass = new ShadowPass(this.renderer);
-       // this.aoPass = new AORenderPass(this.renderer);
+        // this.aoPass = new AORenderPass(this.renderer);
         //this.aoBlurPass = new AOBlurRenderPass(this.renderer);
 
         this.lightRoomPass = new LightRenderPass(this.renderer);
@@ -176,7 +177,7 @@ export default class Main {
         GameModel.main = this;
         GameModel.renderer = this.renderer;
         GameModel.outlinePass = this.outlinePass;
-
+        GameModel.gameCamera = this.gameCamera;
 
         this.lightRoomPass.init(this.lightRoomJson.data, this.mainLight, [])
 
@@ -189,7 +190,7 @@ export default class Main {
 
         this.drawingPreloader = new DrawingPreloader()
         this.drawingPreloader.load(this.renderer, this.preloader)
-
+        this.gameUI = new GameUI(this.renderer, this.preloader);
         this.room = new Room(this.renderer, this.preloader);
         this.outside = new Outside(this.renderer, this.preloader);
 
@@ -260,8 +261,6 @@ export default class Main {
         this.timeStampQuery.start();
 
 
-
-
         this.simplexNoisePass.add()
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
@@ -280,9 +279,9 @@ export default class Main {
         this.gtaoPass.add();
         this.gtaoDenoise.add();
 
-       // this.timeStampQuery.setStamp("AOTestPass");
-       // this.aoPass.add();
-       // this.aoBlurPass.add();
+        // this.timeStampQuery.setStamp("AOTestPass");
+        // this.aoPass.add();
+        // this.aoBlurPass.add();
         this.timeStampQuery.setStamp("AOPass");
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
             this.lightRoomPass.add();
@@ -314,6 +313,7 @@ export default class Main {
     private init() {
         this.room.init()
         this.outside.init();
+        this.gameUI.init();
         //  this.outlinePass.init()
         this.lightRoomPass.init(this.lightRoomJson.data, this.room.mainLight, [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
@@ -327,6 +327,11 @@ export default class Main {
         this.shadowPass.init();
 
         for (let m of this.glFTLoaderChar.models) {
+            //this.gBufferPass.modelRenderer.addModel(m)
+            this.outside.modelRenderer.addModel(m)
+            this.room.modelRenderer.addModel(m)
+        }
+        for (let m of this.gameUI.glFTLoader.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
             this.outside.modelRenderer.addModel(m)
             this.room.modelRenderer.addModel(m)
@@ -375,7 +380,7 @@ export default class Main {
         if (!GameModel.lockView) {
 
             this.gameCamera.update();
-
+            this.gameUI.update()
         }
 
         this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
@@ -383,22 +388,21 @@ export default class Main {
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
         //this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
-
+        let uiHit = this.gameUI.checkMouseHit(this.mouseRay)
+        this.gameUI.updateMouse(this.mouseListener)
         if (GameModel.currentScene == Scenes.PRELOAD) {
             this.shadowPassCube.setLightPos(this.mainLight.getWorldPos());
 
             GameModel.characterPos.set(-(this.renderer.ratio * GameModel.sceneHeight) / 2, -1.5, -1);
         } else if (GameModel.currentScene == Scenes.ROOM) {
             this.room.update();
-            this.room.checkMouseHit(this.mouseRay);
+           if(!uiHit) this.room.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos());
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
             this.shadowPass.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
-            this.outside.checkMouseHit(this.mouseRay);
+            if(!uiHit)this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos());
-
-
 
 
         }
@@ -452,6 +456,9 @@ export default class Main {
             saveToJsonFile(data, "materialData")
 
         }
+        UI.pushGroup("UI");
+        this.gameUI.onUI()
+        UI.popGroup()
         UI.pushGroup("Room");
         this.room.onUI()
         UI.popGroup()

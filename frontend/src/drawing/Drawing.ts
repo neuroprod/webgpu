@@ -88,7 +88,7 @@ export default class Drawing extends Model {
         a.shift();
         let sa = a.join("_")
         let parent = sa.split(".")[0];
-console.log(parent)
+
         if (parent == "world") return;
         this.worldParent = this.renderer.modelByLabel[parent];
     }

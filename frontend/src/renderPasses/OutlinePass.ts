@@ -9,6 +9,7 @@ export default class OutlinePass {
     private outlinePrePass: OutlinePrePass;
     private horizontalPass: OutlineBlurPass;
     private verticalPass: OutlineBlurPass;
+    private noHitCount: number;
 
 
     constructor(renderer: Renderer) {
@@ -28,11 +29,15 @@ export default class OutlinePass {
         if(m){
             this.outlinePrePass.models=[m]
             this.outlinePrePass.models = this.outlinePrePass.models.concat(m.hitFriends)
+            this.noHitCount =0;
         }else{
             this.outlinePrePass.models=[];
+            this.noHitCount ++
+
         }
     }
     add(){
+        if( this.noHitCount>1 )return;
         this.outlinePrePass.add();
         this.horizontalPass.add();
         this.verticalPass.add();

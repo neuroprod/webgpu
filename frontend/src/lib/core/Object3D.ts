@@ -47,7 +47,11 @@ export default class Object3D extends ObjectGPU {
         temp.applyMatrix4(this.worldMatrix);
         return new Vector3(temp.x,temp.y,temp.z);
     }
-
+    setPositionV(target: Vector3) {
+        if(this._position.equals(target))return
+        this._position.from(target);
+        this.setDirty();
+    }
     public setPosition(x: number, y: number, z: number) {
         if(this._position.equals([x,y,z]))return
         this._position.set(x, y, z)
@@ -146,4 +150,6 @@ export default class Object3D extends ObjectGPU {
        // this.onDataUI()
         UI.popGroup();
     }
+
+
 }

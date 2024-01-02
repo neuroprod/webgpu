@@ -26,11 +26,12 @@ export default class Simplex {
         this.texture.make()
 
         this.uniformGroup.addStorageTexture("outputTexture", this.texture, TextureFormat.RGBA8Unorm);
-        console.log(this.uniformGroup.getShaderText(0));
+
     }
-public update(){
-        this.uniformGroup.setUniform("time",Timer.time*0.3)
-}
+
+    public update() {
+        this.uniformGroup.setUniform("time", Timer.time * 0.3)
+    }
 
     public add() {
 
@@ -40,7 +41,7 @@ public update(){
         );
         this.passEncoder.setPipeline(this.getPipeLine());
         this.passEncoder.setBindGroup(0, this.uniformGroup.bindGroup);
-        this.passEncoder.dispatchWorkgroups(Math.ceil(1024 / 8), Math.ceil(256/ 8), 1);
+        this.passEncoder.dispatchWorkgroups(Math.ceil(1024 / 8), Math.ceil(256 / 8), 1);
 
         this.passEncoder.end();
     }

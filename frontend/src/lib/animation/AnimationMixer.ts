@@ -16,7 +16,7 @@ export default class AnimationMixer{
         this.animations =animations;
         for(let a of this.animations){
             this.animationsByName[a.label] =a;
-          console.log(a.label,a);
+
         }
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
