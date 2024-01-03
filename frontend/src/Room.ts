@@ -13,6 +13,7 @@ import GameModel from "./GameModel";
 import {WindowOutside} from "./extras/WindowOutside";
 import UI from "./lib/UI/UI";
 import Scene from "./Scene";
+import Clock from "./extras/Clock";
 
 export default class Room extends Scene{
     leftHolder: Object3D;
@@ -32,6 +33,7 @@ export default class Room extends Scene{
     private bookCase: Object3D;
     private hitLeftRoomCenter: Object3D;
     private hitRightRoom: Object3D;
+    private clock: Clock;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -78,6 +80,8 @@ export default class Room extends Scene{
         this.modelRenderer.addModel(this.fpsScreen);
 
 
+        this.clock =new Clock(  this.glFTLoader.modelsByName["hour"],     this.glFTLoader.modelsByName["minutes"])
+
         this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
         this.modelRenderer.addModel( this.windowOutside );
 
@@ -109,5 +113,7 @@ export default class Room extends Scene{
     }
 
 
-
+    onUIGame() {
+        this.clock.onUI();
+    }
 }

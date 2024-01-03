@@ -420,6 +420,7 @@ export default class Main {
 
         this.characterHandler.onUI()
         this.outside.onUIGame();
+        this.room.onUIGame();
         UI.popWindow()
         /* UI.pushWindow("Performance")
          if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
