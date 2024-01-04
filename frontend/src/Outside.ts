@@ -10,6 +10,11 @@ import Scene from "./Scene";
 import {clamp} from "math.gl";
 import Timer from "./lib/Timer";
 import MailBox from "./extras/MailBox";
+import Material from "./lib/core/Material";
+import WaterTopShader from "./shaders/WaterTopShader";
+import Model from "./lib/model/Model";
+import WaterFrontShader from "./shaders/WaterFrontShader";
+import Fish from "./extras/Fish";
 
 
 
@@ -21,6 +26,9 @@ export default class Outside extends Scene{
 
    public lightGrave: Object3D;
     public mailBox:MailBox;
+    private waterTop: Model;
+    private waterFront: Model;
+    private fish: Fish;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -36,6 +44,9 @@ export default class Outside extends Scene{
         this.root = this.glFTLoader.root
         this.root.setPosition(0,-1.5,0)
         this.lightGrave = this.glFTLoader.objectsByName["lightGrave"];
+
+         this.fish =new Fish(this.renderer,this.glFTLoader.modelsByName["fish1"],     this.glFTLoader.modelsByName["fish2"]);
+
         for (let m of this.glFTLoader.models) {
             this.modelRenderer.addModel(m)
 
@@ -46,17 +57,12 @@ export default class Outside extends Scene{
 
     public update() {
 
-        let pos =-GameModel.characterPos.x;
+
+        this.fish.update();
+        //GameModel.dayNight
+        this.waterTop.material.uniforms.setUniform("time",Timer.time*0.05)
 
 
-        GameModel.dayNight =clamp((pos-13)/7,0,1);
-
-
-        for (let m of this.glFTLoader.models) {
-            if(m.needsWind){
-                m.material.uniforms.setUniform("time",Timer.time)
-            }
-        }
         //GameModel.dayNight
         // UI.LFloat('offset',0)
         //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)
@@ -64,9 +70,18 @@ export default class Outside extends Scene{
 
     makeTransParent() {
         for (let m of this.glFTLoader.modelsGlass) {
-
+            if(m.label =="waterTop_G"){
+                m.material  = new Material(this.renderer,m.label, new WaterTopShader(this.renderer,"waterTop"));
+                m.material.depthWrite = false;
+                this.waterTop =m;
+            }
+            if(m.label =="waterFront_G"){
+                m.material  = new Material(this.renderer,m.label, new WaterFrontShader(this.renderer,"waterFront"));
+                m.material.depthWrite = false;
+                this.waterFront =m;
+            }
             m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
-            m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["LightPass"])
+            m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["BlurLightPass"])
             this.modelRendererTrans.addModel(m)
 
         }

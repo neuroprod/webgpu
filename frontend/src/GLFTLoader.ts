@@ -362,7 +362,7 @@ export default class GLFTLoader {
             let md = materialData[m.name];
             if (md) {
                 if (md.needsHitTest) {
-                    console.log("m.name",m.name)
+
                     mesh.hitTestObject = new HitTestObject(m.name)
                     mesh.hitTestObject.setTriangles(indices, floatPos)
                     mesh.hitTestObject.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2])

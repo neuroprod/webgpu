@@ -43,7 +43,7 @@ export default class Shader extends ObjectGPU {
 
     }
 
-    public addSampler(name: string, usage= GPUShaderStage.FRAGMENT) {
+    public addSampler(name: string, usage= GPUShaderStage.FRAGMENT,) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
         this.tempMaterial.uniforms.addSampler(name,usage);
 

@@ -146,6 +146,7 @@ export default class Main {
 
     public startFinalPreload() {
 
+
         this.simplexNoisePass = new Simplex(this.renderer)
         this.gBufferPass = new GBufferRenderPass(this.renderer);
 
@@ -187,7 +188,7 @@ export default class Main {
             },
             this.init.bind(this)
         );
-
+        new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
         this.drawingPreloader = new DrawingPreloader()
         this.drawingPreloader.load(this.renderer, this.preloader)
         this.gameUI = new GameUI(this.renderer, this.preloader);
@@ -310,7 +311,7 @@ export default class Main {
 
     }
 
-    private init() {
+    init() {
         this.room.init()
         this.outside.init();
         this.gameUI.init();
@@ -350,13 +351,13 @@ export default class Main {
             this.gBufferPass.drawingRenderer.addDrawing(d)
         }
 
-        GameModel.setTransition(Transitions.START_GAME)
+        GameModel.setTransition(Transitions.GO_OUTSIDE)
 
 
         //this.tick()
     }
 
-    private tick() {
+     tick() {
 
         window.requestAnimationFrame(() => this.tick());
         GameModel.mousePos = this.mouseListener.mousePos.clone();
@@ -370,7 +371,7 @@ export default class Main {
 
     }
 
-    private update() {
+     update() {
         this.simplexNoisePass.update();
         if (UI.needsMouse()) {
             this.mouseListener.isDownThisFrame = false;

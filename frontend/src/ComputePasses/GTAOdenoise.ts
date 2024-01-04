@@ -95,7 +95,7 @@ export default class GTAOdenoise {
 @workgroup_size(8, 8, 1)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
     let pixel_coordinates = vec2<i32>(global_id.xy);
-          let textureSize =vec2<f32>( textureDimensions(ambient_occlusion_noisy));
+    let textureSize =vec2<f32>( textureDimensions(ambient_occlusion_noisy));
     let uv = vec2<f32>(pixel_coordinates) / textureSize;
 
     let edges0 = textureGather(0, depth_differences, point_clamp_sampler, uv);

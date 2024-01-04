@@ -21,7 +21,7 @@ export default class Clock {
     onUI() {
         let h = UI.LFloatSlider("clock", 0, 0, 12);
         let m = (h - Math.floor(h)) * 60;
-   
-        this.setTime(Math.floor(h), Math.floor(m))
+let d =new Date()
+        this.setTime(d.getHours(), d.getMinutes())
     }
 }
