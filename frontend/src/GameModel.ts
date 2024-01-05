@@ -66,6 +66,7 @@ class GameModel {
     private groundArray = ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft", "_HitGround"]
     characterHandler: CharacterHandler;
     gameCamera: GameCamera;
+    frustumCull =true;
 
     constructor() {
 

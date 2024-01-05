@@ -87,7 +87,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
   
     let dist =distance(worldS,world);
   let V = normalize(camera.worldPosition.xyz - world);
-    let dir =refract(-V,-normal,0.95);
+    let dir =refract(-V,-normal,0.5);
     let sPos =world+dir*0.02*dist;
     let pPos =camera.viewProjectionMatrix*vec4(sPos,1.0);
     var uvRef = (pPos.xy/pPos.w)*0.5+0.5;

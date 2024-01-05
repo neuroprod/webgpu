@@ -1,8 +1,9 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import {IndexFormat} from "../WebGPUConstants";
-import {byteLength} from "next/dist/server/api-utils/web";
+
 import HitTestObject from "../meshes/HitTestObject";
+import {Vector3} from "math.gl";
 
 export default class Mesh extends ObjectGPU {
 
@@ -18,7 +19,8 @@ export default class Mesh extends ObjectGPU {
     private buffers: Array<GPUBuffer> = [];
     private bufferMap: Map<string, GPUBuffer> = new Map<string, GPUBuffer>();
     indexFormat: GPUIndexFormat;
-
+    min =new Vector3(-100000,-100000,-100000);
+    max =new Vector3(100000,100000,100000);
     constructor(renderer:Renderer,label="") {
         super(renderer,label);
 

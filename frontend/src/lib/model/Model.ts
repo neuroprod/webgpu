@@ -7,6 +7,7 @@ import HitTestObject from "../meshes/HitTestObject";
 import Ray from "../Ray";
 import GameModel from "../../GameModel";
 import UI from "../UI/UI";
+import {Vector3} from "math.gl";
 
 
 export default class Model extends Object3D {
@@ -23,6 +24,10 @@ export default class Model extends Object3D {
     public hitFriends:Array<Model>=[];
     normalAdj: number =0;
     public castShadow :boolean=true;
+    public min:Vector3 =new Vector3()
+    public max:Vector3 =new Vector3()
+    public center:Vector3 =new Vector3()
+    public radius =1;
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
@@ -56,6 +61,9 @@ export default class Model extends Object3D {
 
         this.needsWind =UI.LBool("wind", this.needsWind)
         this.normalAdj =UI.LFloatSlider("normalAdj",0,0,2)
+
+        UI.LText(this.center+"/"+this.radius,"sphere");
+
     }
 
     destroy() {
@@ -64,6 +72,15 @@ export default class Model extends Object3D {
 
     protected updateMatrices() {
         super.updateMatrices();
+        this.min.from(this.mesh.min)
+        this.max.from(this.mesh.max)
+        this.min.transform(this.worldMatrix)
+        this.max.transform(this.worldMatrix)
+        this.center.from(this.min)
+        this.center.add(this.max)
+        this.center.scale(0.5);
+
+        this.radius = this.center.distance(this.max);
 
         this.modelTransform.setWorldMatrix(this.worldMatrix);
     }

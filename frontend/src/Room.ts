@@ -71,7 +71,7 @@ export default class Room extends Scene{
 
         this.mainLight = new MainLight(this.renderer)
         this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
-        this.glFTLoader.objectsByName["mainLight"].castShadow = false
+
 
 
         this.laptopScreen = new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);

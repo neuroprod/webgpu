@@ -372,6 +372,10 @@ export default class GLFTLoader {
 
                 }
             }
+            mesh.min = new Vector3(posAccessor.accessor.min[0], posAccessor.accessor.min[1], posAccessor.accessor.min[2]);
+            mesh.max = new Vector3(posAccessor.accessor.max[0], posAccessor.accessor.max[1], posAccessor.accessor.max[2]);
+
+
             mesh.setVertices(floatPos);
 
 

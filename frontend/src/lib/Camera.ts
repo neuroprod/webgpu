@@ -2,6 +2,8 @@ import UniformGroup from "./core/UniformGroup";
 import Renderer from "./Renderer";
 import {lerp, Matrix4, Vector2, Vector3, Vector4} from "math.gl";
 import UI from "./UI/UI";
+import Model from "./model/Model";
+import GameModel from "../GameModel";
 
 export default class Camera extends UniformGroup {
     public static instance: Camera;
@@ -14,17 +16,19 @@ export default class Camera extends UniformGroup {
     public far = 100;
     public ratio = 1
     public lensShift = new Vector2(0, 0)
-    public viewProjectionInv= new Matrix4();
-    public viewInv: Matrix4= new Matrix4();
-    public projectionInv: Matrix4= new Matrix4();
+    public viewProjectionInv = new Matrix4();
+    public viewInv: Matrix4 = new Matrix4();
+    public projectionInv: Matrix4 = new Matrix4();
     public perspective: boolean = true;
+    public orthoLeft: number = -10;
+    public orthoRight: number = 10;
+    public orthoTop: number = 10;
+    public orthoBottom: number = -10;
     private view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
     private viewProjection: Matrix4 = new Matrix4();
-    public orthoLeft: number =-10;
-    public orthoRight: number=10;
-    public orthoTop: number =10;
-    public orthoBottom: number =-10;
+    private fplanes: Array<Vector4> = []
+
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
 
@@ -32,8 +36,14 @@ export default class Camera extends UniformGroup {
         this.addUniform("inverseViewProjectionMatrix", this.viewProjection)
         this.addUniform("inverseViewMatrix", this.viewInv)
         this.addUniform("inverseProjectionMatrix", this.projectionInv)
-        this.addUniform( "projectionMatrix",this.projection)
+        this.addUniform("projectionMatrix", this.projection)
         this.addUniform("worldPosition", this.cameraWorldU)
+
+
+        for (let i = 0; i < 6; i++) {
+            this.fplanes.push(new Vector4())
+        }
+
         if (!Camera.instance) Camera.instance = this;
     }
 
@@ -68,6 +78,8 @@ export default class Camera extends UniformGroup {
             fustrumRight = lerp(2.0 * fustrumRight, 0.0, 0.5 - 0.5 * this.lensShift.x);
             fustrumLeft = lerp(0.0, 2.0 * fustrumLeft, 0.5 - 0.5 * this.lensShift.x);
         }
+
+
         const dx = (fustrumRight - fustrumLeft);
         const dy = (fustrumTop - fustrumBottom);
         const dz = (this.near - this.far);
@@ -94,14 +106,27 @@ export default class Camera extends UniformGroup {
 
 
     }
-onUI(){
-        UI.LFloat(this,'orthoLeft')
-    UI.LFloat(this,'orthoRight')
-    UI.LFloat(this,'orthoBottom')
-    UI.LFloat(this,'orthoTop')
-    UI.LFloat(this,'near')
-    UI.LFloat(this,'far')
-}
+
+    onUI() {
+        UI.LFloat(this, 'orthoLeft')
+        UI.LFloat(this, 'orthoRight')
+        UI.LFloat(this, 'orthoBottom')
+        UI.LFloat(this, 'orthoTop')
+        UI.LFloat(this, 'near')
+        UI.LFloat(this, 'far')
+    }
+    public modelInFrustum(model:Model): boolean {
+        if(!GameModel.frustumCull)return true;
+        for (let i: number = 0; i < 6; i++) {
+            if (this.dot(this.fplanes[i], model.center.x, model.center.y, model.center.z) < -model.radius) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private dot(plane: Vector4, x: number, y: number, z: number) {
+        return plane.x * x + plane.y * y + plane.z * z + plane.w;
+    }
     protected updateData() {
 
         if (this.perspective) {
@@ -110,7 +135,7 @@ onUI(){
 
             this.projection.ortho({
                 left: this.orthoLeft,
-                right:this.orthoRight,
+                right: this.orthoRight,
                 bottom: this.orthoBottom,
                 top: this.orthoTop,
                 near: this.near,
@@ -123,16 +148,18 @@ onUI(){
             center: this.cameraLookAt,
             up: this.cameraUp,
         });
-        this.viewInv.from(this.view) ;
+        this.viewInv.from(this.view);
         this.viewInv.invert();
 
-        this.projectionInv .from(this.projection);
+        this.projectionInv.from(this.projection);
         this.projectionInv.invert();
 
 
         this.viewProjection.identity();
         this.viewProjection.multiplyRight(this.projection);
         this.viewProjection.multiplyRight(this.view);
+
+        this.makeFrustum();
 
         this.viewProjectionInv = this.viewProjection.clone();
         this.viewProjectionInv.invert();
@@ -143,6 +170,20 @@ onUI(){
         this.setUniform("worldPosition", this.cameraWorldU)
         this.setUniform("inverseViewMatrix", this.viewInv)
         this.setUniform("inverseProjectionMatrix", this.projectionInv)
-        this.setUniform( "projectionMatrix",this.projection)
+        this.setUniform("projectionMatrix", this.projection)
+    }
+
+    private makeFrustum() {
+
+        this.fplanes[0].set(this.viewProjection[3] - this.viewProjection[0], this.viewProjection[7] - this.viewProjection[4], this.viewProjection[11] - this.viewProjection[8], this.viewProjection[15] - this.viewProjection[12]);
+        this.fplanes[1].set(this.viewProjection[3] + this.viewProjection[0], this.viewProjection[7] + this.viewProjection[4], this.viewProjection[11] + this.viewProjection[8], this.viewProjection[15] + this.viewProjection[12]);
+        this.fplanes[2].set(this.viewProjection[3] + this.viewProjection[1], this.viewProjection[7] + this.viewProjection[5], this.viewProjection[11] + this.viewProjection[9], this.viewProjection[15] + this.viewProjection[13]);
+        this.fplanes[3].set(this.viewProjection[3] - this.viewProjection[1], this.viewProjection[7] - this.viewProjection[5], this.viewProjection[11] - this.viewProjection[9], this.viewProjection[15] - this.viewProjection[13]);
+        this.fplanes[4].set(this.viewProjection[3] - this.viewProjection[2], this.viewProjection[7] - this.viewProjection[6], this.viewProjection[11] - this.viewProjection[10], this.viewProjection[15] - this.viewProjection[14]);
+        this.fplanes[5].set(this.viewProjection[3] + this.viewProjection[2], this.viewProjection[7] + this.viewProjection[6], this.viewProjection[11] + this.viewProjection[10], this.viewProjection[15] + this.viewProjection[14]);
+
+        for (let p of this.fplanes) {
+            p.scale(1 / Math.sqrt(p.x ** 2 + p.y ** 2 + p.z ** 2));
+        }
     }
 }

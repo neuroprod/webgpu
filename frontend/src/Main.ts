@@ -74,7 +74,7 @@ export default class Main {
     private glassPass: GlassRenderPass;
     private blurLightPass: BlurLight;
     private combinePass: CombinePass;
-    private numberOfQueries: number = 11;
+    private numberOfQueries: number = 12;
     private blurBloomPass: BlurBloom;
     private shadowPassCube: ShadowCube;
     private glFTLoaderChar: GLFTLoader;
@@ -263,6 +263,7 @@ export default class Main {
 
 
         this.simplexNoisePass.add()
+        this.timeStampQuery.setStamp("noise");
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube.add();
@@ -437,6 +438,7 @@ export default class Main {
 
 
         UI.pushWindow("Render Setting")
+        GameModel.frustumCull = UI.LBool("frustumCull",true)
         UI.pushGroup("Performance");
         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
         this.timeStampQuery.onUI();

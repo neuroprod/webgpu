@@ -37,7 +37,7 @@ export default class OutlinePass {
         }
     }
     add(){
-        if( this.noHitCount>1 )return;
+        //if( this.noHitCount>1 )return;
         this.outlinePrePass.add();
         this.horizontalPass.add();
         this.verticalPass.add();

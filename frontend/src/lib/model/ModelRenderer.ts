@@ -21,6 +21,9 @@ export default class ModelRenderer{
 
         for (let model of this.models) {
             if(!model.visible)continue
+           if(!this.renderer.camera.modelInFrustum(model))continue;
+
+
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);
