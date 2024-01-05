@@ -98,7 +98,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let metallic = 0.5;
 
     let V = normalize(camera.worldPosition.xyz - world);
-    let dir =refract(-V,-N,0.5);
+    let dir =refract(-V,-N,0.9);
     
     let dist =distance(worldS,world);
 
