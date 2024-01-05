@@ -17,7 +17,7 @@ import SelectItem from "../lib/UI/math/SelectItem";
 export default class PointLight extends Object3D {
     private modelRenderer: ModelRenderer;
 
-
+  public castShadow:boolean =false
     private mesh: Sphere;
     private shader: KawaseDownShader;
     private material: Material;
