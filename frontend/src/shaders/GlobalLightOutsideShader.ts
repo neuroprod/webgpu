@@ -163,6 +163,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
   }
   }
   shadowVal/=9.0;
+  
     //
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;

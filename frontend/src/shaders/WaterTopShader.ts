@@ -86,16 +86,16 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
  
     
     let albedo =pow( textureSample(colorTexture, mySampler,  uv0).xyz,vec3(2.2));
- let uvWater1 = uv0+vec2f(uniforms.time,uniforms.time);
+ let uvWater1 = uv0+vec2f(uniforms.time*0.3,uniforms.time*0.3);
     var normalText1 = textureSample(normalTexture, mySampler,  uvWater1).xyz* 2. - 1.;
      normalText1*=vec3(0.5,0.5,1.0);
-     let uvWater2 = uv0+vec2f(-uniforms.time,-uniforms.time);
+     let uvWater2 = uv0+vec2f(-uniforms.time*0.3,-uniforms.time*0.3);
     var normalText2 = textureSample(normalTexture, mySampler,  uvWater2).xyz* 2. - 1.;
     normalText2*=vec3(0.5,0.5,1.0);
     let N =mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText1+normalText2);
-    let mra =textureSample(mraTexture, mySampler,  uv0) ;
+  //  let mra =textureSample(mraTexture, mySampler,  uv0) ;
     let roughness =0.01;//mra.y+0.01;
-    let metallic = mra.x;
+    let metallic = 0.5;
 
     let V = normalize(camera.worldPosition.xyz - world);
     let dir =refract(-V,-N,0.95);
@@ -119,7 +119,10 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
  
     let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize)*2.0;
    var result = mix(refractColor,reflectColor,refValue);
- result =mix(vec3(1.0,1.0,1.0),result,smoothstep(0.0,0.2,dist));
+
+ var d =(abs((dist+(normalText1.y+normalText2.y)*0.4)*20.0-uniforms.time*20.0))%1.0;
+d =abs(d-0.5)*abs((normalText1.x+normalText2.x))*80.0*(1- smoothstep(0.0,0.2,dist));
+  result =mix(vec3(1.0,1.0,1.0),result,clamp(1.0-(d+(1.0-smoothstep(0.0,0.05 ,dist))),0.0,1.0));
   return vec4( result,1.0);
  
 }

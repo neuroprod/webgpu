@@ -143,8 +143,10 @@ export default class GLFTLoader {
             if (mData) {
 
                 m.model.needsAlphaClip = mData.needsAlphaClip
+                m.model.castShadow =mData.castShadow;
                 m.model.visible = mData.visible;
                 m.model.needsWind =mData.needsWind;
+                m.model.normalAdj  =mData.normalAdj;
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             if (m.model.label.includes("_G")) {
@@ -170,7 +172,7 @@ export default class GLFTLoader {
             material.skin = this.skins[skinID];
         } else if ( md &&   md.needsWind){
             material = new Material(this.renderer, name, this.windShader);
-
+            material.uniforms.setUniform('normalAdj',md.normalAdj)
         }else  {
             material = new Material(this.renderer, name, this.mainShader);
 

@@ -21,7 +21,8 @@ export default class Model extends Object3D {
     public needsAlphaClip:boolean =false;
     public needsWind:boolean =false;
     public hitFriends:Array<Model>=[];
-
+    normalAdj: number =0;
+    public castShadow :boolean=true;
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
@@ -49,7 +50,12 @@ export default class Model extends Object3D {
         this.needsHitTest =UI.LBool("needs HitTest",this.needsHitTest)
         this.needsAlphaClip =UI.LBool("needs AlphaClip", this.needsAlphaClip)
         this.visible =UI.LBool("visible", this.visible)
+
+        this.castShadow=UI.LBool("castShadow",  this.castShadow)
+
+
         this.needsWind =UI.LBool("wind", this.needsWind)
+        this.normalAdj =UI.LFloatSlider("normalAdj",0,0,2)
     }
 
     destroy() {
@@ -69,6 +75,9 @@ export default class Model extends Object3D {
             needsAlphaClip:this.needsAlphaClip,
             visible:this.visible,
             needsWind:this.needsWind,
+            castShadow:this.castShadow,
+            normalAdj:this.normalAdj,
+
         }
 
     }

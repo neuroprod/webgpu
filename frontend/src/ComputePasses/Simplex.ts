@@ -278,10 +278,10 @@ fn snoise_grad(v : vec3<f32>) -> vec4<f32>
            let pixel_coordinates = vec2<i32>(global_id.xy);
            let uv = (vec2<f32>(pixel_coordinates) + 0.5) / vec2f(1024.0,256.0);
    
-            var n =snoise_grad(vec3(uv+vec2(uniforms.time,0),uniforms.time))*0.5;
-             n +=snoise_grad(vec3(uv*2.0+vec2(uniforms.time,0),uniforms.time))*0.25;
-                n +=snoise_grad(vec3(uv*4.0+vec2(uniforms.time,0),uniforms.time))*0.12;
-                       n +=snoise_grad(vec3(uv*10.0+vec2(uniforms.time,0),uniforms.time))*0.12;
+            var n =snoise_grad(vec3(uv*20.0+vec2(uniforms.time,0),uniforms.time))*0.5;
+            // n +=snoise_grad(vec3(uv*4.0+vec2(uniforms.time,0),uniforms.time))*0.25;
+              //  n +=snoise_grad(vec3(uv*8.0+vec2(uniforms.time,0),uniforms.time))*0.12;
+                //       n +=snoise_grad(vec3(uv*20.0+vec2(uniforms.time,0),uniforms.time))*0.12;
            textureStore(outputText,global_id.xy, vec4(n.x*0.5+0.5,n.y*0.5+0.5,n.w*0.5+0.5, 1.0));
         }
 `;

@@ -13,7 +13,7 @@ export default class Object3D extends ObjectGPU {
     protected _position = new Vector3(0, 0, 0);
     private _scale = new Vector3(1, 1, 1);
     private _rotation = new Quaternion(0, 0, 0, 1);
-    public castShadow :boolean=true;
+
     public worldMatrixInv: Matrix4=new Matrix4();
     public buttonGroupSetting =new ButtonGroupSettings()
     constructor(renderer: Renderer, label: string = "") {

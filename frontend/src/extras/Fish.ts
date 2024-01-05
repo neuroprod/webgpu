@@ -13,8 +13,9 @@ export default class Fish{
 
         this.fish1 =fish1;
         this.fish1.material =new Material(renderer,"fishMat",new GBufferShaderFish(renderer,"gBufferFish"));
+        this.fish1.setScale(0.8,0.8,0.8)
         this.fish2  =fish2;
-
+        this.fish2.setScale(0.7,0.7,0.7)
         this.fish2.material =new Material(renderer,"fishMat",new GBufferShaderFish(renderer,"gBufferFish"));
     }
 
@@ -23,6 +24,6 @@ export default class Fish{
     {
         this.fish1.material.uniforms.setUniform("time",Timer.time)
         this.fish2.material.uniforms.setUniform("time",Timer.time+8.5)
-        
+        this.fish1.setEuler(0,Math.PI/2,0)
     }
 }

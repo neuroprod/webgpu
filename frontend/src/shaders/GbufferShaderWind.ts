@@ -20,6 +20,7 @@ export default class GBufferShaderWind extends Shader{
 
         }
         this.addUniform("time",1);
+        this.addUniform("normalAdj",0);
         this.addTexture("wind",this.renderer.texturesByLabel["SimplexNoise"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
 
         this.addTexture("opTexture",DefaultTextures.getWhite(this.renderer))
@@ -61,7 +62,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var output : VertexOutput;
 
      var world = model.modelMatrix *vec4( aPos,1.0);
-     let t = textureLoad( wind, vec2<i32>(floor(world.xy*30.0)+vec2(1024.0,0)),0).xyz-vec3(0.5,0.5,0.0);
+     let t = textureLoad( wind, vec2<i32>(floor(world.xy*25.0)+vec2(1024.0,0)),0).xyz-vec3(0.5,0.5,0.0);
    world.x=world.x+t.x*aColor.x*0.1*t.z;
       world.z=world.z+t.y*aColor.x*0.1*t.z;
        
@@ -69,7 +70,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
    
     output.uv0 =aUV0;
 
-    output.normal =model.normalMatrix *aNormal;
+    output.normal =model.normalMatrix *aNormal+vec3(0.0,uniforms.normalAdj,0.0);
     output.tangent =model.normalMatrix*aTangent.xyz;
      output.biTangent =model.normalMatrix* (normalize(cross( normalize(aTangent.xyz), normalize(aNormal)))*aTangent.w);
     return output;
