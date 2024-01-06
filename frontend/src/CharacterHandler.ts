@@ -13,6 +13,7 @@ import GLFTLoader from "./GLFTLoader";
 import Timer from "./lib/Timer";
 import UI from "./lib/UI/UI";
 import Material from "./lib/core/Material";
+import Model from "./lib/model/Model";
 
 
 export default class CharacterHandler {
@@ -42,6 +43,7 @@ export default class CharacterHandler {
     private neck: Object3D;
     private head: Object3D;
     private pants: Material;
+     body: Model;
 
     constructor(renderer: Renderer, camera: Camera, glft:GLFTLoader, animationMixer: AnimationMixer) {
 
@@ -49,6 +51,10 @@ export default class CharacterHandler {
         this.camera = camera;
         this.animationMixer = animationMixer;
         this.characterRoot = glft.root;
+        this.body = glft.modelsByName[ "body"];
+        this.body.mesh.max.scale(100);
+            this.body.mesh.min.scale(100);
+
         this.pants = glft.materialsByName[ "pants"]
         this.neck = glft.objectsByName[ "mixamorig:Neck"]
         this.head= glft.objectsByName[ "mixamorig:Head"]

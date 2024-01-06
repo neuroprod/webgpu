@@ -1,6 +1,6 @@
 import RenderTexture from "../lib/textures/RenderTexture";
 import ColorAttachment from "../lib/textures/ColorAttachment";
-import {TextureFormat} from "../lib/WebGPUConstants";
+
 import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 import RenderPass from "../lib/core/RenderPass";
 import Renderer from "../lib/Renderer";
@@ -9,13 +9,14 @@ import Model from "../lib/model/Model";
 import Material from "../lib/core/Material";
 import DepthShader from "../shaders/DepthShader";
 import DepthSkinShader from "../shaders/DepthSkinShader";
+import Camera from "../lib/Camera";
 
 
 
 export default class ShadowCubePass extends RenderPass {
 
     public modelRenderer: ModelRenderer;
-    private camera: any;
+    public camera: Camera;
     models: Array<Model>;
     private material: Material;
     private materialSkin: Material;

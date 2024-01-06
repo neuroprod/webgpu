@@ -7,6 +7,7 @@ import {Vector3} from "math.gl";
 
 import Model from "../lib/model/Model";
 import Timer from "../lib/Timer";
+import GameModel from "../GameModel";
 
 
 export default class ShadowCube {
@@ -91,8 +92,8 @@ private frame =0;
         else{
             let count =this.frame;
             for (let p of this.passes) {
-count++;
-        if(count%6==0){        p.add();}
+                if(p.camera.modelInFrustum(GameModel.characterHandler.body))p.add()
+        else if(count%6==0){        p.add();}
             }
         }
         this.frame++;

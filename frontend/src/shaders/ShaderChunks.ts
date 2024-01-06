@@ -23,6 +23,8 @@ export function ssr(){
 fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)-> vec3f
 {
     var dir= normalize(reflect(-V,N))*uniforms.refSettings1.z;
+    var l1 = length(dir);
+    var l2=0.0;
     var testPos = world+dir;
     var uv= vec2f(0.0,0.0);
     var found =false;
@@ -44,11 +46,13 @@ fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)
         let textureDepth =textureLoad(gDepth,uvTest,0).x;
         let dist = screenTestPos.z-textureDepth;
 
-        if(dist>0.0 && dist <length(dir)*uniforms.refSettings2.z ){
+        if(dist>0.0 && dist <l1-l2 ){
 
             found =true;
             break;
         }
+        l2 =l1;
+        l1*=uniforms.refSettings1.w;
         dir*=uniforms.refSettings1.w;
         testPos += dir;
     }

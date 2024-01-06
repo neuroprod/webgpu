@@ -70,7 +70,7 @@ output.color*=uniforms.time;
     
   
    
-    output.mra =vec4(0.0,1.0,uniforms.time*0.8,1.0);
+    output.mra =vec4(0.0,1.0,uniforms.time*0.6,1.0);
  
 
     return output;

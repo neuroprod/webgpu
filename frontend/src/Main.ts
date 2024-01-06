@@ -241,6 +241,8 @@ export default class Main {
             GameModel.yMouseScale = 1.5
             GameModel.yMouseCenter = 0
             GameModel.sceneHeight = 4
+
+
             this.gBufferPass.drawingRenderer.currentScene = 1;
             this.gameCamera.setOutsidePos();
             this.gBufferPass.modelRenderer = this.outside.modelRenderer;
