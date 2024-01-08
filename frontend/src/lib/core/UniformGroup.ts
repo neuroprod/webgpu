@@ -3,6 +3,7 @@ import Renderer from "../Renderer";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Texture from "../textures/Texture";
 import {
+    AddressMode,
     FilterMode,
     SamplerBindingType,
     TextureDimension,
@@ -129,8 +130,8 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addSampler(name: string, usage= GPUShaderStage.FRAGMENT,filter:GPUFilterMode=FilterMode.Linear) {
-        let sampler = this.renderer.device.createSampler({magFilter: filter, minFilter: filter,mipmapFilter:filter,addressModeU:"repeat",addressModeV:"repeat"})
+    addSampler(name: string, usage= GPUShaderStage.FRAGMENT,filter:GPUFilterMode=FilterMode.Linear,addressMode=AddressMode.ClampToEdge) {
+        let sampler = this.renderer.device.createSampler({magFilter: filter, minFilter: filter,mipmapFilter:filter,addressModeU:addressMode,addressModeV:addressMode})
         this.samplerUniforms.push({name: name, sampler: sampler, usage:  usage, compare: false})
 
 

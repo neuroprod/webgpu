@@ -13,8 +13,8 @@ class RenderSettings{
     public brightness:number =0;
     public vibrance:number=0;
     public saturation:number =0
-    public vin_amount: number =0.3;
-    public vin_falloff: number=0.7;
+    public vin_amount: number =0.52;
+    public vin_falloff: number=0.52;
 
 
     public ref_settings1:Vector4 =new Vector4(1,0,0.01,1.4);

@@ -5,7 +5,7 @@ import UniformGroup from "./UniformGroup";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Material from "./Material";
 import Texture from "../textures/Texture";
-import {TextureDimension} from "../WebGPUConstants";
+import {AddressMode, FilterMode, TextureDimension} from "../WebGPUConstants";
 import {ShaderType} from "./ShaderTypes";
 
 
@@ -43,9 +43,9 @@ export default class Shader extends ObjectGPU {
 
     }
 
-    public addSampler(name: string, usage= GPUShaderStage.FRAGMENT,) {
+    public addSampler(name: string, usage= GPUShaderStage.FRAGMENT,addressMode=AddressMode.ClampToEdge,filterMode=FilterMode.Linear) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
-        this.tempMaterial.uniforms.addSampler(name,usage);
+        this.tempMaterial.uniforms.addSampler(name,usage,filterMode,addressMode);
 
     }
     public addSamplerComparison(name: string) {

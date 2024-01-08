@@ -6,6 +6,7 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
 import {Vector4} from "math.gl";
+import {AddressMode} from "../lib/WebGPUConstants";
 
 export default class WaterTopShader extends Shader{
 
@@ -29,7 +30,7 @@ export default class WaterTopShader extends Shader{
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer));
         this.addTexture("mraTexture",DefaultTextures.getWhite(this.renderer));
         this.addTexture("normalTexture",this.renderer.texturesByLabel["WaterNormal.jpg"]);
-        this.addSampler("mySampler",GPUShaderStage.FRAGMENT);
+        this.addSampler("mySampler",GPUShaderStage.FRAGMENT,AddressMode.Repeat);
 
         this.needsTransform =true;
         this.needsCamera=true;

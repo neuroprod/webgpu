@@ -209,10 +209,10 @@ export const TextureFormat = {
 
 };
 
-export const GPUAddressMode = {
-    ClampToEdge: 'clamp-to-edge',
-    Repeat: 'repeat',
-    MirrorRepeat: 'mirror-repeat'
+export const AddressMode = {
+    ClampToEdge: 'clamp-to-edge' as GPUAddressMode,
+    Repeat: 'repeat' as GPUAddressMode,
+    MirrorRepeat: 'mirror-repeat' as GPUAddressMode
 };
 
 export const SamplerBindingType = {

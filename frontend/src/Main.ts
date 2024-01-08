@@ -234,7 +234,7 @@ export default class Main {
             this.characterHandler.setRoot(this.room.root, 0);
             this.shadowPassCube.setModels(this.gBufferPass.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.room.mainLight.getWorldPos())
-            RenderSettings.exposure = 2.0;
+            RenderSettings.exposure = 1.8;
 
 
         } else {
@@ -252,7 +252,7 @@ export default class Main {
             this.shadowPass.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube.setLightPos(this.outside.lightGrave.getWorldPos())
-            RenderSettings.exposure = 1.3;
+            RenderSettings.exposure = 1.2;
 
         }
 

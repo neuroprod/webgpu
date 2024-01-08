@@ -14,6 +14,8 @@ import Timer from "./lib/Timer";
 import UI from "./lib/UI/UI";
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
+import Sphere from "./lib/meshes/Sphere";
+import GBufferShader from "./shaders/GBufferShader";
 
 
 export default class CharacterHandler {
@@ -53,7 +55,15 @@ export default class CharacterHandler {
         this.characterRoot = glft.root;
         this.body = glft.modelsByName[ "body"];
         this.body.mesh.max.scale(100);
-            this.body.mesh.min.scale(100);
+        this.body.mesh.min.scale(100);
+
+       /* let m =new Model(renderer,"testSphere")
+        m.mesh =new Sphere(renderer)
+        this.body.parent.addChild(m)
+
+        m.castShadow=false;
+        m.material =new Material(renderer,"testSpherer",new GBufferShader(renderer,"eee"))
+*/
 
         this.pants = glft.materialsByName[ "pants"]
         this.neck = glft.objectsByName[ "mixamorig:Neck"]
