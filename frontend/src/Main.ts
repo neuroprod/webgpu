@@ -354,7 +354,7 @@ export default class Main {
             this.gBufferPass.drawingRenderer.addDrawing(d)
         }
 
-        GameModel.setTransition(Transitions.GO_OUTSIDE)
+        GameModel.setTransition(Transitions.START_GAME)
 
 
         //this.tick()
