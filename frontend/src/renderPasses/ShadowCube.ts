@@ -22,7 +22,7 @@ private frame =0;
     constructor(renderer: Renderer, depthTarget: RenderTexture, name: string) {
 
         let tSize = 512;
-        this.depthTarget = new RenderTexture(renderer, "ShadowCubeDepth", {
+        this.depthTarget = new RenderTexture(renderer, "ShadowCubeDepth"+name, {
             format: TextureFormat.Depth16Unorm,
             sampleCount: 1,
             scaleToCanvas: false,
@@ -34,7 +34,7 @@ private frame =0;
         this.depthTarget.make()
 
 
-        this.colorTarget = new RenderTexture(renderer, "ShadowCubeColor", {
+        this.colorTarget = new RenderTexture(renderer, "ShadowCubeColor"+name, {
             format: TextureFormat.R16Float,
             sampleCount: 1,
             scaleToCanvas: false,
@@ -56,7 +56,7 @@ private frame =0;
 
             camera.fovy = Math.PI / 2
             camera.near = 0.01;
-            camera.far = 10;
+            camera.far = 20;
 
             // camera.cameraWorld =wp;
             // camera.cameraLookAt =wp.clone().add(this.offsets[i]);
@@ -82,7 +82,7 @@ private frame =0;
 
     public add() {
 
-        if (this.frame< 2) {
+        if (this.frame< 1) {
 
             for (let p of this.passes) {
 
@@ -93,7 +93,7 @@ private frame =0;
             let count =this.frame;
             for (let p of this.passes) {
                 if(p.camera.modelInFrustum(GameModel.characterHandler.body))p.add()
-        else if(count%6==0){        p.add();}
+                 else if(count%6==0){        p.add();}
             }
         }
         this.frame++;

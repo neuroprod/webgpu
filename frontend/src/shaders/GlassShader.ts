@@ -89,7 +89,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     var normalText = textureSample(normalTexture, mySampler,  uv0).xyz* 2. - 1.;
     let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*normalize(normalText);
     let mra =textureSample(mraTexture, mySampler,  uv0) ;
-    let roughness =0.01;//mra.y+0.01;
+    let roughness =0.5;//mra.y+0.01;
     let metallic = mra.x;
 
     let V = normalize(camera.worldPosition.xyz - world);
@@ -103,7 +103,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     uvRef.y = 1.0-uvRef.y;
 
     var refractColor = textureSample(reflectTexture,   mySampler, uvRef).xyz;
- refractColor =mix(albedo,refractColor,0.8);
+ refractColor =mix(albedo,refractColor,0.5);
     let NdotV =max(dot(N, V), 0.0);
     let F0 = mix(vec3(0.02), albedo, metallic);
     let F =fresnelSchlickRoughness(NdotV, F0,roughness);
@@ -112,7 +112,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let refValue =pow((F * envBRDF.x + envBRDF.y),vec3f(1.0)) ;
 
  
-    let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize)*2.0;
+    let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize)*5.0;
    let result = mix(refractColor,reflectColor,refValue);
  
   return vec4(result,1.0);

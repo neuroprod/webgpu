@@ -19,8 +19,10 @@ export default class GlobalLightInsideShader extends Shader{
 
         }
 
-        this.addUniform("lightPos",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightPos1",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightColor1",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightPos2",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightColor2",new Vector4(1,0.7,0.7,0.1))
 
 
         this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
@@ -30,8 +32,8 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
 
-
-        this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
+        this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
+        this.addTexture("shadowCube1",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
        // this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -181,7 +183,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
    
 
 
-   let shadowColor =cubeShadow(shadowCubeDebug,uniforms.lightPos.xyz,world,uv0);
+  
 
 
         let roughness = mra.y;
@@ -192,8 +194,12 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
        
        
-
-    let lightL =  pointLight(uniforms.lightPos.xyz,uniforms.lightColor,albedo,world,N,V,F0,roughness)*shadowColor;
+    let shadowColor1 =cubeShadow(shadowCube1,uniforms.lightPos1.xyz,world,uv0);
+    var lightL =  pointLight(uniforms.lightPos1.xyz,uniforms.lightColor1,albedo,world,N,V,F0,roughness)*shadowColor1;
+    
+        let shadowColor2 =cubeShadow(shadowCube2,uniforms.lightPos2.xyz,world,uv0);
+    lightL +=  pointLight(uniforms.lightPos2.xyz,uniforms.lightColor2,albedo,world,N,V,F0,roughness)*shadowColor2;
+ 
  if(mra.w==0.0){return vec4(albedo,0.0);}
 
     return vec4(color+lightL*ao,0.0) ;

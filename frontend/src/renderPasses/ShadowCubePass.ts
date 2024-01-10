@@ -36,7 +36,7 @@ export default class ShadowCubePass extends RenderPass {
            this.materialSkin.skin = this.renderer.skin;
 
        }
-       this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index})];
+       this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index,clearValue:{r:1,g:1,b:1,a:1}})];
         this.depthStencilAttachment = new DepthStencilAttachment(depthTexture,{arrayLayerCount:1,baseArrayLayer:index});
         this.camera =camera;
         this.colorAttachments[0].getAttachment()

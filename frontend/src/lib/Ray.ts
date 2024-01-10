@@ -20,14 +20,14 @@ export class HitTriangle {
         this.p1 = p1;
         this.p2 = p2;
 
-        let v0v1 = p1.clone().subtract(p0);
-        let v0v2 = p2.clone().subtract(p0);
+        let v0v1=new Vector3( p1).subtract(p0);
+        let v0v2 = new Vector3( p2).subtract(p0);
         // no need to normalize
         this.normal = v0v1.cross(v0v2);
         this.normal.normalize()
-        this.edge0 = p1.clone().subtract(p0);
-        this.edge1 = p2.clone().subtract(p1);
-        this.edge2 = p0.clone().subtract(p2);
+        this.edge0 = v0v1;
+        this.edge1 = new Vector3(p2).subtract(p1);
+        this.edge2 = new Vector3(p0).subtract(p2);
 
     }
 

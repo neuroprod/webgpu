@@ -19,7 +19,7 @@ export default class Room extends Scene{
     leftHolder: Object3D;
     rightHolder: Object3D;
     centerHolder: Object3D;
-    mainLight: MainLight;
+
 
     modelRenderer: ModelRenderer;
     modelRendererTrans: ModelRenderer;
@@ -34,6 +34,8 @@ export default class Room extends Scene{
     private hitLeftRoomCenter: Object3D;
     private hitRightRoom: Object3D;
     private clock: Clock;
+    public lightKitchen: MainLight;
+    public lightLab: MainLight;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -69,10 +71,12 @@ export default class Room extends Scene{
         this.hitLeftRoomCenter = this.glFTLoader.objectsByName["_HitLeftRoomCenter"]
         this.hitRightRoom = this.glFTLoader.objectsByName["_HitRightRoom"];
 
-        this.mainLight = new MainLight(this.renderer)
-        this.glFTLoader.objectsByName["mainLight"].addChild(this.mainLight)
-
-
+        this.lightKitchen  = new MainLight(this.renderer,"mainLightKitchen")
+        this.glFTLoader.modelsByName["mainLight"].addChild( this.lightKitchen)
+        this.glFTLoader.modelsByName["mainLight"].castShadow =false;
+        this.lightLab = new MainLight(this.renderer,"mainLightLab")
+        this.glFTLoader.objectsByName["LightComp"].addChild(this.lightLab);
+        this.glFTLoader.modelsByName["LightComp"].castShadow =false;
 
         this.laptopScreen = new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
         this.modelRenderer.addModel(this.laptopScreen);
