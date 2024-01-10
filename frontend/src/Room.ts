@@ -14,6 +14,8 @@ import {WindowOutside} from "./extras/WindowOutside";
 import UI from "./lib/UI/UI";
 import Scene from "./Scene";
 import Clock from "./extras/Clock";
+import {Osc2Screen} from "./extras/Osc2Screen";
+import {Osc1Screen} from "./extras/Osc1Screen";
 
 export default class Room extends Scene{
     leftHolder: Object3D;
@@ -36,6 +38,10 @@ export default class Room extends Scene{
     private clock: Clock;
     public lightKitchen: MainLight;
     public lightLab: MainLight;
+    public lightDoor: MainLight;
+    public lightWall: MainLight;
+    private osc2Screen: Osc2Screen;
+    private osc1Screen: Osc1Screen;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -78,11 +84,28 @@ export default class Room extends Scene{
         this.glFTLoader.objectsByName["LightComp"].addChild(this.lightLab);
         this.glFTLoader.modelsByName["LightComp"].castShadow =false;
 
+
+        this.lightDoor = new MainLight(this.renderer,"lightDoor")
+        this.glFTLoader.objectsByName["lightDoor"].addChild(this.lightDoor);
+        this.glFTLoader.modelsByName["lightDoor"].castShadow =false;
+
+
+        this.lightWall = new MainLight(this.renderer,"lightWall")
+        this.glFTLoader.objectsByName["lightWall"].addChild( this.lightWall);
+        this.glFTLoader.modelsByName["lightWall"].castShadow =false;
+
+
         this.laptopScreen = new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
         this.modelRenderer.addModel(this.laptopScreen);
+
         this.fpsScreen = new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);
         this.modelRenderer.addModel(this.fpsScreen);
 
+        this.osc2Screen = new Osc2Screen(this.renderer, this.glFTLoader.objectsByName["ossiloscope2"]);
+        this.modelRenderer.addModel( this.osc2Screen);
+
+        this.osc1Screen = new Osc1Screen(this.renderer, this.glFTLoader.objectsByName["oscilloscope"]);
+        this.modelRenderer.addModel( this.osc1Screen);
 
         this.clock =new Clock(  this.glFTLoader.modelsByName["hour"],     this.glFTLoader.modelsByName["minutes"])
 
@@ -112,7 +135,8 @@ export default class Room extends Scene{
         let bookPos =( (Math.abs(left)-3.2)+1.3)/2; //right edge +left edge /2
 
        this.bookCase.setPosition(bookPos,0,-3.9)
-
+        this.osc2Screen.update();
+        this.osc1Screen.update();
         this.mill.update();
     }
 

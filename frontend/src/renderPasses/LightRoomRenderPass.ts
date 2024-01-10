@@ -79,6 +79,11 @@ export default class LightRoomRenderPass extends RenderPass {
             mainLights[0].initColor();
             mainLights[1].color.from(data.mainLightColor2);
             mainLights[1].initColor();
+            mainLights[2].color.from(data.mainLightColor3);
+            mainLights[2].initColor();
+
+            mainLights[3].color.from(data.mainLightColor4);
+            mainLights[3].initColor();
             this.topColor.set(data.topColor[0], data.topColor[1], data.topColor[2], data.topColor[3]);
             this.midColor.set(data.midColor[0], data.midColor[1], data.midColor[2], data.midColor[3]);
             this.bottomColor.set(data.bottomColor[0], data.bottomColor[1], data.bottomColor[2], data.bottomColor[3]);
@@ -118,6 +123,8 @@ export default class LightRoomRenderPass extends RenderPass {
 
         this.globalLightMaterial.uniforms.setTexture("shadowCube1", this.renderer.texturesByLabel["ShadowCubeColor1"]);
         this.globalLightMaterial.uniforms.setTexture("shadowCube2", this.renderer.texturesByLabel["ShadowCubeColor2"]);
+        this.globalLightMaterial.uniforms.setTexture("shadowCube3", this.renderer.texturesByLabel["ShadowCubeColor3"]);
+        this.globalLightMaterial.uniforms.setTexture("shadowCube4", this.renderer.texturesByLabel["ShadowCubeColor4"]);
         // this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
         this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
         this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
@@ -163,6 +170,8 @@ export default class LightRoomRenderPass extends RenderPass {
             let lightData = {
                 mainLightColor1: this.mainLights[0].color,
                 mainLightColor2: this.mainLights[1].color,
+                mainLightColor3: this.mainLights[2].color,
+                mainLightColor4: this.mainLights[3].color,
                 topColor: this.topColor,
                 midColor: this.midColor,
                 bottomColor: this.bottomColor,
@@ -177,11 +186,11 @@ export default class LightRoomRenderPass extends RenderPass {
             saveToJsonFile(lightData, "lightRoom")
         }
         UI.separator("Main Light")
-        //   UI.LColor("color", this.mainLightColor)
-        // this.mainLightStrength = UI.LFloatSlider("strength", this.mainLightStrength, 0, 20);
-        //this.mainLight.color.set(this.mainLightColor.x, this.mainLightColor.y, this.mainLightColor.z, this.mainLightStrength)
-        this.mainLights[0].onDataUI()
-        this.mainLights[1].onDataUI()
+
+        this.mainLights[0].onDataUI();
+        this.mainLights[1].onDataUI();
+        this.mainLights[2].onDataUI();
+        this.mainLights[3].onDataUI();
 
         UI.separator("Global Light")
         UI.LColor("topLightDay", this.topColor)
@@ -201,6 +210,12 @@ export default class LightRoomRenderPass extends RenderPass {
 
         this.globalLightMaterial.uniforms.setUniform("lightColor2", this.mainLights[1].color);
         this.globalLightMaterial.uniforms.setUniform("lightPos2", this.mainLights[1].getWorldPos());
+
+        this.globalLightMaterial.uniforms.setUniform("lightColor3", this.mainLights[2].color);
+        this.globalLightMaterial.uniforms.setUniform("lightPos3", this.mainLights[2].getWorldPos());
+
+        this.globalLightMaterial.uniforms.setUniform("lightColor4", this.mainLights[3].color);
+        this.globalLightMaterial.uniforms.setUniform("lightPos4", this.mainLights[3].getWorldPos());
 
 
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor.clone().lerp(this.topColorNight, GameModel.dayNight))
