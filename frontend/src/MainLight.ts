@@ -5,7 +5,7 @@ import UI from "./lib/UI/UI";
 import ColorV from "./lib/ColorV";
 
 export default class MainLight extends Object3D{
-    color =new Vector4(0.89,0.78,0.49,10) ;
+    color =new Vector4(1,1,1,10) ;
     colorTemp:ColorV =new ColorV ();
     constructor(renderer:Renderer,label:string) {
         super(renderer,label);

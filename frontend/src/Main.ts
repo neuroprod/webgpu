@@ -144,6 +144,8 @@ export default class Main {
         this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
 
         this.mainLight = new MainLight(this.renderer, "preloadLight")
+        this.mainLight.setPosition(-3,2,1);
+this.mainLight.color.w=120;
         this.font = new Font(this.renderer, this.preloader);
 
 
@@ -224,7 +226,7 @@ export default class Main {
         this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[0])
         this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[1])
         this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[2])
-
+        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[3])
         this.drawer = new Drawer(this.renderer);
         this.dofPass.init();
         this.outlinePass.init();
@@ -312,8 +314,10 @@ export default class Main {
 
         for (let m of this.glFTLoaderChar.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
+            if(m.label !="Cube"){
             this.outside.modelRenderer.addModel(m)
             this.room.modelRenderer.addModel(m)
+            }
         }
 
 
