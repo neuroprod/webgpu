@@ -61,7 +61,7 @@ export class FloorHitTrigger extends Trigger {
 
 
     private update() {
-        console.log(GameModel.hitWorldPos);
+
         GameModel.floorHitIndicator.setPosition(GameModel.hitWorldPos.x,GameModel.hitWorldPos.y,GameModel.hitWorldPos.z);
        // UI.logEvent("HITFLOOR"," pos:"+  GameModel.hitWorldPos)
 
