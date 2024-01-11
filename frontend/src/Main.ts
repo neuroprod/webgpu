@@ -432,15 +432,15 @@ export default class Main {
             this.gameUI.update()
         }
         let uiHit = false
-        if (!UINeedsMouse) {
+
             this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
             if (!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
 
             if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
 
-            uiHit = this.gameUI.checkMouseHit(this.mouseRay)
-            this.gameUI.updateMouse(this.mouseListener)
-        }
+           // uiHit = this.gameUI.checkMouseHit(this.mouseRay)
+        //this.gameUI.updateMouse(this.mouseListener)
+
 
         if (GameModel.currentScene == Scenes.PRELOAD) {
             this.shadowPassCube1.setLightPos(this.mainLight.getWorldPos());

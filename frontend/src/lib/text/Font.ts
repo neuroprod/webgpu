@@ -95,7 +95,7 @@ export default class Font {
                 let char = this.charArray[c];
                 let offX = char.xOffset;
                 let offY = char.yOffset;
-          
+
                 vertices[verticesCount++] = xPos + offX;
                 vertices[verticesCount++] = -offY+yPos;
                 vertices[verticesCount++] = 0;
