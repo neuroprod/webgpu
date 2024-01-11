@@ -50,7 +50,7 @@ import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth";
 import GTAO from "./ComputePasses/GTAO";
 import GTAOdenoise from "./ComputePasses/GTAOdenoise";
 import Simplex from "./ComputePasses/Simplex";
-import GameUI from "./GameUI";
+
 import Font from "./lib/text/Font";
 import Model from "./lib/model/Model";
 
@@ -97,7 +97,7 @@ export default class Main {
     private gtaoPass: GTAO;
     private gtaoDenoise: GTAOdenoise;
     private simplexNoisePass: Simplex;
-    private gameUI: GameUI;
+
     private shadowPassCube3: ShadowCube;
     private shadowPassCube4: ShadowCube;
     private font: Font;
@@ -205,7 +205,7 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
         this.drawingPreloader = new DrawingPreloader()
         this.drawingPreloader.load(this.renderer, this.preloader)
-        this.gameUI = new GameUI(this.renderer, this.preloader);
+
         this.room = new Room(this.renderer, this.preloader);
         this.outside = new Outside(this.renderer, this.preloader);
 
@@ -313,11 +313,7 @@ export default class Main {
             this.outside.modelRenderer.addModel(m)
             this.room.modelRenderer.addModel(m)
         }
-        for (let m of this.gameUI.glFTLoader.models) {
-            //this.gBufferPass.modelRenderer.addModel(m)
-            this.outside.modelRenderer.addModel(m)
-            this.room.modelRenderer.addModel(m)
-        }
+
 
 
         GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
@@ -335,7 +331,7 @@ export default class Main {
         GameModel.setTransition(Transitions.START_GAME)
         RenderSettings.onChange()
 
-        //this.tick()
+
     }
 
     tick() {
@@ -364,7 +360,7 @@ export default class Main {
         if (!GameModel.lockView) {
 
             this.gameCamera.update();
-            this.gameUI.update()
+
         }
         let uiHit = false
 
@@ -397,7 +393,7 @@ export default class Main {
             RenderSettings.onChange()
         }
 
-
+return;
         this.updateUI();
 
 
@@ -455,7 +451,7 @@ export default class Main {
 
         }
         UI.pushGroup("UI");
-        this.gameUI.onUI()
+
         UI.popGroup()
         UI.pushGroup("Room");
         this.room.onUI()
