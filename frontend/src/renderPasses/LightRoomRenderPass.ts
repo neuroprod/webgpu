@@ -110,27 +110,8 @@ export default class LightRoomRenderPass extends RenderPass {
 
         this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightInsideShader(this.renderer, "globalLight"))
 
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor);
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor);
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor);
+      this.setUniforms()
 
-        this.globalLightMaterial.uniforms.setUniform("lightColor1", this.mainLights[0].color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos1", this.mainLights[0].getWorldPos());
-
-        this.globalLightMaterial.uniforms.setUniform("lightColor2", this.mainLights[1].color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos2", this.mainLights[1].getWorldPos());
-
-
-        this.globalLightMaterial.uniforms.setTexture("shadowCube1", this.renderer.texturesByLabel["ShadowCubeColor1"]);
-        this.globalLightMaterial.uniforms.setTexture("shadowCube2", this.renderer.texturesByLabel["ShadowCubeColor2"]);
-        this.globalLightMaterial.uniforms.setTexture("shadowCube3", this.renderer.texturesByLabel["ShadowCubeColor3"]);
-        this.globalLightMaterial.uniforms.setTexture("shadowCube4", this.renderer.texturesByLabel["ShadowCubeColor4"]);
-        // this.globalLightMaterial.uniforms.setTexture("shadowCube", this.renderer.texturesByLabel["ShadowCube"]);
-        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
-        this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
-        this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
-        this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);
-        this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
 
         this.globalLightMaterial.blendModes = [
             {
@@ -154,7 +135,41 @@ export default class LightRoomRenderPass extends RenderPass {
 
     }
 
+public setUniforms(){
+    this.globalLightMaterial.uniforms.setUniform("lightColor1", this.mainLights[0].color);
+    this.globalLightMaterial.uniforms.setUniform("lightPos1", this.mainLights[0].getWorldPos());
 
+    this.globalLightMaterial.uniforms.setUniform("lightColor2", this.mainLights[1].color);
+    this.globalLightMaterial.uniforms.setUniform("lightPos2", this.mainLights[1].getWorldPos());
+
+    this.globalLightMaterial.uniforms.setUniform("lightColor3", this.mainLights[2].color);
+    this.globalLightMaterial.uniforms.setUniform("lightPos3", this.mainLights[2].getWorldPos());
+
+    this.globalLightMaterial.uniforms.setUniform("lightColor4", this.mainLights[3].color);
+    this.globalLightMaterial.uniforms.setUniform("lightPos4", this.mainLights[3].getWorldPos());
+
+
+    this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor.clone().lerp(this.topColorNight, GameModel.dayNight))
+    this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor.clone().lerp(this.midColorNight, GameModel.dayNight))
+    this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor.clone().lerp(this.bottomColorNight, GameModel.dayNight))
+
+    this.globalLightMaterial.uniforms.setUniform("topColorRight", this.topColorRight)
+    this.globalLightMaterial.uniforms.setUniform("midColorRight", this.midColorRight)
+    this.globalLightMaterial.uniforms.setUniform("bottomColorRight", this.bottomColorRight)
+
+
+    this.globalLightMaterial.uniforms.setTexture("shadowCube1", this.renderer.texturesByLabel["ShadowCubeColor1"]);
+    this.globalLightMaterial.uniforms.setTexture("shadowCube2", this.renderer.texturesByLabel["ShadowCubeColor2"]);
+    this.globalLightMaterial.uniforms.setTexture("shadowCube3", this.renderer.texturesByLabel["ShadowCubeColor3"]);
+    this.globalLightMaterial.uniforms.setTexture("shadowCube4", this.renderer.texturesByLabel["ShadowCubeColor4"]);
+
+    this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
+    this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
+    this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
+    this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);
+    this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
+
+}
     onUI() {
         UI.pushGroup("Light Inside")
         for (let p of this.lights) {
@@ -205,27 +220,6 @@ export default class LightRoomRenderPass extends RenderPass {
         UI.LColor("midLightRight", this.midColorRight)
         UI.LColor("bottomLightRight", this.bottomColorRight)
 
-        this.globalLightMaterial.uniforms.setUniform("lightColor1", this.mainLights[0].color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos1", this.mainLights[0].getWorldPos());
-
-        this.globalLightMaterial.uniforms.setUniform("lightColor2", this.mainLights[1].color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos2", this.mainLights[1].getWorldPos());
-
-        this.globalLightMaterial.uniforms.setUniform("lightColor3", this.mainLights[2].color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos3", this.mainLights[2].getWorldPos());
-
-        this.globalLightMaterial.uniforms.setUniform("lightColor4", this.mainLights[3].color);
-        this.globalLightMaterial.uniforms.setUniform("lightPos4", this.mainLights[3].getWorldPos());
-
-
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColor.clone().lerp(this.topColorNight, GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColor.clone().lerp(this.midColorNight, GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor.clone().lerp(this.bottomColorNight, GameModel.dayNight))
-
-        this.globalLightMaterial.uniforms.setUniform("topColorRight", this.topColorRight)
-        this.globalLightMaterial.uniforms.setUniform("midColorRight", this.midColorRight)
-        this.globalLightMaterial.uniforms.setUniform("bottomColorRight", this.bottomColorRight)
-        //  this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor"]);
 
 
         UI.separator("Lights")

@@ -82,19 +82,7 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
         this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightOutsideShader(this.renderer, "globalLightOutside"))
 
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColorDay);
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColorDay);
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay);
 
-        this.globalLightMaterial.uniforms.setUniform("lightColor", this.sunLightColor);
-        this.globalLightMaterial.uniforms.setUniform("lightDir", new Vector4( this.sunDir.x,this.sunDir.y,this.sunDir.z, 1));
-        this.globalLightMaterial.uniforms.setTexture("shadow", this.renderer.texturesByLabel["Shadow"]);
-        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
-        this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
-        this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
-        this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);
-        this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
-        this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor1"]);
         this.globalLightMaterial.blendModes = [
             {
                 color: {
@@ -115,9 +103,32 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
     }
 
+setUniforms(matrix:Matrix4){
+    this.globalLightMaterial.uniforms.setUniform("topColor", this.topColorDay.clone().lerp(this.topColorNight,GameModel.dayNight))
+    this.globalLightMaterial.uniforms.setUniform("midColor", this.midColorDay.clone().lerp(this.midColorNight,GameModel.dayNight))
+    this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay.clone().lerp(this.bottomColorNight,GameModel.dayNight))
+
+    this.globalLightMaterial.uniforms.setUniform( "shadowMatrix",matrix);
+    this.sunLightColor.w=this.sunLightStrength;
+    this.moonLightColor.w=this.moonLightStrength;
+    this.globalLightMaterial.uniforms.setUniform("lightColor", this.sunLightColor.clone().lerp(this.moonLightColor,GameModel.dayNight));
+    this.globalLightMaterial.uniforms.setUniform("lightDir", new Vector4( this.sunDir.x,this.sunDir.y,this.sunDir.z, 1));
 
 
-    onUI(matrix:Matrix4) {
+    this.lightColor.w=this.lightStrength*GameModel.dayNight;
+    this.globalLightMaterial.uniforms.setUniform("pointlightColor",this.lightColor);
+    this.globalLightMaterial.uniforms.setUniform("pointlightPos",this.lightGrave.getWorldPos());
+
+    this.globalLightMaterial.uniforms.setTexture("shadow", this.renderer.texturesByLabel["Shadow"]);
+    this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
+    this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
+    this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
+    this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);
+    this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
+    this.globalLightMaterial.uniforms.setTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor1"]);
+}
+
+    onUI() {
         UI.pushGroup("Light Outside")
 
         UI.separator("Sun Light")
@@ -152,17 +163,6 @@ export default class LightOutsideRenderPass extends RenderPass  {
 
 
 
-        this.globalLightMaterial.uniforms.setUniform("lightColor",  this.sunLightColor.clone().lerp(this.moonLightColor,GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("lightDir", new Vector4( this.sunDir.x,this.sunDir.y,this.sunDir.z, 1));
-
-        this.globalLightMaterial.uniforms.setUniform("topColor", this.topColorDay.clone().lerp(this.topColorNight,GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("midColor", this.midColorDay.clone().lerp(this.midColorNight,GameModel.dayNight))
-        this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay.clone().lerp(this.bottomColorNight,GameModel.dayNight))
-
-        this.globalLightMaterial.uniforms.setUniform( "shadowMatrix",matrix);
-        this.lightColor.w=this.lightStrength*GameModel.dayNight;
-        this.globalLightMaterial.uniforms.setUniform("pointlightColor",this.lightColor);
-        this.globalLightMaterial.uniforms.setUniform("pointlightPos",this.lightGrave.getWorldPos());
 
         UI.popGroup()
     }
