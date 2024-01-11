@@ -3,15 +3,18 @@ import Renderer from "../Renderer";
 
 export default class TextureLoader extends Texture {
     private loaded: boolean=false;
-    constructor(renderer: Renderer, preLoader, url: string = "", options: Partial<TextureOptions>) {
+    constructor(renderer: Renderer, preLoader, url: string = "", options: Partial<TextureOptions>,delay=0) {
         super(renderer, url, options)
         preLoader.startLoad();
         this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT;
+        this.make();
+        setTimeout(()=>{
 
-        this.make()
-        this.loadURL(url).then(() => {
-            preLoader.stopLoad();
-        });
+    this.loadURL(url).then(() => {
+        preLoader.stopLoad();
+    });
+},delay)
+
     }
 
     async loadURL(url: string) {

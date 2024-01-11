@@ -222,12 +222,14 @@ export default class Main {
         GameModel.characterHandler = this.characterHandler;
         this.gBufferPass.modelRenderer = new ModelRenderer(this.renderer, "introModels")
         this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[0])
-
+        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[1])
+        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[2])
 
         this.drawer = new Drawer(this.renderer);
         this.dofPass.init();
         this.outlinePass.init();
         RenderSettings.onChange();
+
         this.shadowPassCube1.setModels(this.gBufferPass.modelRenderer.models);
         this.shadowPassCube1.setLightPos(this.mainLight.getWorldPos())
 
@@ -350,9 +352,9 @@ export default class Main {
 
     update() {
         this.simplexNoisePass.update();
-        let UINeedsMouse = false;
+
         if (UI.needsMouse()) {
-            UINeedsMouse = true;
+
             this.mouseListener.isDownThisFrame = false;
         }
 
@@ -369,8 +371,7 @@ export default class Main {
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
 
-        // uiHit = this.gameUI.checkMouseHit(this.mouseRay)
-        //this.gameUI.updateMouse(this.mouseListener)
+
         GameModel.update()
 
         if (GameModel.currentScene == Scenes.PRELOAD) {

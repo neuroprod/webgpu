@@ -3,19 +3,18 @@ import Renderer from "./lib/Renderer";
 import Camera from "./lib/Camera";
 import AnimationMixer from "./lib/animation/AnimationMixer";
 import Object3D from "./lib/core/Object3D";
-import {FloorHitIndicator} from "./extras/FloorHitIndicator";
+
 
 import gsap from "gsap";
 import Timeline from "gsap";
-import Main from "./Main";
+
 import GameModel, {Scenes, Transitions} from "./GameModel";
 import GLFTLoader from "./GLFTLoader";
-import Timer from "./lib/Timer";
+
 import UI from "./lib/UI/UI";
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
-import Sphere from "./lib/meshes/Sphere";
-import GBufferShader from "./shaders/GBufferShader";
+
 
 
 export default class CharacterHandler {
@@ -24,10 +23,7 @@ export default class CharacterHandler {
     private camera: Camera;
     private animationMixer: AnimationMixer;
     private characterRoot: Object3D;
-    private floorHit: boolean = false;
 
-    private up: Vector3 = new Vector3(0, 1, 0);
-    private floorPlane: Vector3 = new Vector3(0, -1.5, 0);
 
     private root: Object3D
 
@@ -35,10 +31,9 @@ export default class CharacterHandler {
     // @ts-ignore
     private tl: Timeline;
     characterRot: number = 0;
-    private targetOffset = 0;
-    private offset = 0;
+
     private scene: number = 0;
-    private main: Main;
+
     private isWalking: boolean = false;
     private targetPos: Vector3 =new Vector3();
     private targetRot: number=0;

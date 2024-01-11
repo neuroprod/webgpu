@@ -10,6 +10,7 @@ export default class GameCamera{
     private renderer: Renderer;
     public posSmooth=0;
    public  offsetX: number;
+   public first:number=0;
     constructor(camera:Camera,renderer:Renderer){
         this.camera =camera;
         this.renderer =renderer;
@@ -34,7 +35,8 @@ export default class GameCamera{
 
         let L =1-Math.pow(0.01,Timer.delta)
         this.mouseTarget.lerp(mp, L);
-
+        if(this.first<10)this.mouseTarget.from(mp);
+        this.first++;
         let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, GameModel.yMouseCenter + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraWorld.x+=this.offsetX

@@ -12,13 +12,15 @@ import TextureLoader from "./lib/textures/TextureLoader";
     }
 
     load(renderer:Renderer,preloader:PreLoader) {
-
+        let delay=100;
         for(let img of preloadImages){
 
             let name = "textures/"+img+".png";
             if(renderer.texturesByLabel[name]== undefined){
-                new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:6});
+
+                new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:6},delay);
             }
+            delay+=16;
         }
 
     }
