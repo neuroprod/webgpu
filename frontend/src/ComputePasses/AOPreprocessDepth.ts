@@ -26,10 +26,10 @@ export default class AOPreprocessDepth {
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
                 scaleToCanvas :true,
-                width:1024,
-                height:1024,
+                width:1,
+                height:1,
                 sizeMultiplier:1,
-                mipLevelCount:5,
+                mipLevelCount:4,
             format:TextureFormat.R32Float,
         })
 

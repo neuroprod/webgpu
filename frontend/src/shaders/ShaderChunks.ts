@@ -126,7 +126,7 @@ fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f) -> f3
     let TBN       = mat3x3<f32>(tangent, bitangent,dirN); 
       
       
-      for(var i=0;i<4;i++){
+      for(var i=0;i<8;i++){
       
         let distToLightL=distance (lightPos,world);
         let shadowDist = textureSample(cube, mySampler,normalize(dirN +TBN*kernel[i])).x;

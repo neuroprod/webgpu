@@ -51,6 +51,9 @@ import GTAO from "./ComputePasses/GTAO";
 import GTAOdenoise from "./ComputePasses/GTAOdenoise";
 import Simplex from "./ComputePasses/Simplex";
 import GameUI from "./GameUI";
+import Font from "./lib/text/Font";
+import Model from "./lib/model/Model";
+import Quad from "./lib/meshes/Quad";
 
 
 export default class Main {
@@ -98,6 +101,7 @@ export default class Main {
     private gameUI: GameUI;
     private shadowPassCube3: ShadowCube;
     private shadowPassCube4: ShadowCube;
+    private font: Font;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -141,6 +145,9 @@ export default class Main {
         this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
 
         this.mainLight = new MainLight(this.renderer, "preloadLight")
+        this.font = new Font(this.renderer,this.preloader);
+
+
     }
 
     public startFinalPreload() {
@@ -175,6 +182,16 @@ export default class Main {
 
         this.canvasRenderPass = new CanvasRenderPass(this.renderer);
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
+
+
+       let testText = new Model(this.renderer,"testText")
+        testText.mesh =this.font.getMesh("My text blabla\nmultiline multline multiline\nlinebreak\nhahaha hihihi hohoho");
+        testText.setPosition(-2,0,0);
+        this.canvasRenderPass.fontMeshRenderer.addText(testText);
+
+
+
+
 
 
         GameModel.main = this;
@@ -420,7 +437,7 @@ export default class Main {
             if (!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
 
             if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
-            
+
             uiHit = this.gameUI.checkMouseHit(this.mouseRay)
             this.gameUI.updateMouse(this.mouseListener)
         }

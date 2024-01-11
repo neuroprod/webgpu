@@ -226,28 +226,28 @@ export const FilterMode = {
     Nearest: 'nearest'as GPUFilterMode
 };
 
-export const GPUBlendFactor = {
-    Zero: 'zero',
-    One: 'one',
-    SrcColor: 'src-color',
-    OneMinusSrcColor: 'one-minus-src-color',
-    SrcAlpha: 'src-alpha',
-    OneMinusSrcAlpha: 'one-minus-src-alpha',
-    DstColor: 'dst-color',
-    OneMinusDstColor: 'one-minus-dst-color',
-    DstAlpha: 'dst-alpha',
-    OneMinusDstAlpha: 'one-minus-dst-alpha',
-    SrcAlphaSaturated: 'src-alpha-saturated',
-    BlendColor: 'blend-color',
-    OneMinusBlendColor: 'one-minus-blend-color'
+export const BlendFactor = {
+    Zero: 'zero' as GPUBlendFactor,
+    One: 'one'as GPUBlendFactor,
+    SrcColor: 'src-color'as GPUBlendFactor,
+    OneMinusSrcColor: 'one-minus-src-color'as GPUBlendFactor,
+    SrcAlpha: 'src-alpha'as GPUBlendFactor,
+    OneMinusSrcAlpha: 'one-minus-src-alpha'as GPUBlendFactor,
+    DstColor: 'dst-color'as GPUBlendFactor,
+    OneMinusDstColor: 'one-minus-dst-color'as GPUBlendFactor,
+    DstAlpha: 'dst-alpha'as GPUBlendFactor,
+    OneMinusDstAlpha: 'one-minus-dst-alpha'as GPUBlendFactor,
+    SrcAlphaSaturated: 'src-alpha-saturated'as GPUBlendFactor,
+    BlendColor: 'blend-color'as GPUBlendFactor,
+    OneMinusBlendColor: 'one-minus-blend-color'as GPUBlendFactor
 };
 
-export const GPUBlendOperation = {
-    Add: 'add',
-    Subtract: 'subtract',
-    ReverseSubtract: 'reverse-subtract',
-    Min: 'min',
-    Max: 'max'
+export const BlendOperation = {
+    Add: 'add' as GPUBlendOperation,
+    Subtract: 'subtract'as GPUBlendOperation,
+    ReverseSubtract: 'reverse-subtract'as GPUBlendOperation,
+    Min: 'min'as GPUBlendOperation,
+    Max: 'max'as GPUBlendOperation,
 };
 
 export const ColorWriteFlags = {
