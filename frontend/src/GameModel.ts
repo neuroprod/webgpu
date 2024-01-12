@@ -5,7 +5,7 @@ import {Vector2, Vector3} from "math.gl";
 import Main from "./Main";
 import GoInside from "./transitions/GoInside";
 import Trigger from "./trigers/Trigger";
-import HitInfoTrigger from "./trigers/HitInfoTrigger";
+import HitTextTrigger from "./trigers/HitTextTrigger";
 import Drawing from "./drawing/Drawing";
 import GoRightRoom from "./transitions/GoRightRoom";
 import GoLeftRoom from "./transitions/GoLeftRoom";
@@ -19,6 +19,8 @@ import DoorGoInsideTrigger from "./trigers/DoorGoInsideTrigger";
 import DoorInsideTrigger from "./trigers/DoorInsideTrigger";
 import GoWorkTrigger from "./trigers/GoWorkTrigger";
 import GameCamera from "./GameCamera";
+import TextHandler from "./TextHandler";
+import UI from "./lib/UI/UI";
 
 
 export const Transitions =
@@ -31,6 +33,11 @@ export const Transitions =
 
 
     }
+export enum GameState {
+    START,
+    READ_MAIL,
+    READ_MAIL_DONE,
+}
 
 export enum Scenes {
     OUTSIDE,
@@ -67,6 +74,11 @@ class GameModel {
     characterHandler: CharacterHandler;
     gameCamera: GameCamera;
     frustumCull =true;
+    textHandler: TextHandler;
+    debug: boolean=false;
+
+    public gameState=0
+    catchMouseDown: boolean =false;
 
     constructor() {
 
@@ -89,7 +101,7 @@ class GameModel {
         this.hitStateChange = true;
         this.hitObjectLabelPrev = this._hitObjectLabel;
         this._hitObjectLabel = value;
-
+        if(this.debug)UI.logEvent("Hit", value);
         if (this._hitObjectLabel == "" || this.isGround(this._hitObjectLabel)) {
             this.outlinePass.setModel(null);
         } else {
@@ -100,9 +112,15 @@ class GameModel {
     }
 
     update() {
+
+        if(this.mouseDownThisFrame && this.catchMouseDown){
+            this.onMouseDown();
+        }
+
         for (let t of this.triggers) {
             t.check();
         }
+        if(this.textHandler)this.textHandler.update();
         this.hitStateChange = false;
     }
 
@@ -142,6 +160,34 @@ class GameModel {
         this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
+    }
+
+    initText() {
+        this.textHandler.init()
+        for(let d of this.textHandler.hitTriggers){
+            d.object
+            this.triggers.push(new HitTextTrigger(d.scene,  d.object))
+        }
+    }
+
+    setGameState(state:GameState){
+        this.gameState =state;
+        if(this.gameState==GameState.READ_MAIL){
+            this.catchMouseDown =true;
+            this.hitObjectLabel =""
+        }
+        if(this.gameState==GameState.READ_MAIL_DONE){
+            this.catchMouseDown =false;
+        }
+    }
+
+    private onMouseDown() {
+
+        if(this.gameState==GameState.READ_MAIL){
+            if(this.textHandler.readNext()){
+                this.setGameState(GameState.READ_MAIL_DONE)
+            }
+        }
     }
 }
 

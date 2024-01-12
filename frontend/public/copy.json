@@ -1,0 +1,52 @@
+{
+  "hitTriggers": [
+    {
+      "scene": 1,
+      "object": "teapot",
+      "copy": "Mom got this teapot on\none of her travels."
+    },
+    {
+      "scene": 1,
+      "object": "postcard1",
+      "copy": "it says:\n'Greetings from Utah!\nCheers, Mom'"
+    },
+    {
+      "scene": 1,
+      "object": "coffee",
+      "copy": "Coffee helps me wake up in the morning,\n and fall a sleep at night."
+    },
+    {
+      "scene": 1,
+      "object": "bookPicture1",
+      "copy": "Grandpa is long dead now."
+    },
+    {
+      "scene": 1,
+      "object": "pictureFrame2",
+      "copy": ["The legendary golden\nunderpants of Tukilaka.\nGrandpa was obsesed by them.\n...","They where stolen by the"]
+    },
+    {
+      "scene": 1,
+      "object": "painting2",
+      "copy": ["The 'SeaLion':\nGrandpa used to travel\nthe world with this ship.\n...","It sunk in 1934 in the Bering Sea.\n25 miles from Saint Paul Island"]
+    },
+
+    {
+      "scene": 1,
+      "object": "painting",
+      "copy": ["Roses are red","Violets are blue"]
+    },
+    {
+      "scene": 1,
+      "object": "clock",
+      "copy": "Time to get some work done."
+    }
+  ],
+"text": [
+  {
+
+    "object": "yougotmail",
+    "copy": ["blablabla","noffddsd"]
+  }
+]
+}

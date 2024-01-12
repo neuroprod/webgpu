@@ -204,5 +204,17 @@ export default class Renderer {
     }
 
 
+    removeModel(model: Model) {
+        let index = this.models.indexOf(model)
+        if(index>=0)
+            this.models= this.models.splice(index,1)
+       // this.models.push(model)
+        this.modelByLabel[model.label]=null
+
+         index =this.modelLabels.indexOf(model.label)
+        if(index>=0)
+            this.modelLabels= this.modelLabels.splice(index,1)
+        //this.modelLabels.push(model.label);
+    }
 }
 

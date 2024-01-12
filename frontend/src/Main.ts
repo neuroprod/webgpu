@@ -53,6 +53,9 @@ import Simplex from "./ComputePasses/Simplex";
 
 import Font from "./lib/text/Font";
 import Model from "./lib/model/Model";
+import TextHandler from "./TextHandler";
+
+
 
 
 export default class Main {
@@ -102,6 +105,7 @@ export default class Main {
     private shadowPassCube4: ShadowCube;
     private font: Font;
 
+
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -145,14 +149,32 @@ export default class Main {
 
         this.mainLight = new MainLight(this.renderer, "preloadLight")
         this.mainLight.setPosition(-3,2,1);
-this.mainLight.color.w=120;
+        this.mainLight.color.w=120;
         this.font = new Font(this.renderer, this.preloader);
 
 
     }
 
     startFinalPreload() {
+        //
+        this.preloader = new PreLoader(
+            () => {
+            },
+            this.init.bind(this)
+        );
+        GameModel.textHandler =new TextHandler(this.renderer,this.preloader)
+        GameModel.textHandler.font = this.font;
+        new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
+        this.drawingPreloader = new DrawingPreloader()
+        this.drawingPreloader.load(this.renderer, this.preloader)
 
+        this.room = new Room(this.renderer, this.preloader);
+        this.outside = new Outside(this.renderer, this.preloader);
+
+        ImagePreloader.load(this.renderer, this.preloader);
+
+
+        //setup passes
 
         this.simplexNoisePass = new Simplex(this.renderer)
         this.gBufferPass = new GBufferRenderPass(this.renderer);
@@ -185,10 +207,7 @@ this.mainLight.color.w=120;
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
 
-        let testText = new Model(this.renderer, "testText")
-        testText.mesh = this.font.getMesh("My text blabla\nmultiline multline multiline\nlinebreak\nhahaha hihihi hohoho");
-        testText.setPosition(-2, 0, 0);
-        this.canvasRenderPass.fontMeshRenderer.addText(testText);
+        GameModel.textHandler.fontMeshRenderer =  this.canvasRenderPass.fontMeshRenderer
 
 
         GameModel.main = this;
@@ -198,20 +217,7 @@ this.mainLight.color.w=120;
 
         this.lightRoomPass.init(this.lightRoomJson.data, [this.mainLight, this.mainLight, this.mainLight, this.mainLight], [])
 
-        //
-        this.preloader = new PreLoader(
-            () => {
-            },
-            this.init.bind(this)
-        );
-        new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
-        this.drawingPreloader = new DrawingPreloader()
-        this.drawingPreloader.load(this.renderer, this.preloader)
 
-        this.room = new Room(this.renderer, this.preloader);
-        this.outside = new Outside(this.renderer, this.preloader);
-
-        ImagePreloader.load(this.renderer, this.preloader);
 
 
 //init char
@@ -297,8 +303,11 @@ this.mainLight.color.w=120;
     }
 
     init() {
+
+
         this.room.init()
         this.outside.init();
+        GameModel.initText();
         //this.gameUI.init();
         //  this.outlinePass.init()
         this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
@@ -368,7 +377,12 @@ this.mainLight.color.w=120;
             this.gameCamera.update();
 
         }
-        let uiHit = false
+        let checkHit = true
+        if(GameModel.catchMouseDown){
+            checkHit =false
+
+        }
+
 
         this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
         if (!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
@@ -384,7 +398,7 @@ this.mainLight.color.w=120;
             GameModel.characterPos.set(-(this.renderer.ratio * GameModel.sceneHeight) / 2, -1.5, -1);
         } else if (GameModel.currentScene == Scenes.ROOM) {
             this.room.update();
-            if (!uiHit) this.room.checkMouseHit(this.mouseRay);
+            if (checkHit) this.room.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.room.lightKitchen.getWorldPos());
             this.shadowPassCube2.setLightPos(this.room.lightLab.getWorldPos());
             this.lightRoomPass.setUniforms()
@@ -392,13 +406,13 @@ this.mainLight.color.w=120;
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
             this.shadowPass.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
-            if (!uiHit) this.outside.checkMouseHit(this.mouseRay);
+            if (checkHit) this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.outside.lightGrave.getWorldPos());
             this.lightOutsidePass.setUniforms(this.shadowPass.camera.viewProjection)
             RenderSettings.onChange()
         }
 
-return;
+        if(GameModel.debug)
         this.updateUI();
 
 

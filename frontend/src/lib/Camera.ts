@@ -26,7 +26,7 @@ export default class Camera extends UniformGroup {
     public orthoBottom: number = -10;
     private view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
-    private viewProjection: Matrix4 = new Matrix4();
+    viewProjection: Matrix4 = new Matrix4();
     private fplanes: Array<Vector4> = []
 
     constructor(renderer: Renderer, label: string) {

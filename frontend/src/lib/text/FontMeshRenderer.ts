@@ -12,51 +12,34 @@ export default class FontMeshRenderer{
     public models: Array<Model>=[];
     private renderer: Renderer;
     private label: string;
-    private material: Material;
+
 
     constructor(renderer:Renderer,label ="")
     {
         this.label = label;
         this.renderer =renderer;
-        this.material = new Material(this.renderer,"fontmaterial", new FontShader(this.renderer,"fontShader"))
 
-this.material.depthWrite =false;
-        let l :GPUBlendState={
-
-            color:{
-                srcFactor: BlendFactor.One,
-                dstFactor: BlendFactor.OneMinusSrcAlpha,
-                operation: BlendOperation.Add,
-            },
-            alpha:{
-                srcFactor: BlendFactor.One,
-                dstFactor: BlendFactor.OneMinusSrcAlpha,
-                operation: BlendOperation.Add,
-            }
-        }
-
-        this.material.blendModes=[l];
     }
     draw(pass:RenderPass)
     {
+        if(this.models.length==0)return;
         const passEncoder =pass.passEncoder;
 
         passEncoder.setBindGroup(0,this.renderer.camera.bindGroup);
-        this.material.makePipeLine(pass);
-        passEncoder.setPipeline(this.material.pipeLine);
+
         for (let model of this.models) {
 
             if(!model.visible)continue
 
-
-
+            model.material.makePipeLine(pass);
+            passEncoder.setPipeline(model.material.pipeLine);
 
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
-            passEncoder.setBindGroup(2,this.material.uniforms.bindGroup);
+            passEncoder.setBindGroup(2,model.material.uniforms.bindGroup);
 
 
 
-            for (let attribute of this.material.shader.attributes) {
+            for (let attribute of model.material.shader.attributes) {
 
                 let buffer  = model.mesh.getBufferByName(attribute.name);
 
@@ -91,7 +74,9 @@ this.material.depthWrite =false;
     }
 
 
+    removeText(currentHitText: Model) {
+       this.models=[]
 
 
-
+    }
 }

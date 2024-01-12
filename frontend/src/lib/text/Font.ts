@@ -30,7 +30,11 @@ class Char {
     }
 
 }
-
+export enum TEXT_ALIGN {
+    LEFT,
+    CENTER,
+    RIGHT,
+}
 export default class Font {
     private json: any;
     private renderer: Renderer;
@@ -59,7 +63,7 @@ export default class Font {
 
     }
 
-    getMesh(text: string) {
+    getMesh(text: string,align:TEXT_ALIGN=TEXT_ALIGN.LEFT) {
 
 
         let lines = text.split("\n");
@@ -88,7 +92,9 @@ export default class Font {
             }
 
 
-            let xPos = -lineSize/2 ;
+            let xPos =0;
+            if(align==TEXT_ALIGN.CENTER) xPos=-lineSize/2 ;
+            if(align==TEXT_ALIGN.RIGHT) xPos=-lineSize ;
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
 
@@ -140,10 +146,10 @@ export default class Font {
                 indicesPos+=4;
                 xPos += char.xadvance;
             }
-            yPos-=42/300;
+            yPos-=50/300;
         }
 
-        let m = new Mesh(this.renderer, "text");
+        let m = new Mesh(this.renderer, "fontText");
 
 
         m.setUV0(uv)

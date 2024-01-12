@@ -28,10 +28,13 @@ export default class Model extends Object3D {
     public max:Vector3 =new Vector3()
     public center:Vector3 =new Vector3()
     public radius =1;
-    constructor(renderer: Renderer, label: string) {
+    private keepAlive: boolean;
+    constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
         this.buttonGroupSetting.color.setHex("#b32512")
+        this.keepAlive =keepAlive;
+        if(keepAlive)
         this.renderer.addModel(this);
     }
 
@@ -67,21 +70,25 @@ export default class Model extends Object3D {
     }
 
     destroy() {
+        if(this.keepAlive) this.renderer.removeModel(this);
+        if(this.mesh)this.mesh.destroy();
+
         if (this.parent) this.parent.removeChild(this);
     }
 
     protected updateMatrices() {
         super.updateMatrices();
-        this.min.from(this.mesh.min)
-        this.max.from(this.mesh.max)
-        this.min.transform(this.worldMatrix)
-        this.max.transform(this.worldMatrix)
-        this.center.from(this.min)
-        this.center.add(this.max)
-        this.center.scale(0.5);
+        if(this.mesh) {
+            this.min.from(this.mesh.min)
+            this.max.from(this.mesh.max)
+            this.min.transform(this.worldMatrix)
+            this.max.transform(this.worldMatrix)
+            this.center.from(this.min)
+            this.center.add(this.max)
+            this.center.scale(0.5);
 
-        this.radius = this.center.distance(this.max);
-
+            this.radius = this.center.distance(this.max);
+        }
         this.modelTransform.setWorldMatrix(this.worldMatrix);
     }
 

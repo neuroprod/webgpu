@@ -21,6 +21,7 @@ export default class Mesh extends ObjectGPU {
     indexFormat: GPUIndexFormat;
     min =new Vector3(-100000,-100000,-100000);
     max =new Vector3(100000,100000,100000);
+    private destroyed: boolean=false;
     constructor(renderer:Renderer,label="") {
         super(renderer,label);
 
@@ -121,10 +122,14 @@ export default class Mesh extends ObjectGPU {
     }
     destroy() {
         if (this.indexBuffer) this.indexBuffer.destroy();
+        for(let b of this.buffers){
+            b.destroy();
+        }
+        this.destroyed =true;
     }
 
     getBufferByName(name: string) {
-
+if(this.destroyed){console.error(":)")}
         return this.bufferMap.get(name);
     }
 

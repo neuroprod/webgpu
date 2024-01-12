@@ -28,7 +28,7 @@ export default class Event extends Component {
   private text: string;
   private label: string;
   private showCount = 0;
-  private showTime = 300;
+  private showTime = 1000;
 
   private textPos: Vec2 = new Vec2();
   private maxTextWidth: number=0;

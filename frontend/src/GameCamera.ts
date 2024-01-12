@@ -73,4 +73,9 @@ export default class GameCamera{
           let halfWidth = this.renderer.ratio * GameModel.sceneHeight/2;
         this.posSmooth=-halfWidth;
     }
+
+    getScreenPos(pos: Vector3) {
+       return pos.transform(this.camera.viewProjection);
+
+    }
 }
