@@ -11,7 +11,7 @@ export default class SoundHandler{
 
        // this.sound.load()
         this.stepInside = new Howl({
-            src: ['./sound/footstep_wood.mp3'],
+            src: ['sound/footstep_wood.mp3'],
             sprite: {
                 step0: [0, 500],
                 step1: [500, 500],
@@ -32,7 +32,7 @@ export default class SoundHandler{
         });
         this.stepInside.volume(0.1)
         this.stepOutside = new Howl({
-            src: ['./sound/footstep_gravel.mp3'],
+            src: ['sound/footstep_gravel.mp3'],
             sprite: {
                 step0: [0, 500],
                 step1: [500, 500],
