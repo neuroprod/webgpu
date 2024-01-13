@@ -1,7 +1,7 @@
-import UI from "./lib/UI/UI";
+
 import PreLoader from "./lib/PreLoader";
-import {Howl} from 'howler';
-import {Simulate} from "react-dom/test-utils";
+import { Howl } from 'howler';
+
 import GameModel, {Scenes} from "./GameModel";
 
 export default class SoundHandler{
