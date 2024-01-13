@@ -11,10 +11,12 @@
   "dependencies": {
     "@math.gl/types": "^3.6.3",
     "@types/draco3d": "^1.4.7",
+    "@types/howler": "^2.2.11",
     "@webgpu/types": "latest",
     "draco3d": "^1.5.6",
     "gl-matrix": "^3.4.3",
     "gsap": "^3.12.2",
+    "howler": "^2.2.4",
     "math.gl": "^3.6.3",
     "next": "latest",
     "react": "^18.2.0",
