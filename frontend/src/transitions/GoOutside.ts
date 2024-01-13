@@ -10,6 +10,8 @@ export default class GoOutside extends Transition{
         GameModel.characterPos.y=0;
         let target = door.getWorldPos(new Vector3(0,0,3))
         GameModel.characterHandler.walkTo(target,0)
+        GameModel.sound.playDoor()
+        GameModel.sound.playForest();
         onComplete();
     }
 }

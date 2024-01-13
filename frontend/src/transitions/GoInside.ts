@@ -11,8 +11,8 @@ export default class GoInside extends Transition{
         GameModel.characterPos.y=0;
         let target = door.getWorldPos(new Vector3(2,0,0))
         GameModel.characterHandler.walkTo(target)
-
-
+        GameModel.sound.playDoor()
+        GameModel.sound.stopForest()
         onComplete();
 
     }

@@ -1,15 +1,22 @@
-
 import PreLoader from "./lib/PreLoader";
-import { Howl } from 'howler';
+import {Howl} from 'howler';
 
 import GameModel, {Scenes} from "./GameModel";
 
-export default class SoundHandler{
-    private stepInside:  Howl;
-    private stepOutside:  Howl;
-    constructor(preloader:PreLoader) {
+export default class SoundHandler {
+    private stepInside: Howl;
+    private stepOutside: Howl;
+    private bg: Howl;
+    private door: Howl;
+    private forest: Howl;
+    private button: Howl;
 
-       // this.sound.load()
+    constructor(preloader: PreLoader) {
+        this.button  = new Howl({src: ['sound/button.mp3'],volume:0.2});
+        this.forest  = new Howl({src: ['sound/forest.mp3'],volume:2});
+        this.bg = new Howl({src: ['sound/Goldberg.mp3'], autoplay: true,loop:true, volume: 0.5});
+        this.door = new Howl({src: ['sound/door.mp3']});
+        // this.sound.load()
         this.stepInside = new Howl({
             src: ['sound/footstep_wood.mp3'],
             sprite: {
@@ -54,24 +61,45 @@ export default class SoundHandler{
         this.stepOutside.volume(0.5)
 
     }
-    onUI(){
-      /*  UI.pushWindow("Sound")
-        if(UI.LButton("test")){
 
-            let s =Math.floor( Math.random()*1000)%15;
-            this.stepInside.play("step" + s)
-            console.log("step"+s)
-        }
-        UI.popWindow()*/
+    onUI() {
+        /*  UI.pushWindow("Sound")
+          if(UI.LButton("test")){
+
+              let s =Math.floor( Math.random()*1000)%15;
+              this.stepInside.play("step" + s)
+              console.log("step"+s)
+          }
+          UI.popWindow()*/
+    }
+    playButton() {
+
+        this.button.play()
+    }
+    playForest() {
+        this.forest.play();
+        this.forest.fade(0,1,1000)
+    }
+    stopForest() {
+        this.forest.stop()
+    }
+    playDoor() {
+        this.door.play()
     }
 
     playFootstep() {
-        if(GameModel.currentScene ==Scenes.ROOM) {
+
+        let pos = GameModel.characterPos.clone()
+        let p =GameModel.gameCamera.getScreenPos( pos)
+
+        if (GameModel.currentScene == Scenes.ROOM) {
             let s = Math.floor(Math.random() * 1000) % 15;
+
+            this.stepInside.pos(pos.x,pos.y,pos.z)
             this.stepInside.play("step" + s)
-        }
-        else{
+        } else {
             let s = Math.floor(Math.random() * 1000) % 14;
+            this.stepOutside.pos(pos.x,pos.y,pos.z)
             this.stepOutside.play("step" + s)
         }
     }

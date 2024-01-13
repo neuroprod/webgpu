@@ -22,7 +22,7 @@ export default class HitTextTrigger extends HitTrigger{
     }
     public  click(){
 
-
+        GameModel.sound.playButton()
         GameModel.textHandler.showHitTrigger(this.objectLabel)
     }
 
