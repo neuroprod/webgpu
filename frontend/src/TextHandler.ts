@@ -117,7 +117,7 @@ export default class TextHandler {
         this.currentHitText.mesh = this.font.getMesh(copy, align);
 
 
-        this.currentHitText.setScale(0.7, 0.7, 0.7);
+        this.currentHitText.setScale(0.8, 0.8, 0.8);
         this.fontMeshRenderer.addText(this.currentHitText);
     }
 

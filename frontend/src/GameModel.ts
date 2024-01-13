@@ -21,6 +21,7 @@ import GoWorkTrigger from "./trigers/GoWorkTrigger";
 import GameCamera from "./GameCamera";
 import TextHandler from "./TextHandler";
 import UI from "./lib/UI/UI";
+import SoundHandler from "./SoundHandler";
 
 
 export const Transitions =
@@ -75,10 +76,11 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull =true;
     textHandler: TextHandler;
-    debug: boolean=false;
+    debug: boolean=true;
 
     public gameState=0
     catchMouseDown: boolean =false;
+    sound: SoundHandler;
 
     constructor() {
 

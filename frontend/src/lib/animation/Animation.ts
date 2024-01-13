@@ -3,6 +3,16 @@ import Renderer from "../Renderer";
 import AnimationChannel from "./AnimationChannel";
 import Timer from "../Timer";
 
+class AnimationCallBack {
+    time: number;
+    callBack: () => void;
+    constructor(time: number, callBack: () => void) {
+        this.time =time;
+        this.callBack =callBack;
+    }
+
+}
+
 export default class Animation extends ObjectGPU
 {
     public channels: Array<AnimationChannel>=[] ;
@@ -10,6 +20,9 @@ export default class Animation extends ObjectGPU
     private stopTime :number=Number.MIN_VALUE;
    public time:number =0;
     private totalTime: number;
+    private prevTime: number =0;
+    private callBacks:Array<AnimationCallBack>=[]
+
     constructor(renderer:Renderer,label:string) {
         super(renderer,label)
 
@@ -35,7 +48,15 @@ export default class Animation extends ObjectGPU
             this.time-=this.totalTime;
         }
         let t = this.time+this.startTime;
+        for(let c of this.callBacks){
+            if(c.time<t && c.time>this.prevTime)
+            {
 
+                c.callBack();
+            }
+        }
+
+        this.prevTime = t;
         for(let c of this.channels)
         {
             c.setTime(t);
@@ -47,5 +68,10 @@ export default class Animation extends ObjectGPU
         {
             c.setToObj()
         }
+    }
+
+    setCallBack(time: number, callBack: () => void) {
+        let a =new AnimationCallBack(time,callBack);
+        this.callBacks.push(a);
     }
 }

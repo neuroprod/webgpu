@@ -54,6 +54,7 @@ import Simplex from "./ComputePasses/Simplex";
 import Font from "./lib/text/Font";
 import Model from "./lib/model/Model";
 import TextHandler from "./TextHandler";
+import SoundHandler from "./SoundHandler";
 
 
 
@@ -162,6 +163,7 @@ export default class Main {
             },
             this.init.bind(this)
         );
+        GameModel.sound =new SoundHandler(this.preloader)
         GameModel.textHandler =new TextHandler(this.renderer,this.preloader)
         GameModel.textHandler.font = this.font;
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
@@ -488,6 +490,7 @@ export default class Main {
             UI.popID()
             UI.popWindow()
         }
+        GameModel.sound.onUI()
     }
 
     onDraw() {

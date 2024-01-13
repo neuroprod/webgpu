@@ -2,6 +2,7 @@
 import Animation from "./Animation";
 import UI from "../UI/UI";
 import Texture from "../textures/Texture";
+import GameModel from "../../GameModel";
 export default class AnimationMixer{
     private animations: Array<Animation>;
     private animationsByName: { [name: string]: Animation } = {};
@@ -21,6 +22,9 @@ export default class AnimationMixer{
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
 
+        let walking =this.animationsByName["walking"]
+        walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
+        walking.setCallBack(11*(1/30),()=>{GameModel.sound.playFootstep()})
     }
     onUI(){
         //UI.pushWindow("Animation")
