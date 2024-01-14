@@ -3,6 +3,8 @@ import Renderer from "../Renderer";
 
 export default class TextureLoader extends Texture {
     private loaded: boolean=false;
+
+    onComplete=()=>{}
     constructor(renderer: Renderer, preLoader, url: string = "", options: Partial<TextureOptions>,delay=0) {
         super(renderer, url, options)
         preLoader.startLoad();
@@ -12,6 +14,7 @@ export default class TextureLoader extends Texture {
 
     this.loadURL(url).then(() => {
         preLoader.stopLoad();
+        this.onComplete();
     });
 },delay)
 

@@ -61,10 +61,10 @@ export default class Renderer {
 
         }
         //TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES
-        console.log(adapter.limits)
+      //  console.log(adapter.limits)
         //extentions
         for (let a of adapter.features.keys()) {
-           console.log(a)
+       //    console.log(a)
         }
         //console.log("timestamps?", this.useTimeStampQuery)
         //let limits={

@@ -23,7 +23,7 @@ export default class WaterFrontShader extends Shader{
         this.addUniform("time", 0);
         this.addUniform("refSettings1", new Vector4());
         this.addUniform("refSettings2", new Vector4());
-        this.addUniform("time", 0);
+
 
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
         this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");

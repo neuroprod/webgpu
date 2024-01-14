@@ -55,6 +55,7 @@ import Font from "./lib/text/Font";
 import Model from "./lib/model/Model";
 import TextHandler from "./TextHandler";
 import SoundHandler from "./SoundHandler";
+import GameUI from "./GameUI";
 
 
 
@@ -152,7 +153,7 @@ export default class Main {
         this.mainLight.setPosition(-3,2,1);
         this.mainLight.color.w=120;
         this.font = new Font(this.renderer, this.preloader);
-
+        GameModel.gameUI =new GameUI(this.renderer,this.preloader)
 
     }
 
@@ -163,6 +164,7 @@ export default class Main {
             },
             this.init.bind(this)
         );
+        GameModel.gameUI.preload(this.preloader);
         GameModel.sound =new SoundHandler(this.preloader)
         GameModel.textHandler =new TextHandler(this.renderer,this.preloader)
         GameModel.textHandler.font = this.font;
@@ -356,6 +358,7 @@ export default class Main {
         window.requestAnimationFrame(() => this.tick());
         GameModel.mousePos = this.mouseListener.mousePos.clone();
         GameModel.mouseDownThisFrame = this.mouseListener.isDownThisFrame;
+        GameModel.mouseUpThisFrame =this.mouseListener.isUpThisFrame;
         Timer.update();
         this.update();
         UI.updateGPU();

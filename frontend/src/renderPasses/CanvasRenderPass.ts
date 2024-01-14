@@ -14,6 +14,7 @@ import RenderSettings from "../RenderSettings";
 import DrawingRenderer from "../drawing/DrawingRenderer";
 
 import FontMeshRenderer from "../lib/text/FontMeshRenderer";
+import GameModel from "../GameModel";
 
 
 export default class CanvasRenderPass extends RenderPass {
@@ -139,7 +140,8 @@ export default class CanvasRenderPass extends RenderPass {
 
         this.blitTest.draw(this);
         this.drawingRenderer.draw(this);
-        this.fontMeshRenderer.draw(this)
+        this.fontMeshRenderer.draw(this);
+      GameModel.gameUI.modelRenderer.draw(this);
         UI.drawGPU(this.passEncoder, true)
     }
 

@@ -22,6 +22,7 @@ import GameCamera from "./GameCamera";
 import TextHandler from "./TextHandler";
 import UI from "./lib/UI/UI";
 import SoundHandler from "./SoundHandler";
+import GameUI from "./GameUI";
 
 
 export const Transitions =
@@ -57,8 +58,9 @@ class GameModel {
     public yMouseScale: number = 1;
     public sceneHeight = 3;
     public main: Main;
-    public mouseDownThisFrame: boolean = false;
-    public mousePos: Vector2 = new Vector2();
+    mouseUpThisFrame:boolean =false ;
+     mouseDownThisFrame: boolean = false;
+     mousePos: Vector2 = new Vector2();
 
     public characterPos: Vector3 = new Vector3(0, 0, 0);
     dayNight: number = 0;
@@ -81,6 +83,10 @@ class GameModel {
     public gameState=0
     catchMouseDown: boolean =false;
     sound: SoundHandler;
+    gameUI: GameUI;
+    screenWidth: number;
+   screenHeight: number;
+
 
     constructor() {
 
@@ -114,6 +120,13 @@ class GameModel {
     }
 
     update() {
+       this.screenWidth = this.renderer.width/this.renderer.pixelRatio;
+        this.screenHeight = this.renderer.height/this.renderer.pixelRatio;
+        //checkUI
+        this.gameUI.updateMouse(this.mousePos,this.mouseDownThisFrame,this.mouseUpThisFrame)
+        this.gameUI.update()
+
+
 
         if(this.mouseDownThisFrame && this.catchMouseDown){
             this.onMouseDown();
