@@ -39,7 +39,7 @@ export default class LightOutsideRenderPass extends RenderPass {
     private fogColorNight: ColorV = new ColorV(0.00,0.02,0.04,1.00);
     public fogDataNight = new Vector4(0.27, 0.6,0,0);
     private sunLightColor: ColorV = new ColorV(1.00, 0.83, 0.63, 1.00);
-    private sunLightStrength: number = 5.6;
+    private sunLightStrength: number = 4.5;
 
     private topColorDay: ColorV = new ColorV(0.73, 0.99, 0.95, 0.40);
     private midColorDay: ColorV = new ColorV(1.00, 0.91, 0.82, 0.19);

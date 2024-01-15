@@ -50,8 +50,6 @@ export default class Room extends Scene{
     public lightWall: MainLight;
     private osc2Screen: Osc2Screen;
     private osc1Screen: Osc1Screen;
-    private fog: Model;
-    private fog2: Model;
 
 
     constructor(renderer: Renderer, preloader: PreLoader) {
@@ -126,41 +124,7 @@ export default class Room extends Scene{
 
     makeTransParent() {
 
-        this.fog = new Model(this.renderer,"fogtest")
-        this.fog.mesh =new Plane(this.renderer,1,1,1,1,true)
-        this.fog.material =new Material(this.renderer,"fogPlane",new FogShader(this.renderer,"fog"))
-        this.fog.material.depthWrite = false;
-        this.fog.setPosition(-2,-1,-2)
-        this.fog.setScale(4,1,1)
-        this.fog.setEuler(Math.PI/2,0,0)
 
-
-        this.fog2 = new Model(this.renderer,"fogtest")
-        this.fog2.mesh =new Plane(this.renderer,1,1,1,1,true)
-        this.fog2.material =new Material(this.renderer,"fogPlane",new FogShader(this.renderer,"fog"))
-        this.fog2.material.depthWrite = false;
-        this.fog2.setPosition(-2,-1,0)
-        this.fog2.setScale(4,1,1)
-        this.fog2.setEuler(Math.PI/2,0,0)
-        this.modelRendererTrans.addModel(this.fog2)
-        this.modelRendererTrans.addModel(this.fog)
-
-        let l: GPUBlendState = {
-
-            color: {
-                srcFactor: BlendFactor.One,
-                dstFactor: BlendFactor.OneMinusSrcAlpha,
-                operation: BlendOperation.Add,
-            },
-            alpha: {
-                srcFactor: BlendFactor.One,
-                dstFactor: BlendFactor.OneMinusSrcAlpha,
-                operation: BlendOperation.Add,
-            }
-        }
-
-        this.fog.material.blendModes = [l];
-        this.fog2.material.blendModes = [l];
 
         for (let m of this.glFTLoader.modelsGlass) {
 
@@ -185,8 +149,7 @@ export default class Room extends Scene{
         this.osc2Screen.update();
         this.osc1Screen.update();
         this.mill.update();
-        this.fog.material.uniforms.setUniform("time",Timer.time*0.04+0.5)
-        this.fog2.material.uniforms.setUniform("time",Timer.time*0.04+0.5)
+
     }
 
 

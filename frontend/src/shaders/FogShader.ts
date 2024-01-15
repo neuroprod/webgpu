@@ -82,14 +82,15 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
   uv.x +=uniforms.time*0.5;
 var alpha =(textureSample(noise, mySampler,   uv).x-0.2)*5.0;
 
- uv  = uv0*0.1;
+ uv  = uv0*0.2;
  uv.x*=3.0;
   uv.x -=uniforms.time*0.33;
 alpha *=textureSample(noise, mySampler,   uv).y;
 alpha*=alpha;
  alpha *=uv0.y;
  alpha *=smoothstep(0.0,1.0,d);
- alpha*=0.7;
+ alpha*=0.5;
+ alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x);
   return vec4(vec3(alpha*0.5),alpha);
  
 }

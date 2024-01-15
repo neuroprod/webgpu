@@ -87,7 +87,7 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull =true;
     textHandler: TextHandler;
-    debug: boolean=true;
+    debug: boolean=false;
 
     public gameState=0
     catchMouseDown: boolean =false;

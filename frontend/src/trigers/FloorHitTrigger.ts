@@ -55,7 +55,7 @@ export class FloorHitTrigger extends Trigger {
     }
 
     protected click() {
-
+//console.log(GameModel.hitWorldPos)
         GameModel.characterHandler.walkTo(GameModel.hitWorldPos,0)
     }
 

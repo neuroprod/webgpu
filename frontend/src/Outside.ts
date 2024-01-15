@@ -15,6 +15,7 @@ import WaterTopShader from "./shaders/WaterTopShader";
 import Model from "./lib/model/Model";
 import WaterFrontShader from "./shaders/WaterFrontShader";
 import Fish from "./extras/Fish";
+import FogPlanes from "./extras/FogPlanes";
 
 
 
@@ -29,6 +30,7 @@ export default class Outside extends Scene{
     private waterTop: Model;
     private waterFront: Model;
     private fish: Fish;
+    private fogPlanes: FogPlanes;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -57,7 +59,7 @@ export default class Outside extends Scene{
 
     public update() {
 
-
+this.fogPlanes.update()
         this.fish.update();
         //GameModel.dayNight
         this.waterTop.material.uniforms.setUniform("time",Timer.time*0.05)
@@ -69,6 +71,13 @@ export default class Outside extends Scene{
     }
 
     makeTransParent() {
+
+        this.fogPlanes =new FogPlanes(this.renderer,this.glFTLoader.root)
+        for (let m of this.fogPlanes.models) {
+            this.modelRendererTrans.addModel(m)
+
+        }
+
         for (let m of this.glFTLoader.modelsGlass) {
             if(m.label =="waterTop_G"){
                 m.material  = new Material(this.renderer,m.label, new WaterTopShader(this.renderer,"waterTop"));
