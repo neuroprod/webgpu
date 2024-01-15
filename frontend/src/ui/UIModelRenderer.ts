@@ -1,7 +1,7 @@
-import Model from "./lib/model/Model";
-import RenderPass from "./lib/core/RenderPass";
-import Renderer from "./lib/Renderer";
-import Camera from "./lib/Camera";
+import Model from "../lib/model/Model";
+import RenderPass from "../lib/core/RenderPass";
+import Renderer from "../lib/Renderer";
+import Camera from "../lib/Camera";
 
 export default class UIModelRenderer{
 

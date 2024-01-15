@@ -22,7 +22,7 @@ import GameCamera from "./GameCamera";
 import TextHandler from "./TextHandler";
 import UI from "./lib/UI/UI";
 import SoundHandler from "./SoundHandler";
-import GameUI from "./GameUI";
+import GameUI from "./ui/GameUI";
 
 
 export const Transitions =
@@ -35,6 +35,14 @@ export const Transitions =
 
 
     }
+export enum UIState
+{
+        GAME_DEFAULT,
+       OPEN_MENU,
+        INVENTORY_DETAIL,
+
+
+}
 export enum GameState {
     START,
     READ_MAIL,
@@ -78,7 +86,7 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull =true;
     textHandler: TextHandler;
-    debug: boolean=true;
+    debug: boolean=false;
 
     public gameState=0
     catchMouseDown: boolean =false;
@@ -203,6 +211,10 @@ class GameModel {
                 this.setGameState(GameState.READ_MAIL_DONE)
             }
         }
+    }
+
+    setUIState(state:UIState) {
+        this.gameUI.setUIState(state);
     }
 }
 

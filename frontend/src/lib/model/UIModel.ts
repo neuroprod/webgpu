@@ -12,19 +12,19 @@ export default class UIModel extends Model {
 
     }
     onOver(){
-        console.log("over",this.label)
+        //console.log("over",this.label)
     }
     onOut(){
-        console.log("out",this.label)
+        //console.log("out",this.label)
     }
     onDown(){
-        console.log("onDown",this.label)
+       // console.log("onDown",this.label)
     }
     onUp(){
-        console.log("onUp",this.label)
+        //console.log("onUp",this.label)
     }
     onClick(){
-        console.log("onClick",this.label)
+        //console.log("onClick",this.label)
     }
     collectChildren(array:Array<Model>){
         if(!this.visible)return;

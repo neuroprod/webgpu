@@ -55,7 +55,7 @@ import Font from "./lib/text/Font";
 import Model from "./lib/model/Model";
 import TextHandler from "./TextHandler";
 import SoundHandler from "./SoundHandler";
-import GameUI from "./GameUI";
+import GameUI from "./ui/GameUI";
 
 
 

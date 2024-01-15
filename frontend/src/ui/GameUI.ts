@@ -1,14 +1,15 @@
-import Renderer from "./lib/Renderer";
-import PreLoader from "./lib/PreLoader";
-import Camera from "./lib/Camera";
-import GameModel from "./GameModel";
-import UIBitmapModel from "./lib/model/UIBitmapModel";
-import Model from "./lib/model/Model";
+import Renderer from "../lib/Renderer";
+import PreLoader from "../lib/PreLoader";
+import Camera from "../lib/Camera";
+import GameModel, {UIState} from "../GameModel";
+import UIBitmapModel from "../lib/model/UIBitmapModel";
 import UIModelRenderer from "./UIModelRenderer";
-import {Vector2, Vector3, Vector4} from "math.gl";
-import UIModel from "./lib/model/UIModel";
-import {render} from "react-dom";
-
+import {Vector2} from "math.gl";
+import UIModel from "../lib/model/UIModel";
+import MenuButton from "./MenuButton";
+import Inventory from "./Inventory";
+import Menu from "./Menu";
+import InventoryDetail from "./InventoryDetail";
 
 
 export default class GameUI
@@ -18,15 +19,19 @@ export default class GameUI
 
 
     private camera: Camera;
-   
+
     modelRenderer: UIModelRenderer;
     private renderer: Renderer;
-    private test: UIBitmapModel;
+
     private root:UIModel;
-    private test2: UIBitmapModel;
+
 
     private downItem:UIModel =null;
     private overItem:UIModel =null;
+    private menuButton: MenuButton;
+    private inventory: Inventory;
+    private menu: Menu;
+    private inventoryDetail: InventoryDetail;
 
     constructor(renderer:Renderer,preLoader:PreLoader) {
 
@@ -39,14 +44,19 @@ export default class GameUI
 
         this.modelRenderer =new UIModelRenderer(renderer,"UIModelRenderer")
         this.modelRenderer.camera = this.camera;
-        this.test =new UIBitmapModel(renderer,preLoader,"test1","UI/BlueNoise.png")
-        this.root.addChild(this.test);
-        this.test.setPosition(500,500,0)
 
 
-        this.test2 =new UIBitmapModel(renderer,preLoader,"test2","UI/BlueNoise.png")
-        this.root.addChild(this.test2);
-        this.test2.setPosition(600,100,0)
+        this.inventoryDetail =new InventoryDetail(renderer,preLoader);
+        this.root.addChild( this.inventoryDetail);
+        this.menuButton =new MenuButton(renderer,preLoader);
+        this.root.addChild(this.menuButton);
+
+        this.inventory =new Inventory(renderer,preLoader)
+        this.root.addChild(this.inventory);
+
+        this.menu =new Menu(renderer,preLoader)
+        this.root.addChild(this.menu);
+
        // this.test.setEuler(Math.PI,0,0)
 
         this.modelRenderer.models=[];
@@ -60,6 +70,7 @@ export default class GameUI
     }
     public update(){
         this.updateCamera()
+
 
     }
 
@@ -76,6 +87,7 @@ export default class GameUI
 
         this.modelRenderer.models=[];
         this.root.collectChildren(this.modelRenderer.models);
+        this.modelRenderer.models.reverse()
     }
 
     updateMouse(mousePos: Vector2, mouseDownThisFrame: boolean, mouseUpThisFrame: boolean) {
@@ -99,12 +111,32 @@ export default class GameUI
 
         }else{
             if(this.overItem)this.overItem.onOut()
+
             this.overItem =null;
 
         }
         if(mouseUpThisFrame){
             if(this.downItem)this.downItem.onUp()
             this.downItem =null;
+        }
+    }
+
+    setUIState(state: UIState) {
+        if(state==UIState.OPEN_MENU){
+            this.menuButton.hide()
+            this.inventory.hide()
+            this.menu.show()
+        }
+        if(state==UIState.GAME_DEFAULT){
+            this.menuButton.show()
+            this.inventory.show()
+            this.menu.hide()
+            this.inventoryDetail.hide()
+        }
+        if(state==UIState.INVENTORY_DETAIL){
+
+            this.inventoryDetail.show()
+
         }
     }
 }
