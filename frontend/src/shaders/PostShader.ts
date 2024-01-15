@@ -19,7 +19,7 @@ export default class PostShader extends Shader{
         this.addUniform("brightness",0);
         this.addUniform("vibrance",0);
         this.addUniform("saturation",0);
-
+        this.addUniform("black",1);
         this.addUniform("falloff",0.0);
         this.addUniform("amount",0.0);
         this.addUniform("bloom_strength",0.0)
@@ -112,7 +112,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
   // let dist = distance( uv0, vec2(0.5, 0.5));
    // color =color* smoothstep(0.8, uniforms.falloff * 0.799, dist * (uniforms.amount + uniforms.falloff));
     let outline= max(textureSample(outlineBlurTexture, mySampler,uv0).x - textureSample(outlineTexture, mySampler,uv0).x,0.0);
-    color =mix(color,vec3f(0.90,0.83,0.65),smoothstep(0.0,0.1,outline));
+    color =mix(color,vec3f(0.90,0.83,0.65),smoothstep(0.0,0.1,outline))*uniforms.black;
     return vec4(color,1.0) ;
 }
 ///////////////////////////////////////////////////////////

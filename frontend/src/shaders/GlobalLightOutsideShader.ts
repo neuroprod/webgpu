@@ -28,6 +28,8 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
         this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
+        this.addUniform("fogColor",new Vector4(0.5,0.6,0.0,0.0))
+        this.addUniform("fogData",new Vector4(0.5,0.6,0.0,0.0))
         this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadow",DefaultTextures.getWhite(this.renderer),"depth")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -211,8 +213,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
 
     if(mra.w==0.0){return vec4(albedo*1.5,0.0);}
-
-    return vec4(color+(lightL+lightP)*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
+let fogAmount =smoothstep(uniforms.fogData.x,uniforms.fogData.y,depth);
+    return vec4(mix(color+(lightL+lightP)*ao,uniforms.fogColor.xyz,fogAmount),smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }
 ///////////////////////////////////////////////////////////
         `

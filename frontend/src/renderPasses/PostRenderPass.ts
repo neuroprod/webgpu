@@ -51,7 +51,7 @@ export default class PostRenderPass extends RenderPass {
         this.blitMaterial.uniforms.setUniform( "brightness",RenderSettings.brightness);
         this.blitMaterial.uniforms.setUniform( "vibrance",RenderSettings.vibrance);
         this.blitMaterial.uniforms.setUniform( "saturation",RenderSettings.saturation)
-
+        this.blitMaterial.uniforms.setUniform( "black",RenderSettings.black);
         this.blitMaterial.uniforms.setUniform( "falloff",RenderSettings.vin_falloff);
         this.blitMaterial.uniforms.setUniform( "amount",RenderSettings.vin_amount);
         this.blitMaterial.uniforms.setUniform( "bloom_strength",RenderSettings.bloom_strength);

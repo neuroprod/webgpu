@@ -42,8 +42,10 @@ export default class extends RenderPass {
     onSettingsChange() {
         super.onSettingsChange();
         for(let m of  this.modelRenderer.models){
-            m.material.uniforms.setUniform("refSettings1",RenderSettings.ref_settings1)
+           if(m.material.label.includes("_G")){
+           m.material.uniforms.setUniform("refSettings1",RenderSettings.ref_settings1)
             m.material.uniforms.setUniform("refSettings2",RenderSettings.ref_settings2)
+           }
         }
     }
     draw() {

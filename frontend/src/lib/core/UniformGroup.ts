@@ -157,7 +157,7 @@ export default class UniformGroup extends ObjectGPU {
             }
 
         } else {
-            console.log("uniform not found", name, value)
+            console.log("uniform not found", name, value,this.label)
         }
 
     }
@@ -169,7 +169,7 @@ export default class UniformGroup extends ObjectGPU {
             found.texture = value;
             this.isBindGroupDirty = true;
         } else {
-            console.log("uniform not found", name, value)
+            console.log("uniform texture not found", name, value,this.label)
         }
 
     }

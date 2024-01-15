@@ -23,6 +23,7 @@ import TextHandler from "./TextHandler";
 import UI from "./lib/UI/UI";
 import SoundHandler from "./SoundHandler";
 import GameUI from "./ui/GameUI";
+import RenderSettings from "./RenderSettings";
 
 
 export const Transitions =
@@ -86,7 +87,7 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull =true;
     textHandler: TextHandler;
-    debug: boolean=false;
+    debug: boolean=true;
 
     public gameState=0
     catchMouseDown: boolean =false;
@@ -215,6 +216,11 @@ class GameModel {
 
     setUIState(state:UIState) {
         this.gameUI.setUIState(state);
+        if(state==UIState.OPEN_MENU){
+            RenderSettings.openMenu()
+        }else if(state==UIState.GAME_DEFAULT){
+            RenderSettings.closeMenu()
+        }
     }
 }
 

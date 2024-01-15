@@ -168,7 +168,10 @@ export default class Main {
         GameModel.sound =new SoundHandler(this.preloader)
         GameModel.textHandler =new TextHandler(this.renderer,this.preloader)
         GameModel.textHandler.font = this.font;
+
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
+        new TextureLoader(this.renderer, this.preloader, "noiseTexture.png", {});
+
         this.drawingPreloader = new DrawingPreloader()
         this.drawingPreloader.load(this.renderer, this.preloader)
 

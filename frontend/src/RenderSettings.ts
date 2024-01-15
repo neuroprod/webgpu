@@ -1,7 +1,7 @@
 import RenderPass from "./lib/core/RenderPass";
 import UI from "./lib/UI/UI";
 import {Vector4} from "math.gl";
-
+import gsap from "gsap";
 class RenderSettings{
     private passes:Array<RenderPass>=[];
     public bloom_threshold: number=2;
@@ -13,6 +13,7 @@ class RenderSettings{
     public brightness:number =0;
     public vibrance:number=0;
     public saturation:number =0
+    public black:number =1
     public vin_amount: number =0.52;
     public vin_falloff: number=0.52;
 
@@ -56,8 +57,8 @@ class RenderSettings{
        UI.pushGroup("Dof");
        this.dof_Settings.z =UI.LFloatSlider("Samples",   this.dof_Settings.z ,0,10) ;
        this.dof_Settings.w =UI.LFloatSlider("Step",   this.dof_Settings.w ,0,10) ;
-       this.dof_Settings.x =UI.LFloatSlider("Min",   this.dof_Settings.x ,0,1) ;
-       this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
+      // this.dof_Settings.x =UI.LFloatSlider("Min",   this.dof_Settings.x ,0,1) ;
+       //this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
        UI.popGroup()
        UI.pushGroup("Post");
 
@@ -67,7 +68,7 @@ class RenderSettings{
 
        this.vibrance=UI.LFloatSlider("Vibrance",this.vibrance,-1,1);
        this.saturation=UI.LFloatSlider("Saturation",this.saturation,-1,1);
-
+       //this.black=UI.LFloatSlider("black",this.black,0,1);
        UI.separator("Vignette");
        this.vin_amount=UI.LFloatSlider("Amount",this.vin_amount,0,1);
        this.vin_falloff=UI.LFloatSlider("Falloff",this.vin_falloff,0,1);
@@ -83,5 +84,19 @@ class RenderSettings{
 
     }
 
+    closeMenu() {
+        gsap.killTweensOf(this.dof_Settings);
+        gsap.killTweensOf(this);
+        console.log("close")
+        gsap.to(this.dof_Settings,{x:0.47,y:0.8,duration:0.5,onUpdate:()=>{this.onChange()}});
+        gsap.to(this,{black:1,duration:0.5});
+    }
+
+    openMenu() {
+        gsap.killTweensOf(this.dof_Settings);
+        gsap.killTweensOf(this);
+        gsap.to(this.dof_Settings,{x:0.1,y:0.1,duration:0.5,onUpdate:()=>{this.onChange()}});
+        gsap.to(this,{black:0.5,duration:0.5});
+    }
 }
 export default new RenderSettings()

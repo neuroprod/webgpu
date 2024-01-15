@@ -34,7 +34,7 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("topColorRight",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
-
+        this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
         this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube1",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube3",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
@@ -161,8 +161,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 
     let textureSize =vec2<f32>( textureDimensions(gColor));
     let uvPos = vec2<i32>(floor(uv0*textureSize));
-   
-    let world=getWorldFromUVDepth(uv0 ,textureLoad(gDepth,  uvPos ,0).x); 
+    let depth = textureLoad(gDepth,  uvPos ,0).x;
+    let world=getWorldFromUVDepth(uv0 ,depth); 
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
     let N = normalize((textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);
@@ -216,7 +216,7 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
  
     if(mra.w==0.0){return vec4(albedo,0.0);}
 
-    return vec4(color+lightL*ao,0.0) ;
+    return vec4(color+lightL*ao,smoothstep(uniforms.dof.x,uniforms.dof.y,depth) ) ;
 }
 ///////////////////////////////////////////////////////////
         `

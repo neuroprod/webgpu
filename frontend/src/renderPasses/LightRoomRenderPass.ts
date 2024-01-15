@@ -18,6 +18,7 @@ import {saveToJsonFile} from "../lib/SaveUtils";
 import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
 import GameModel from "../GameModel";
+import RenderSettings from "../RenderSettings";
 
 export default class LightRoomRenderPass extends RenderPass {
 
@@ -49,7 +50,7 @@ export default class LightRoomRenderPass extends RenderPass {
     constructor(renderer: Renderer) {
 
         super(renderer, "LightRenderPass");
-
+        RenderSettings.registerPass(this);
         this.target = new RenderTexture(renderer, "LightPass", {
             format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
@@ -256,7 +257,11 @@ public setUniforms(){
         UI.popGroup()
 
     }
-
+    onSettingsChange() {
+        super.onSettingsChange();
+        if (this.globalLightMaterial)
+            this.globalLightMaterial.uniforms.setUniform("dof", RenderSettings.dof_Settings)
+    }
     draw() {
         //console.log(this.target,this.target.getView() )
         this.blitGlobalLight.draw(this);
