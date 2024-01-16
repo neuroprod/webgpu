@@ -95,6 +95,7 @@ export default class Model extends Object3D {
     }
 
     saveData(data:any) {
+if(!this.mesh)return;
 
         data[this.mesh.label]={
             needsHitTest :this.needsHitTest,
