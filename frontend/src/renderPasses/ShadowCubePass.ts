@@ -51,11 +51,11 @@ export default class ShadowCubePass extends RenderPass {
 
             if( !model.shadowMaterial)continue
             model.shadowMaterial.makePipeLine(this);
-
+            passEncoder.setPipeline(model.shadowMaterial.pipeLine);
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
             if(model.material.skin != undefined){
 
-                passEncoder.setPipeline(model.shadowMaterial.pipeLine);
+
                 passEncoder.setBindGroup(2,model.material.skin.bindGroup);
                 for (let attribute of model.shadowMaterial.shader.attributes) {
                     passEncoder.setVertexBuffer(
@@ -64,7 +64,10 @@ export default class ShadowCubePass extends RenderPass {
                     );
                 }
             }else{
-                passEncoder.setPipeline(model.shadowMaterial.pipeLine);
+
+                if(model.shadowMaterial.uniforms) {
+                    passEncoder.setBindGroup(2, model.shadowMaterial.uniforms.bindGroup);
+                }
                 for (let attribute of model.shadowMaterial.shader.attributes) {
                     passEncoder.setVertexBuffer(
                         attribute.slot,

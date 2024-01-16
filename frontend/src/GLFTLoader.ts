@@ -18,6 +18,7 @@ import {materialData} from "./PreloadData";
 import GBufferShaderWind from "./shaders/GbufferShaderWind";
 import DepthSkinShader from "./shaders/DepthSkinShader";
 import DepthShader from "./shaders/DepthShader";
+import DepthShaderAlpha from "./shaders/DepthShaderAlpha";
 
 
 type Accessor = {
@@ -174,8 +175,9 @@ export default class GLFTLoader {
             }
             let opTexture = this.getTexture(name + "_Op");
             if (opTexture) {
-
-                //material.uniforms.setTexture("opTexture", opTexture)
+               let m = new Material(this.renderer,"depthAlpha",new DepthShaderAlpha(this.renderer));
+               m.uniforms.setTexture("opTexture", opTexture)
+                return m;
             }
         }
         return new Material(this.renderer,"depth",new DepthShader(this.renderer));

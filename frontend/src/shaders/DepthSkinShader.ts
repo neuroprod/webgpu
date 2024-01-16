@@ -6,7 +6,7 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
 export default class DepthSkinShader extends Shader{
-    private needsFragment: boolean=true;
+
 
 
     init(){
