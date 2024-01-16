@@ -79,12 +79,12 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     
    var uv  = uv0*0.1;
    uv.x*=3.0;
-  uv.x +=uniforms.time*0.5;
+  uv.y +=uniforms.time*0.5;
 var alpha =(textureSample(noise, mySampler,   uv).x-0.2)*5.0;
 
  uv  = uv0*0.2;
  uv.x*=3.0;
-  uv.x -=uniforms.time*0.33;
+  uv.x =uniforms.time*0.33;
 alpha *=textureSample(noise, mySampler,   uv).y;
 alpha*=alpha;
  alpha *=uv0.y;

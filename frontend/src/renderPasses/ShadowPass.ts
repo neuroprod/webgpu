@@ -23,6 +23,8 @@ export default class ShadowPass extends RenderPass {
     private material: Material;
     private materialSkin: Material;
     private depthTarget: RenderTexture;
+    private colorTarget: RenderTexture;
+    private colorAttachment: ColorAttachment;
 
 
 
@@ -34,23 +36,33 @@ export default class ShadowPass extends RenderPass {
     constructor(renderer: Renderer) {
 
         super(renderer, "ShadowPass");
-
+let size =2048;
         this.depthTarget = new RenderTexture(renderer, "Shadow", {
             format: TextureFormat.Depth16Unorm,
             sampleCount: 1,
             scaleToCanvas: false,
-            width:2048,
-            height:2048,
+            width:size,
+            height:size,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
         this.depthTarget.make()
-
-
-
         this.depthStencilAttachment = new DepthStencilAttachment(   this.depthTarget);
+        this.depthStencilAttachment.getAttachment()
 
-      this.depthStencilAttachment.getAttachment()
 
+        this.colorTarget = new RenderTexture(renderer, "ShadowCubeColor"+name, {
+            format: TextureFormat.R16Float,
+            sampleCount: 1,
+            scaleToCanvas: false,
+            width: size,
+            height: size,
+
+            usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
+        });
+        this.colorTarget.make()
+        this.colorAttachment= new ColorAttachment(this.colorTarget);
+        this.colorAttachment.getAttachment();
+        this.colorAttachments = [this.colorAttachment];
 
     }
     init(){
@@ -88,36 +100,41 @@ export default class ShadowPass extends RenderPass {
     }
     draw() {
 
-        const passEncoder =this.passEncoder;
 
-        passEncoder.setBindGroup(0,this.camera.bindGroup);
-        this.material.makePipeLine(this);
-        this.materialSkin.makePipeLine(this);
-        //passEncoder.setPipeline(this.material.pipeLine);
 
-        for (let model of this.models) {
-            if(!model.visible)continue
-            if(!model.castShadow)continue
-            if(!this.camera.modelInFrustum(model))continue;
-            passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
-            if(model.material.skin != undefined){
-                passEncoder.setPipeline(this.materialSkin.pipeLine);
-                passEncoder.setBindGroup(2,model.material.skin.bindGroup);
-                for (let attribute of this.materialSkin.shader.attributes) {
-                    passEncoder.setVertexBuffer(
-                        attribute.slot,
-                        model.mesh.getBufferByName(attribute.name)
-                    );
+            const passEncoder =this.passEncoder;
+
+            passEncoder.setBindGroup(0,this.camera.bindGroup);
+
+
+            for (let model of this.models) {
+                if(!model.visible)continue
+                if(!model.castShadow)continue
+                if(!this.camera.modelInFrustum(model))continue;
+
+                if( !model.shadowMaterial)continue
+                model.shadowMaterial.makePipeLine(this);
+
+                passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
+                if(model.material.skin != undefined){
+
+                    passEncoder.setPipeline(model.shadowMaterial.pipeLine);
+                    passEncoder.setBindGroup(2,model.material.skin.bindGroup);
+                    for (let attribute of model.shadowMaterial.shader.attributes) {
+                        passEncoder.setVertexBuffer(
+                            attribute.slot,
+                            model.mesh.getBufferByName(attribute.name)
+                        );
+                    }
+                }else{
+                    passEncoder.setPipeline(model.shadowMaterial.pipeLine);
+                    for (let attribute of model.shadowMaterial.shader.attributes) {
+                        passEncoder.setVertexBuffer(
+                            attribute.slot,
+                            model.mesh.getBufferByName(attribute.name)
+                        );
+                    }
                 }
-            }else{
-                passEncoder.setPipeline(this.material.pipeLine);
-                for (let attribute of this.material.shader.attributes) {
-                    passEncoder.setVertexBuffer(
-                        attribute.slot,
-                        model.mesh.getBufferByName(attribute.name)
-                    );
-                }
-            }
 
 
 

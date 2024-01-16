@@ -16,6 +16,8 @@ import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
 import HitTestObject from "./lib/meshes/HitTestObject";
 import {materialData} from "./PreloadData";
 import GBufferShaderWind from "./shaders/GbufferShaderWind";
+import DepthSkinShader from "./shaders/DepthSkinShader";
+import DepthShader from "./shaders/DepthShader";
 
 
 type Accessor = {
@@ -149,6 +151,7 @@ export default class GLFTLoader {
                 m.model.normalAdj  =mData.normalAdj;
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
+            m.model.shadowMaterial = this.makeShadowMaterial(m.model.mesh.label, m.skinID)
             if (m.model.label.includes("_G")) {
                 this.modelsGlass.push(m.model);
             } else {
@@ -157,7 +160,28 @@ export default class GLFTLoader {
 
         }
     }
+    private makeShadowMaterial(name: string, skinID: number) {
+        let md = materialData[name];
+        if (skinID != undefined){
+            let m =new Material(this.renderer,"skinDepth",new DepthSkinShader(this.renderer));
+            m.skin = this.skins[skinID];
+            return m;
+        }
+        if(md){
+           if(! md.castShadow)return null;
+            if(md.needsWind){
 
+            }
+            let opTexture = this.getTexture(name + "_Op");
+            if (opTexture) {
+
+                //material.uniforms.setTexture("opTexture", opTexture)
+            }
+        }
+        return new Material(this.renderer,"depth",new DepthShader(this.renderer));
+
+
+    }
     private makeMaterial(name: string, skinID: number) {
 
         if (this.materialsByName[name] != undefined) return this.materialsByName[name];
@@ -449,4 +473,6 @@ export default class GLFTLoader {
         }
 
     }
+
+
 }

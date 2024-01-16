@@ -18,8 +18,7 @@ export default class ShadowCubePass extends RenderPass {
     public modelRenderer: ModelRenderer;
     public camera: Camera;
     models: Array<Model>;
-    private material: Material;
-    private materialSkin: Material;
+
 
 
 
@@ -30,12 +29,7 @@ export default class ShadowCubePass extends RenderPass {
 
         super(renderer, "ShadowCubePass");
 
-       this.material =new Material(this.renderer,"shadowCube",new DepthShader(this.renderer,"depthShader"))
-       if(this.renderer.skin) {
-           this.materialSkin = new Material(this.renderer, "shadowCubeSkin", new DepthSkinShader(this.renderer, "depthSkinShader"))
-           this.materialSkin.skin = this.renderer.skin;
 
-       }
        this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index,clearValue:{r:1,g:1,b:1,a:1}})];
         this.depthStencilAttachment = new DepthStencilAttachment(depthTexture,{arrayLayerCount:1,baseArrayLayer:index});
         this.camera =camera;
@@ -48,28 +42,30 @@ export default class ShadowCubePass extends RenderPass {
        const passEncoder =this.passEncoder;
 
         passEncoder.setBindGroup(0,this.camera.bindGroup);
-        this.material.makePipeLine(this);
-        this.materialSkin.makePipeLine(this);
-        //passEncoder.setPipeline(this.material.pipeLine);
+
 
         for (let model of this.models) {
             if(!model.visible)continue
             if(!model.castShadow)continue
-           if(!this.camera.modelInFrustum(model))continue;
+            if(!this.camera.modelInFrustum(model))continue;
+
+            if( !model.shadowMaterial)continue
+            model.shadowMaterial.makePipeLine(this);
 
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
             if(model.material.skin != undefined){
-                passEncoder.setPipeline(this.materialSkin.pipeLine);
+
+                passEncoder.setPipeline(model.shadowMaterial.pipeLine);
                 passEncoder.setBindGroup(2,model.material.skin.bindGroup);
-                for (let attribute of this.materialSkin.shader.attributes) {
+                for (let attribute of model.shadowMaterial.shader.attributes) {
                     passEncoder.setVertexBuffer(
                         attribute.slot,
                         model.mesh.getBufferByName(attribute.name)
                     );
                 }
             }else{
-                passEncoder.setPipeline(this.material.pipeLine);
-                for (let attribute of this.material.shader.attributes) {
+                passEncoder.setPipeline(model.shadowMaterial.pipeLine);
+                for (let attribute of model.shadowMaterial.shader.attributes) {
                     passEncoder.setVertexBuffer(
                         attribute.slot,
                         model.mesh.getBufferByName(attribute.name)
@@ -101,7 +97,6 @@ export default class ShadowCubePass extends RenderPass {
             }
 
         }
-
 
 
     }

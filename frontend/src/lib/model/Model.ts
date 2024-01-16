@@ -5,13 +5,14 @@ import Object3D from "../core/Object3D";
 import ModelTransform from "./ModelTransform";
 import HitTestObject from "../meshes/HitTestObject";
 import Ray from "../Ray";
-import GameModel from "../../GameModel";
+
 import UI from "../UI/UI";
 import {Vector3} from "math.gl";
 
 
 export default class Model extends Object3D {
     material!: Material;
+    shadowMaterial!: Material;
     mesh!: Mesh
 
     public modelTransform: ModelTransform;
@@ -29,6 +30,7 @@ export default class Model extends Object3D {
     public center:Vector3 =new Vector3()
     public radius =1;
     private keepAlive: boolean;
+
     constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
