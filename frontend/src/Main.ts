@@ -81,6 +81,8 @@ export default class Main {
     private blurBloomPass: BlurBloom;
     private shadowPassCube1: ShadowCube;
     private shadowPassCube2: ShadowCube;
+    private shadowPassCube3: ShadowCube;
+    private shadowPassCube4: ShadowCube;
     private glFTLoaderChar: GLFTLoader;
 
     private animationMixer: AnimationMixer;
@@ -88,7 +90,7 @@ export default class Main {
     private room: Room;
     private outside: Outside;
     private lightOutsidePass: LightOutsideRenderPass;
-    private shadowPass: ShadowPass;
+
     private dofPass: DOFPass;
     private postPass: PostRenderPass;
     private FXAAPass: FXAARenderPass;
@@ -103,10 +105,10 @@ export default class Main {
     private gtaoDenoise: GTAOdenoise;
     private simplexNoisePass: Simplex;
 
-    private shadowPassCube3: ShadowCube;
-    private shadowPassCube4: ShadowCube;
-    private font: Font;
 
+    private font: Font;
+    private shadowPass1: ShadowPass;
+    private shadowPass2: ShadowPass;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -194,7 +196,8 @@ export default class Main {
         this.shadowPassCube2 = new ShadowCube(this.renderer, null, "2");
         this.shadowPassCube3 = new ShadowCube(this.renderer, null, "3");
         this.shadowPassCube4 = new ShadowCube(this.renderer, null, "4");
-        this.shadowPass = new ShadowPass(this.renderer);
+        this.shadowPass1 = new ShadowPass(this.renderer,1);
+        this.shadowPass2 = new ShadowPass(this.renderer,2);
         // this.aoPass = new AORenderPass(this.renderer);
         //this.aoBlurPass = new AOBlurRenderPass(this.renderer);
 
@@ -299,7 +302,8 @@ export default class Main {
             this.glassPass.modelRenderer = this.outside.modelRendererTrans;
             this.lightOutsidePass.setDirty();
             this.characterHandler.setRoot(this.outside.root, 1);
-            this.shadowPass.setModels(this.outside.modelRenderer.models);
+            this.shadowPass1.setModels(this.outside.modelRenderer.models);
+            this.shadowPass2.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube1.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube1.setLightPos(this.outside.lightGrave.getWorldPos())
             RenderSettings.exposure = 1.2;
@@ -326,8 +330,8 @@ export default class Main {
         this.lightOutsidePass.lightGrave = this.outside.lightGrave;
 
 
-        this.shadowPass.init();
-
+        this.shadowPass1.init();
+        this.shadowPass2.init();
         for (let m of this.glFTLoaderChar.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
             if(m.label !="Cube"){
@@ -413,10 +417,11 @@ export default class Main {
             RenderSettings.onChange()
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
-            this.shadowPass.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
+            this.shadowPass1.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
+            this.shadowPass2.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
             if (checkHit) this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.outside.lightGrave.getWorldPos());
-            this.lightOutsidePass.setUniforms(this.shadowPass.camera.viewProjection)
+            this.lightOutsidePass.setUniforms(this.shadowPass1.camera.viewProjection,this.shadowPass2.camera.viewProjection)
             RenderSettings.onChange()
         }
 
@@ -447,10 +452,11 @@ export default class Main {
 
         UI.pushWindow("Light")
         GameModel.dayNight = UI.LFloatSlider("dayNight", GameModel.dayNight, 0, 1);
-
+        this.shadowPass1.onUI()
+        this.shadowPass2.onUI()
         this.lightRoomPass.onUI();
         this.lightOutsidePass.onUI();
-        this.shadowPass.onUI()
+
         UI.popWindow()
 
 
@@ -515,7 +521,8 @@ export default class Main {
 
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
 
-            this.shadowPass.add();
+            this.shadowPass1.add();
+            this.shadowPass2.add();
             this.shadowPassCube1.add();
         }
 

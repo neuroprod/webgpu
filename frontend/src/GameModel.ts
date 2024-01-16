@@ -87,7 +87,7 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull =true;
     textHandler: TextHandler;
-    debug: boolean=false;
+
 
     public gameState=0
     catchMouseDown: boolean =false;
@@ -96,7 +96,7 @@ class GameModel {
     screenWidth: number;
    screenHeight: number;
 
-
+    debug: boolean=true;
     constructor() {
 
         this.makeTriggers();

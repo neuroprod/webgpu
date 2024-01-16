@@ -19,7 +19,8 @@ export default class GlobalLightOutsideShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("shadowMatrix",0,GPUShaderStage.FRAGMENT,ShaderType.mat4)
+        this.addUniform("shadowMatrix1",0,GPUShaderStage.FRAGMENT,ShaderType.mat4)
+        this.addUniform("shadowMatrix2",0,GPUShaderStage.FRAGMENT,ShaderType.mat4)
         this.addUniform("lightDir",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("lightColor",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("pointlightColor",new Vector4(1,0.7,0.7,0.1))
@@ -31,7 +32,8 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addUniform("fogColor",new Vector4(0.5,0.6,0.0,0.0))
         this.addUniform("fogData",new Vector4(0.5,0.6,0.0,0.0))
         this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadow",DefaultTextures.getWhite(this.renderer),"depth")
+        this.addTexture("shadow1",DefaultTextures.getWhite(this.renderer),"depth")
+        this.addTexture("shadow2",DefaultTextures.getWhite(this.renderer),"depth")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -152,21 +154,31 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     let world=getWorldFromUVDepth(uv0 ,depth); 
     
     
-    //shadow
-    let shadowProj =uniforms.shadowMatrix*vec4(world,1.0);
+    //shadow1
+    let shadowProj =uniforms.shadowMatrix1*vec4(world,1.0);
     let shadowProjN=shadowProj.xyz/ shadowProj.w;
     var shadowUV =shadowProjN.xy * vec2(0.5, -0.5) + vec2(0.5);
-  let oneOverShadowDepthTextureSize = 1.0 / 2048.0;
-   var shadowVal =0.0;
-  for (var y = -1; y <= 1; y++) {
-    for (var x = -1; x <= 1; x++) {
-      let offset = vec2<f32>(vec2i(x, y)) * oneOverShadowDepthTextureSize;
-    shadowVal += textureSampleCompare(shadow, mySamplerComp, shadowUV+offset, shadowProjN.z-0.004);
-  }
-  }
-  shadowVal/=9.0;
-  
+    let sd = max(abs(shadowProjN.x),abs(shadowProjN.y));
+    let oneOverShadowDepthTextureSize = 1.0 / 2048.0;
+    var shadowVal =0.0;
+        for (var y = -1; y <= 1; y++) {
+            for (var x = -1; x <= 1; x++) {
+              let offset = vec2<f32>(vec2i(x, y)) * oneOverShadowDepthTextureSize;
+            shadowVal += textureSampleCompare(shadow1, mySamplerComp, shadowUV+offset, shadowProjN.z-0.004);
+          }
+         }
+    shadowVal/=9.0;
+    
     //
+    //shadow2
+     let shadowProj2 =uniforms.shadowMatrix2*vec4(world,1.0);
+    let shadowProjN2=shadowProj2.xyz/ shadowProj.w;
+    var shadowUV2 =shadowProjN2.xy * vec2(0.5, -0.5) + vec2(0.5);
+    
+    let shadowVal2 =textureSampleCompare(shadow2, mySamplerComp, shadowUV2, shadowProjN2.z-0.004);
+    
+    shadowVal =mix(shadowVal,shadowVal2,smoothstep(0.8,1.0,sd));
+    
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
     let N = normalize((textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);

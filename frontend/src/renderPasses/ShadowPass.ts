@@ -25,6 +25,7 @@ export default class ShadowPass extends RenderPass {
     private depthTarget: RenderTexture;
     private colorTarget: RenderTexture;
     private colorAttachment: ColorAttachment;
+    private id: number;
 
 
 
@@ -33,16 +34,18 @@ export default class ShadowPass extends RenderPass {
         this.models =models;
     }
 
-    constructor(renderer: Renderer) {
+    constructor(renderer: Renderer,id:number) {
 
         super(renderer, "ShadowPass");
-let size =2048;
-        this.depthTarget = new RenderTexture(renderer, "Shadow", {
+        this.id =id;
+        let sizeW =1024*2;
+        let sizeH =1024*2;
+        this.depthTarget = new RenderTexture(renderer, "Shadow"+id, {
             format: TextureFormat.Depth16Unorm,
             sampleCount: 1,
             scaleToCanvas: false,
-            width:size,
-            height:size,
+            width:sizeW,
+            height:sizeH,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
         this.depthTarget.make()
@@ -50,12 +53,12 @@ let size =2048;
         this.depthStencilAttachment.getAttachment()
 
 
-        this.colorTarget = new RenderTexture(renderer, "ShadowCubeColor"+name, {
+        this.colorTarget = new RenderTexture(renderer, "ShadowColor"+id, {
             format: TextureFormat.R16Float,
             sampleCount: 1,
             scaleToCanvas: false,
-            width: size,
-            height: size,
+            width: sizeW,
+            height: sizeH,
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
@@ -72,18 +75,24 @@ let size =2048;
              this.materialSkin.skin = this.renderer.skin;
         }
 
-        this.camera =new Camera(this.renderer,"cameraShadow");
+        this.camera =new Camera(this.renderer,"cameraShadow"+this.id);
 
         this.camera.perspective =false;
         this.camera.cameraWorld =new Vector3(1,2,1);
         this.camera.cameraLookAt =new Vector3(0,0,0);
 
-        this.camera.orthoLeft =-25.76;
-        this.camera.orthoRight =9;
+        this.camera.orthoLeft =-13;
+        this.camera.orthoRight =2;
         this.camera.orthoBottom =-10;
-        this.camera.orthoTop =18;
-        this.camera.near =-13;
+        this.camera.orthoTop =6;
+        this.camera.near =-21;
         this.camera.far =35;
+
+        if(this.id==2){
+            this.camera.orthoTop =18;
+            this.camera.orthoLeft -=10;
+            this.camera.orthoRight +=10;
+        }
     }
     public update(dir:Vector3,camPos:number){
 
@@ -94,7 +103,7 @@ let size =2048;
     }
     onUI()
     {
-        UI.pushGroup("shadowCam");
+        UI.pushGroup("shadowCam"+this.id);
         this.camera.onUI();
         UI.popGroup();
     }
@@ -118,7 +127,7 @@ let size =2048;
                 passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
 
                 if(model.material.skin != undefined){
-
+if(this.id==2)continue;
 
                     passEncoder.setBindGroup(2,model.material.skin.bindGroup);
                     for (let attribute of model.shadowMaterial.shader.attributes) {

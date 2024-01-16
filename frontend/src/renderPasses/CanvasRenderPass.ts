@@ -69,6 +69,10 @@ export default class CanvasRenderPass extends RenderPass {
         this.blitTest = new Blit(renderer, 'blit', this.blitTestMaterial)
 
         this.passSelect.push(new SelectItem("FXAA", {texture: "FXAAPass", type: 0}));
+
+        this.passSelect.push(new SelectItem("Shadow1 Outside", {texture: "Shadow1", type: 0}));
+        this.passSelect.push(new SelectItem("Shadow2 Outside", {texture: "Shadow2", type: 0}));
+
         this.passSelect.push(new SelectItem("wind", {texture: "SimplexNoise", type: 0}));
         this.passSelect.push(new SelectItem("GTAOdenoise", {texture: "GTAOdenoise", type: 1}));
         this.passSelect.push(new SelectItem("GTAO", {texture: "GTAO", type: 1}));
@@ -79,7 +83,7 @@ export default class CanvasRenderPass extends RenderPass {
         this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
         this.passSelect.push(new SelectItem("DoF ", {texture: "DOF", type: 0}));
         this.passSelect.push(new SelectItem("DoF filter", {texture: "CombinePass", type: 4}));
-        this.passSelect.push(new SelectItem("Shadow Outside", {texture: "Shadow", type: 0}));
+
 
         this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
         this.passSelect.push(new SelectItem("PreBloom", {texture: "BloomPrePass", type: 0}));
@@ -87,8 +91,8 @@ export default class CanvasRenderPass extends RenderPass {
         this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));
         this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
         this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
-        this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 1}));
-        this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 1}));
+       // this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 1}));
+        //this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 1}));
         //   this.passSelect.push(new SelectItem("ref", {texture: "ReflectionPass", type: 4}));
         this.passSelect.push(new SelectItem("Metallic", {texture: "GMRA", type: 1}));
         this.passSelect.push(new SelectItem("Roughness", {texture: "GMRA", type: 2}));
