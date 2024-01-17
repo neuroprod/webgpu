@@ -24,6 +24,8 @@ import UI from "./lib/UI/UI";
 import SoundHandler from "./SoundHandler";
 import GameUI from "./ui/GameUI";
 import RenderSettings from "./RenderSettings";
+import GoGraveTrigger from "./trigers/GoGraveTrigger";
+import GoHunterTrigger from "./trigers/GoHunterPants";
 
 
 export const Transitions =
@@ -48,6 +50,8 @@ export enum GameState {
     START,
     READ_MAIL,
     READ_MAIL_DONE,
+    READ_CROSS,
+    FIND_HUNTER,
 }
 
 export enum Scenes {
@@ -97,6 +101,7 @@ class GameModel {
    screenHeight: number;
 
     debug: boolean=true;
+    private storedState: number;
     constructor() {
 
         this.makeTriggers();
@@ -171,13 +176,8 @@ class GameModel {
     }
 
     private makeTriggers() {
-     /*   this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "door_HO", "goOutside_door_HO"))
-        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "teapot", "tea_teapot"))
-        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "coffee", "coffe_coffee"))
-        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "pan", "pan_pan"))
-        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "hamer", "CR_hamer"))
-        this.triggers.push(new HitInfoTrigger(Scenes.ROOM, "paperWallLeft", "CR_paperWallLeft"))
-*/
+        this.triggers.push(new GoHunterTrigger(Scenes.OUTSIDE, "hunterPants"));
+        this.triggers.push(new GoGraveTrigger(Scenes.OUTSIDE, "cross"));
         this.triggers.push(new DoorGoOutsideTrigger(Scenes.ROOM, "door_HO"));
         this.triggers.push(new DoorGoInsideTrigger(Scenes.OUTSIDE, "door"));
         this.triggers.push(new DoorInsideTrigger(Scenes.ROOM, "_HitCenterDoor"));
@@ -195,21 +195,46 @@ class GameModel {
     }
 
     setGameState(state:GameState){
-        this.gameState =state;
-        if(this.gameState==GameState.READ_MAIL){
+
+        if(state==GameState.READ_MAIL){
             this.catchMouseDown =true;
             this.hitObjectLabel =""
         }
-        if(this.gameState==GameState.READ_MAIL_DONE){
-            this.catchMouseDown =false;
+        if(state==GameState.READ_CROSS){
+            this.catchMouseDown =true;
+            this.hitObjectLabel =""
+            this.storedState =  this.gameState;
         }
+        if(state==GameState.FIND_HUNTER){
+            this.catchMouseDown =true;
+            this.hitObjectLabel =""
+            this.gameState =this.storedState;
+        }
+
+        this.gameState =state;
     }
 
     private onMouseDown() {
 
         if(this.gameState==GameState.READ_MAIL){
             if(this.textHandler.readNext()){
+                this.catchMouseDown =false;
                 this.setGameState(GameState.READ_MAIL_DONE)
+            }
+        }
+        if(this.gameState==GameState.READ_CROSS){
+            if(this.textHandler.readNext()){
+                this.gameState =this.storedState;
+                this.catchMouseDown =false;
+            }
+        }
+        if(this.gameState==GameState.FIND_HUNTER){
+            if(this.textHandler.readNext()){
+                this.gameState =this.storedState;
+                this.catchMouseDown =false;
+                this.renderer.modelByLabel["hunterPants"].visible =false;
+                this.renderer.modelByLabel["hunterPants"].canHitTest =false;
+                this.characterHandler.setPants("Army")
             }
         }
     }

@@ -7,7 +7,7 @@ import Timer from "../lib/Timer";
 
 export class LaptopScreen extends Model{
 
-    constructor(renderer,parent:Object3D) {
+    constructor(renderer,parent:Model) {
         super(renderer,"laptopScreen");
         this.mesh = new Plane(renderer);
         this.material =new Material(this.renderer,this.label,new LaptopScreenShader(this.renderer,this.label));
@@ -18,6 +18,8 @@ export class LaptopScreen extends Model{
         this.setScale(0.8,1,0.5)
         this.setEuler(Math.PI/2,0,0)
         parent.addChild(this)
+
+        parent.hitFriends.push(this);
     }
     update() {
         this.material.uniforms.setUniform("time",Timer.time);

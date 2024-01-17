@@ -59,7 +59,7 @@ export default class Outside extends Scene{
 
     public update() {
 
-this.fogPlanes.update()
+        this.fogPlanes.update()
         this.fish.update();
         //GameModel.dayNight
         this.waterTop.material.uniforms.setUniform("time",Timer.time*0.05)

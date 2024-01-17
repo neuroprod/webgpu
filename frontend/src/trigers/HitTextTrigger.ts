@@ -18,12 +18,12 @@ export default class HitTextTrigger extends HitTrigger{
 
     public out() {
 
-        GameModel.textHandler.hideHitTrigger(this.objectLabel)
+        GameModel.textHandler.hideHitTrigger(this.objectLabels[0])
     }
     public  click(){
 
         GameModel.sound.playButton()
-        GameModel.textHandler.showHitTrigger(this.objectLabel)
+        GameModel.textHandler.showHitTrigger(this.objectLabels[0])
     }
 
 }

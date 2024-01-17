@@ -1,17 +1,43 @@
 import Object3D from "../lib/core/Object3D";
 import Timer from "../lib/Timer";
 import gsap from "gsap"
+import Model from "../lib/model/Model";
 export default class Mill{
-    private millBed: Object3D;
-    private millHead: Object3D;
+    private millBed: Model;
+    private millHead: Model;
+    private millControle: Model;
     private headPos: number =0.1;
     private tl: gsap.core.Timeline;
     private bedZ: number =-0.2;
 
 
-    constructor(mill:Object3D) {
-        this.millBed =mill.children[0];
-        this.millHead =mill.children[2];
+    constructor(mill:Model) {
+        this.millBed =mill.children[0]as Model;
+        this.millHead =mill.children[2]as Model;
+        this.millControle =mill.children[1]as Model;
+
+
+        mill.hitFriends.push( this.millBed)
+        mill.hitFriends.push( this.millHead)
+        mill.hitFriends.push( this.millControle)
+
+        this.millBed.hitFriends.push( mill)
+        this.millBed.hitFriends.push( this.millHead)
+        this.millBed.hitFriends.push( this.millControle)
+
+        this.millHead.hitFriends.push( this.millBed)
+        this.millHead.hitFriends.push( mill)
+        this.millHead.hitFriends.push( this.millControle)
+
+        this.millControle.hitFriends.push( this.millBed)
+        this.millControle.hitFriends.push( this.millHead)
+        this.millControle.hitFriends.push( mill)
+
+
+
+
+
+        return;
 
         this.tl = gsap.timeline({repeat: -1, repeatDelay: 1,});
         this.tl.timeScale(3);

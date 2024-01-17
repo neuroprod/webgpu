@@ -1,19 +1,26 @@
 import Trigger from "./Trigger";
 import GameModel, {Scenes} from "../GameModel";
+import {isArray} from "math.gl";
 
 
 export default class HitTrigger extends Trigger{
-    protected objectLabel: string;
-    constructor(scene:Scenes,objectLabel:string) {
+
+    protected objectLabels: Array<string>=[];
+    constructor(scene:Scenes,objectLabel:string|Array<string>) {
         super(scene);
-        this.objectLabel =objectLabel;
+        if(isArray(objectLabel)){
+            this.objectLabels =objectLabel as Array<string>;
+        }else{
+            this.objectLabels.push(objectLabel as string);
+        }
+
 
     }
     check() {
         if(!super.check())return false;
 
         if(GameModel.mouseDownThisFrame){
-            if(GameModel.hitObjectLabel ==this.objectLabel){
+            if(this.objectLabels.includes(GameModel.hitObjectLabel)){
                 this.click()
             }
 
@@ -21,11 +28,11 @@ export default class HitTrigger extends Trigger{
 
 
         if(!GameModel.hitStateChange)return
-        if(GameModel.hitObjectLabel ==this.objectLabel) {
+        if(this.objectLabels.includes(GameModel.hitObjectLabel)) {
            this.over()
             return true;
         }
-        if(GameModel.hitObjectLabelPrev ==this.objectLabel) {
+        if(this.objectLabels.includes(GameModel.hitObjectLabelPrev )) {
             this.out()
             return true;
         }

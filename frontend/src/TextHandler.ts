@@ -59,7 +59,7 @@ export default class TextHandler {
     }
 
     showHitTrigger(objectLabel: string) {
-        console.log("showText")
+
         this.objectLabel =objectLabel;
         this.hideHitTrigger()
         let ht = this.hitTriggerByLabel[objectLabel];

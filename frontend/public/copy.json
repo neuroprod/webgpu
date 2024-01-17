@@ -38,6 +38,16 @@
     },
     {
       "scene": 1,
+      "object": "mill",
+      "copy": ["My trusty old mill.\nIt can almost make everything."]
+    },
+    {
+      "scene": 1,
+      "object": "bookCaseDoor",
+      "copy": ["Its locked.\n Don't know whats inside,\nprobably some old junk","Maybe i should make a key for it."]
+    },
+    {
+      "scene": 1,
       "object": "clock",
       "copy": "Time to get some work done."
     }
@@ -46,7 +56,17 @@
   {
 
     "object": "yougotmail",
-    "copy": ["blablabla","noffddsd"]
+    "copy": ["Looks like I got mail from the ad-agency","They wants me to make\nan interactive 3D underwear simulator\nfor the website of an important client.","Oh well,\nsome fresh air will\nget me inspiration."]
+  },  {
+
+    "object": "readCross",
+    "copy": ["blablabla","grandpa dead"]
+  },
+  {
+
+    "object": "findHunter",
+    "copy": ["Looks like some nice underpants","A hunter must have lost it\nwhile roaming this woods.","I'll take them!"]
   }
+
 ]
 }

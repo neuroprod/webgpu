@@ -112,7 +112,7 @@ export default class CharacterHandler {
 
     public onUI(){
 
-
+return;
         UI.separator("animations")
         if(UI.LButton("dance"))this.setAnimation("dance")
         if(UI.LButton("sit"))this.setAnimation("sit")
