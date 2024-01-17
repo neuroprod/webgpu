@@ -70,7 +70,7 @@ export default class Room extends Scene{
         this.root = this.glFTLoader.root
         this.glFTLoader.root.setPosition(0, -1.5, 0)
 
-        this.mill = new Mill(this.glFTLoader.objectsByName["mill"])
+        this.mill = new Mill(this.glFTLoader.modelsByName["mill"])
         for (let m of this.glFTLoader.models) {
             this.modelRenderer.addModel(m)
 
@@ -103,7 +103,7 @@ export default class Room extends Scene{
         this.glFTLoader.modelsByName["lightWall"].castShadow =false;
 
 
-        this.laptopScreen = new LaptopScreen(this.renderer, this.glFTLoader.objectsByName["labtop"]);
+        this.laptopScreen = new LaptopScreen(this.renderer, this.glFTLoader.modelsByName["labtop"]);
         this.modelRenderer.addModel(this.laptopScreen);
 
         this.fpsScreen = new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);
