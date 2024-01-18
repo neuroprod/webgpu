@@ -137,7 +137,7 @@ export default class GLFTLoader {
             if (m.model.mesh.hitTestObject) {
 
                 m.model.hitTestObject = m.model.mesh.hitTestObject;
-                m.model.canHitTest = true;
+           
                 m.model.needsHitTest = true;
 
                 this.modelsHit.push(m.model);
