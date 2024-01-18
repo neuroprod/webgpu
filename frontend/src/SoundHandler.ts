@@ -9,13 +9,40 @@ export default class SoundHandler {
     private bg: Howl;
     private door: Howl;
     private forest: Howl;
-    private button: Howl;
-
+    private clicks : Howl;
+    private wooshes  : Howl;
     constructor(preloader: PreLoader) {
-        this.button  = new Howl({src: ['sound/button.mp3'],volume:0.2});
+
         this.forest  = new Howl({src: ['sound/forest.mp3'],volume:2});
         this.bg = new Howl({src: ['sound/Goldberg.mp3'], autoplay: true,loop:true, volume: 0.5});
         this.door = new Howl({src: ['sound/door.mp3']});
+
+        this.clicks  = new Howl({src: ['sound/clicks.mp3'],
+            sprite: {
+                s0: [0, 200],
+                s1: [200, 200],
+                s2: [400, 200],
+                s3: [600, 200],
+                s4: [800, 200],
+                s5: [1000, 200],
+
+            }});
+
+        this.wooshes  = new Howl({src: ['sound/wooshes.mp3'],
+            sprite: {
+                s0: [0, 500],
+                s1: [500, 500],
+                s2: [1000, 500],
+                s3: [1500, 500],
+                s4: [2000, 500],
+                s5: [2500, 500],
+                s6: [3000, 500],
+
+            }});
+
+
+
+
         // this.sound.load()
         this.stepInside = new Howl({
             src: ['sound/footstep_wood.mp3'],
@@ -72,10 +99,7 @@ export default class SoundHandler {
           }
           UI.popWindow()*/
     }
-    playButton() {
 
-        this.button.play()
-    }
     playForest() {
         this.forest.play();
         this.forest.fade(0,1,1000)
@@ -86,7 +110,24 @@ export default class SoundHandler {
     playDoor() {
         this.door.play()
     }
+    playWoosh(volMult:number=1) {
 
+
+        let s = Math.floor(Math.random() * 1000) % 7;
+        this.wooshes.volume(volMult*0.2);
+        this.wooshes.play("s" + s)
+
+
+    }
+    playClick(volMult:number=1) {
+
+
+            let s = Math.floor(Math.random() * 1000) % 6;
+
+        this.clicks.volume(volMult);
+            this.clicks.play("s" + s)
+
+    }
     playFootstep() {
 
         let pos = GameModel.characterPos.clone()

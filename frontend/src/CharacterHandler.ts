@@ -41,6 +41,7 @@ export default class CharacterHandler {
     private head: Object3D;
     private pants: Material;
      body: Model;
+    private walkingSpeed: number=0.72;
 
     constructor(renderer: Renderer, camera: Camera, glft:GLFTLoader, animationMixer: AnimationMixer) {
 
@@ -117,12 +118,14 @@ return;
         if(UI.LButton("dance"))this.setAnimation("dance")
         if(UI.LButton("sit"))this.setAnimation("sit")
         UI.separator("underpants")
-        if(UI.LButton("base"))this.setPants("")
-        if(UI.LButton("hunting"))this.setPants("Army")
-        if(UI.LButton("gold"))this.setPants("Gold")
+
 
     }
-    public setPants(name=""){
+    public setPants(id:number){
+        let name="";
+        if(id==1){
+            name ="Army"
+        }
         this.pants.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pants"+name+"_Color.png"])
         this.pants.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pants"+name+"_Normal.png"])
         this.pants.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pants"+name+"_MRA.png"])
@@ -151,7 +154,7 @@ return;
         this.tl.to(this, {"characterRot": angle, duration: 0.5, ease: "none"}, pos)
 
         pos += 0.3;
-        let duration = dist * 0.75;
+        let duration = dist * this.walkingSpeed;
         this.tl.to(GameModel.characterPos, {
             "x": this.targetPos.x,
             "y": this.targetPos.y,
@@ -185,7 +188,7 @@ return;
 
         this.tl.to(this, {"characterRot": angle, duration: 0.5, ease: "power1.inOut"}, pos)
 
-        let duration = dist * 0.75;
+        let duration = dist * this.walkingSpeed;
         this.tl.to(GameModel.characterPos, {
             "x": this.targetPos.x,
             "y": this.targetPos.y,

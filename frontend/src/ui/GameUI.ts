@@ -121,7 +121,7 @@ export default class GameUI
         }
     }
 
-    setUIState(state: UIState) {
+    setUIState(state: UIState,data:any) {
         if(state==UIState.OPEN_MENU){
             this.menuButton.hide()
             this.inventory.hide()
@@ -134,9 +134,14 @@ export default class GameUI
             this.inventoryDetail.hide()
         }
         if(state==UIState.INVENTORY_DETAIL){
-
-            this.inventoryDetail.show()
+            this.menuButton.hide()
+            this.inventory.hide()
+            this.inventoryDetail.show(data)
 
         }
+    }
+
+    updateInventory() {
+        this.inventory.updateInventory()
     }
 }

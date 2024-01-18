@@ -74,7 +74,7 @@ class GameModel {
     mouseUpThisFrame:boolean =false ;
      mouseDownThisFrame: boolean = false;
      mousePos: Vector2 = new Vector2();
-
+    mouseMove: boolean = false;
     public characterPos: Vector3 = new Vector3(0, 0, 0);
     dayNight: number = 0;
     lockView: boolean = false;
@@ -100,8 +100,10 @@ class GameModel {
     screenWidth: number;
    screenHeight: number;
 
-    debug: boolean=true;
+    debug: boolean=false;
     private storedState: number;
+   public  pantsFound: number = 0;
+    public  currentPants: number = 0;
     constructor() {
 
         this.makeTriggers();
@@ -159,6 +161,7 @@ class GameModel {
     }
 
     setTransition(t: Transition) {
+        this.hitObjectLabel =""
         t.set(this.transitionComplete.bind(this));
     }
 
@@ -216,6 +219,7 @@ class GameModel {
 
     private onMouseDown() {
 
+
         if(this.gameState==GameState.READ_MAIL){
             if(this.textHandler.readNext()){
                 this.catchMouseDown =false;
@@ -233,19 +237,28 @@ class GameModel {
                 this.gameState =this.storedState;
                 this.catchMouseDown =false;
                 this.renderer.modelByLabel["hunterPants"].visible =false;
-                this.renderer.modelByLabel["hunterPants"].canHitTest =false;
-                this.characterHandler.setPants("Army")
+                this.renderer.modelByLabel["hunterPants"].enableHitTest =false;
+                this.pantsFound =1;
+                this.gameUI.updateInventory();
+
+                this.setUIState(UIState.INVENTORY_DETAIL,1)
             }
         }
     }
 
-    setUIState(state:UIState) {
-        this.gameUI.setUIState(state);
-        if(state==UIState.OPEN_MENU){
+    setUIState(state:UIState,data:any =null) {
+        this.gameUI.setUIState(state,data);
+        if(state==UIState.OPEN_MENU || state==UIState.INVENTORY_DETAIL){
             RenderSettings.openMenu()
+
         }else if(state==UIState.GAME_DEFAULT){
             RenderSettings.closeMenu()
         }
+    }
+
+    usePants(id: number) {
+        this.currentPants =id;
+        this.characterHandler.setPants(id)
     }
 }
 

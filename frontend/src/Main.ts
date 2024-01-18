@@ -363,7 +363,17 @@ export default class Main {
     tick() {
 
         window.requestAnimationFrame(() => this.tick());
-        GameModel.mousePos = this.mouseListener.mousePos.clone();
+        if( GameModel.mousePos.equals(this.mouseListener.mousePos)){
+            GameModel.mouseMove =false;
+        }else{
+            GameModel.mouseMove =true;
+        }
+        if (UI.needsMouse()) {
+
+            this.mouseListener.isDownThisFrame = false;
+        }
+
+        GameModel.mousePos.from( this.mouseListener.mousePos);//.clone();
         GameModel.mouseDownThisFrame = this.mouseListener.isDownThisFrame;
         GameModel.mouseUpThisFrame =this.mouseListener.isUpThisFrame;
         Timer.update();
@@ -378,10 +388,6 @@ export default class Main {
     update() {
         this.simplexNoisePass.update();
 
-        if (UI.needsMouse()) {
-
-            this.mouseListener.isDownThisFrame = false;
-        }
 
 
         if (!GameModel.lockView) {
@@ -389,12 +395,15 @@ export default class Main {
             this.gameCamera.update();
 
         }
-        let checkHit = true
+        let checkHit =!UI.needsMouse();
         if(GameModel.catchMouseDown){
             checkHit =false
 
         }
+        if(!GameModel.mouseMove   &&  !GameModel.mouseDownThisFrame){
+            checkHit =false
 
+        }
 
         this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
         if (!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)

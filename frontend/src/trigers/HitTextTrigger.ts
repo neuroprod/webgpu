@@ -22,7 +22,8 @@ export default class HitTextTrigger extends HitTrigger{
     }
     public  click(){
 
-        GameModel.sound.playButton()
+        GameModel.sound.playWoosh(0.1)
+        GameModel.sound.playClick()
         GameModel.textHandler.showHitTrigger(this.objectLabels[0])
     }
 

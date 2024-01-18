@@ -19,6 +19,7 @@ export default class Menu extends UIBitmapModel{
         this.addChild(this.closeButton)
         this.closeButton.onClick=()=>{
             GameModel.setUIState(UIState.GAME_DEFAULT);
+            GameModel.sound.playClick()
         }
     }
     update() {
@@ -30,11 +31,11 @@ export default class Menu extends UIBitmapModel{
     hide(){
 
         gsap.killTweensOf(this);
-        GameModel.sound.playButton()
+        GameModel.sound.playWoosh()
         gsap.to(this,{yOff:-50,duration:0.1,ease:"power2.in",onComplete:()=>{   this.visible =false;}})
     }
     show() {
-        GameModel.sound.playButton()
+        GameModel.sound.playWoosh()
         gsap.killTweensOf(this);
         this.yOff =-50;
         gsap.to(this,{yOff:0,duration:0.3,ease:"back.out"})

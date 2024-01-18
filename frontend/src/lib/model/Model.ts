@@ -18,7 +18,7 @@ export default class Model extends Object3D {
     public modelTransform: ModelTransform;
     public visible: boolean = true;
     public hitTestObject: HitTestObject;
-    public canHitTest: boolean = false;
+    public enableHitTest: boolean = true;
     public needsHitTest:boolean =false;
     public needsAlphaClip:boolean =false;
     public needsWind:boolean =false;
@@ -47,7 +47,7 @@ export default class Model extends Object3D {
     }
 
     public checkHit(ray: Ray) {
-
+        if(!this.enableHitTest)return false;
         if(this.hitTestObject.checkHit(ray, this.worldMatrixInv)){
 
 

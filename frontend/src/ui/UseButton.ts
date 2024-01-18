@@ -1,15 +1,14 @@
 import UIBitmapModel from "../lib/model/UIBitmapModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
-import gsap from "gsap";
 import GameModel from "../GameModel";
+import gsap from "gsap";
 
-
-export default class CloseButton extends UIBitmapModel{
+export default class UseButton extends UIBitmapModel{
 
     private scale =1
-    constructor(renderer:Renderer,preLoader:PreLoader,label:string) {
-        super(renderer,preLoader,label,"UI/closeBtn.png");
+    constructor(renderer:Renderer,preLoader:PreLoader,) {
+        super(renderer,preLoader,"useBtn","UI/useBtn.png");
     }
     update() {
         super.update();
@@ -19,9 +18,9 @@ export default class CloseButton extends UIBitmapModel{
     onOver() {
 
         super.onOver();
-        GameModel.sound.playClick(0.2);
+        GameModel.sound.playClick(0.4);
         gsap.killTweensOf(this)
-        gsap.to(this,{scale:1.1,duration:0.15,ease:"back.out"})
+        gsap.to(this,{scale:1.05,duration:0.15,ease:"back.out"})
 
     }
     onOut() {

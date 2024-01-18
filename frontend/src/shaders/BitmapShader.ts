@@ -52,7 +52,8 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(@location(0) uv0: vec2f) -> @location(0) vec4f
 {
-     return textureSample(colorTexture, mySampler,  uv0) ;//*uniforms.alpha;
+let t = textureSample(colorTexture, mySampler,  uv0) ;
+     return vec4(t.xyz*t.w*uniforms.alpha,t.w*uniforms.alpha);
   
 }
 ///////////////////////////////////////////////////////////

@@ -18,14 +18,14 @@ export default class MenuButton extends UIBitmapModel{
 
     onOver() {
         if( this.isHiding)return
-        GameModel.sound.playButton()
+        GameModel.sound.playWoosh(0.2)
         super.onOver();
         gsap.killTweensOf(this);
         gsap.to(this,{yPos:35,duration:0.3,ease:"back.out"})
     }
     onOut() {
         if( this.isHiding)return
-        GameModel.sound.playButton()
+        GameModel.sound.playWoosh(0.2)
         super.onOut();
         gsap.killTweensOf(this);
         gsap.to(this,{yPos:30,duration:0.3,ease:"back.out"})
@@ -45,6 +45,7 @@ export default class MenuButton extends UIBitmapModel{
     onClick() {
         if( this.isHiding)return
         super.onClick();
+        GameModel.sound.playClick()
         GameModel.setUIState(UIState.OPEN_MENU)
     }
 
