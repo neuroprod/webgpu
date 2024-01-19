@@ -10,6 +10,7 @@ import MenuButton from "./MenuButton";
 import Inventory from "./Inventory";
 import Menu from "./Menu";
 import InventoryDetail from "./InventoryDetail";
+import EnterButton from "./EnterButton";
 
 
 export default class GameUI
@@ -32,6 +33,7 @@ export default class GameUI
     private inventory: Inventory;
     private menu: Menu;
     private inventoryDetail: InventoryDetail;
+    private enterButton: EnterButton;
 
     constructor(renderer:Renderer,preLoader:PreLoader) {
 
@@ -49,21 +51,27 @@ export default class GameUI
         this.inventoryDetail =new InventoryDetail(renderer,preLoader);
         this.root.addChild( this.inventoryDetail);
         this.menuButton =new MenuButton(renderer,preLoader);
+
         this.root.addChild(this.menuButton);
 
         this.inventory =new Inventory(renderer,preLoader)
+
         this.root.addChild(this.inventory);
 
         this.menu =new Menu(renderer,preLoader)
+
         this.root.addChild(this.menu);
 
-       // this.test.setEuler(Math.PI,0,0)
+        this.enterButton =new EnterButton(renderer,preLoader)
+        this.enterButton.visible =false;
 
+        this.root.addChild(this.enterButton);
+       // this.test.setEuler(Math.PI,0,0)
+        this.menuButton.hide()
+        this.inventory.hide()
         this.modelRenderer.models=[];
     }
-    preload(preloader: PreLoader) {
 
-    }
     public init(){
 
 
@@ -122,12 +130,20 @@ export default class GameUI
     }
 
     setUIState(state: UIState,data:any) {
+        if(state==UIState.PRELOAD){
+
+
+        }
+        if(state==UIState.PRELOAD_DONE){
+            this.enterButton.visible =true
+        }
         if(state==UIState.OPEN_MENU){
             this.menuButton.hide()
             this.inventory.hide()
             this.menu.show()
         }
         if(state==UIState.GAME_DEFAULT){
+            this.enterButton.visible =false
             this.menuButton.show()
             this.inventory.show()
             this.menu.hide()

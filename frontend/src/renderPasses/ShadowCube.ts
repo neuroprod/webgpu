@@ -82,7 +82,7 @@ private frame =0;
 
     public add() {
 
-        if (this.frame< 1) {
+        if (this.frame< 3) {
 
             for (let p of this.passes) {
 
@@ -105,8 +105,9 @@ private frame =0;
         let count = 0;
         for (let camera of this.cameras) {
 
-            camera.cameraWorld = lightPos.clone();
-            camera.cameraLookAt = lightPos.clone().add(this.offsets[count]);
+            camera.cameraWorld.from(lightPos);
+            camera.cameraLookAt.from(lightPos);
+            camera.cameraLookAt.add(this.offsets[count]);
 
             count++;
         }

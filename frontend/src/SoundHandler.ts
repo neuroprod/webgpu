@@ -14,8 +14,8 @@ export default class SoundHandler {
     private pop: Howl;
     constructor(preloader: PreLoader) {
 
-        this.forest  = new Howl({src: ['sound/forest.mp3'],volume:2});
-        this.bg = new Howl({src: ['sound/Goldberg.mp3'], autoplay: true,loop:true, volume: 0.5});
+        this.forest  = new Howl({src: ['sound/forest.mp3'],loop:true,volume:2});
+        this.bg = new Howl({src: ['sound/Goldberg.mp3'],loop:true, volume: 0.5});
         this.door = new Howl({src: ['sound/door.mp3']});
         this.pop = new Howl({src: ['sound/pop.mp3']});
         this.clicks  = new Howl({src: ['sound/clicks.mp3'],
@@ -86,10 +86,12 @@ export default class SoundHandler {
 
             }
         });
-        this.stepOutside.volume(0.5)
+       this.stepOutside.volume(0.5)
 
     }
-
+startMusic(){
+        this.bg.play();
+}
     onUI() {
         /*  UI.pushWindow("Sound")
           if(UI.LButton("test")){

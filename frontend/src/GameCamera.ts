@@ -27,7 +27,9 @@ export default class GameCamera{
 
         mp.y -= 0.5
         mp.y *= GameModel.yMouseScale;
-
+if(GameModel.currentScene ==Scenes.PRELOAD){
+    mp.scale(0.2);
+}
 
 
        this.offsetX = this.getCameraOffsetX();

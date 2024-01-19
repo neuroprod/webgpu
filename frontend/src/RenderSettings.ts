@@ -13,7 +13,7 @@ class RenderSettings{
     public brightness:number =0;
     public vibrance:number=0;
     public saturation:number =0
-    public black:number =1
+    public black:number =0
     public vin_amount: number =0.52;
     public vin_falloff: number=0.52;
 
@@ -83,11 +83,16 @@ class RenderSettings{
         this.onChange();
 
     }
-
+    fadeToBlack(duration=1){
+        gsap.to(this,{black:0.0,duration:duration,onUpdate:()=>{this.onChange()}});
+    }
+    fadeToScreen(duration=1){
+        gsap.to(this,{black:1,duration:duration,ease:"power2.in",onUpdate:()=>{this.onChange()}});
+    }
     closeMenu() {
         gsap.killTweensOf(this.dof_Settings);
         gsap.killTweensOf(this);
-        console.log("close")
+
         gsap.to(this.dof_Settings,{x:0.47,y:0.8,duration:0.5,onUpdate:()=>{this.onChange()}});
         gsap.to(this,{black:1,duration:0.5});
     }

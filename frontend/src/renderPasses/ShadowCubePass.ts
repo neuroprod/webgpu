@@ -6,9 +6,7 @@ import RenderPass from "../lib/core/RenderPass";
 import Renderer from "../lib/Renderer";
 import ModelRenderer from "../lib/model/ModelRenderer";
 import Model from "../lib/model/Model";
-import Material from "../lib/core/Material";
-import DepthShader from "../shaders/DepthShader";
-import DepthSkinShader from "../shaders/DepthSkinShader";
+
 import Camera from "../lib/Camera";
 
 

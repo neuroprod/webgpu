@@ -43,6 +43,8 @@ export enum UIState
         GAME_DEFAULT,
        OPEN_MENU,
         INVENTORY_DETAIL,
+        PRELOAD_DONE,
+        PRELOAD,
 
 
 }
@@ -62,14 +64,14 @@ export enum Scenes {
 
 class GameModel {
     public renderer: Renderer;
-    public roomCamOffset: number = -1;
-    public isLeftRoom = true;
+    public roomCamOffset: number = 1;
+    public isLeftRoom = false;
 
     public currentScene: Scenes = Scenes.PRELOAD
     public floorHitIndicator: FloorHitIndicator;
     public yMouseCenter: number = 1;
     public yMouseScale: number = 1;
-    public sceneHeight = 3;
+    public sceneHeight = 2.5;
     public main: Main;
     mouseUpThisFrame:boolean =false ;
      mouseDownThisFrame: boolean = false;
@@ -100,7 +102,7 @@ class GameModel {
     screenWidth: number;
    screenHeight: number;
 
-    debug: boolean=false;
+    debug: boolean=true;
     private storedState: number;
    public  pantsFound: number = 0;
     public  currentPants: number = 0;
@@ -263,6 +265,10 @@ class GameModel {
     usePants(id: number) {
         this.currentPants =id;
         this.characterHandler.setPants(id)
+    }
+
+    startGame() {
+
     }
 }
 

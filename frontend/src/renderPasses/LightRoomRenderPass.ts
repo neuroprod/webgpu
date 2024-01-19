@@ -47,17 +47,11 @@ export default class LightRoomRenderPass extends RenderPass {
 
     private lightParents: Array<Object3D>;
 
-    constructor(renderer: Renderer) {
+    constructor(renderer: Renderer,target: RenderTexture) {
 
         super(renderer, "LightRenderPass");
         RenderSettings.registerPass(this);
-        this.target = new RenderTexture(renderer, "LightPass", {
-            format: TextureFormat.RGBA16Float,
-            sampleCount: this.sampleCount,
-            scaleToCanvas: true,
-
-            usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
-        });
+        this.target =target;
         this.colorAttachment = new ColorAttachment(this.target);
         this.colorAttachments = [this.colorAttachment];
 
