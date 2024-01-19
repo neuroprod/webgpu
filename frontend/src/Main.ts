@@ -400,6 +400,10 @@ export default class Main {
             checkHit =false
 
         }
+        if(GameModel.uiOpen){
+            checkHit =false
+
+        }
         if(!GameModel.mouseMove   &&  !GameModel.mouseDownThisFrame){
             checkHit =false
 

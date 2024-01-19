@@ -104,6 +104,7 @@ class GameModel {
     private storedState: number;
    public  pantsFound: number = 0;
     public  currentPants: number = 0;
+    uiOpen =false;
     constructor() {
 
         this.makeTriggers();
@@ -240,7 +241,7 @@ class GameModel {
                 this.renderer.modelByLabel["hunterPants"].enableHitTest =false;
                 this.pantsFound =1;
                 this.gameUI.updateInventory();
-
+                this.sound.playPop();
                 this.setUIState(UIState.INVENTORY_DETAIL,1)
             }
         }
@@ -248,11 +249,14 @@ class GameModel {
 
     setUIState(state:UIState,data:any =null) {
         this.gameUI.setUIState(state,data);
+
         if(state==UIState.OPEN_MENU || state==UIState.INVENTORY_DETAIL){
             RenderSettings.openMenu()
+            this.uiOpen =true;
 
         }else if(state==UIState.GAME_DEFAULT){
             RenderSettings.closeMenu()
+            this.uiOpen =false;
         }
     }
 

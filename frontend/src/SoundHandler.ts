@@ -11,12 +11,13 @@ export default class SoundHandler {
     private forest: Howl;
     private clicks : Howl;
     private wooshes  : Howl;
+    private pop: Howl;
     constructor(preloader: PreLoader) {
 
         this.forest  = new Howl({src: ['sound/forest.mp3'],volume:2});
         this.bg = new Howl({src: ['sound/Goldberg.mp3'], autoplay: true,loop:true, volume: 0.5});
         this.door = new Howl({src: ['sound/door.mp3']});
-
+        this.pop = new Howl({src: ['sound/pop.mp3']});
         this.clicks  = new Howl({src: ['sound/clicks.mp3'],
             sprite: {
                 s0: [0, 200],
@@ -99,7 +100,10 @@ export default class SoundHandler {
           }
           UI.popWindow()*/
     }
+    playPop() {
+        this.pop.play();
 
+    }
     playForest() {
         this.forest.play();
         this.forest.fade(0,1,1000)

@@ -5,8 +5,9 @@ import GameModel, {UIState} from "../GameModel";
 import gsap from "gsap";
 import CloseButton from "./CloseButton";
 import UseButton from "./UseButton";
+import UIModel from "../lib/model/UIModel";
 
-export default class InventoryDetail extends UIBitmapModel{
+export default class InventoryDetail extends UIModel{
 
 
 
@@ -15,10 +16,14 @@ export default class InventoryDetail extends UIBitmapModel{
 
     private useButton: UseButton;
     private id: number;
-
+private items:Array<UIBitmapModel>=[];
     constructor(renderer:Renderer,preLoader:PreLoader) {
-        super(renderer,preLoader,"inventoryDetail","UI/itemDetail.png");
+        super(renderer,"inventoryDetail");
         this.visible =false;
+
+
+
+
 
         this.closeButton =new CloseButton(renderer,preLoader,"closeMenu")
         this.closeButton.setPosition(490,-360,0);
@@ -29,15 +34,21 @@ export default class InventoryDetail extends UIBitmapModel{
             GameModel.setUIState(UIState.GAME_DEFAULT);
         }
         this.useButton =new UseButton(renderer,preLoader)
-        this.useButton.setPosition(350,320,0);
+        this.useButton.setPosition(370,320,0);
         this.addChild(  this.useButton)
         this.useButton.onClick=()=>{
-            GameModel.sound.playClick()
+            GameModel.sound.playPop()
             GameModel.sound.playWoosh()
             GameModel.setUIState(UIState.GAME_DEFAULT);
             GameModel.usePants(this.id);
         }
 
+        let item1=new UIBitmapModel(renderer,preLoader,"item1","UI/info1.png")
+        this.addChild(item1)
+        this.items.push(item1)
+        let item2=new UIBitmapModel(renderer,preLoader,"item2","UI/info2.png")
+        this.addChild(item2)
+        this.items.push(item2)
 
     }
     update() {
@@ -54,6 +65,14 @@ export default class InventoryDetail extends UIBitmapModel{
     }
     show(data:any) {
         this.id = data as number
+        for(let i=0;i<this.items.length;i++){
+            let vis =false
+            if(i==this.id)vis =true;
+            this.items[i].visible =vis;
+
+        }
+
+
         gsap.killTweensOf(this);
         this.yOff =-50;
         gsap.to(this,{yOff:0,duration:0.3,ease:"back.out"})

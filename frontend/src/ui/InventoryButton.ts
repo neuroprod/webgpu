@@ -13,7 +13,7 @@ private scale =0.5;
         super(renderer,preLoader,url,url);
         this.id =id;
         this.rot = (Math.random()-0.5)*0.4;
-        this.setPosition(posX,-45,0)
+        this.setPosition(posX,-25,0)
 
         this.overlay =new UIBitmapModel(renderer,preLoader,"overLay"+id,"UI/pants_select.png")
         this.addChild(this.overlay)
@@ -30,7 +30,7 @@ private scale =0.5;
         super.onOver();
         gsap.killTweensOf(this);
         gsap.to(this,{scale:0.6,duration:0.2,ease:"back.out"})
-        gsap.to(this,{rot:(Math.random()-0.5)*0.6,duration:0.2,ease:"power2.out"})
+       // gsap.to(this,{rot:(Math.random()-0.5)*0.6,duration:0.2,ease:"power2.out"})
         GameModel.sound.playClick(0.2)
 
     }
@@ -39,7 +39,7 @@ private scale =0.5;
         super.onOut();
         gsap.killTweensOf(this);
         gsap.to(this,{scale:0.5,duration:0.1,ease:"back.in"})
-        gsap.to(this,{rot:(Math.random()-0.5)*0.4,duration:0.1,ease:"power2.in"})
+       // gsap.to(this,{rot:(Math.random()-0.5)*0.4,duration:0.1,ease:"power2.in"})
     }
     onClick() {
         super.onClick();

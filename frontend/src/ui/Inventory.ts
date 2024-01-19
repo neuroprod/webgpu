@@ -8,24 +8,24 @@ import InventoryButton from "./InventoryButton";
 
 export default class Inventory extends UIBitmapModel{
     //182/878
-    private h =182;
+    private h =140;
     private yPos: number=110/2;
     private btns:Array< InventoryButton>=[];
     private openBtn: UIBitmapModel;
     private isOpen =false;
-    private closePos =-25;
+    private closePos =-50;
     constructor(renderer:Renderer,preLoader:PreLoader) {
         super(renderer,preLoader,"inventory","UI/inventory.png");
         this.yPos=this.closePos;
         for(let i=0;i<6;i++){
-            let posX = -350+i*135;
+            let posX = -320+i*135;
             let btn =new InventoryButton(this.renderer,preLoader,"UI/pants_"+(i+1)+".png",i,posX);
             this.addChild(btn);
             this.btns.push(btn)
         }
         this.material.uniforms.setUniform("alpha",1.0)
         this.openBtn =new UIBitmapModel(renderer,preLoader,"open","UI/inventoryButton.png")
-        this.openBtn.setPosition(-275,50,0)
+        this.openBtn.setPosition(-260,75,0)
         this.addChild(this.openBtn);
         this.openBtn.onClick =this.tryOpen.bind(this)
         this.updateInventory()
@@ -40,7 +40,7 @@ export default class Inventory extends UIBitmapModel{
 
     hide(){
         gsap.killTweensOf(this);
-        gsap.to(this,{yPos:-this.h/2,duration:0.3,ease:"back.out"})
+        gsap.to(this,{yPos:-this.h,duration:0.3,ease:"back.out"})
     }
     show(){
         gsap.killTweensOf(this);
