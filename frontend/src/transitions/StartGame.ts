@@ -9,18 +9,19 @@ export default class StartGame extends Transition{
         let ts = Timeline.timeline({onComplete:onComplete})
 
         GameModel.sound.startMusic();
-        RenderSettings.fadeToBlack(2)
+        RenderSettings.fadeToBlack(1.5)
 
         ts.call(()=>{
 
             GameModel.setScene(Scenes.ROOM)
+            GameModel.roomCamOffset=1;
             GameModel.characterPos.set(2, 0, -1);
-            RenderSettings.fadeToScreen(4)
+            RenderSettings.fadeToScreen(3)
         },[],2)
         ts.call(()=>{
             GameModel.setUIState(UIState.GAME_DEFAULT)
 
-        },[],5)
+        },[],4)
 
 
     }

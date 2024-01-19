@@ -9,6 +9,7 @@ export default class Menu extends UIBitmapModel{
     private yPos: number=133/2-20;
     private closeButton: CloseButton;
     private yOff: number=0;
+    private uiScale: number=1;
 
     constructor(renderer:Renderer,preLoader:PreLoader) {
         super(renderer,preLoader,"menu","UI/mainMenu.png");
@@ -25,7 +26,12 @@ export default class Menu extends UIBitmapModel{
     update() {
         super.update();
         this.setPosition(GameModel.screenWidth/2,GameModel.screenHeight/2+this.yOff,0)
-
+        if(GameModel.screenHeight>1000){
+            this.uiScale =1;
+        }else{
+            this.uiScale =GameModel.screenHeight/1000;
+        }
+        this.setScale(this.uiScale,this.uiScale,this.uiScale)
     }
 
     hide(){

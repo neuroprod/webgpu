@@ -7,7 +7,7 @@ import GameModel, {Transitions} from "../GameModel";
 
 export default class EnterButton extends UIBitmapModel{
 
-    private scale =0.2
+    private scale =1
     private kill: boolean =false;
     constructor(renderer:Renderer,preLoader:PreLoader) {
         super(renderer,preLoader,"UI/enter.png","UI/enter.png");

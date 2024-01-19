@@ -11,6 +11,7 @@ export default class DefaultTextures {
     private static mre: Texture;
     private static cube: Texture;
     private static hilbert: Texture;
+    private static depth: Texture;
 
 
     static getMRE(render: Renderer) {
@@ -31,7 +32,17 @@ export default class DefaultTextures {
 
         return this.mre;
     }
+    static getDepth(render: Renderer) {
+        if (this.depth) return this.depth;
 
+        this.depth = new Texture(render, "defaultWhite", {
+            format: TextureFormat.Depth16Unorm,
+            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+        })
+        this.depth.make()
+
+        return this.depth;
+    }
     static getWhite(render: Renderer) {
         if (this.white) return this.white;
 

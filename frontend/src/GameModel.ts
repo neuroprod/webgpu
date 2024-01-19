@@ -64,7 +64,7 @@ export enum Scenes {
 
 class GameModel {
     public renderer: Renderer;
-    public roomCamOffset: number = 1;
+    public roomCamOffset: number = 0;
     public isLeftRoom = false;
 
     public currentScene: Scenes = Scenes.PRELOAD
@@ -102,11 +102,13 @@ class GameModel {
     screenWidth: number;
    screenHeight: number;
 
-    debug: boolean=true;
+
     private storedState: number;
    public  pantsFound: number = 0;
     public  currentPants: number = 0;
     uiOpen =false;
+
+    debug: boolean=false;
     constructor() {
 
         this.makeTriggers();

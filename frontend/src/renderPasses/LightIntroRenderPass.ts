@@ -40,10 +40,10 @@ export default class LightIntroRenderPass extends RenderPass {
     private bottomColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
 
 
-    private pos1 =new Vector3(-0.35,0.00,0.00)
-    private pos2 =new Vector3(1.29,2.21,-1.13)
-    private pos3 =new Vector3(1.68,0.91,-0.34)
-    private pos4 =new Vector3(3.0,2.00,0.00)
+    private pos1 =new Vector3(-0.35-2,0.00,0.00)
+    private pos2 =new Vector3(1.29-2,2.21,-1.13)
+    private pos3 =new Vector3(1.68-2,0.91,-0.34)
+    private pos4 =new Vector3(3.0-2,2.00,0.00)
 
 
     constructor(renderer: Renderer) {

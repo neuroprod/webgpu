@@ -294,7 +294,7 @@ export default class Main {
             this.shadowPassCube4.setLightPos(this.room.lightWall.getWorldPos())
 
             RenderSettings.exposure = 1.8;
-
+            RenderSettings.onChange()
 
         } else  if (scene == Scenes.OUTSIDE){
             GameModel.yMouseScale = 1.5
@@ -313,7 +313,7 @@ export default class Main {
             this.shadowPassCube1.setModels(this.outside.modelRenderer.models);
             this.shadowPassCube1.setLightPos(this.outside.lightGrave.getWorldPos())
             RenderSettings.exposure = 1.2;
-
+            RenderSettings.onChange()
         }
 
 
@@ -417,7 +417,7 @@ export default class Main {
         }
 
         this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
-        if (!GameModel.lockView) this.characterHandler.update(this.mouseListener.mousePos.clone(), this.mouseListener.isDownThisFrame)
+        if (!GameModel.lockView) this.characterHandler.update()
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
 
@@ -430,7 +430,7 @@ export default class Main {
             this.shadowPassCube2.setLightPos(this.introLight2.getWorldPos());
             this.shadowPassCube3.setLightPos(this.introLight3.getWorldPos());
             this.shadowPassCube4.setLightPos(this.introLight4.getWorldPos());
-            GameModel.characterPos.set(1, -1.2, -1);
+            GameModel.characterPos.set(-1, -1.2, -1);
         } else if (GameModel.currentScene == Scenes.ROOM) {
             this.room.update();
             if (checkHit) this.room.checkMouseHit(this.mouseRay);

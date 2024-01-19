@@ -1,4 +1,4 @@
-import {Vector2, Vector3, Vector4} from "math.gl";
+import {Vector3} from "math.gl";
 import Renderer from "./lib/Renderer";
 import Camera from "./lib/Camera";
 import AnimationMixer from "./lib/animation/AnimationMixer";
@@ -8,13 +8,12 @@ import Object3D from "./lib/core/Object3D";
 import gsap from "gsap";
 import Timeline from "gsap";
 
-import GameModel, {Scenes, Transitions} from "./GameModel";
+import GameModel, {Scenes} from "./GameModel";
 import GLFTLoader from "./GLFTLoader";
 
 import UI from "./lib/UI/UI";
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
-
 
 
 export default class CharacterHandler {
@@ -42,6 +41,7 @@ export default class CharacterHandler {
     private pants: Material;
      body: Model;
     private walkingSpeed: number=0.72;
+    private charScale: number=1;
 
     constructor(renderer: Renderer, camera: Camera, glft:GLFTLoader, animationMixer: AnimationMixer) {
 
@@ -79,13 +79,18 @@ export default class CharacterHandler {
 
     }
 
-    update(mousePos: Vector2, down: boolean) {
+    update() {
 
         this.animationMixer.update();
+if(GameModel.currentScene ==Scenes.ROOM){
+    this.charScale =1.05;
+}else{
+    this.charScale =1.00;
+}
       //  this.head.setEuler(Timer.time*7,Timer.time*5,Timer.time*3);
 
-        //console.log(this.neck)
 
+        this.characterRoot.setScale( this.charScale, this.charScale, this.charScale)
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
         this.characterRoot.setEuler(0, this.characterRot, 0)
 

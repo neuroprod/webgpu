@@ -17,6 +17,7 @@ export default class InventoryDetail extends UIModel{
     private useButton: UseButton;
     private id: number;
 private items:Array<UIBitmapModel>=[];
+    private uiScale: number=1;
     constructor(renderer:Renderer,preLoader:PreLoader) {
         super(renderer,"inventoryDetail");
         this.visible =false;
@@ -54,7 +55,12 @@ private items:Array<UIBitmapModel>=[];
     update() {
         super.update();
         this.setPosition(GameModel.screenWidth/2,GameModel.screenHeight/2+this.yOff,0)
-
+        if(GameModel.screenHeight>1000){
+            this.uiScale =1;
+        }else{
+            this.uiScale =GameModel.screenHeight/1000;
+        }
+        this.setScale(this.uiScale,this.uiScale,this.uiScale)
     }
 
     hide(){
