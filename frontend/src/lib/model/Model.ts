@@ -30,6 +30,8 @@ export default class Model extends Object3D {
     public center:Vector3 =new Vector3()
     public radius =1;
     private keepAlive: boolean;
+    alphaClipValue =0;
+    private needCulling: boolean =true;
 
     constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
@@ -59,16 +61,27 @@ export default class Model extends Object3D {
         super.onDataUI();
         this.needsHitTest =UI.LBool("needs HitTest",this.needsHitTest)
         this.needsAlphaClip =UI.LBool("needs AlphaClip", this.needsAlphaClip)
+        this.alphaClipValue = UI.LFloatSlider("alphaClipValue",this.alphaClipValue,0,1)
         this.visible =UI.LBool("visible", this.visible)
-
+        this.needCulling=UI.LBool("needCulling",  this.needCulling);
         this.castShadow=UI.LBool("castShadow",  this.castShadow)
 
 
         this.needsWind =UI.LBool("wind", this.needsWind)
+
+
+
         this.normalAdj =UI.LFloatSlider("normalAdj",0,0,2)
 
         UI.LText(this.center+"/"+this.radius,"sphere");
 
+        if(  this.needsAlphaClip){
+            this.material.uniforms.setUniform("alphaClipValue",this.alphaClipValue)
+            if(  this.castShadow){
+                this.shadowMaterial.uniforms.setUniform("alphaClipValue",this.alphaClipValue)
+
+            }
+        }
     }
 
     destroy() {
@@ -104,7 +117,8 @@ if(!this.mesh)return;
             needsWind:this.needsWind,
             castShadow:this.castShadow,
             normalAdj:this.normalAdj,
-
+            alphaClipValue:this.alphaClipValue,
+            needCulling :this.needCulling,
         }
 
     }

@@ -5,28 +5,41 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
-export default class GBufferShader extends Shader{
+export default class GBufferShader extends Shader {
+    private needsAlphaClip: boolean = false;
+    private alphaClipValue: number = 0;
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
-            this.addAttribute("aTangent",ShaderType.vec4);
+            this.addAttribute("aTangent", ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("scale",1);
-        this.addTexture("opTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
-        this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
-        this.addSampler("mySampler")
+        this.addUniform("scale", 1);
+        if (this.needsAlphaClip) {
+            this.addUniform("alphaClipValue", this.alphaClipValue);
+            this.addTexture("opTexture", DefaultTextures.getWhite(this.renderer))
+        }
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
+        this.addTexture("mraTexture", DefaultTextures.getMRE(this.renderer))
+        this.addTexture("normalTexture", DefaultTextures.getNormal(this.renderer))
+        this.addSampler("mySampler", GPUShaderStage.FRAGMENT, "repeat")
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
     }
+
+    setMaterialData(md: any) {
+        if (md.needsAlphaClip) {
+            this.needsAlphaClip = true;
+            this.alphaClipValue = md.alphaClipValue;
+        }
+    }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -55,8 +68,10 @@ ${this.getShaderUniforms(2)}
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
+    var pos = vec4( aPos,1.0);
+    ${this.getWindChunk()} 
     
-    output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
+    output.position =camera.viewProjectionMatrix*model.modelMatrix *pos;
     output.uv0 =aUV0;
 
     output.normal =model.normalMatrix *aNormal;
@@ -70,9 +85,8 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) tangent: vec3f,@location(3) biTangent: vec3f) -> GBufferOutput
 {
     var output : GBufferOutput;
-  
-    let a= textureSample(opTexture, mySampler,  uv0).x;
-    if(a<0.5){discard;}
+  ${this.getAlphaClipChunk()} 
+   
 
     output.color = textureSample(colorTexture, mySampler,  uv0);
  
@@ -103,6 +117,16 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
         `
     }
 
+    private getAlphaClipChunk() {
+        if (!this.needsAlphaClip) return "";
+
+        return `let a= textureSample(opTexture, mySampler,  uv0).x;
+        if(a<uniforms.alphaClipValue){discard;}`
+    }
+
+    private getWindChunk() {
+        return "";
+    }
 
 
 }

@@ -18,7 +18,6 @@ import {materialData} from "./PreloadData";
 import GBufferShaderWind from "./shaders/GbufferShaderWind";
 import DepthSkinShader from "./shaders/DepthSkinShader";
 import DepthShader from "./shaders/DepthShader";
-import DepthShaderAlpha from "./shaders/DepthShaderAlpha";
 
 
 type Accessor = {
@@ -89,7 +88,7 @@ export default class GLFTLoader {
         this.json = JSON.parse(text)
 
         // this.makeBuffer()
-       // console.log(this.json)
+        // console.log(this.json)
         this.parseAccessors()
         this.parseMeshes();
         this.parseScene();
@@ -146,10 +145,11 @@ export default class GLFTLoader {
             if (mData) {
 
                 m.model.needsAlphaClip = mData.needsAlphaClip
-                m.model.castShadow =mData.castShadow;
+                m.model.alphaClipValue = mData.alphaClipValue
+                m.model.castShadow = mData.castShadow;
                 m.model.visible = mData.visible;
-                m.model.needsWind =mData.needsWind;
-                m.model.normalAdj  =mData.normalAdj;
+                m.model.needsWind = mData.needsWind;
+                m.model.normalAdj = mData.normalAdj;
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             m.model.shadowMaterial = this.makeShadowMaterial(m.model.mesh.label, m.skinID)
@@ -161,29 +161,49 @@ export default class GLFTLoader {
 
         }
     }
+
     private makeShadowMaterial(name: string, skinID: number) {
         let md = materialData[name];
-        if (skinID != undefined){
-            let m =new Material(this.renderer,"skinDepth",new DepthSkinShader(this.renderer));
+        if (skinID != undefined) {
+            let m = new Material(this.renderer, "skinDepth", new DepthSkinShader(this.renderer));
             m.skin = this.skins[skinID];
             return m;
         }
-        if(md){
-           if(! md.castShadow)return null;
-            if(md.needsWind){
+        if (md) {
+            if (!md.castShadow) return null;
 
+
+            let shader = new DepthShader(this.renderer, "depthShader");
+            if (md) {
+                shader.setMaterialData(md);
             }
-            let opTexture = this.getTexture(name + "_Op");
-            if (opTexture) {
-               let m = new Material(this.renderer,"depthAlpha",new DepthShaderAlpha(this.renderer));
-               m.uniforms.setTexture("opTexture", opTexture)
-                return m;
+            let material = new Material(this.renderer, "depth", shader);
+            if (md) {
+
+                if (!md.needCulling) material.cullMode = "none"
             }
+            if (md.needsAlphaClip) {
+                let opTexture = this.getTexture(name + "_Op");
+                if (opTexture) {
+                    material.uniforms.setTexture("opTexture", opTexture)
+
+                }
+            }
+            return material;
+
+
+            /*let opTexture = this.getTexture(name + "_Op");
+             if (opTexture) {
+                let m = new Material(this.renderer,"depthAlpha",new DepthShaderAlpha(this.renderer));
+                m.uniforms.setTexture("opTexture", opTexture)
+                 return m;
+             }*/
         }
-        return new Material(this.renderer,"depth",new DepthShader(this.renderer));
+        return new Material(this.renderer, "depth", new DepthShader(this.renderer));
 
 
     }
+
     private makeMaterial(name: string, skinID: number) {
 
         if (this.materialsByName[name] != undefined) return this.materialsByName[name];
@@ -196,11 +216,18 @@ export default class GLFTLoader {
         } else if (skinID != undefined) {
             material = new Material(this.renderer, name, this.skinShader);
             material.skin = this.skins[skinID];
-        } else if ( md &&   md.needsWind){
-            material = new Material(this.renderer, name, this.windShader);
-            material.uniforms.setUniform('normalAdj',md.normalAdj)
-        }else  {
-            material = new Material(this.renderer, name, this.mainShader);
+
+        } else {
+            let shader = new GBufferShader(this.renderer, "gBufferShader");
+            if (md) {
+                shader.setMaterialData(md);
+            }
+            material = new Material(this.renderer, name, shader);
+            if (md) {
+
+                if (!md.needCulling) material.cullMode = "none"
+            }
+
 
         }
 
