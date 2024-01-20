@@ -7,7 +7,7 @@ import TestShader from "./shaders/TestShader";
 import Material from "./lib/core/Material";
 import GBufferShader from "./shaders/GBufferShader";
 import GlassShader from "./shaders/GlassShader";
-import {Matrix4, Quaternion, Vector3} from "math.gl";
+import {Matrix4, Quaternion, Vector3, Vector4} from "math.gl";
 import Animation from "./lib/animation/Animation";
 import AnimationChannelQuaternion from "./lib/animation/AnimationChannelQuaternion";
 import AnimationChannelVector3 from "./lib/animation/AnimationChannelVector3";
@@ -15,7 +15,7 @@ import Skin from "./lib/animation/Skin";
 import GBufferShaderSkin from "./shaders/GBufferShaderSkin";
 import HitTestObject from "./lib/meshes/HitTestObject";
 import {materialData} from "./PreloadData";
-import GBufferShaderWind from "./shaders/GbufferShaderWind";
+
 import DepthSkinShader from "./shaders/DepthSkinShader";
 import DepthShader from "./shaders/DepthShader";
 
@@ -57,7 +57,7 @@ export default class GLFTLoader {
     private url: string;
     private skins: Array<Skin> = [];
     private skinShader: GBufferShaderSkin;
-    private windShader: GBufferShaderWind;
+
 
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
@@ -66,7 +66,7 @@ export default class GLFTLoader {
         this.root = new Object3D(renderer, "sceneRoot");
         this.skinShader = new GBufferShaderSkin(this.renderer, "gBufferShaderSkin");
         this.mainShader = new GBufferShader(this.renderer, "gBufferShader");
-        this.windShader = new GBufferShaderWind(this.renderer, "gBufferShaderWind");
+
         this.glassShader = new GlassShader(this.renderer, "glassShader");
         this.url = url;
         preLoader.startLoad();
@@ -150,6 +150,7 @@ export default class GLFTLoader {
                 m.model.visible = mData.visible;
                 m.model.needsWind = mData.needsWind;
                 m.model.normalAdj = mData.normalAdj;
+                m.model.windData=new Vector4( mData.windData[0],mData.windData[1],mData.windData[2],mData.windData[3])
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]
             m.model.shadowMaterial = this.makeShadowMaterial(m.model.mesh.label, m.skinID)

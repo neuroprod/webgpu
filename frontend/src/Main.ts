@@ -75,7 +75,7 @@ export default class Main {
     private glassPass: GlassRenderPass;
     private blurLightPass: BlurLight;
     private combinePass: CombinePass;
-    private numberOfQueries: number = 12;
+    private numberOfQueries: number = 11;
     private blurBloomPass: BlurBloom;
     private shadowPassCube1: ShadowCube;
     private shadowPassCube2: ShadowCube;
@@ -101,7 +101,7 @@ export default class Main {
     private aoPreCompDepth: AOPreprocessDepth;
     private gtaoPass: GTAO;
     private gtaoDenoise: GTAOdenoise;
-    private simplexNoisePass: Simplex;
+
 
 
     private font: Font;
@@ -152,7 +152,7 @@ export default class Main {
 
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
         new TextureLoader(this.renderer, this.preloader, "BlueNoise.png", {});
-
+        new TextureLoader(this.renderer, this.preloader, "noiseTexture.png", {});
 
         this.introLight1 = new MainLight(this.renderer, "preloadLight1")
         this.introLight2 = new MainLight(this.renderer, "preloadLight2")
@@ -178,7 +178,7 @@ export default class Main {
         GameModel.textHandler.font = this.font;
 
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
-        new TextureLoader(this.renderer, this.preloader, "noiseTexture.png", {});
+
 
         this.drawingPreloader = new DrawingPreloader()
         this.drawingPreloader.load(this.renderer, this.preloader)
@@ -191,7 +191,7 @@ export default class Main {
 
         //setup passes
 
-        this.simplexNoisePass = new Simplex(this.renderer)
+
         this.gBufferPass = new GBufferRenderPass(this.renderer);
 
         this.aoPreCompDepth = new AOPreprocessDepth(this.renderer)
@@ -393,7 +393,7 @@ export default class Main {
     }
 
     update() {
-        this.simplexNoisePass.update();
+
 
 
 
@@ -534,8 +534,7 @@ export default class Main {
         this.timeStampQuery.start();
 
 
-        this.simplexNoisePass.add()
-        this.timeStampQuery.setStamp("noise");
+      
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube1.add();

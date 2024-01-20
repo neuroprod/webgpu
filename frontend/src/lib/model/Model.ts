@@ -7,7 +7,7 @@ import HitTestObject from "../meshes/HitTestObject";
 import Ray from "../Ray";
 
 import UI from "../UI/UI";
-import {Vector3} from "math.gl";
+import {Vector3, Vector4} from "math.gl";
 
 
 export default class Model extends Object3D {
@@ -32,7 +32,7 @@ export default class Model extends Object3D {
     private keepAlive: boolean;
     alphaClipValue =0;
     private needCulling: boolean =true;
-
+    public windData:Vector4 =new Vector4(0,1,0.5,0.2)
     constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
@@ -69,6 +69,7 @@ export default class Model extends Object3D {
 
         this.needsWind =UI.LBool("wind", this.needsWind)
 
+UI.LVector("windData",this.windData)
 
 
         this.normalAdj =UI.LFloatSlider("normalAdj",0,0,2)
@@ -79,6 +80,13 @@ export default class Model extends Object3D {
             this.material.uniforms.setUniform("alphaClipValue",this.alphaClipValue)
             if(  this.castShadow){
                 this.shadowMaterial.uniforms.setUniform("alphaClipValue",this.alphaClipValue)
+
+            }
+        }
+        if(  this.needsWind){
+            this.material.uniforms.setUniform("windData",this.windData)
+            if(  this.castShadow){
+                this.shadowMaterial.uniforms.setUniform("windData",this.windData)
 
             }
         }
@@ -115,6 +123,7 @@ if(!this.mesh)return;
             needsAlphaClip:this.needsAlphaClip,
             visible:this.visible,
             needsWind:this.needsWind,
+            windData:this.windData,
             castShadow:this.castShadow,
             normalAdj:this.normalAdj,
             alphaClipValue:this.alphaClipValue,

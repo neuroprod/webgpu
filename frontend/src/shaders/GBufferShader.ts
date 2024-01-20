@@ -4,12 +4,16 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
+import Renderer from "../lib/Renderer";
+import {TextureDimension} from "../lib/WebGPUConstants";
+import {Vector4} from "math.gl";
 
 export default class GBufferShader extends Shader {
     private needsAlphaClip: boolean = false;
     private alphaClipValue: number = 0;
+    private needsWind: boolean=false;
 
-
+    private windData: Vector4 =new Vector4(0,1,0.5,0.2)
     init() {
 
         if (this.attributes.length == 0) {
@@ -19,11 +23,21 @@ export default class GBufferShader extends Shader {
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
+        if (this.needsWind) {
+            this.addUniform("windData",this.windData)
+            this.addUniform("time", 0);
+
+            this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
+
+        }
+
         this.addUniform("scale", 1);
+
         if (this.needsAlphaClip) {
             this.addUniform("alphaClipValue", this.alphaClipValue);
             this.addTexture("opTexture", DefaultTextures.getWhite(this.renderer))
         }
+
         this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
         this.addTexture("mraTexture", DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture", DefaultTextures.getNormal(this.renderer))
@@ -37,6 +51,10 @@ export default class GBufferShader extends Shader {
         if (md.needsAlphaClip) {
             this.needsAlphaClip = true;
             this.alphaClipValue = md.alphaClipValue;
+        }
+        if(md.needsWind){
+            this.needsWind =true;
+            this.windData =new Vector4( md.windData[0],md.windData[1],md.windData[2],md.windData[3])
         }
     }
 
@@ -68,10 +86,11 @@ ${this.getShaderUniforms(2)}
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    var pos = vec4( aPos,1.0);
+    let pos = vec4( aPos,1.0);
+    var world=model.modelMatrix *pos;
     ${this.getWindChunk()} 
     
-    output.position =camera.viewProjectionMatrix*model.modelMatrix *pos;
+    output.position =camera.viewProjectionMatrix*world;
     output.uv0 =aUV0;
 
     output.normal =model.normalMatrix *aNormal;
@@ -125,7 +144,17 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     }
 
     private getWindChunk() {
-        return "";
+        if (!this.needsWind) return "";
+        return `
+        let uvH =vec2<i32>(floor(world.xz*100.0+vec2(uniforms.time*40.0)))%512;
+          let t = (textureLoad( noiseTexture,uvH,0).xyz-vec3(0.5))*vec3(1.0,uniforms.windData.w,1.0);
+          
+       
+        
+        
+          let noiseVal =smoothstep(uniforms.windData.x,uniforms.windData.y,pos.y);
+        world=world+vec4(t*noiseVal*uniforms.windData.z,0.0);
+        `
     }
 
 
