@@ -72,8 +72,8 @@ export default class Model extends Object3D {
 UI.LVector("windData",this.windData)
 
 
-        this.normalAdj =UI.LFloatSlider("normalAdj",0,0,2)
-
+        this.normalAdj =UI.LFloatSlider("normalAdj", this.normalAdj,0,2)
+        this.material.uniforms.setUniform("normalAdj",this.normalAdj)
         UI.LText(this.center+"/"+this.radius,"sphere");
 
         if(  this.needsAlphaClip){
@@ -85,7 +85,7 @@ UI.LVector("windData",this.windData)
         }
         if(  this.needsWind){
             this.material.uniforms.setUniform("windData",this.windData)
-            if(  this.castShadow){
+            if(  this.castShadow &&  this.shadowMaterial.uniforms){
                 this.shadowMaterial.uniforms.setUniform("windData",this.windData)
 
             }
