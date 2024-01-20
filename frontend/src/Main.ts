@@ -49,7 +49,7 @@ import ModelRenderer from "./lib/model/ModelRenderer";
 import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth";
 import GTAO from "./ComputePasses/GTAO";
 import GTAOdenoise from "./ComputePasses/GTAOdenoise";
-import Simplex from "./ComputePasses/Simplex";
+
 
 import Font from "./lib/text/Font";
 import TextHandler from "./TextHandler";
