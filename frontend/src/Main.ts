@@ -507,9 +507,7 @@ export default class Main {
             saveToJsonFile(data, "materialData")
 
         }
-        UI.pushGroup("UI");
 
-        UI.popGroup()
         UI.pushGroup("Room");
         this.room.onUI()
         UI.popGroup()
@@ -534,7 +532,7 @@ export default class Main {
         this.timeStampQuery.start();
 
 
-      
+
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube1.add();
