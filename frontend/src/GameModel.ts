@@ -108,7 +108,7 @@ class GameModel {
     public  currentPants: number = 0;
     uiOpen =false;
 
-    debug: boolean=true;
+    debug: boolean=false;
     constructor() {
 
         this.makeTriggers();

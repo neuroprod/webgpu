@@ -20,7 +20,7 @@ export default class GoOutside extends Transition{
             GameModel.sound.playDoor()
             GameModel.sound.playForest();
 
-        },[],1.5)
+        },[],1)
         ts.call(()=>{
 
             let door = GameModel.renderer.modelByLabel["door"]
@@ -29,7 +29,7 @@ export default class GoOutside extends Transition{
             let target = door.getWorldPos(new Vector3(0,0,3))
             GameModel.characterHandler.walkTo(target,0)
             RenderSettings.fadeToScreen(1)
-        },[],2)
+        },[],1.5)
 
 
 

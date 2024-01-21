@@ -31,7 +31,7 @@ export default class Texture extends ObjectGPU {
     public options: TextureOptions;
     public isDirty: boolean = true;
     private view: GPUTextureView;
-
+public useCount =0;
     constructor(renderer: Renderer, label: string = "", options: Partial<TextureOptions>) {
         super(renderer, label);
 
@@ -68,6 +68,7 @@ export default class Texture extends ObjectGPU {
             if (this.textureGPU == undefined) console.log(this.label, this["loaded"], this)
             this.view = this.textureGPU.createView(descriptor)
         }
+
         return this.view;
     }
 

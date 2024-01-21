@@ -30,7 +30,7 @@ export default class Renderer {
     commandEncoder: GPUCommandEncoder;
     private context: GPUCanvasContext;
     private materials: Array<Material> = [];
-    private textures: Array<Texture> = [];
+   public textures: Array<Texture> = [];
     models: Array<Model> = [];
     public modelByLabel: { [label: string]: Model } = {};
     public modelLabels:Array<string>=[];

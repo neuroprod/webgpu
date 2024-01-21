@@ -23,14 +23,13 @@ export default class Fish{
 
     constructor(renderer:Renderer,fish1:Model, fish2:Model) {
 
-
+        this.noise1=createNoise2D();
         this.fish1 =fish1;
-       this.noise1=createNoise2D();
-
         this.fish1.material =new Material(renderer,"fishMat",new GBufferShaderFish(renderer,"gBufferFish"));
         this.fish1.setScale(0.8,0.8,0.8)
-        this.fish2  =fish2;
+
         this.noise2=createNoise2D();
+        this.fish2  =fish2;
         this.fish2.setScale(0.7,0.7,0.7)
         this.fish2.material =new Material(renderer,"fishMat",new GBufferShaderFish(renderer,"gBufferFish"));
     }

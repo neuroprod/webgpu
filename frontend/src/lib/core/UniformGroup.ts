@@ -114,6 +114,8 @@ export default class UniformGroup extends ObjectGPU {
         } )
     }
     addTexture(name: string, value: Texture, sampleType: GPUTextureSampleType, dimension: GPUTextureViewDimension, usage: GPUShaderStageFlags) {
+
+        value.useCount++;
         this.textureUniforms.push({
             name: name,
             sampleType: sampleType,
@@ -163,6 +165,7 @@ export default class UniformGroup extends ObjectGPU {
     }
 
     setTexture(name: string, value: Texture) {
+        value.useCount++;
         const found = this.textureUniforms.find((element) => element.name == name);
 
         if (found) {

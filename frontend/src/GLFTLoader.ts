@@ -150,6 +150,7 @@ export default class GLFTLoader {
                 m.model.visible = mData.visible;
                 m.model.needsWind = mData.needsWind;
                 m.model.normalAdj = mData.normalAdj;
+                m.model.needCulling = mData.needCulling ;
                 m.model.windData=new Vector4( mData.windData[0],mData.windData[1],mData.windData[2],mData.windData[3])
             }
             m.model.material = this.makeMaterial(m.model.mesh.label, m.skinID) //this.materials[m.meshID]

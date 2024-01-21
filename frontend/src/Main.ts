@@ -485,6 +485,13 @@ export default class Main {
 
 
         UI.pushWindow("Render Setting")
+        if(UI.LButton("log unused textures")){
+            console.log("-----------------------")
+            for(let t of this.renderer.textures)
+            {
+                if(t.useCount <2)console.log(t.label)
+            }
+        }
         GameModel.frustumCull = UI.LBool("frustumCull", true)
         UI.pushGroup("Performance");
         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)

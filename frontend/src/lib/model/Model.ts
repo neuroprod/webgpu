@@ -31,7 +31,7 @@ export default class Model extends Object3D {
     public radius =1;
     private keepAlive: boolean;
     alphaClipValue =0;
-    private needCulling: boolean =true;
+    public needCulling: boolean =true;
     public windData:Vector4 =new Vector4(0,1,0.5,0.2)
     constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
@@ -75,7 +75,7 @@ UI.LVector("windData",this.windData)
         this.normalAdj =UI.LFloatSlider("normalAdj", this.normalAdj,0,2)
         this.material.uniforms.setUniform("normalAdj",this.normalAdj)
         UI.LText(this.center+"/"+this.radius,"sphere");
-
+try{
         if(  this.needsAlphaClip){
             this.material.uniforms.setUniform("alphaClipValue",this.alphaClipValue)
             if(  this.castShadow){
@@ -89,7 +89,7 @@ UI.LVector("windData",this.windData)
                 this.shadowMaterial.uniforms.setUniform("windData",this.windData)
 
             }
-        }
+        }}catch (e){}
     }
 
     destroy() {

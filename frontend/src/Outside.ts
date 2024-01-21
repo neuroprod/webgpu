@@ -63,6 +63,7 @@ export default class Outside extends Scene {
             if (m.needsWind) {
                 m.material.uniforms.setUniform("time", Timer.time)
                 if (m.castShadow) {
+                    if (m.shadowMaterial.uniforms)
                     m.shadowMaterial.uniforms.setUniform("time", Timer.time)
                 }
             }

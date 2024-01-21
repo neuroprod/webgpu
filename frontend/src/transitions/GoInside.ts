@@ -22,7 +22,7 @@ export default class GoInside extends Transition{
         GameModel.sound.playDoor()
         GameModel.sound.stopForest()
 
-        },[],1.5)
+        },[],1)
         ts.call(()=>{
             let door = GameModel.renderer.modelByLabel["door_HO"]
             GameModel.characterPos = door.getWorldPos(new Vector3(0.5,0,0))
@@ -30,8 +30,8 @@ export default class GoInside extends Transition{
             GameModel.characterPos.y=0;
             let target = door.getWorldPos(new Vector3(2,0,0))
             GameModel.characterHandler.walkTo(target)
-            RenderSettings.fadeToScreen(1)
-        },[],2)
+            RenderSettings.fadeToScreen(0.5)
+        },[],1.5)
 
 
     }
