@@ -2,6 +2,7 @@ import RenderPass from "./lib/core/RenderPass";
 import UI from "./lib/UI/UI";
 import {Vector4} from "math.gl";
 import gsap from "gsap";
+import GameModel from "./GameModel";
 class RenderSettings{
     private passes:Array<RenderPass>=[];
     public bloom_threshold: number=2;
@@ -57,8 +58,13 @@ class RenderSettings{
        UI.pushGroup("Dof");
        this.dof_Settings.z =UI.LFloatSlider("Samples",   this.dof_Settings.z ,0,10) ;
        this.dof_Settings.w =UI.LFloatSlider("Step",   this.dof_Settings.w ,0,10) ;
-      // this.dof_Settings.x =UI.LFloatSlider("Min",   this.dof_Settings.x ,0,1) ;
-       //this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
+       this.dof_Settings.x =UI.LFloatSlider("Min",   this.dof_Settings.x ,0,1) ;
+       this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
+
+       let cPos =GameModel.characterPos.clone()
+       let sp =GameModel.gameCamera.getScreenPos(cPos)
+       this.dof_Settings.x =sp.z+0.08
+       this.dof_Settings.y =sp.z+0.32;
        UI.popGroup()
        UI.pushGroup("Post");
 

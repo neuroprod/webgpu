@@ -225,8 +225,13 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
 
     if(mra.w==0.0){return vec4(albedo*1.5,0.0);}
-let fogAmount =smoothstep(uniforms.fogData.x,uniforms.fogData.y,depth);
-    return vec4(mix(color+(lightL+lightP)*ao,uniforms.fogColor.xyz,fogAmount),smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
+    
+    let fogStep =smoothstep(-30.0,-5.0,world.x);
+    let fogS2 =1.0-(pow(1.0-fogStep,2.0));
+    let fMin = mix (0.27,uniforms.fogData.x,fogS2 );
+    let fMax = mix (0.88,uniforms.fogData.y,fogS2 );
+let fogAmount =smoothstep(fMin,fMax,depth);
+    return vec4(mix(color+(lightL+lightP)*ao,uniforms.fogColor.xyz*fogStep,fogAmount),smoothstep(uniforms.dof.x,uniforms.dof.y,depth) );
 }
 ///////////////////////////////////////////////////////////
         `

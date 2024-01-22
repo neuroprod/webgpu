@@ -33,11 +33,11 @@ export default class LightOutsideRenderPass extends RenderPass {
 
     private globalLightMaterial: Material;
     private blitGlobalLight: Blit;
-    private fogColorDay: ColorV = new ColorV(0.00,0.38,1.00,1.00);
+    private fogColorDay: ColorV = new ColorV(0.00,0.22,0.41,1.00);
     public fogDataDay = new Vector4(0.67,1.40,0.00,0.00);
 
     private fogColorNight: ColorV = new ColorV(0.00,0.02,0.04,1.00);
-    public fogDataNight = new Vector4(0.27, 0.6,0,0);
+    public fogDataNight = new Vector4(0.27,0.88,0.00,0.00);
     private sunLightColor: ColorV = new ColorV(1.00, 0.83, 0.63, 1.00);
     private sunLightStrength: number = 4.5;
 

@@ -56,7 +56,7 @@ import TextHandler from "./TextHandler";
 import SoundHandler from "./SoundHandler";
 import GameUI from "./ui/GameUI";
 import LightIntroRenderPass from "./renderPasses/LightIntroRenderPass";
-
+import gsap from "gsap";
 
 export default class Main {
     public mouseRay: Ray;
@@ -160,7 +160,8 @@ export default class Main {
         this.introLight4 = new MainLight(this.renderer, "preloadLight4")
         this.font = new Font(this.renderer, this.preloader);
 
-
+        //devSpeed
+        if(GameModel.devSpeed) gsap.globalTimeline.timeScale(5);
     }
 
     startFinalPreload() {
