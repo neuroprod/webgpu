@@ -158,7 +158,7 @@ public setUniforms(){
     this.globalLightMaterial.uniforms.setTexture("shadowCube3", this.renderer.texturesByLabel["ShadowCubeColor3"]);
     this.globalLightMaterial.uniforms.setTexture("shadowCube4", this.renderer.texturesByLabel["ShadowCubeColor4"]);
 
-    this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
+    this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAOdenoise"]);
     this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
     this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
     this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);

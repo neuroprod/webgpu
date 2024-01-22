@@ -127,7 +127,7 @@ export default class LightOutsideRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("pointlightPos", this.lightGrave.getWorldPos());
         this.globalLightMaterial.uniforms.setTexture("shadow1", this.renderer.texturesByLabel["Shadow1"]);
         this.globalLightMaterial.uniforms.setTexture("shadow2", this.renderer.texturesByLabel["Shadow2"]);
-        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAO"]);
+        this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAOdenoise"]);
         this.globalLightMaterial.uniforms.setTexture("gNormal", this.renderer.texturesByLabel["GNormal"]);
         this.globalLightMaterial.uniforms.setTexture("gMRA", this.renderer.texturesByLabel["GMRA"]);
         this.globalLightMaterial.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"]);

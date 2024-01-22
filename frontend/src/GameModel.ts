@@ -111,8 +111,9 @@ class GameModel {
 
     //debugstuff
     devSpeed :boolean =false;
-    debug: boolean=false;
+    debug: boolean=true;
     startOutside: boolean=false;
+
     constructor() {
 
         this.makeTriggers();

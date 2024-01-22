@@ -113,6 +113,7 @@ export default class Main {
     private introLight3: MainLight;
     private introLight4: MainLight;
 
+
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
@@ -561,6 +562,7 @@ export default class Main {
 
         this.aoPreCompDepth.add();
         this.gtaoPass.add();
+
         this.gtaoDenoise.add();
 
         // this.timeStampQuery.setStamp("AOTestPass");

@@ -33,8 +33,10 @@ export default class GTAOdenoise {
             format:TextureFormat.R32Float,
         })
 
-        this.uniformGroup.addTexture("ambient_occlusion_noisy",this.renderer.texturesByLabel["GTAO"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-        this.uniformGroup.addTexture("depth_differences",this.renderer.texturesByLabel["GTAODepth"],"uint", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+
+            this.uniformGroup.addTexture("ambient_occlusion_noisy", this.renderer.texturesByLabel["GTAO"], "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+
+            this.uniformGroup.addTexture("depth_differences",this.renderer.texturesByLabel["GTAODepth"],"uint", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addStorageTexture("ambient_occlusion", this.texture, TextureFormat.R32Float);
 
         this.uniformGroup.addSampler("point_clamp_sampler",GPUShaderStage.COMPUTE,FilterMode.Linear)

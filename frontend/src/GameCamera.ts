@@ -31,7 +31,6 @@ if(GameModel.currentScene ==Scenes.PRELOAD){
     mp.scale(0.7);
 }
 
-
        this.offsetX = this.getCameraOffsetX();
 
 
