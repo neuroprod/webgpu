@@ -12,7 +12,7 @@ import gsap from "gsap";
 
 export default class Drawing extends Model {
     public drawData: DrawData;
-    public numInstances: number;
+
     public numDrawInstances: number;
     public numDrawInstancesMax: number;
     public firstDrawInstances: number;

@@ -35,12 +35,14 @@ export default class ModelRenderer{
 
             for (let attribute of model.material.shader.attributes) {
                 let buffer  = model.mesh.getBufferByName(attribute.name);
+                if(!buffer) buffer = model.getBufferByName(attribute.name);
                 if(buffer){
                 passEncoder.setVertexBuffer(
                     attribute.slot,
                     buffer,
-                );
+                )
                 }else{
+
                     console.log("buffer not found" ,attribute.name)
                 }
             }
@@ -50,14 +52,14 @@ export default class ModelRenderer{
                 passEncoder.setIndexBuffer(model.mesh.indexBuffer, model.mesh.indexFormat);
                 passEncoder.drawIndexed(
                     model.mesh.numIndices,
-                    1,
+                    model.numInstances,
                     0,
                     0
                 );
             } else {
                 passEncoder.draw(
                     model.mesh.numVertices,
-                    1,
+                    model.numInstances,
                     0,
                     0
                 );

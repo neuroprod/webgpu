@@ -12,6 +12,8 @@ import Model from "./lib/model/Model";
 import WaterFrontShader from "./shaders/WaterFrontShader";
 import Fish from "./extras/Fish";
 import FogPlanes from "./extras/FogPlanes";
+import Leaves from "./extras/Leaves";
+import TextureLoader from "./lib/textures/TextureLoader";
 
 
 export default class Outside extends Scene {
@@ -26,12 +28,13 @@ export default class Outside extends Scene {
     private waterFront: Model;
     private fish: Fish;
     private fogPlanes: FogPlanes;
+    private leaves: Leaves;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
-
-
+        new TextureLoader(this.renderer, preloader, "leaveAlpha.png", {});
+        new TextureLoader(this.renderer, preloader, "leaveColor.png", {});
     }
 
     init() {
@@ -48,7 +51,8 @@ export default class Outside extends Scene {
             this.modelRenderer.addModel(m)
 
         }
-
+        this.leaves =new Leaves(this.renderer)
+        this.modelRenderer.addModel(this.leaves.model)
         this.mailBox = new MailBox(this.glFTLoader);
     }
 
@@ -56,6 +60,7 @@ export default class Outside extends Scene {
 
         this.fogPlanes.update()
         this.fish.update();
+        this.leaves.update()
         //GameModel.dayNight
         this.waterTop.material.uniforms.setUniform("time", Timer.time * 0.05)
 

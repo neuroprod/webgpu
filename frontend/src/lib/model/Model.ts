@@ -33,6 +33,7 @@ export default class Model extends Object3D {
     alphaClipValue =0;
     public needCulling: boolean =true;
     public windData:Vector4 =new Vector4(0,1,0.5,0.2)
+    numInstances: number=1;
     constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
@@ -130,5 +131,14 @@ if(!this.mesh)return;
             needCulling :this.needCulling,
         }
 
+    }
+
+    public buffersByName: { [name: string]: GPUBuffer } = {};
+
+    addBuffer(name,GPUbuffer){
+        this.buffersByName[name]=GPUbuffer;
+    }
+    getBufferByName(name: string) {
+        return this.buffersByName[name];
     }
 }
