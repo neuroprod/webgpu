@@ -26,6 +26,7 @@ import GameUI from "./ui/GameUI";
 import RenderSettings from "./RenderSettings";
 import GoGraveTrigger from "./trigers/GoGraveTrigger";
 import GoHunterTrigger from "./trigers/GoHunterPants";
+import SitTrigger from "./trigers/SitTrigger";
 
 
 export const Transitions =
@@ -111,7 +112,7 @@ class GameModel {
 
     //debugstuff
     devSpeed :boolean =false;
-    debug: boolean=false;
+    debug: boolean=true;
     startOutside: boolean=false;
 
     constructor() {
@@ -194,6 +195,7 @@ class GameModel {
         this.triggers.push(new DoorGoOutsideTrigger(Scenes.ROOM, "door_HO"));
         this.triggers.push(new DoorGoInsideTrigger(Scenes.OUTSIDE, "door"));
         this.triggers.push(new DoorInsideTrigger(Scenes.ROOM, "_HitCenterDoor"));
+        this.triggers.push(new SitTrigger(Scenes.ROOM, "chair"));
         this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
@@ -234,6 +236,7 @@ class GameModel {
             if(this.textHandler.readNext()){
                 this.catchMouseDown =false;
                 this.setGameState(GameState.READ_MAIL_DONE)
+                this.characterHandler.setAnimation("idle")
             }
         }
         if(this.gameState==GameState.READ_CROSS){

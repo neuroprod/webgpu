@@ -37,6 +37,7 @@ private scale =0.5;
     onOut() {
 
         super.onOut();
+
         gsap.killTweensOf(this);
         gsap.to(this,{scale:0.5,duration:0.1,ease:"back.in"})
        // gsap.to(this,{rot:(Math.random()-0.5)*0.4,duration:0.1,ease:"power2.in"})

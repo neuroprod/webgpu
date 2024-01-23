@@ -33,6 +33,7 @@ private items:Array<UIBitmapModel>=[];
             GameModel.sound.playClick()
             GameModel.sound.playWoosh()
             GameModel.setUIState(UIState.GAME_DEFAULT);
+            GameModel.characterHandler.characterRot=0;
         }
         this.useButton =new UseButton(renderer,preLoader)
         this.useButton.setPosition(370,320,0);
@@ -42,6 +43,9 @@ private items:Array<UIBitmapModel>=[];
             GameModel.sound.playWoosh()
             GameModel.setUIState(UIState.GAME_DEFAULT);
             GameModel.usePants(this.id);
+            GameModel.characterHandler.characterRot=0;
+
+            GameModel.characterHandler.pullPants()
         }
 
         let item1=new UIBitmapModel(renderer,preLoader,"item1","UI/info1.png")

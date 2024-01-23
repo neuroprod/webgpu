@@ -12,7 +12,7 @@ export default class AnimationChannel{
 
     public result:Quaternion|Vector3;
     protected nextIndex: number;
-    protected firstIndex: number;
+    protected firstIndex: number=0;
     protected  mixValue :number=-1;
     constructor(type:"translation"|"rotation"|"scale",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
         this.type =type;
@@ -32,7 +32,10 @@ export default class AnimationChannel{
 
     }
     setTime(t: number) {
-    if(!this.hasAnime)return;
+        if(!this.hasAnime) {
+            this.mixValue=0;
+            this.setForTime();
+        }
         for(let i =1;i<this.timeData.length;i++){
             if(t<this.timeData[i]){
                 this.firstIndex =i-1;
