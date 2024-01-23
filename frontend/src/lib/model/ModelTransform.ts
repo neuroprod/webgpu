@@ -24,8 +24,8 @@ export default class ModelTransform extends UniformGroup{
 
     setWorldMatrix(worldMatrix: Matrix4) {
 
-        this.modelMatrix.copy(worldMatrix);
-        this.normalMatrixTemp.copy(worldMatrix);
+        this.modelMatrix.from(worldMatrix);
+        this.normalMatrixTemp.from(worldMatrix);
         this.normalMatrixTemp.invert();
         this.normalMatrixTemp.transpose();
 

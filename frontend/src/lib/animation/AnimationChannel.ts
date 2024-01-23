@@ -32,7 +32,7 @@ export default class AnimationChannel{
 
     }
     setTime(t: number) {
-        if(!this.hasAnime)return;
+    if(!this.hasAnime)return;
         for(let i =1;i<this.timeData.length;i++){
             if(t<this.timeData[i]){
                 this.firstIndex =i-1;
@@ -56,6 +56,10 @@ export default class AnimationChannel{
     }
 
     protected setForTime() {
+
+    }
+
+    setStart() {
 
     }
 }

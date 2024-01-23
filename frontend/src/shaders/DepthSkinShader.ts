@@ -38,7 +38,7 @@ ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
 struct Skin
 {
-    matrices : array<mat4x4<f32>,49>
+    matrices : array<mat4x4<f32>,140>
 }
 @group(2) @binding(0)  var<uniform> skin : Skin ;
 

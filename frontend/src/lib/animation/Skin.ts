@@ -9,11 +9,13 @@ export default class Skin extends UniformGroup{
     private objects: Array<Object3D>;
     private invBindMatrices: Array<Matrix4>;
     private dataArray:Float32Array
+    private temp:Matrix4 =new Matrix4()
     constructor(renderer:Renderer,label:string,objects:Array<Object3D>,invBindMatrices:Array<Matrix4>) {
       super(renderer,label,"skin")
         this.renderer.skin = this;
         this.objects=objects;
         this.invBindMatrices =invBindMatrices;
+
         this.dataArray =new Float32Array(16*this.objects.length)
         this.addUniform("matrices",  this.dataArray,GPUShaderStage.VERTEX,ShaderType.mat4,this.objects.length)
 
@@ -23,11 +25,11 @@ export default class Skin extends UniformGroup{
 
 
        for(let i=0;i<this.objects.length;i++){
-            let invMatrix =  this.invBindMatrices[i]
-            let objMatrix =  this.objects[i].worldMatrix;
 
-            let m = invMatrix.clone().multiplyLeft(objMatrix);
-            this.dataArray.set(m,16*i);
+            let objMatrix =  this.objects[i].worldMatrix;
+           this.temp.from(this.invBindMatrices[i])
+           this.temp.multiplyLeft(objMatrix);
+            this.dataArray.set(this.temp,16*i);
         }
         this.setUniform("matrices", this.dataArray)
 

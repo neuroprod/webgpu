@@ -161,7 +161,7 @@ export default class Camera extends UniformGroup {
 
         this.makeFrustum();
 
-        this.viewProjectionInv = this.viewProjection.clone();
+        this.viewProjectionInv.from(this.viewProjection);
         this.viewProjectionInv.invert();
 
         this.setUniform("inverseViewProjectionMatrix", this.viewProjectionInv)

@@ -57,12 +57,13 @@ export default class GLFTLoader {
     private url: string;
     private skins: Array<Skin> = [];
     private skinShader: GBufferShaderSkin;
+    private parent: GLFTLoader;
 
 
 
-    constructor(renderer: Renderer, url: string, preLoader: PreLoader) {
+    constructor(renderer: Renderer, url: string, preLoader: PreLoader,parent:GLFTLoader=null) {
         this.renderer = renderer;
-
+        this.parent =parent;
         this.root = new Object3D(renderer, "sceneRoot");
         this.skinShader = new GBufferShaderSkin(this.renderer, "gBufferShaderSkin");
         this.mainShader = new GBufferShader(this.renderer, "gBufferShader");
@@ -89,12 +90,21 @@ export default class GLFTLoader {
 
         // this.makeBuffer()
         // console.log(this.json)
-        this.parseAccessors()
-        this.parseMeshes();
-        this.parseScene();
-        this.parseAnimations();
-        this.parseSkin();
-        this.makeModels();
+
+        if(this.parent){
+            this.parseAccessors()
+            this.parseScene();
+            this.parseAnimationsParent();
+        }else{
+            this.parseAccessors()
+            this.parseMeshes();
+            this.parseScene();
+            this.parseAnimations();
+            this.parseSkin();
+            this.makeModels();
+        }
+
+
     }
 
     toMatrixData(f: Float32Array) {
@@ -260,7 +270,43 @@ export default class GLFTLoader {
 
         return this.renderer.texturesByLabel["textures/" + text + ".png"];
     }
+    private parseAnimationsParent() {
+        // for(an)
+        if (!this.json.animations) return;
+        for (let animation of this.json.animations) {
+            let an = new Animation(this.renderer, animation.name);
+            console.log(animation.name)
+            for (let c of animation.channels) {
+                let sampler = animation.samplers[c.sampler]
+                let timeData = this.getAnimationData(this.accessors[sampler.input], "time");
+                let type: "translation" | "rotation" | "scale" = c.target.path;
+                let start = this.accessors[sampler.input].accessor.min[0];
+                let stop = this.accessors[sampler.input].accessor.max[0];
+                let interpolation = sampler.interpolation;
 
+                let data = this.getAnimationData(this.accessors[sampler.output], c.target.path);
+                let targetNodeL = this.objectsByID[c.target.node];
+                let targetNode =this.parent.objectsByName[targetNodeL.label]
+                if(targetNode) {
+                    if (type == "rotation") {
+
+                        let channel = new AnimationChannelQuaternion(type, start, stop, interpolation, timeData, targetNode)
+                        channel.setData(data);
+                        an.addChannel(channel);
+
+                    } else if (type == "translation" || type == "scale") {
+
+                        let channel = new AnimationChannelVector3(type, start, stop, interpolation, timeData, targetNode)
+                        channel.setData(data);
+                        an.addChannel(channel);
+                    }
+                }
+            }
+            an.init();
+            this.animations.push(an);
+        }
+
+    }
     private parseAnimations() {
         // for(an)
         if (!this.json.animations) return;

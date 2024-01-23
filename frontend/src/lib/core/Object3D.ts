@@ -103,12 +103,12 @@ export default class Object3D extends ObjectGPU {
         this._localMatrix.scale(this._scale);
         //update local matrix
         if (this.parent) {
-            this._worldMatrix.copy(this.parent.worldMatrix)
+            this._worldMatrix.from(this.parent.worldMatrix)
             this._worldMatrix.multiplyRight(this._localMatrix);
         } else {
-            this._worldMatrix.copy(this._localMatrix)
+            this._worldMatrix.from(this._localMatrix)
         }
-        this.worldMatrixInv =  this._worldMatrix.clone();
+        this.worldMatrixInv.from(this._worldMatrix);
         this.worldMatrixInv.invert();
         this._dirty = false;
     }

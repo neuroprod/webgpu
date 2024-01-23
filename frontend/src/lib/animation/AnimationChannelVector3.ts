@@ -8,11 +8,12 @@ export default class AnimationChannelVector3 extends AnimationChannel{
 
     constructor(type:"translation"|"scale",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
         super(type,startTime,stopTime,interpolation,timeData,target)
+        this.result =new Vector3()
     }
 
     setData(data: Array<Vector3>){
         this.data =data;
-        this.result =this.data[0].clone();
+        this.result.from(this.data[0]);
     }
     setToObj() {
         if(this.type=="scale"){
@@ -29,13 +30,13 @@ export default class AnimationChannelVector3 extends AnimationChannel{
 
     }
     protected setForTime() {
-        let fq = this.data[this.firstIndex].clone();
+        this.result.from(  this.data[this.firstIndex])
         if(this.mixValue>0){
 
-            fq.lerp(this.data[this.nextIndex],this.mixValue)
+            this.result.lerp(this.data[this.nextIndex],this.mixValue)
         }
 
-        (this.result as Vector3).set(fq.x,fq.y,fq.z);
+
 
     }
 

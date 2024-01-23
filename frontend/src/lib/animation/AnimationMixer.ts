@@ -15,21 +15,37 @@ export default class AnimationMixer{
     }
     setAnimations(animations:Array<Animation>){
         this.animations =animations;
+        console.log(animations,"????")
         for(let a of this.animations){
             this.animationsByName[a.label] =a;
 
         }
+
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
 
-        let walking =this.animationsByName["walking"]
+     let walking =this.animationsByName["walking"];
         walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
         walking.setCallBack(11*(1/30),()=>{GameModel.sound.playFootstep()})
     }
+    addAnimations(animations: Array<Animation>) {
+        for(let a of animations){
+            this.animationsByName[a.label] =a;
+            this.animations.push(a)
+        }
+    }
+
+
+
     onUI(){
-        //UI.pushWindow("Animation")
-     //  this.mixValue =UI.LFloatSlider("mix",this.mixValue,0,1);
-       // UI.popWindow()
+       UI.pushWindow("Animation")
+     for(let a of this.animations){
+        if( UI.LButton(a.label)){
+            this.setAnimation(a.label);
+            this.mixValue =1;
+        }
+     }
+        UI.popWindow()
     }
     update(){
 
@@ -67,9 +83,12 @@ export default class AnimationMixer{
     setAnimation(name: string,startTime =0) {
         this.anime1 =  this.anime2
        this.anime2 =this.animationsByName[name]
+        this.anime2.setStartValue()
         this.anime2.time=0;
         this.mixValue =0;
        // this.animation2 = this.getAnimationIndexByName()
 
     }
+
+
 }

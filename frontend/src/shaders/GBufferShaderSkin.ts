@@ -55,7 +55,7 @@ ${ModelTransform.getShaderText(1)}
 ${this.getShaderUniforms(2)}
 struct Skin
 {
-    matrices : array<mat4x4<f32>,49>
+    matrices : array<mat4x4<f32>,140>
 }
 @group(3) @binding(0)  var<uniform> skin : Skin ;
 

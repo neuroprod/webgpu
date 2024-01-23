@@ -111,7 +111,7 @@ class GameModel {
 
     //debugstuff
     devSpeed :boolean =false;
-    debug: boolean=true;
+    debug: boolean=false;
     startOutside: boolean=false;
 
     constructor() {

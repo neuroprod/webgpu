@@ -7,19 +7,21 @@ export default class AnimationChannelQuaternion extends AnimationChannel{
 
     constructor(type:"rotation",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
         super(type,startTime,stopTime,interpolation,timeData,target)
+        this.result =new Quaternion()
     }
 
     setData(data: Array<Quaternion>) {
         this.data =data;
-        this.result = this.data[0].clone()
-//console.log(this.target.label,this.result)
+        this.result.from(this.data[0]);
+
     }
     protected setForTime() {
-        let fq = this.data[this.firstIndex].clone();
+        this.result.from(this.data[this.firstIndex]);
         if(this.mixValue>0){
-            fq.slerp(this.data[this.nextIndex],this.mixValue)
+            // @ts-ignore
+            this.result.slerp(this.data[this.nextIndex],this.mixValue)
         }
-        this.result.set(fq.x,fq.y,fq.z,fq.w);
+
 
     }
     mix(other:Quaternion,value:number){

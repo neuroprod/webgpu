@@ -74,4 +74,11 @@ export default class Animation extends ObjectGPU
         let a =new AnimationCallBack(time,callBack);
         this.callBacks.push(a);
     }
+
+    setStartValue() {
+        for(let c of this.channels)
+        {
+            c.setStart();
+        }
+    }
 }

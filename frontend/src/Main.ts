@@ -112,6 +112,7 @@ export default class Main {
     private introLight2: MainLight;
     private introLight3: MainLight;
     private introLight4: MainLight;
+    private glFTLoaderTyping: GLFTLoader;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -137,7 +138,11 @@ export default class Main {
         this.renderer.camera = this.camera;
         this.gameCamera = new GameCamera(this.camera, this.renderer)
         this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
-        this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation", this.preloader);
+        this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation2", this.preloader);
+
+
+
+
         new TextureLoader(this.renderer, this.preloader, "textures/body_Color.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_MRA.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
@@ -172,6 +177,10 @@ export default class Main {
             },
             this.init.bind(this)
         );
+
+       // this.glFTLoaderTyping = new GLFTLoader(this.renderer, "typing", this.preloader, this.glFTLoaderChar );
+
+
         this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
         GameModel.gameUI =new GameUI(this.renderer,this.preloader)
 
@@ -322,6 +331,10 @@ export default class Main {
     }
 
     init() {
+
+
+        //console.log(  this.glFTLoaderTyping.animations)
+      //  this.animationMixer.addAnimations(this.glFTLoaderTyping.animations)
 
 
         this.room.init()
@@ -505,7 +518,7 @@ export default class Main {
         RenderSettings.onUI();
         UI.popWindow()
 
-
+this.animationMixer.onUI()
 
         UI.pushWindow("Objects")
         if (UI.LButton("saveData")) {
