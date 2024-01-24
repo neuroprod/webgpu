@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {GameState} from "../GameModel";
+import GameModel, {GameState, Transitions} from "../GameModel";
 
 export default class GoHunterTrigger extends HitTrigger{
 
@@ -12,10 +12,10 @@ export default class GoHunterTrigger extends HitTrigger{
     }
     onCompleteWalk(){
 
+        GameModel.setTransition(Transitions.FIND_HUNTER_PANTS)
 
-
-        GameModel.setGameState(GameState.FIND_HUNTER)
-        GameModel.textHandler.showHitTrigger("findHunter")
+       // GameModel.setGameState(GameState.FIND_HUNTER)
+       // GameModel.textHandler.showHitTrigger("findHunter")
 
 
     }

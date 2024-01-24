@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {GameState} from "../GameModel";
+import GameModel, {GameState, Transitions} from "../GameModel";
 
 export default class GoWorkTrigger extends HitTrigger{
 
@@ -8,13 +8,14 @@ export default class GoWorkTrigger extends HitTrigger{
         let obj = GameModel.renderer.modelByLabel["labtop"]
         let world = obj.getWorldPos()
         world.z+=1.0;
-        GameModel.characterHandler.walkTo(world,Math.PI,this.onCompleteWalk)
+        world.x+=0.1;
+        GameModel.characterHandler.walkTo(world,Math.PI+0.1,this.onCompleteWalk)
     }
     onCompleteWalk(){
-
-        GameModel.setGameState(GameState.READ_MAIL)
-        GameModel.textHandler.showHitTrigger("yougotmail")
-        GameModel.characterHandler.startTyping()
+GameModel.setTransition(Transitions.READ_MAIL)
+       /* GameModel.setGameState(GameState.READ_MAIL)
+        GameModel.textHandler.showHitTrigger("yougotmail")*/
+       // GameModel.characterHandler.startTyping()
 
         // GameModel.setScene(Scenes.OUTSIDE)
         //let door = GameModel.renderer.modelByLabel["door"]

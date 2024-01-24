@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {Scenes} from "../GameModel";
+import GameModel, {Scenes, Transitions} from "../GameModel";
 import UI from "../lib/UI/UI";
 
 export default class HitTextTrigger extends HitTrigger{
@@ -18,13 +18,12 @@ export default class HitTextTrigger extends HitTrigger{
 
     public out() {
 
-        GameModel.textHandler.hideHitTrigger(this.objectLabels[0])
+
     }
     public  click(){
+        console.log(this.objectLabels[0])
+        GameModel.setTransition(Transitions.TEXT_INFO,this.objectLabels[0])
 
-        GameModel.sound.playWoosh(0.1)
-        GameModel.sound.playClick()
-        GameModel.textHandler.showHitTrigger(this.objectLabels[0])
     }
 
 }

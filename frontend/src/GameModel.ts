@@ -27,6 +27,9 @@ import RenderSettings from "./RenderSettings";
 import GoGraveTrigger from "./trigers/GoGraveTrigger";
 import GoHunterTrigger from "./trigers/GoHunterPants";
 import SitTrigger from "./trigers/SitTrigger";
+import ReadMail from "./transitions/ReadMail";
+import FindHunterPants from "./transitions/FindHunterPants";
+import TextInfo from "./transitions/TextInfo";
 
 
 export const Transitions =
@@ -36,19 +39,22 @@ export const Transitions =
         GO_INSIDE: new GoInside(),
         GO_RIGHT_ROOM: new GoRightRoom(),
         GO_LEFT_ROOM: new GoLeftRoom(),
-
-
+        READ_MAIL: new ReadMail(),
+        FIND_HUNTER_PANTS: new FindHunterPants(),
+        TEXT_INFO: new TextInfo(),
     }
-export enum UIState
-{
-        GAME_DEFAULT,
-       OPEN_MENU,
-        INVENTORY_DETAIL,
-        PRELOAD_DONE,
-        PRELOAD,
+
+export enum UIState {
+    GAME_DEFAULT,
+    OPEN_MENU,
+    INVENTORY_DETAIL,
+    PRELOAD_DONE,
+    PRELOAD,
+    HIDE_MENU,
 
 
 }
+
 export enum GameState {
     START,
     READ_MAIL,
@@ -74,9 +80,9 @@ class GameModel {
     public yMouseScale: number = 1;
     public sceneHeight = 2.5;
     public main: Main;
-    mouseUpThisFrame:boolean =false ;
-     mouseDownThisFrame: boolean = false;
-     mousePos: Vector2 = new Vector2();
+    mouseUpThisFrame: boolean = false;
+    mouseDownThisFrame: boolean = false;
+    mousePos: Vector2 = new Vector2();
     mouseMove: boolean = false;
     public characterPos: Vector3 = new Vector3(0, 0, 0);
     dayNight: number = 0;
@@ -88,32 +94,27 @@ class GameModel {
     hitWorldPos: Vector3;
     hitWorldNormal: Vector3;
     outlinePass: OutlinePass;
-    private triggers: Array<Trigger> = []
-    private groundArray = ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft", "_HitGround"]
     characterHandler: CharacterHandler;
     gameCamera: GameCamera;
-    frustumCull =true;
+    frustumCull = true;
     textHandler: TextHandler;
-
-
-    public gameState=0
-    catchMouseDown: boolean =false;
+    public gameState = 0
+    catchMouseDown: boolean = false;
     sound: SoundHandler;
     gameUI: GameUI;
     screenWidth: number;
-   screenHeight: number;
-
-
-    private storedState: number;
-   public  pantsFound: number = 0;
-    public  currentPants: number = 0;
-    uiOpen =false;
-
-
+    screenHeight: number;
+    public pantsFound: number = 0;
+    public currentPants: number = 0;
+    uiOpen = false;
     //debugstuff
-    devSpeed :boolean =false;
-    debug: boolean=true;
-    startOutside: boolean=false;
+    devSpeed: boolean = false;
+    debug: boolean = true;
+    startOutside: boolean = false;
+    private triggers: Array<Trigger> = []
+    private groundArray = ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft", "_HitGround"]
+    private storedState: number;
+    private currentTransition: Transition;
 
     constructor() {
 
@@ -136,7 +137,7 @@ class GameModel {
         this.hitStateChange = true;
         this.hitObjectLabelPrev = this._hitObjectLabel;
         this._hitObjectLabel = value;
-        if(this.debug)UI.logEvent("Hit", value);
+        if (this.debug) UI.logEvent("Hit", value);
         if (this._hitObjectLabel == "" || this.isGround(this._hitObjectLabel)) {
             this.outlinePass.setModel(null);
         } else {
@@ -147,22 +148,23 @@ class GameModel {
     }
 
     update() {
-       this.screenWidth = this.renderer.width/this.renderer.pixelRatio;
-        this.screenHeight = this.renderer.height/this.renderer.pixelRatio;
-        //checkUI
-        this.gameUI.updateMouse(this.mousePos,this.mouseDownThisFrame,this.mouseUpThisFrame)
-        this.gameUI.update()
 
+        this.screenWidth = this.renderer.width / this.renderer.pixelRatio;
+        this.screenHeight = this.renderer.height / this.renderer.pixelRatio;
 
+        if (this.currentTransition) {
+            if (this.mouseDownThisFrame) this.currentTransition.onMouseDown()
 
-        if(this.mouseDownThisFrame && this.catchMouseDown){
-            this.onMouseDown();
         }
-
-        for (let t of this.triggers) {
-            t.check();
+        if (!this.currentTransition) {
+            //checkUI
+            this.gameUI.updateMouse(this.mousePos, this.mouseDownThisFrame, this.mouseUpThisFrame)
+            this.gameUI.update()
+            for (let t of this.triggers) {
+                t.check();
+            }
         }
-        if(this.textHandler)this.textHandler.update();
+        if (this.textHandler) this.textHandler.update();
         this.hitStateChange = false;
     }
 
@@ -171,13 +173,20 @@ class GameModel {
         this.currentScene = scenes;
     }
 
-    setTransition(t: Transition) {
-        this.hitObjectLabel =""
-        t.set(this.transitionComplete.bind(this));
+    setTransition(t: Transition, data: string = "") {
+        this.hitObjectLabel = ""
+        this.catchMouseDown = true;
+        this.currentTransition = t;
+
+        this.setUIState(UIState.HIDE_MENU)
+        t.set(this.transitionComplete.bind(this), data);
     }
 
     transitionComplete() {
-        // console.log("complete")
+        this.mouseDownThisFrame = false
+        this.catchMouseDown = false;
+        this.currentTransition = null;
+        this.setUIState(UIState.GAME_DEFAULT)
     }
 
     public isGround(label: string) {
@@ -187,6 +196,52 @@ class GameModel {
 
     getDrawingByLabel(label: string) {
         return this.drawingByLabel[label];
+    }
+
+    initText() {
+        this.textHandler.init()
+        for (let d of this.textHandler.hitTriggers) {
+
+            this.triggers.push(new HitTextTrigger(d.scene, d.object))
+        }
+    }
+
+    setGameState(state: GameState) {
+
+        if (state == GameState.READ_MAIL) {
+            this.catchMouseDown = true;
+            this.hitObjectLabel = ""
+        }
+        if (state == GameState.READ_CROSS) {
+            this.catchMouseDown = true;
+            this.hitObjectLabel = ""
+            this.storedState = this.gameState;
+        }
+        if (state == GameState.FIND_HUNTER) {
+            this.catchMouseDown = true;
+            this.hitObjectLabel = ""
+            this.gameState = this.storedState;
+        }
+
+        this.gameState = state;
+    }
+
+    setUIState(state: UIState, data: any = null) {
+        this.gameUI.setUIState(state, data);
+
+        if (state == UIState.OPEN_MENU || state == UIState.INVENTORY_DETAIL) {
+            RenderSettings.openMenu()
+            this.uiOpen = true;
+
+        } else if (state == UIState.GAME_DEFAULT) {
+            RenderSettings.closeMenu()
+            this.uiOpen = false;
+        }
+    }
+
+    usePants(id: number) {
+        this.currentPants = id;
+        this.characterHandler.setPants(id)
     }
 
     private makeTriggers() {
@@ -201,85 +256,37 @@ class GameModel {
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
     }
 
-    initText() {
-        this.textHandler.init()
-        for(let d of this.textHandler.hitTriggers){
-            d.object
-            this.triggers.push(new HitTextTrigger(d.scene,  d.object))
-        }
-    }
-
-    setGameState(state:GameState){
-
-        if(state==GameState.READ_MAIL){
-            this.catchMouseDown =true;
-            this.hitObjectLabel =""
-        }
-        if(state==GameState.READ_CROSS){
-            this.catchMouseDown =true;
-            this.hitObjectLabel =""
-            this.storedState =  this.gameState;
-        }
-        if(state==GameState.FIND_HUNTER){
-            this.catchMouseDown =true;
-            this.hitObjectLabel =""
-            this.gameState =this.storedState;
-        }
-
-        this.gameState =state;
-    }
-
     private onMouseDown() {
 
-
-        if(this.gameState==GameState.READ_MAIL){
-            if(this.textHandler.readNext()){
-                this.catchMouseDown =false;
-                this.setGameState(GameState.READ_MAIL_DONE)
-                this.characterHandler.setAnimation("idle")
-            }
-        }
-        if(this.gameState==GameState.READ_CROSS){
-            if(this.textHandler.readNext()){
-                this.gameState =this.storedState;
-                this.catchMouseDown =false;
-            }
-        }
-        if(this.gameState==GameState.FIND_HUNTER){
-            if(this.textHandler.readNext()){
-                this.gameState =this.storedState;
-                this.catchMouseDown =false;
-                this.renderer.modelByLabel["hunterPants"].visible =false;
-                this.renderer.modelByLabel["hunterPants"].enableHitTest =false;
-                this.pantsFound =1;
-                this.gameUI.updateInventory();
-                this.sound.playPop();
-                this.setUIState(UIState.INVENTORY_DETAIL,1)
-            }
-        }
+        /*
+                if(this.gameState==GameState.READ_MAIL){
+                    if(this.textHandler.readNext()){
+                        this.catchMouseDown =false;
+                        this.setGameState(GameState.READ_MAIL_DONE)
+                        this.characterHandler.setAnimation("idle")
+                    }
+                }
+                if(this.gameState==GameState.READ_CROSS){
+                    if(this.textHandler.readNext()){
+                        this.gameState =this.storedState;
+                        this.catchMouseDown =false;
+                    }
+                }
+                if(this.gameState==GameState.FIND_HUNTER){
+                    if(this.textHandler.readNext()){
+                        this.gameState =this.storedState;
+                        this.catchMouseDown =false;
+                        this.renderer.modelByLabel["hunterPants"].visible =false;
+                        this.renderer.modelByLabel["hunterPants"].enableHitTest =false;
+                        this.pantsFound =1;
+                        this.gameUI.updateInventory();
+                        this.sound.playPop();
+                        this.setUIState(UIState.INVENTORY_DETAIL,1)
+                    }
+                }*/
     }
 
-    setUIState(state:UIState,data:any =null) {
-        this.gameUI.setUIState(state,data);
 
-        if(state==UIState.OPEN_MENU || state==UIState.INVENTORY_DETAIL){
-            RenderSettings.openMenu()
-            this.uiOpen =true;
-
-        }else if(state==UIState.GAME_DEFAULT){
-            RenderSettings.closeMenu()
-            this.uiOpen =false;
-        }
-    }
-
-    usePants(id: number) {
-        this.currentPants =id;
-        this.characterHandler.setPants(id)
-    }
-
-    startGame() {
-
-    }
 }
 
 export default new GameModel()

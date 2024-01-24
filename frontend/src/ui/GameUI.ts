@@ -137,6 +137,11 @@ export default class GameUI
         if(state==UIState.PRELOAD_DONE){
             this.enterButton.visible =true
         }
+        if(state==UIState.HIDE_MENU){
+            this.menuButton.hide()
+            this.inventory.hide()
+
+        }
         if(state==UIState.OPEN_MENU){
             this.menuButton.hide()
             this.inventory.hide()

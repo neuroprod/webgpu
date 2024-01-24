@@ -40,7 +40,7 @@ export default class MenuButton extends UIBitmapModel{
         this.isHiding =false;
         this.mouseEnabled =true;
         gsap.killTweensOf(this);
-        gsap.to(this,{yPos:30,duration:0.3,delay:0.1,ease:"back.out"})
+        gsap.to(this,{yPos:30,duration:0.5,delay:0.2,ease:"back.out"})
     }
     onClick() {
         if( this.isHiding)return

@@ -14,6 +14,7 @@ import GLFTLoader from "./GLFTLoader";
 import UI from "./lib/UI/UI";
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
+import Timer from "./lib/Timer";
 
 
 export default class CharacterHandler {
@@ -58,8 +59,7 @@ export default class CharacterHandler {
  */
 
         this.pants = glft.materialsByName["pants"]
-        this.neck = glft.objectsByName["mixamorig:Neck"]
-        this.head = glft.objectsByName["mixamorig:Head"]
+      // this.head =glft.objectsByName["Ctrl_Head"]
         this.animationMixer.setAnimation("idle");
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
 
@@ -81,7 +81,7 @@ export default class CharacterHandler {
         } else {
             this.charScale = 1.00;
         }
-        //  this.head.setEuler(Timer.time*7,Timer.time*5,Timer.time*3);
+        //  this.head.setEuler(Timer.time*7,0,0);
 
 
         this.characterRoot.setScale(this.charScale, this.charScale, this.charScale)
@@ -150,11 +150,7 @@ export default class CharacterHandler {
         let dist = GameModel.characterPos.distance(this.targetPos);
         let dir = this.targetPos.clone().subtract(GameModel.characterPos)
         let angle = Math.atan2(dir.x, dir.z);
-        if(this.characterRot>Math.PI)this.characterRot-=Math.PI*2;
-        if(this.characterRot<-Math.PI)this.characterRot+=Math.PI*2;
-if(Math.abs(angle-this.characterRot)>Math.abs((angle+Math.PI*2)-this.characterRot)){
-    angle+=Math.PI*2;
-}
+
 
 
         this.tl.call(() => {
@@ -229,5 +225,12 @@ if(Math.abs(angle-this.characterRot)>Math.abs((angle+Math.PI*2)-this.characterRo
         this.animationMixer.setAnimation("pullPants", 0);
         this.animationMixer.mixValue=1;
         this.setAnimation("idle",0.4,0.2);
+    }
+
+    setIdleAndTurn() {
+
+
+        this.setAnimation("idle",0.5,0.0);
+        this.tl.to(this, {"characterRot":0, duration: 0.5, ease: "power1.inOut"},0.0)
     }
 }

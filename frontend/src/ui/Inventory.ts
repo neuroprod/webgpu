@@ -45,7 +45,7 @@ export default class Inventory extends UIBitmapModel{
     show(){
         gsap.killTweensOf(this);
         this.isOpen =false;
-        gsap.to(this,{yPos:this.closePos,duration:0.3,ease:"back.out"})
+        gsap.to(this,{yPos:this.closePos,duration:0.6,ease:"back.out"})
     }
 
     private tryOpen() {
