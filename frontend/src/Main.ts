@@ -385,7 +385,7 @@ export default class Main {
     tick() {
 
         window.requestAnimationFrame(() => this.tick());
-        if( GameModel.mousePos.equals(this.mouseListener.mousePos)){
+        if( GameModel.mousePos.equals(this.mouseListener.mousePos)  ){
             GameModel.mouseMove =false;
         }else{
             GameModel.mouseMove =true;
