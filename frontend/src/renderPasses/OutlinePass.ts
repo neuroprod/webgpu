@@ -44,7 +44,7 @@ export default class OutlinePass {
     add(){
         if( this.noHitCount<0 ){
 
-            return;
+           // return;
         }
 
 
