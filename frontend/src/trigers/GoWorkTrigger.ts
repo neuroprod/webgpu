@@ -1,5 +1,6 @@
 import HitTrigger from "./HitTrigger";
 import GameModel, {GameState, Transitions} from "../GameModel";
+import {CURSOR} from "../ui/Cursor";
 
 export default class GoWorkTrigger extends HitTrigger{
 
@@ -9,10 +10,11 @@ export default class GoWorkTrigger extends HitTrigger{
         let world = obj.getWorldPos()
         world.z+=1.0;
         world.x+=0.1;
+        GameModel.gameUI.cursor.hide()
         GameModel.characterHandler.walkTo(world,Math.PI+0.1,this.onCompleteWalk)
     }
     onCompleteWalk(){
-GameModel.setTransition(Transitions.READ_MAIL)
+        GameModel.setTransition(Transitions.READ_MAIL)
        /* GameModel.setGameState(GameState.READ_MAIL)
         GameModel.textHandler.showHitTrigger("yougotmail")*/
        // GameModel.characterHandler.startTyping()
@@ -20,5 +22,16 @@ GameModel.setTransition(Transitions.READ_MAIL)
         // GameModel.setScene(Scenes.OUTSIDE)
         //let door = GameModel.renderer.modelByLabel["door"]
         //GameModel.characterPos = door.getWorldPos()
+    }
+    public over() {
+        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["labtop"]);
+        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+
+    }
+
+    public out() {
+        GameModel.outlinePass.setModel( null);
+        GameModel.gameUI.cursor.hide()
+
     }
 }

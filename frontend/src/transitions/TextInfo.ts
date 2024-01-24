@@ -1,5 +1,6 @@
 import Transition from "./Transition";
 import GameModel from "../GameModel";
+import {CURSOR} from "../ui/Cursor";
 
 export default class TextInfo extends Transition{
 
@@ -8,13 +9,14 @@ export default class TextInfo extends Transition{
         super.set(onComplete)
 
         GameModel.textHandler.showHitTrigger(data)
-
+        GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
     onMouseDown(){
+        GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
             GameModel.characterHandler.setIdleAndTurn()
-
+            GameModel.gameUI.cursor.hide()
             this.onComplete()
         }
     }

@@ -2,6 +2,7 @@ import Renderer from "../lib/Renderer";
 import OutlinePrePass from "./OutlinePrePass";
 import Model from "../lib/model/Model";
 import OutlineBlurPass from "./OutlineBlurPass";
+import Timer from "../lib/Timer";
 
 
 export default class OutlinePass {
@@ -10,6 +11,7 @@ export default class OutlinePass {
     private horizontalPass: OutlineBlurPass;
     private verticalPass: OutlineBlurPass;
     private noHitCount: number;
+    private setFrame: number;
 
 
     constructor(renderer: Renderer) {
@@ -27,17 +29,26 @@ export default class OutlinePass {
     {
 
         if(m){
+            this.setFrame =Timer.frame;
             this.outlinePrePass.models=[m]
             this.outlinePrePass.models = this.outlinePrePass.models.concat(m.hitFriends)
-            this.noHitCount =0;
+            this.noHitCount =1000000000;
         }else{
+            if(this.setFrame ==Timer.frame)return;
             this.outlinePrePass.models=[];
-            this.noHitCount ++
+
+            if(this.noHitCount>5)this.noHitCount =5;
 
         }
     }
     add(){
-        //if( this.noHitCount>1 )return;
+        if( this.noHitCount<0 ){
+
+            return;
+        }
+
+
+        this.noHitCount --;
         this.outlinePrePass.add();
         this.horizontalPass.add();
         this.verticalPass.add();

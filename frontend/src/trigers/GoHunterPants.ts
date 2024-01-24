@@ -1,5 +1,6 @@
 import HitTrigger from "./HitTrigger";
 import GameModel, {GameState, Transitions} from "../GameModel";
+import {CURSOR} from "../ui/Cursor";
 
 export default class GoHunterTrigger extends HitTrigger{
 
@@ -17,6 +18,17 @@ export default class GoHunterTrigger extends HitTrigger{
        // GameModel.setGameState(GameState.FIND_HUNTER)
        // GameModel.textHandler.showHitTrigger("findHunter")
 
+
+    }
+    public over() {
+        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["hunterPants"]);
+        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+
+    }
+
+    public out() {
+        GameModel.outlinePass.setModel( null);
+        GameModel.gameUI.cursor.hide()
 
     }
 }

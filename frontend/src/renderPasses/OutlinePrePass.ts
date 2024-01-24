@@ -25,10 +25,11 @@ export default class OutlinePrePass extends RenderPass {
         this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
         this.material.depthCompare = CompareFunction.LessEqual;
         this.material.depthWrite =false;
+        this.material.depthCompare="always"
         this.modelRenderer = new ModelRenderer(renderer)
 
         this.colorTarget = new RenderTexture(renderer, "OutlinePrePass", {
-            format: TextureFormat.R8Unorm,
+            format: TextureFormat.RG8Unorm,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
 

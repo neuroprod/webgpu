@@ -1,5 +1,6 @@
 import HitTrigger from "./HitTrigger";
 import GameModel, {GameState} from "../GameModel";
+import {CURSOR} from "../ui/Cursor";
 
 export default class SitTrigger extends HitTrigger{
 
@@ -19,5 +20,16 @@ export default class SitTrigger extends HitTrigger{
         // GameModel.setScene(Scenes.OUTSIDE)
         //let door = GameModel.renderer.modelByLabel["door"]
         //GameModel.characterPos = door.getWorldPos()
+    }
+    public over() {
+        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["chair"]);
+        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+
+    }
+
+    public out() {
+        GameModel.outlinePass.setModel( null);
+        GameModel.gameUI.cursor.hide()
+
     }
 }

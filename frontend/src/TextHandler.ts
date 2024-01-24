@@ -109,6 +109,7 @@ export default class TextHandler {
 
         this.hitTextTarget.y = -1.5 + 2.0;
         this.hitTextTarget.x += offset;
+
         this.hitTextAlpha = 0;
         this.update();
 

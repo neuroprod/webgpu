@@ -126,7 +126,7 @@ export default class Renderer {
 
     updateModels() {
         for (let m of this.models) {
-            m.update();
+            if(m.visible || m.needsHitTest) m.update();
         }
     }
 

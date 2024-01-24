@@ -14,6 +14,8 @@ import UIModel from "./UIModel";
 
 export default class UIBitmapModel extends UIModel {
     private textureLoader: TextureLoader;
+    public textureHeight: number=0;
+    public textureWidth: number =0;
 
     constructor(renderer: Renderer,preLoader:PreLoader,label:string, url: string) {
         super(renderer, label,true);
@@ -40,6 +42,7 @@ export default class UIBitmapModel extends UIModel {
 
        this.material.blendModes = [l];
     }
+
     public update() {
         if(!this.visible)return;
 
@@ -48,15 +51,15 @@ export default class UIBitmapModel extends UIModel {
     }
 
     private makeMesh() {
-        let w =this.textureLoader.options.width;
-        let h =this.textureLoader.options.height;
+        this.textureWidth =this.textureLoader.options.width;
+        this.textureHeight =this.textureLoader.options.height;
 
 
 
 
         this.material.uniforms.setTexture("colorTexture",this.textureLoader)
-        this.mesh =new Plane(this.renderer,w,h,1,1,false)
-        this.mesh.min.set(-w/2,-h/2,0)
-        this.mesh.max.set(w/2,h/2,0)
+        this.mesh =new Plane(this.renderer, this.textureWidth, this.textureHeight,1,1,false)
+        this.mesh.min.set(-this.textureWidth/2,-this.textureHeight/2,0)
+        this.mesh.max.set(this.textureWidth/2,this.textureHeight/2,0)
     }
 }

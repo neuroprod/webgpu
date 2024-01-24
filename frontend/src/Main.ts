@@ -364,10 +364,10 @@ export default class Main {
 
 
 
-        GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
+      /*  GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
 
         this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);
-        this.room.modelRenderer.addModel(GameModel.floorHitIndicator);
+        this.room.modelRenderer.addModel(GameModel.floorHitIndicator);*/
 
         //this.drawer = new Drawer(this.renderer);
         this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)

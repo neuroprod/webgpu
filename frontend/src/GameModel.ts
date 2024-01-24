@@ -75,7 +75,7 @@ class GameModel {
     public isLeftRoom = false;
 
     public currentScene: Scenes = Scenes.PRELOAD
-    public floorHitIndicator: FloorHitIndicator;
+   // public floorHitIndicator: FloorHitIndicator;
     public yMouseCenter: number = 1;
     public yMouseScale: number = 1;
     public sceneHeight = 2.5;
@@ -138,13 +138,13 @@ class GameModel {
         this.hitObjectLabelPrev = this._hitObjectLabel;
         this._hitObjectLabel = value;
         if (this.debug) UI.logEvent("Hit", value);
-        if (this._hitObjectLabel == "" || this.isGround(this._hitObjectLabel)) {
-            this.outlinePass.setModel(null);
+        /*if (this._hitObjectLabel == "" || this.isGround(this._hitObjectLabel)) {
+           // this.outlinePass.setModel(null);
         } else {
             let model = this.renderer.modelByLabel[this._hitObjectLabel];
-            this.outlinePass.setModel(model);
+          //  this.outlinePass.setModel(model);
 
-        }
+        }*/
     }
 
     update() {
@@ -156,10 +156,11 @@ class GameModel {
             if (this.mouseDownThisFrame) this.currentTransition.onMouseDown()
 
         }
+        this.gameUI.updateMouse(this.mousePos, this.mouseDownThisFrame, this.mouseUpThisFrame)
+        this.gameUI.update()
         if (!this.currentTransition) {
             //checkUI
-            this.gameUI.updateMouse(this.mousePos, this.mouseDownThisFrame, this.mouseUpThisFrame)
-            this.gameUI.update()
+
             for (let t of this.triggers) {
                 t.check();
             }
@@ -177,7 +178,9 @@ class GameModel {
         this.hitObjectLabel = ""
         this.catchMouseDown = true;
         this.currentTransition = t;
+        this.outlinePass.setModel( null);
 
+        this.gameUI.cursor.hide()
         this.setUIState(UIState.HIDE_MENU)
         t.set(this.transitionComplete.bind(this), data);
     }

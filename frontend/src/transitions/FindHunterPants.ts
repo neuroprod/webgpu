@@ -1,5 +1,6 @@
 import Transition from "./Transition";
 import GameModel, {UIState} from "../GameModel";
+import {CURSOR} from "../ui/Cursor";
 
 export default class FindHunterPants extends Transition{
 
@@ -7,10 +8,11 @@ export default class FindHunterPants extends Transition{
     set(onComplete: () => void){
         super.set(onComplete)
         GameModel.textHandler.showHitTrigger("findHunter")
-
+        GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
     }
     onMouseDown(){
+        GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
 
@@ -20,7 +22,7 @@ export default class FindHunterPants extends Transition{
             GameModel.pantsFound =1;
             GameModel.gameUI.updateInventory();
             GameModel.sound.playPop();
-
+            GameModel.gameUI.cursor.hide()
 
             this.onComplete()
             GameModel.setUIState(UIState.INVENTORY_DETAIL,1)

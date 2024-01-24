@@ -11,6 +11,7 @@ import Inventory from "./Inventory";
 import Menu from "./Menu";
 import InventoryDetail from "./InventoryDetail";
 import EnterButton from "./EnterButton";
+import Cursor from "./Cursor";
 
 
 export default class GameUI
@@ -34,6 +35,7 @@ export default class GameUI
     private menu: Menu;
     private inventoryDetail: InventoryDetail;
     private enterButton: EnterButton;
+   public cursor: Cursor;
 
     constructor(renderer:Renderer,preLoader:PreLoader) {
 
@@ -43,6 +45,9 @@ export default class GameUI
 
 
         this.root =new UIModel(renderer,"uiRoot") ;
+
+        this.cursor =new Cursor(renderer,preLoader)
+        this.root.addChild( this.cursor);
 
         this.modelRenderer =new UIModelRenderer(renderer,"UIModelRenderer")
         this.modelRenderer.camera = this.camera;
@@ -67,6 +72,7 @@ export default class GameUI
 
         this.root.addChild(this.enterButton);
        // this.test.setEuler(Math.PI,0,0)
+
         this.menuButton.hide()
         this.inventory.hide()
         this.modelRenderer.models=[];
@@ -99,6 +105,10 @@ export default class GameUI
     }
 
     updateMouse(mousePos: Vector2, mouseDownThisFrame: boolean, mouseUpThisFrame: boolean) {
+
+
+this.cursor.setMousePos(mousePos);
+
        let r =  this.root.checkMouse(mousePos)
         if(r){
             if(mouseDownThisFrame)
