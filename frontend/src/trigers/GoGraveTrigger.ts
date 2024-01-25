@@ -13,22 +13,23 @@ export default class GoGraveTrigger extends HitTrigger{
         GameModel.outlinePass.setModel(null);
     }
     public over() {
-
+        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["chair"]);
         GameModel.gameUI.cursor.show(CURSOR.LOOK)
-        GameModel.outlinePass.setModel(null);
+
     }
 
     public out() {
+        GameModel.outlinePass.setModel( null);
         GameModel.gameUI.cursor.hide()
-        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["cross"]);
+
     }
 
     onCompleteWalk(){
 
 
 
-        GameModel.setGameState(GameState.READ_CROSS)
-        GameModel.textHandler.showHitTrigger("readCross")
+      //  GameModel.setGameState(GameState.READ_CROSS)
+       /// GameModel.textHandler.showHitTrigger("readCross")
 
 
     }

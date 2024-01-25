@@ -106,6 +106,9 @@ onUI(){
         gsap.killTweensOf(this)
         this.hitTextTarget = GameModel.characterPos.clone()
         let p =GameModel.gameCamera.getScreenPos( this.hitTextTarget.clone())
+        let p2 =GameModel.gameCamera.getScreenPos( this.hitTextTarget.clone().add([1,0,0]))
+       let d =0.35/(p.distance(p2)) ;
+
         let align = TEXT_ALIGN.LEFT;
         let offset =0.25;
         if(p.x>0){
@@ -124,7 +127,7 @@ onUI(){
         this.currentHitText.mesh = this.font.getMesh(copy, align,0.5);
 
 
-        this.currentHitText.setScale(0.8, 0.8, 0.8);
+        this.currentHitText.setScale(d, d, d);
         this.fontMeshRenderer.addText(this.currentHitText);
     }
 
