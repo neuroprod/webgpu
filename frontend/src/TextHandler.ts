@@ -10,8 +10,9 @@ import GameModel from "./GameModel";
 import Material from "./lib/core/Material";
 import FontShader from "./lib/text/FontShader";
 import {BlendFactor, BlendOperation} from "./lib/WebGPUConstants";
-import {isArray, Vector3} from "math.gl";
+import {isArray, Vector3, Vector4} from "math.gl";
 import gsap from "gsap";
+import UI from "./lib/UI/UI";
 
 export default class TextHandler {
 
@@ -27,6 +28,7 @@ export default class TextHandler {
     private hitTextTarget: Vector3;
     private hitTextAlpha: number;
     private objectLabel: string;
+    private fontEdge =new Vector4(0.25,0.30,0.45,0.50);
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
         this.jsonLoader = new JSONLoader("copy", preLoader)
@@ -49,11 +51,15 @@ export default class TextHandler {
             d.readAll =false;
         }
     }
+onUI(){
+        UI.LVector("fontedge",this.fontEdge);
 
+}
     public update() {
         if (this.currentHitText) {
             this.currentHitText.setPositionV(this.hitTextTarget)
             this.currentHitText.material.uniforms.setUniform("alpha", this.hitTextAlpha)
+            this.currentHitText.material.uniforms.setUniform("fontEdge", this.fontEdge)
             this.currentHitText.update()
         }
     }
@@ -115,7 +121,7 @@ export default class TextHandler {
 
         gsap.to(this.hitTextTarget, {x: this.hitTextTarget.x +  offset, ease: "expo.out", duration: 0.5})
         gsap.to(this, {hitTextAlpha: 1, duration: 0.5})
-        this.currentHitText.mesh = this.font.getMesh(copy, align);
+        this.currentHitText.mesh = this.font.getMesh(copy, align,0.5);
 
 
         this.currentHitText.setScale(0.8, 0.8, 0.8);

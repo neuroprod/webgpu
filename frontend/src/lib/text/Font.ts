@@ -3,7 +3,7 @@ import PreLoader from "../PreLoader";
 import TextureLoader from "../textures/TextureLoader";
 import Mesh from "../core/Mesh";
 import {Vector2} from "math.gl";
-
+//https://www.npmjs.com/package/msdf-bmfont-xml
 
 class Char {
     w: number;
@@ -63,9 +63,9 @@ export default class Font {
 
     }
 
-    getMesh(text: string,align:TEXT_ALIGN=TEXT_ALIGN.LEFT) {
+    getMesh(text: string,align:TEXT_ALIGN=TEXT_ALIGN.LEFT,spacing:number =0) {
 
-
+spacing*=0.01;
         let lines = text.split("\n");
         let textLength = 0;
         for (let l of lines) {
@@ -88,7 +88,7 @@ export default class Font {
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
                 let char = this.charArray[c];
-                lineSize+=char.xadvance
+                lineSize+=char.xadvance+spacing
             }
 
 
@@ -144,7 +144,7 @@ export default class Font {
 
                 indices[indicesCount++] = 2 + indicesPos;
                 indicesPos+=4;
-                xPos += char.xadvance;
+                xPos += char.xadvance+spacing;
             }
             yPos-=50/300;
         }

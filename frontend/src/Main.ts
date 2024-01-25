@@ -507,6 +507,7 @@ export default class Main {
                 if(t.useCount <2)console.log(t.label)
             }
         }
+        GameModel.textHandler.onUI();
         GameModel.frustumCull = UI.LBool("frustumCull", true)
         UI.pushGroup("Performance");
         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)

@@ -4,6 +4,7 @@ import {ShaderType} from "../core/ShaderTypes";
 import DefaultTextures from "../textures/DefaultTextures";
 import Camera from "../Camera";
 import ModelTransform from "../model/ModelTransform";
+import {Vector4} from "math.gl";
 
 
 export default class FontShader extends Shader{
@@ -16,6 +17,7 @@ export default class FontShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
+        this.addUniform("fontEdge",new Vector4());
         this.addUniform("alpha",1);
         this.addTexture("colorTexture",this.renderer.texturesByLabel["Font.png"]);
 
@@ -60,9 +62,9 @@ fn mainFragment(@location(0) uv0: vec2f) -> @location(0) vec4f
  
     let text = textureSample(colorTexture, mySampler,  uv0).xyz;
     let dist = max(min(text.r, text.g), min(max(text.r, text.g), text.b));
-    let l =smoothstep(0.1,0.3,dist)*uniforms.alpha;
-     let e =smoothstep(0.3,0.6,dist);
-     let col =mix(vec3(0.90,0.83,0.65)*0.3,vec3(0.90,0.83,0.65)*1.1,e);
+    let l =min(smoothstep(uniforms.fontEdge.x,uniforms.fontEdge.y,dist)*uniforms.alpha+dist,1.0);
+     let e =smoothstep(uniforms.fontEdge.z,uniforms.fontEdge.w,dist);
+     let col =mix(vec3(0.07,0.03,0.00),vec3(0.90,0.83,0.65)*1.1,e);
     return vec4(col*l,l);
  
 }
