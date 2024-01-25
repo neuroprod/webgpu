@@ -10,7 +10,7 @@ export default class CursorIcon extends UIBitmapModel{
         super(renderer,preLoader,label,url);
     }
     update(){
-
+        if(!this.visible)return;
         super.update()
         this.setScale(this.cursorScale,this.cursorScale,this.cursorScale)
         this.setEuler(0,0,this.cursorAngle)
@@ -27,7 +27,8 @@ export default class CursorIcon extends UIBitmapModel{
     }
 
     animate() {
-        this.cursorAngle =0;
-        gsap.to(this,{ cursorAngle:+Math.PI*1.99,duration:0.5})
+        this.cursorScale =0.5
+        gsap.to(this,{cursorScale:0.7,duration:0.2,ease:"back.out"})
+
     }
 }

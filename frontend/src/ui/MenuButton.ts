@@ -12,6 +12,7 @@ export default class MenuButton extends UIBitmapModel{
         super(renderer,preLoader,"menuBtn","UI/menuBtn.png");
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.setPosition(GameModel.screenWidth-50,this.yPos,0)
     }

@@ -16,7 +16,7 @@ export default class UseButton extends UIBitmapModel{
     }
 
     onOver() {
-
+        if(!this.visible)return;
         super.onOver();
         GameModel.sound.playClick(0.4);
         gsap.killTweensOf(this)

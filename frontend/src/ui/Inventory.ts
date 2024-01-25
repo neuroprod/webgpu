@@ -31,6 +31,7 @@ export default class Inventory extends UIBitmapModel{
         this.updateInventory()
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.setPosition(878/2,this.yPos,0)
 

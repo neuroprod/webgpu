@@ -8,6 +8,7 @@ import UIModel from "../lib/model/UIModel";
 import CursorIcon from "./CursorIcon";
 import Timer from "../lib/Timer";
 import CursorIconArrow from "./CursorIconArrow";
+import CursorIconWalk from "./CursorIconWalk";
 
 export enum CURSOR{
     ARROW_LEFT,
@@ -43,11 +44,11 @@ export default class Cursor extends  UIModel{
         this.look = new CursorIcon(renderer,preLoader,"look","UI/look.png")
 
         this.icons.push( this.look)
-        this.walk= new CursorIcon(renderer,preLoader,"walk","UI/walk.png")
+        this.walk= new CursorIconWalk(renderer,preLoader,"walk","UI/next.png")
         this.icons.push( this.walk)
 
 
-        this.next= new CursorIcon(renderer,preLoader,"next","UI/arrowRight.png")
+        this.next= new CursorIcon(renderer,preLoader,"next","UI/next.png")
         this.icons.push(this.next)
 
         for (let i of this.icons){
@@ -61,14 +62,20 @@ export default class Cursor extends  UIModel{
 
     setMousePos(mousePos: Vector2) {
 
-        let offX =50
+        let offX =30
+        let offY =-20
         if(this.currentIcon==this.arrowRight){
-            offX =-50
+            offX =-30
         }
-        this.target.set(mousePos.x+offX,mousePos.y-20,0)
+        if(this.currentIcon==this.next){
+            offX =0
+            offY =0
+        }
+        this.target.set(mousePos.x+offX,mousePos.y+offY,0)
 
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.pos.lerp(this.target,1);
 

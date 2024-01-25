@@ -10,7 +10,6 @@ import Drawing from "./drawing/Drawing";
 import GoRightRoom from "./transitions/GoRightRoom";
 import GoLeftRoom from "./transitions/GoLeftRoom";
 import {FloorHitTrigger} from "./trigers/FloorHitTrigger";
-import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 import OutlinePass from "./renderPasses/OutlinePass";
 import Renderer from "./lib/Renderer";
 import CharacterHandler from "./CharacterHandler";
@@ -75,7 +74,7 @@ class GameModel {
     public isLeftRoom = false;
 
     public currentScene: Scenes = Scenes.PRELOAD
-   // public floorHitIndicator: FloorHitIndicator;
+    // public floorHitIndicator: FloorHitIndicator;
     public yMouseCenter: number = 1;
     public yMouseScale: number = 1;
     public sceneHeight = 2.5;
@@ -85,6 +84,7 @@ class GameModel {
     mousePos: Vector2 = new Vector2();
     mouseMove: boolean = false;
     public characterPos: Vector3 = new Vector3(0, 0, 0);
+    public characterScreenPos: Vector3 = new Vector3(0, 0, 0);
     dayNight: number = 0;
     lockView: boolean = false;
 
@@ -178,7 +178,7 @@ class GameModel {
         this.hitObjectLabel = ""
         this.catchMouseDown = true;
         this.currentTransition = t;
-        this.outlinePass.setModel( null);
+        this.outlinePass.setModel(null);
 
         this.gameUI.cursor.hide()
         this.setUIState(UIState.HIDE_MENU)
@@ -199,6 +199,16 @@ class GameModel {
 
     getDrawingByLabel(label: string) {
         return this.drawingByLabel[label];
+    }
+
+    getCharacterScreenPos() {
+        this.characterScreenPos.from(this.characterPos)
+
+        this.gameCamera.getScreenPos(this.characterScreenPos)
+        this.characterScreenPos.scale(0.5)
+        this.characterScreenPos.add([0.5, 0.5, 0])
+        this.characterScreenPos.scale([this.screenWidth, this.screenHeight, 1])
+        return this.characterScreenPos;
     }
 
     initText() {

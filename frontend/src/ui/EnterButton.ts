@@ -13,6 +13,7 @@ export default class EnterButton extends UIBitmapModel{
         super(renderer,preLoader,"UI/enter.png","UI/enter.png");
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.setScale(this.scale,this.scale,this.scale)
 

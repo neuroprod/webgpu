@@ -20,6 +20,7 @@ private scale =0.5;
         this.overlay.mouseEnabled =false;
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.setScale(this.scale,this.scale,this.scale)
         this.setEuler(0.0,0.0,this.rot)

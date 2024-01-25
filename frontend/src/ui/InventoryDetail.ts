@@ -57,6 +57,7 @@ private items:Array<UIBitmapModel>=[];
 
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.setPosition(GameModel.screenWidth/2,GameModel.screenHeight/2+this.yOff,0)
         if(GameModel.screenHeight>1000){

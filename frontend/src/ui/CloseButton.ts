@@ -12,6 +12,7 @@ export default class CloseButton extends UIBitmapModel{
         super(renderer,preLoader,label,"UI/closeBtn.png");
     }
     update() {
+        if(!this.visible)return;
         super.update();
         this.setScale(this.scale,this.scale,this.scale)
     }
