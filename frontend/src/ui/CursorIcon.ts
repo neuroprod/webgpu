@@ -19,6 +19,7 @@ export default class CursorIcon extends UIBitmapModel{
         this.visible =true
         gsap.killTweensOf(this);
         this.cursorScale =0.5
+        this.cursorAngle =0
         gsap.to(this,{cursorScale:0.7,duration:0.2,ease:"back.out"})
     }
     public hide(){

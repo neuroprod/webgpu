@@ -73,14 +73,14 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     let dir =vec2i(${this.getDir()});
     let stepp =5;
-    var colorBlur =0.0;
+    var colorBlur =vec2(0.0,0.0);
     for(var i=-stepp;i<=stepp;i+=1)
     {
-             colorBlur+= textureLoad(inputTexture,  uvPos+i*dir ,0).x;
+             colorBlur+= textureLoad(inputTexture,  uvPos+i*dir ,0).xy;
     }
     colorBlur/=10.0;
   
-    return vec4(colorBlur) ;
+    return vec4(colorBlur,0.0,0.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

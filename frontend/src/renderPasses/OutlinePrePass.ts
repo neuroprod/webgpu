@@ -17,15 +17,16 @@ export default class OutlinePrePass extends RenderPass {
     public models: Array<Model> = []
     private colorAttachment: ColorAttachment;
     private material: Material;
+    private depthTarget: RenderTexture;
 
     constructor(renderer: Renderer) {
 
         super(renderer, "OutlinePrePass");
         RenderSettings.registerPass(this);
         this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
-        this.material.depthCompare = CompareFunction.LessEqual;
-        this.material.depthWrite =false;
-        this.material.depthCompare="always"
+
+       // this.material.depthWrite =false;
+
         this.modelRenderer = new ModelRenderer(renderer)
 
         this.colorTarget = new RenderTexture(renderer, "OutlinePrePass", {
@@ -38,10 +39,18 @@ export default class OutlinePrePass extends RenderPass {
         this.colorAttachment = new ColorAttachment(this.colorTarget, {clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 0.0}});
         this.colorAttachments = [this.colorAttachment]
 
-        this.depthStencilAttachment = new DepthStencilAttachment(this.renderer.texturesByLabel["GDepth"] as RenderTexture, {
-            depthLoadOp: LoadOp.Load,
+        this.depthTarget = new RenderTexture(renderer, "OutlineDepth", {
+            format: TextureFormat.Depth16Unorm,
+            sampleCount: 1,
+            scaleToCanvas: true,
+            usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
+        });
+
+
+        this.depthStencilAttachment = new DepthStencilAttachment(this.depthTarget, {
+            depthLoadOp: LoadOp.Clear,
             depthStoreOp: StoreOp.Store,
-            depthReadOnly: true
+
 
         });
 
@@ -61,7 +70,7 @@ export default class OutlinePrePass extends RenderPass {
 
 
             passEncoder.setBindGroup(1, model.modelTransform.bindGroup);
-
+            passEncoder.setBindGroup(2,this.material.uniforms.bindGroup);
 
             for (let attribute of this.material.shader.attributes) {
                 passEncoder.setVertexBuffer(

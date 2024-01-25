@@ -29,7 +29,7 @@ export default class OutlineBlurPass extends RenderPass {
 
 
         this.colorTarget = new RenderTexture(renderer, targetTextureLabel, {
-            format: TextureFormat.R8Unorm,
+            format: TextureFormat.RG8Unorm,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
 
