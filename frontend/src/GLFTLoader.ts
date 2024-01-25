@@ -103,8 +103,8 @@ export default class GLFTLoader {
             this.parseSkin();
             this.makeModels();
         }
-
-
+this.meshBuffer =null;
+this.json =null;
     }
 
     toMatrixData(f: Float32Array) {

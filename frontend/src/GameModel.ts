@@ -109,7 +109,7 @@ class GameModel {
     uiOpen = false;
     //debugstuff
     devSpeed: boolean = false;
-    debug: boolean = false;
+    debug: boolean = true;
     startOutside: boolean = false;
     private triggers: Array<Trigger> = []
     private groundArray = ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft", "_HitGround"]
