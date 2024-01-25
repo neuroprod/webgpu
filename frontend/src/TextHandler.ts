@@ -29,7 +29,8 @@ export default class TextHandler {
     private hitTextAlpha: number;
     private objectLabel: string;
     private fontEdge =new Vector4(0.25,0.30,0.45,0.50);
-
+    private numChars: number;
+    private showChars =10;
     constructor(renderer: Renderer, preLoader: PreLoader) {
         this.jsonLoader = new JSONLoader("copy", preLoader)
         this.renderer = renderer;
@@ -61,6 +62,11 @@ onUI(){
             this.currentHitText.material.uniforms.setUniform("alpha", this.hitTextAlpha)
             this.currentHitText.material.uniforms.setUniform("fontEdge", this.fontEdge)
             this.currentHitText.update()
+            if(this.currentHitText.mesh){
+                console.log()
+                this.currentHitText.mesh.numDrawIndices =Math.ceil(this.showChars)*6;
+            }
+
         }
     }
 
@@ -83,6 +89,7 @@ onUI(){
             copy = ht.copy;
         }
         this.currentHitText = new Model(this.renderer,"text_"+ objectLabel,false);
+
         this.currentHitText.material = new Material(this.renderer, "fontmaterial", new FontShader(this.renderer, "fontShader"))
         this.currentHitText.material.depthWrite = false;
         let l: GPUBlendState = {
@@ -110,25 +117,33 @@ onUI(){
        let d =0.35/(p.distance(p2)) ;
 
         let align = TEXT_ALIGN.LEFT;
-        let offset =0.25;
+        let offset =0.5;
         if(p.x>0){
             align = TEXT_ALIGN.RIGHT;
-            offset =-0.25;
+            offset =-0.5;
         }
 
         this.hitTextTarget.y = -1.5 + 2.0;
-        this.hitTextTarget.x += offset;
+        this.hitTextTarget.x += offset*0.8;
 
         this.hitTextAlpha = 0;
-        this.update();
 
-        gsap.to(this.hitTextTarget, {x: this.hitTextTarget.x +  offset, ease: "expo.out", duration: 0.5})
+
+        gsap.to(this.hitTextTarget, {x: this.hitTextTarget.x +  offset*0.2, ease: "expo.out", duration: 0.5})
         gsap.to(this, {hitTextAlpha: 1, duration: 0.5})
-        this.currentHitText.mesh = this.font.getMesh(copy, align,0.5);
 
+        this.currentHitText.mesh = this.font.getMesh(copy, align,0.5);
+        this.numChars =this.currentHitText.mesh.numIndices/6;
+
+        this.showChars =Math.min(10,this.numChars)
+        if(this.numChars>10){
+
+            gsap.to(this, {showChars: this.numChars,ease:"none", duration: (this.numChars-10)/90})
+        }
 
         this.currentHitText.setScale(d, d, d);
         this.fontMeshRenderer.addText(this.currentHitText);
+        this.update();
     }
 
     hideHitTrigger(objectLabel: string = "") {

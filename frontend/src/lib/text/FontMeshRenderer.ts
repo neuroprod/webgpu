@@ -58,7 +58,7 @@ export default class FontMeshRenderer{
 
                 passEncoder.setIndexBuffer(model.mesh.indexBuffer, model.mesh.indexFormat);
                 passEncoder.drawIndexed(
-                    model.mesh.numIndices,
+                    model.mesh.numDrawIndices,
 
                     1,
                     0,

@@ -11,6 +11,7 @@ export default class Mesh extends ObjectGPU {
 
     public indexBuffer: GPUBuffer;
     public numIndices: GPUSize32;
+    public numDrawIndices: GPUSize32 =0;
     public hasIndices: boolean = false;
 
     public hitTestObject:HitTestObject;
@@ -22,6 +23,7 @@ export default class Mesh extends ObjectGPU {
     min =new Vector3(-100000,-100000,-100000);
     max =new Vector3(100000,100000,100000);
     private destroyed: boolean=false;
+
     constructor(renderer:Renderer,label="") {
         super(renderer,label);
 
