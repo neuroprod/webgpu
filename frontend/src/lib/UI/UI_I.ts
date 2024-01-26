@@ -56,12 +56,17 @@ export default class UI_I {
   private static oldDrawBatchIDs: number[] = [];
 
   constructor() {}
+static setSize(width,height){
+  this.screenSize.set(width,height);
+  this.canvasSize.set(width,height)
+}
+  static init(canvas) {
 
-  static init(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
     this.pixelRatio = window.devicePixelRatio;
+
     this.globalStyle = new UI_Style();
-    this.screenSize.set(this.canvas.offsetWidth, this.canvas.offsetHeight);
+
+   // this.setSize(canvas.offsetWidth, this.canvas.offsetHeight);
 
     Local.init();
     Font.init();
@@ -394,11 +399,13 @@ export default class UI_I {
   ) {
     UI_I.renderType = "gpu";
     UI_I.rendererGPU = new RendererGPU();
-    UI_I.rendererGPU.init(renderer.device, renderer.canvas, renderer.presentationFormat);
+    UI_I.rendererGPU.init(renderer.device,  renderer.presentationFormat);
     if (settings) Local.setSettings(settings);
     UI_I.init(renderer.canvas);
   }
+  resize(width:number,height:number){
 
+  }
   //draw
   public static draw() {
     this.update();
@@ -408,8 +415,7 @@ export default class UI_I {
   }
 
   public static update() {
-    this.screenSize.set(this.canvas.offsetWidth, this.canvas.offsetHeight);
-    this.canvasSize.set(this.canvas.width, this.canvas.height);
+
     this.dockManager.update();
     if (UI_I.renderType == "gpu") {
       UI_I.rendererGPU.setProjection();

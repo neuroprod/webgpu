@@ -40,6 +40,7 @@ export default class Inventory extends UIBitmapModel{
 
 
     hide(){
+        this.isOpen =false;
         gsap.killTweensOf(this);
         gsap.to(this,{yPos:-this.h,duration:0.3,ease:"back.out"})
     }
@@ -61,7 +62,12 @@ export default class Inventory extends UIBitmapModel{
         this.isOpen =!this.isOpen;
 
     }
-
+close(){
+        if(this.isOpen){
+            gsap.to(this,{yPos:this.closePos,duration:0.3,ease:"back.out"})
+            this.isOpen =false;
+        }
+}
     updateInventory() {
 
 

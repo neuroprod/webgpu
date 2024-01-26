@@ -65,7 +65,10 @@ export default class UI {
     UI_I.setWebGPU(renderer, settings);
     UI.initialized = true;
   }
+  static setSize(width,height){
 
+    UI_I.setSize(width,height)
+  }
   static draw() {
     if (!UI.initialized) return;
     UI_I.draw();

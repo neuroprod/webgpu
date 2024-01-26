@@ -113,6 +113,10 @@ export default class GameUI {
             if (this.downItem) this.downItem.onUp()
             this.downItem = null;
         }
+        if(!this.overItem && mouseDownThisFrame){
+            this.inventory.close()
+        }
+
     }
 
     setUIState(state: UIState, data: any) {

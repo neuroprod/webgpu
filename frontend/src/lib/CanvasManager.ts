@@ -1,3 +1,5 @@
+import UI from "./UI/UI";
+
 export default class CanvasManager {
   private canvas: HTMLCanvasElement;
   private resizeTimeOut: ReturnType<typeof setTimeout>;
@@ -14,6 +16,7 @@ export default class CanvasManager {
     this.canvas.style.height = window.innerHeight + "px";
     this.canvas.width = window.innerWidth * this.pixelRatio;
     this.canvas.height = window.innerHeight * this.pixelRatio;
+    UI.setSize(  this.canvas.width,  this.canvas.height)
   }
   delayedResize() {
     clearTimeout(this.resizeTimeOut);

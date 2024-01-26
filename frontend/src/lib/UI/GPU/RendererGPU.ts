@@ -8,7 +8,7 @@ import FontTextureData from "../draw/FontTextureData";
 import TextBatchMaterial from "./TextBatchMaterial";
 
 export default class RendererGPU {
-  private canvas: HTMLCanvasElement;
+
   private device: GPUDevice;
   private presentationFormat: GPUTextureFormat;
   private drawArray: Array<DrawBatchGPU> = [];
@@ -33,10 +33,9 @@ export default class RendererGPU {
 
   init(
     device: GPUDevice,
-    canvas: HTMLCanvasElement,
     presentationFormat: GPUTextureFormat
   ) {
-    this.canvas = canvas;
+
     this.device = device;
     this.presentationFormat = presentationFormat;
     this.mvpBufferData = new Float32Array(16);
@@ -176,13 +175,13 @@ export default class RendererGPU {
     for (let batch of this.drawArray) {
       if (batch.needsClipping) {
         passEncoder.setScissorRect(
-          batch.clipRect.pos.x*window.devicePixelRatio,
-          batch.clipRect.pos.y*window.devicePixelRatio,
-          batch.clipRect.size.x*window.devicePixelRatio,
-          batch.clipRect.size.y*window.devicePixelRatio,
+          batch.clipRect.pos.x*UI_I.pixelRatio,
+          batch.clipRect.pos.y*UI_I.pixelRatio,
+          batch.clipRect.size.x*UI_I.pixelRatio,
+          batch.clipRect.size.y*UI_I.pixelRatio,
         );
       } else {
-        passEncoder.setScissorRect(0, 0, this.width*window.devicePixelRatio, this.height*window.devicePixelRatio);
+        passEncoder.setScissorRect(0, 0, this.width*UI_I.pixelRatio, this.height*UI_I.pixelRatio);
       }
       if (batch.fillBatchGPU.numIndices > 0) {
         passEncoder.setPipeline(this.fillBatchMaterial.pipeLine);
@@ -204,11 +203,11 @@ export default class RendererGPU {
   }
 
   public setProjection() {
-    if (this.width == this.canvas.width && this.height == this.canvas.height)
+    if (this.width == UI_I.canvasSize.x && this.height == UI_I.canvasSize.y)
       return;
 
-    this.width = this.canvas.width/window.devicePixelRatio;
-    this.height = this.canvas.height/window.devicePixelRatio;
+    this.width =UI_I.canvasSize.x/UI_I.pixelRatio;
+    this.height = UI_I.canvasSize.y/UI_I.pixelRatio;
     this.ortho(this.mvp, 0, this.width, this.height, 0, 1, -1);
     this.mvpBufferData.set(this.mvp, 0);
     this.device.queue.writeBuffer(

@@ -30,8 +30,8 @@ export default class RenderTexture extends Texture {
         let options=this.options as BaseRenderTextureOptions
         if( this.options.width ==width*options.sizeMultiplier && this.options.height ==height*options.sizeMultiplier)return;
 
-        this.options.width =width*options.sizeMultiplier;
-        this.options.height =height*options.sizeMultiplier;
+        this.options.width =Math.max(width*options.sizeMultiplier,1.0);
+        this.options.height =Math.max(height*options.sizeMultiplier,1.0);
 
         this.isDirty =true;
     }
