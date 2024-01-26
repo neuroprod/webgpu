@@ -73,6 +73,7 @@ export default class TimeStampQuery {
 
 
             UI.LText(this.totalTime.toFixed(3) + " ms", "GPUTime");
+            UI.separator("Passes")
             for (let i = 0; i < this.names.length; i++) {
 
                 UI.LText(this.timeArray[i].toFixed(3) + " ms", this.names[i]);

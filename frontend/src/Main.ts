@@ -57,6 +57,7 @@ import SoundHandler from "./SoundHandler";
 import GameUI from "./ui/GameUI";
 import LightIntroRenderPass from "./renderPasses/LightIntroRenderPass";
 import gsap from "gsap";
+import UIData from "./UIData";
 
 export default class Main {
     public mouseRay: Ray;
@@ -469,7 +470,7 @@ export default class Main {
 
     }
     updateUI() {
-        this.drawer.onUI();
+       /* this.drawer.onUI();
         if (GameModel.currentScene == Scenes.PRELOAD) {
             UI.pushWindow("Loading")
             UI.LText(this.preloader.count + "/" + this.preloader.totalCount, "loading");
@@ -484,10 +485,7 @@ export default class Main {
         this.outside.onUIGame();
         this.room.onUIGame();
         UI.popWindow()
-        /* UI.pushWindow("Performance")
-         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
-         this.timeStampQuery.onUI();
-         UI.popWindow()*/
+
 
         UI.pushWindow("Light")
         GameModel.dayNight = UI.LFloatSlider("dayNight", GameModel.dayNight, 0, 1);
@@ -509,7 +507,7 @@ export default class Main {
         }
         GameModel.textHandler.onUI();
         GameModel.frustumCull = UI.LBool("frustumCull", true)
-        UI.pushGroup("Performance");
+       // UI.pushGroup("Performance");
         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
         this.timeStampQuery.onUI();
         UI.popGroup()
@@ -519,7 +517,7 @@ export default class Main {
         RenderSettings.onUI();
         UI.popWindow()
 
-this.animationMixer.onUI()
+        this.animationMixer.onUI()
 
         UI.pushWindow("Objects")
         if (UI.LButton("saveData")) {
@@ -548,6 +546,46 @@ this.animationMixer.onUI()
             UI.popWindow()
         }
         GameModel.sound.onUI()
+*/
+//main
+        UI.pushWindow("Settings")
+        this.canvasRenderPass.onUI();
+        let speed =UI.LBool("dev Speed",GameModel.devSpeed);
+        if(speed!= GameModel.devSpeed ){
+            GameModel.devSpeed =speed;
+            if(GameModel.devSpeed) {
+                gsap.globalTimeline.timeScale(5);
+            }else{
+                gsap.globalTimeline.timeScale(1);
+            }
+        }
+
+        if(UI.LButton("Hide Debug")) GameModel.debug =false;
+
+        if(UI.LButton("Clear local storage")) UI.clearLocalData();
+        UI.separator("Windows");
+        UIData.performance =(UI.LBool("Preformance",false));
+        UI.LBool("Render settings",false)
+        UI.LBool("Light Inside",false)
+        UI.LBool("Light Outside",false)
+        UI.LBool("Scene Objects",false)
+        UI.LBool("Draw",false)
+        UI.separator("Info");
+        if(UI.LButton("Check on Github")){
+            window.open("https://github.com/neuroprod/webgpu", '_blank');
+        }
+
+        UI.popWindow()
+
+//performance
+        if(UIData.performance){
+            UI.pushWindow("Performance")
+            UI.LText(Timer.fps+"","FPS")
+            UI.LText(GameModel.screenWidth+" "+GameModel.screenHeight,"Render Size");
+            if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
+            this.timeStampQuery.onUI();
+            UI.popWindow()
+        }
     }
 
     onDraw() {

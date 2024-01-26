@@ -69,36 +69,36 @@ export default class CanvasRenderPass extends RenderPass {
         this.blitTest = new Blit(renderer, 'blit', this.blitTestMaterial)
 
 
-        this.passSelect.push(new SelectItem("FXAA", {texture: "FXAAPass", type: 0}));
-
-        this.passSelect.push(new SelectItem("Shadow1 Outside", {texture: "Shadow1", type: 0}));
-        this.passSelect.push(new SelectItem("Shadow2 Outside", {texture: "Shadow2", type: 0}));
-
-        this.passSelect.push(new SelectItem("wind", {texture: "SimplexNoise", type: 0}));
+        this.passSelect.push(new SelectItem("Final", {texture: "FXAAPass", type: 0}));
 
         this.passSelect.push(new SelectItem("SSAO", {texture: "GTAO", type: 1}));
         this.passSelect.push(new SelectItem("SSAOdenoise", {texture: "GTAOdenoise", type: 1}));
-        this.passSelect.push(new SelectItem("AOPreDepth", {texture: "GTAODepth", type: 1}));
+
+        this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));
+
+        this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
+        this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
+
+        this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
+        this.passSelect.push(new SelectItem("PreBloom", {texture: "BloomPrePass", type: 0}));
+
+        this.passSelect.push(new SelectItem("Metallic", {texture: "GMRA", type: 1}));
+        this.passSelect.push(new SelectItem("Roughness", {texture: "GMRA", type: 2}));
+        this.passSelect.push(new SelectItem("Emission", {texture: "GMRA", type: 3}));
+
 
         this.passSelect.push(new SelectItem("OutlinePrePass", {texture: "OutlinePrePass", type: 0}));
         this.passSelect.push(new SelectItem("OutlineBlur", {texture: "OutlineBlur", type: 0}));
+
+        this.passSelect.push(new SelectItem("Combine", {texture: "CombinePass", type: 0}));
         this.passSelect.push(new SelectItem("Post", {texture: "PostPass", type: 0}));
         this.passSelect.push(new SelectItem("DoF ", {texture: "DOF", type: 0}));
         this.passSelect.push(new SelectItem("DoF filter", {texture: "CombinePass", type: 4}));
 
+        this.passSelect.push(new SelectItem("Shadow1 Outside", {texture: "Shadow1", type: 0}));
+        this.passSelect.push(new SelectItem("Shadow2 Outside", {texture: "Shadow2", type: 0}));
 
-        this.passSelect.push(new SelectItem("BlurBloom", {texture: "BlurBloom", type: 0}));
-        this.passSelect.push(new SelectItem("PreBloom", {texture: "BloomPrePass", type: 0}));
-        this.passSelect.push(new SelectItem("Combine", {texture: "CombinePass", type: 0}));
-        this.passSelect.push(new SelectItem("SSR", {texture: "ReflectionPass", type: 0}));
-        this.passSelect.push(new SelectItem("Glass", {texture: "GlassPass", type: 0}));
-        this.passSelect.push(new SelectItem("Light", {texture: "LightPass", type: 0}));
-       // this.passSelect.push(new SelectItem("OABlur", {texture: "OABlurPass", type: 1}));
-        //this.passSelect.push(new SelectItem("SSOA", {texture: "OAPass", type: 1}));
-        //   this.passSelect.push(new SelectItem("ref", {texture: "ReflectionPass", type: 4}));
-        this.passSelect.push(new SelectItem("Metallic", {texture: "GMRA", type: 1}));
-        this.passSelect.push(new SelectItem("Roughness", {texture: "GMRA", type: 2}));
-        this.passSelect.push(new SelectItem("Emission", {texture: "GMRA", type: 3}));
+
         this.passSelect.push(new SelectItem("GColor", {texture: "GColor", type: 0}));
         this.passSelect.push(new SelectItem("GNormal", {texture: "GNormal", type: 0}));
         this.passSelect.push(new SelectItem("GDepth", {texture: "GDepth", type: 0}));
@@ -129,7 +129,7 @@ export default class CanvasRenderPass extends RenderPass {
     }
 
     onUI() {
-        let value = UI.LSelect("pass", this.passSelect)
+        let value = UI.LSelect("Render Pass", this.passSelect)
         if (value != this.currentValue) {
             this.currentValue = value;
 
