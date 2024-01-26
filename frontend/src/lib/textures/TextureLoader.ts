@@ -2,7 +2,7 @@ import Texture, {TextureOptions} from "./Texture";
 import Renderer from "../Renderer";
 
 export default class TextureLoader extends Texture {
-    private loaded: boolean=false;
+    public loaded: boolean=false;
 
     onComplete=()=>{}
     constructor(renderer: Renderer, preLoader, url: string = "", options: Partial<TextureOptions>,delay=0) {

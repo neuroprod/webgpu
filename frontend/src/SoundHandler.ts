@@ -12,6 +12,7 @@ export default class SoundHandler {
     private clicks : Howl;
     private wooshes  : Howl;
     private pop: Howl;
+    private fxVolume: number =1;
     constructor(preloader: PreLoader) {
 
         this.forest  = new Howl({src: ['sound/forest.mp3'],loop:true,volume:2});
@@ -115,12 +116,13 @@ startMusic(){
     }
     playDoor() {
         this.door.play()
+        this.door.volume(this.fxVolume)
     }
     playWoosh(volMult:number=1) {
 
 
         let s = Math.floor(Math.random() * 1000) % 7;
-        this.wooshes.volume(volMult*0.2);
+        this.wooshes.volume(volMult*0.2*this.fxVolume);
         this.wooshes.play("s" + s)
 
 
@@ -130,7 +132,7 @@ startMusic(){
 
             let s = Math.floor(Math.random() * 1000) % 6;
 
-        this.clicks.volume(volMult);
+        this.clicks.volume(volMult*this.fxVolume);
             this.clicks.play("s" + s)
 
     }
@@ -144,10 +146,22 @@ startMusic(){
 
             this.stepInside.pos(pos.x,pos.y,pos.z)
             this.stepInside.play("step" + s)
+            this.stepInside.volume(0.1*this.fxVolume)
         } else {
             let s = Math.floor(Math.random() * 1000) % 14;
             this.stepOutside.pos(pos.x,pos.y,pos.z)
             this.stepOutside.play("step" + s)
+            this.stepInside.volume(0.5,this.fxVolume)
         }
+    }
+
+    setMusicVolume(value: number) {
+        this.bg.volume(0.5*value)
+
+    }
+
+    setFXVolume(value: number) {
+        this.forest.volume(2*value)
+       this.fxVolume =value;
     }
 }

@@ -20,10 +20,7 @@ export default class UIBitmapModel extends UIModel {
     constructor(renderer: Renderer,preLoader:PreLoader,label:string, url: string) {
         super(renderer, label,true);
         this.mouseEnabled =true;
-        this.textureLoader = new TextureLoader(renderer,preLoader,url,{});
-        this.textureLoader.onComplete =()=>{
-            this.makeMesh()
-        }
+        let t = this.renderer.texturesByLabel[url];
         this.material = new Material(this.renderer, "bitmapMaterial", new BitmapShader(this.renderer, "bitmapShader"))
         this.material.depthWrite = false;
         let l: GPUBlendState = {
@@ -40,12 +37,26 @@ export default class UIBitmapModel extends UIModel {
             }
         }
 
-       this.material.blendModes = [l];
+        this.material.blendModes = [l];
+
+        if(!t){
+            this.textureLoader = new TextureLoader(renderer,preLoader,url,{});
+            this.textureLoader.onComplete =()=>{
+                this.makeMesh()
+            }
+        }else{
+            this.textureLoader =t as TextureLoader;
+
+        }
+
+
     }
 
     public update() {
         if(!this.visible)return;
-
+        if(!this.mesh && this.textureLoader.loaded){
+            this.makeMesh()
+        }
         super.update()
 
     }
