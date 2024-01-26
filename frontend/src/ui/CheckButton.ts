@@ -3,6 +3,7 @@ import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import GameModel from "../GameModel";
 import gsap from "gsap";
+import UIData from "../UIData";
 
 export default class CheckButton extends UIBitmapModel {
 
@@ -36,6 +37,7 @@ export default class CheckButton extends UIBitmapModel {
             this.checkAlpha = 0;
         }
         GameModel.debug = this.selected;
+        UIData.debug =this.selected;
     }
 
     onOver() {
@@ -66,4 +68,13 @@ export default class CheckButton extends UIBitmapModel {
     }
 
 
+    select(b: boolean) {
+        this.selected =b;
+        if (this.selected) {
+            this.checkAlpha = 1;
+
+        } else {
+            this.checkAlpha = 0;
+        }
+    }
 }

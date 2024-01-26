@@ -25,7 +25,7 @@ export default class GameUI {
     private overItem: UIModel = null;
     private menuButton: MenuButton;
     private inventory: Inventory;
-    private menu: Menu;
+    menu: Menu;
     private inventoryDetail: InventoryDetail;
     private enterButton: EnterButton;
 

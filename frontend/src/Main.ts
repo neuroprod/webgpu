@@ -548,9 +548,9 @@ export default class Main {
         GameModel.sound.onUI()
 */
 //main
-        UI.pushWindow("Settings")
+        UI.pushWindow("Dev Settings")
         this.canvasRenderPass.onUI();
-        let speed =UI.LBool("dev Speed",GameModel.devSpeed);
+        let speed =UI.LBool("Go fast",GameModel.devSpeed);
         if(speed!= GameModel.devSpeed ){
             GameModel.devSpeed =speed;
             if(GameModel.devSpeed) {
@@ -560,7 +560,11 @@ export default class Main {
             }
         }
 
-        if(UI.LButton("Hide Debug")) GameModel.debug =false;
+        if(UI.LButton("Hide Dev windows")){
+            GameModel.debug =false;
+            UIData.debug =false;
+            GameModel.gameUI.menu.checkBtn.select(false)
+        }
 
         if(UI.LButton("Clear local storage")) UI.clearLocalData();
         UI.separator("Windows");

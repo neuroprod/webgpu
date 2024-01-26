@@ -59,7 +59,7 @@ export default class Panel extends Component {
       PanelSettings.gPosition.x += 30;
       PanelSettings.gPosition.y += 25;
     } else {
-      this.posOffset = settings.position.clone();
+      this.posOffset =settings.position.clone();
     }
 
     // this.size.copy(settings.size)

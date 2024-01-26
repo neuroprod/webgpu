@@ -14,7 +14,7 @@ export default class Menu extends UIBitmapModel {
     private uiScale: number = 1;
     private draggMusicButton: DraggButton;
     private draggFxButton: DraggButton;
-    private checkBtn: CheckButton;
+     checkBtn: CheckButton;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
         super(renderer, preLoader, "menu", "UI/mainMenu.png");
