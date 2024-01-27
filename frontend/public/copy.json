@@ -36,23 +36,21 @@
       "object": "painting",
       "copy": ["Roses are red","Violets are blue"]
     },
-    {
-      "scene": 1,
-      "object": "mill",
-      "copy": ["My trusty old mill.\nIt can almost make everything."]
-    },
-    {
-      "scene": 1,
-      "object": "bookCaseDoor",
-      "copy": ["Its locked.\n Don't know whats inside,\nprobably some old junk","Maybe i should make a key for it."]
-    },
+
+
     {
       "scene": 1,
       "object": "clock",
       "copy": "Time to get some work done."
     }
   ],
+
 "text": [
+  {
+
+    "object": "readMailFirst",
+    "copy": ["Maybe i should read\nthat mail first"]
+  },
   {
 
     "object": "yougotmail",
@@ -66,7 +64,25 @@
 
     "object": "findHunter",
     "copy": ["Looks like some nice underpants","A hunter must have lost it\nwhile roaming this woods.","I'll take them!"]
-  }
+  },
+  {
 
+    "object": "bookCaseLocked",
+    "copy": ["It's locked.\nDon't know whats inside,\nprobably some old junk","Maybe i should make a key for it."]
+  }, {
+
+    "object": "bookCaseLockedMillRunning",
+    "copy": ["It's locked.\nThe Key will be finished soon."]
+  },
+  {
+
+    "object": "readMailDone",
+    "copy": ["Work can wait,\nlets check outside"]
+  },
+  {
+
+    "object": "millStart",
+    "copy": ["My trusty old mill.\nIt can almost make everything."]
+  }
 ]
 }

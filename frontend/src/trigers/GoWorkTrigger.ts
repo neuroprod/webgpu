@@ -1,11 +1,14 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {GameState, Transitions} from "../GameModel";
+import GameModel, {StateFasion, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoWorkTrigger extends HitTrigger{
 
     protected click() {
-       // if(GameModel.gameState!=GameState.START)return;
+       if(GameModel.stateFashion==StateFasion.READ_MAIL){
+           GameModel.setTransition(Transitions.TEXT_INFO,"readMailDone")
+           return;
+       }
         let obj = GameModel.renderer.modelByLabel["labtop"]
         let world = obj.getWorldPos()
         world.z+=1.0;

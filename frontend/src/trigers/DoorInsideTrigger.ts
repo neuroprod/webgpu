@@ -1,11 +1,17 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {Scenes, Transitions} from "../GameModel";
-import {Vector3} from "math.gl";
+import GameModel, {StateFasion, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class DoorInsideTrigger extends HitTrigger{
 
     protected click() {
+
+        if(GameModel.stateFashion==StateFasion.START){
+
+            GameModel.setTransition(Transitions.TEXT_INFO,"readMailFirst")
+            return;
+        }
+
         let door = GameModel.renderer.modelByLabel["_HitCenterDoor"]
         let world = door.getWorldPos()
 

@@ -29,8 +29,26 @@ import SitTrigger from "./trigers/SitTrigger";
 import ReadMail from "./transitions/ReadMail";
 import FindHunterPants from "./transitions/FindHunterPants";
 import TextInfo from "./transitions/TextInfo";
+import BookCaseTrigger from "./trigers/BookCaseTrigger";
+import MillTrigger from "./trigers/MillTrigger";
 
-
+export enum StateGold {
+    START,
+    LOCKED_DOOR,
+    START_MILL,
+    FINISH_KEY,
+    FIND_NOTE,
+    GET_SHOVEL,
+    GET_GOLD,
+}
+export enum StateFasion {
+    START,
+    READ_MAIL,
+    MAKE_TRIANGLE,
+    FINISH_WEBSITE,
+    READ_MAIL_MAILBOX,
+    GET_FASION_PANTS,
+}
 export const Transitions =
     {
         GO_OUTSIDE: new GoOutside(),
@@ -54,13 +72,7 @@ export enum UIState {
 
 }
 
-export enum GameState {
-    START,
-    READ_MAIL,
-    READ_MAIL_DONE,
-    READ_CROSS,
-    FIND_HUNTER,
-}
+
 
 export enum Scenes {
     OUTSIDE,
@@ -69,6 +81,16 @@ export enum Scenes {
 }
 
 class GameModel {
+
+    public stateGold:StateGold =StateGold.START
+    public stateFashion:StateFasion=StateFasion.START
+
+
+
+
+
+
+
     public renderer: Renderer;
     public roomCamOffset: number = 0;
     public isLeftRoom = false;
@@ -112,8 +134,7 @@ class GameModel {
     debug: boolean =false;
     startOutside: boolean = false;
     private triggers: Array<Trigger> = []
-    private groundArray = ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft", "_HitGround"]
-    private storedState: number;
+
     private currentTransition: Transition;
 
     constructor() {
@@ -138,13 +159,7 @@ class GameModel {
         this.hitObjectLabelPrev = this._hitObjectLabel;
         this._hitObjectLabel = value;
         if (this.debug) UI.logEvent("Hit", value);
-        /*if (this._hitObjectLabel == "" || this.isGround(this._hitObjectLabel)) {
-           // this.outlinePass.setModel(null);
-        } else {
-            let model = this.renderer.modelByLabel[this._hitObjectLabel];
-          //  this.outlinePass.setModel(model);
 
-        }*/
     }
 
     update() {
@@ -192,10 +207,7 @@ class GameModel {
         this.setUIState(UIState.GAME_DEFAULT)
     }
 
-    public isGround(label: string) {
-        if (this.groundArray.includes(label)) return true;
-        return false;
-    }
+
 
     getDrawingByLabel(label: string) {
         return this.drawingByLabel[label];
@@ -219,25 +231,7 @@ class GameModel {
         }
     }
 
-    setGameState(state: GameState) {
 
-        if (state == GameState.READ_MAIL) {
-            this.catchMouseDown = true;
-            this.hitObjectLabel = ""
-        }
-        if (state == GameState.READ_CROSS) {
-            this.catchMouseDown = true;
-            this.hitObjectLabel = ""
-            this.storedState = this.gameState;
-        }
-        if (state == GameState.FIND_HUNTER) {
-            this.catchMouseDown = true;
-            this.hitObjectLabel = ""
-            this.gameState = this.storedState;
-        }
-
-        this.gameState = state;
-    }
 
     setUIState(state: UIState, data: any = null) {
         this.gameUI.setUIState(state, data);
@@ -265,39 +259,13 @@ class GameModel {
         this.triggers.push(new DoorInsideTrigger(Scenes.ROOM, "_HitCenterDoor"));
         this.triggers.push(new SitTrigger(Scenes.ROOM, "chair"));
         this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
+        this.triggers.push(new MillTrigger(Scenes.ROOM, ["mill","millBed","millControle","millHead"]));
+        this.triggers.push(new BookCaseTrigger(Scenes.ROOM, "bookCaseDoor"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
     }
 
-    private onMouseDown() {
 
-        /*
-                if(this.gameState==GameState.READ_MAIL){
-                    if(this.textHandler.readNext()){
-                        this.catchMouseDown =false;
-                        this.setGameState(GameState.READ_MAIL_DONE)
-                        this.characterHandler.setAnimation("idle")
-                    }
-                }
-                if(this.gameState==GameState.READ_CROSS){
-                    if(this.textHandler.readNext()){
-                        this.gameState =this.storedState;
-                        this.catchMouseDown =false;
-                    }
-                }
-                if(this.gameState==GameState.FIND_HUNTER){
-                    if(this.textHandler.readNext()){
-                        this.gameState =this.storedState;
-                        this.catchMouseDown =false;
-                        this.renderer.modelByLabel["hunterPants"].visible =false;
-                        this.renderer.modelByLabel["hunterPants"].enableHitTest =false;
-                        this.pantsFound =1;
-                        this.gameUI.updateInventory();
-                        this.sound.playPop();
-                        this.setUIState(UIState.INVENTORY_DETAIL,1)
-                    }
-                }*/
-    }
 
 
 }

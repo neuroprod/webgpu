@@ -1,4 +1,5 @@
 class UIData{
+    sceneObjects: boolean;
     get debug(): boolean {
         return this._debug;
     }

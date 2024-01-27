@@ -428,11 +428,11 @@ export default class Main {
 
         }
         if(!GameModel.mouseMove   &&  !GameModel.mouseDownThisFrame){
-            checkHit =false
+           // checkHit =false
 
         }
 
-        this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
+        if (checkHit)   this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
         if (!GameModel.lockView) this.characterHandler.update()
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
@@ -572,7 +572,7 @@ export default class Main {
         UI.LBool("Render settings",false)
         UI.LBool("Light Inside",false)
         UI.LBool("Light Outside",false)
-        UI.LBool("Scene Objects",false)
+        UIData.sceneObjects =UI.LBool("Scene Objects",false)
         UI.LBool("Draw",false)
         UI.separator("Info");
         if(UI.LButton("Check on Github")){
@@ -589,6 +589,34 @@ export default class Main {
             if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
             this.timeStampQuery.onUI();
             UI.popWindow()
+        }
+        if(UIData.sceneObjects){
+            UI.pushWindow("Scene Objects")
+            if (UI.LButton("saveData")) {
+                let data = {}
+                for (let m of this.renderer.models) {
+                    m.saveData(data)
+                }
+                saveToJsonFile(data, "materialData")
+
+            }
+
+            UI.pushGroup("Room");
+            this.room.onUI()
+            UI.popGroup()
+            UI.pushGroup("Outside");
+            this.outside.onUI()
+            UI.popGroup()
+            UI.popWindow()
+//detail
+            if (this.renderer.selectedUIObject) {
+                UI.pushWindow("Object Data")
+
+                UI.pushID(this.renderer.selectedUIObject.label)
+                this.renderer.selectedUIObject.onDataUI()
+                UI.popID()
+                UI.popWindow()
+            }
         }
     }
 

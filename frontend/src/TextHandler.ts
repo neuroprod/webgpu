@@ -28,9 +28,10 @@ export default class TextHandler {
     private hitTextTarget: Vector3;
     private hitTextAlpha: number;
     private objectLabel: string;
-    private fontEdge =new Vector4(0.25,0.30,0.45,0.50);
+    private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.50);
     private numChars: number;
-    private showChars =10;
+    private showChars = 10;
+
     constructor(renderer: Renderer, preLoader: PreLoader) {
         this.jsonLoader = new JSONLoader("copy", preLoader)
         this.renderer = renderer;
@@ -42,29 +43,31 @@ export default class TextHandler {
         this.hitTriggers = data.hitTriggers;
         for (let d of this.hitTriggers) {
             this.hitTriggerByLabel[d.object] = d;
-            d.count =0;
-            d.readAll =false;
+            d.count = 0;
+            d.readAll = false;
         }
 
         for (let d of data.text) {
             this.hitTriggerByLabel[d.object] = d;
-            d.count =0;
-            d.readAll =false;
+            d.count = 0;
+            d.readAll = false;
         }
     }
-onUI(){
-        UI.LVector("fontedge",this.fontEdge);
 
-}
+    onUI() {
+        UI.LVector("fontedge", this.fontEdge);
+
+    }
+
     public update() {
         if (this.currentHitText) {
             this.currentHitText.setPositionV(this.hitTextTarget)
             this.currentHitText.material.uniforms.setUniform("alpha", this.hitTextAlpha)
             this.currentHitText.material.uniforms.setUniform("fontEdge", this.fontEdge)
             this.currentHitText.update()
-            if(this.currentHitText.mesh){
+            if (this.currentHitText.mesh) {
                 console.log()
-                this.currentHitText.mesh.numDrawIndices =Math.ceil(this.showChars)*6;
+                this.currentHitText.mesh.numDrawIndices = Math.ceil(this.showChars) * 6;
             }
 
         }
@@ -72,23 +75,28 @@ onUI(){
 
     showHitTrigger(objectLabel: string) {
 
-        this.objectLabel =objectLabel;
+        this.objectLabel = objectLabel;
         this.hideHitTrigger()
         let ht = this.hitTriggerByLabel[objectLabel];
-        let copy ="";
-        if(isArray(ht.copy)){
-            copy = ht.copy[ht.count]
-            ht.count++;
+        let copy = "";
+        if (ht) {
+            if (isArray(ht.copy)) {
+                copy = ht.copy[ht.count]
+                ht.count++;
 
-            if(ht.count>=ht.copy.length){
-                ht.count=0;
-                ht.readAll=true;
+                if (ht.count >= ht.copy.length) {
+                    ht.count = 0;
+                    ht.readAll = true;
+                }
+
+            } else {
+                copy = ht.copy;
             }
+        } else {
 
-        }else{
-            copy = ht.copy;
+            copy = "Missing copy for:\n" + objectLabel;
         }
-        this.currentHitText = new Model(this.renderer,"text_"+ objectLabel,false);
+        this.currentHitText = new Model(this.renderer, "text_" + objectLabel, false);
 
         this.currentHitText.material = new Material(this.renderer, "fontmaterial", new FontShader(this.renderer, "fontShader"))
         this.currentHitText.material.depthWrite = false;
@@ -112,33 +120,33 @@ onUI(){
         gsap.killTweensOf(this.hitTextTarget)
         gsap.killTweensOf(this)
         this.hitTextTarget = GameModel.characterPos.clone()
-        let p =GameModel.gameCamera.getScreenPos( this.hitTextTarget.clone())
-        let p2 =GameModel.gameCamera.getScreenPos( this.hitTextTarget.clone().add([1,0,0]))
-       let d =0.35/(p.distance(p2)) ;
+        let p = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone())
+        let p2 = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone().add([1, 0, 0]))
+        let d = 0.35 / (p.distance(p2));
 
         let align = TEXT_ALIGN.LEFT;
-        let offset =0.5;
-        if(p.x>0){
+        let offset = 0.5;
+        if (p.x > 0) {
             align = TEXT_ALIGN.RIGHT;
-            offset =-0.5;
+            offset = -0.5;
         }
 
         this.hitTextTarget.y = -1.5 + 2.0;
-        this.hitTextTarget.x += offset*0.8;
+        this.hitTextTarget.x += offset * 0.8;
 
         this.hitTextAlpha = 0;
 
 
-        gsap.to(this.hitTextTarget, {x: this.hitTextTarget.x +  offset*0.2, ease: "expo.out", duration: 0.5})
+        gsap.to(this.hitTextTarget, {x: this.hitTextTarget.x + offset * 0.2, ease: "expo.out", duration: 0.5})
         gsap.to(this, {hitTextAlpha: 1, duration: 0.5})
 
-        this.currentHitText.mesh = this.font.getMesh(copy, align,0.5);
-        this.numChars =this.currentHitText.mesh.numIndices/6;
+        this.currentHitText.mesh = this.font.getMesh(copy, align, 0.5);
+        this.numChars = this.currentHitText.mesh.numIndices / 6;
 
-        this.showChars =Math.min(10,this.numChars)
-        if(this.numChars>10){
+        this.showChars = Math.min(10, this.numChars)
+        if (this.numChars > 10) {
 
-            gsap.to(this, {showChars: this.numChars,ease:"none", duration: (this.numChars-10)/90})
+            gsap.to(this, {showChars: this.numChars, ease: "none", duration: (this.numChars - 10) / 90})
         }
 
         this.currentHitText.setScale(d, d, d);
@@ -177,17 +185,20 @@ onUI(){
     readNext() {
 
         let ht = this.hitTriggerByLabel[this.objectLabel];
-
-        if(isArray(ht.copy)){
-
-           if(ht.count==0 ){
-               this.hideHitTrigger();
-               return true;
-           }
-
-        }else{
+        if (!ht) {
             this.hideHitTrigger();
-           return true
+            return true;
+        }
+        if (isArray(ht.copy)) {
+
+            if (ht.count == 0) {
+                this.hideHitTrigger();
+                return true;
+            }
+
+        } else {
+            this.hideHitTrigger();
+            return true
         }
 
         this.showHitTrigger(this.objectLabel)

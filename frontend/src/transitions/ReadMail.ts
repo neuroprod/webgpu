@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel from "../GameModel";
+import GameModel, {StateFasion} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class ReadMail extends Transition{
@@ -17,6 +17,7 @@ export default class ReadMail extends Transition{
 
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
+            GameModel.stateFashion =StateFasion.READ_MAIL;
             this.onComplete()
         }
     }
