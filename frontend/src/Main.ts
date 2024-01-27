@@ -103,7 +103,6 @@ export default class Main {
     private gtaoDenoise: GTAOdenoise;
 
 
-
     private font: Font;
     private shadowPass1: ShadowPass;
     private shadowPass2: ShadowPass;
@@ -142,8 +141,6 @@ export default class Main {
         this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation2", this.preloader);
 
 
-
-
         new TextureLoader(this.renderer, this.preloader, "textures/body_Color.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_MRA.png", {});
         new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
@@ -166,10 +163,10 @@ export default class Main {
         this.introLight3 = new MainLight(this.renderer, "preloadLight3")
         this.introLight4 = new MainLight(this.renderer, "preloadLight4")
         this.font = new Font(this.renderer, this.preloader);
-        GameModel.debug =UIData.debug;
+        GameModel.debug = UIData.debug;
 
         //devSpeed
-        if(GameModel.devSpeed) gsap.globalTimeline.timeScale(5);
+        if (GameModel.devSpeed) gsap.globalTimeline.timeScale(5);
     }
 
     startFinalPreload() {
@@ -180,14 +177,14 @@ export default class Main {
             this.init.bind(this)
         );
 
-       // this.glFTLoaderTyping = new GLFTLoader(this.renderer, "typing", this.preloader, this.glFTLoaderChar );
+        // this.glFTLoaderTyping = new GLFTLoader(this.renderer, "typing", this.preloader, this.glFTLoaderChar );
 
 
         this.lightRoomJson = new JSONLoader("lightRoom", this.preloader);
-        GameModel.gameUI =new GameUI(this.renderer,this.preloader)
+        GameModel.gameUI = new GameUI(this.renderer, this.preloader)
 
-        GameModel.sound =new SoundHandler(this.preloader)
-        GameModel.textHandler =new TextHandler(this.renderer,this.preloader)
+        GameModel.sound = new SoundHandler(this.preloader)
+        GameModel.textHandler = new TextHandler(this.renderer, this.preloader)
         GameModel.textHandler.font = this.font;
 
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
@@ -215,12 +212,12 @@ export default class Main {
         this.shadowPassCube2 = new ShadowCube(this.renderer, null, "2");
         this.shadowPassCube3 = new ShadowCube(this.renderer, null, "3");
         this.shadowPassCube4 = new ShadowCube(this.renderer, null, "4");
-        this.shadowPass1 = new ShadowPass(this.renderer,1);
-        this.shadowPass2 = new ShadowPass(this.renderer,2);
+        this.shadowPass1 = new ShadowPass(this.renderer, 1);
+        this.shadowPass2 = new ShadowPass(this.renderer, 2);
         // this.aoPass = new AORenderPass(this.renderer);
         //this.aoBlurPass = new AOBlurRenderPass(this.renderer);
         this.lightIntroRenderPass = new LightIntroRenderPass(this.renderer)
-        this.lightRoomPass = new LightRenderPass(this.renderer,this.lightIntroRenderPass.target);
+        this.lightRoomPass = new LightRenderPass(this.renderer, this.lightIntroRenderPass.target);
         this.lightOutsidePass = new LightOutsideRenderPass(this.renderer, this.lightIntroRenderPass.target);
         this.blurLightPass = new BlurLight(this.renderer);
         this.reflectionPass = new ReflectionRenderPass(this.renderer);
@@ -236,16 +233,14 @@ export default class Main {
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment)
 
 
-        GameModel.textHandler.fontMeshRenderer =  this.canvasRenderPass.fontMeshRenderer
+        GameModel.textHandler.fontMeshRenderer = this.canvasRenderPass.fontMeshRenderer
 
 
         GameModel.main = this;
         GameModel.renderer = this.renderer;
         GameModel.outlinePass = this.outlinePass;
         GameModel.gameCamera = this.gameCamera;
-        this.lightIntroRenderPass.init( [this.introLight1, this.introLight2, this.introLight3, this.introLight4])
-
-
+        this.lightIntroRenderPass.init([this.introLight1, this.introLight2, this.introLight3, this.introLight4])
 
 
 //init char
@@ -309,7 +304,7 @@ export default class Main {
             RenderSettings.exposure = 1.8;
             RenderSettings.onChange()
 
-        } else  if (scene == Scenes.OUTSIDE){
+        } else if (scene == Scenes.OUTSIDE) {
             GameModel.yMouseScale = 1.5
             GameModel.yMouseCenter = 0
             GameModel.sceneHeight = 4
@@ -335,8 +330,8 @@ export default class Main {
     init() {
 
 
-        GameModel.room =this.room;
-        GameModel.outside =this.outside;
+        GameModel.room = this.room;
+        GameModel.outside = this.outside;
 
         this.room.init()
         this.outside.init();
@@ -356,18 +351,17 @@ export default class Main {
         this.shadowPass2.init();
         for (let m of this.glFTLoaderChar.models) {
             //this.gBufferPass.modelRenderer.addModel(m)
-            if(m.label !="Cube"){
-            this.outside.modelRenderer.addModel(m)
-            this.room.modelRenderer.addModel(m)
+            if (m.label != "Cube") {
+                this.outside.modelRenderer.addModel(m)
+                this.room.modelRenderer.addModel(m)
             }
         }
 
 
+        /*  GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
 
-      /*  GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
-
-        this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);
-        this.room.modelRenderer.addModel(GameModel.floorHitIndicator);*/
+          this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);
+          this.room.modelRenderer.addModel(GameModel.floorHitIndicator);*/
 
         //this.drawer = new Drawer(this.renderer);
         this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
@@ -376,28 +370,28 @@ export default class Main {
             this.gBufferPass.drawingRenderer.addDrawing(d)
         }
 
-       /* GameModel.setTransition(Transitions.START_GAME)
-        RenderSettings.onChange()
-*/
+        /* GameModel.setTransition(Transitions.START_GAME)
+         RenderSettings.onChange()
+ */
 
     }
 
     tick() {
 
         window.requestAnimationFrame(() => this.tick());
-        if( GameModel.mousePos.equals(this.mouseListener.mousePos)  ){
-            GameModel.mouseMove =false;
-        }else{
-            GameModel.mouseMove =true;
+        if (GameModel.mousePos.equals(this.mouseListener.mousePos)) {
+            GameModel.mouseMove = false;
+        } else {
+            GameModel.mouseMove = true;
         }
         if (UI.needsMouse()) {
 
             this.mouseListener.isDownThisFrame = false;
         }
 
-        GameModel.mousePos.from( this.mouseListener.mousePos);//.clone();
+        GameModel.mousePos.from(this.mouseListener.mousePos);//.clone();
         GameModel.mouseDownThisFrame = this.mouseListener.isDownThisFrame;
-        GameModel.mouseUpThisFrame =this.mouseListener.isUpThisFrame;
+        GameModel.mouseUpThisFrame = this.mouseListener.isUpThisFrame;
         Timer.update();
         this.update();
         UI.updateGPU();
@@ -410,28 +404,26 @@ export default class Main {
     update() {
 
 
-
-
         if (!GameModel.lockView) {
 
             this.gameCamera.update();
 
         }
-        let checkHit =!UI.needsMouse();
-        if(GameModel.catchMouseDown){
-            checkHit =false
+        let checkHit = !UI.needsMouse();
+        if (GameModel.catchMouseDown) {
+            checkHit = false
 
         }
-        if(GameModel.uiOpen){
-            checkHit =false
+        if (GameModel.uiOpen) {
+            checkHit = false
 
         }
-        if(!GameModel.mouseMove   &&  !GameModel.mouseDownThisFrame){
-           // checkHit =false
+        if (!GameModel.mouseMove && !GameModel.mouseDownThisFrame) {
+            // checkHit =false
 
         }
 
-        if (checkHit)   this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
+        if (checkHit) this.mouseRay.setFromCamera(this.camera, this.mouseListener.mousePos)
         if (!GameModel.lockView) this.characterHandler.update()
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
@@ -452,154 +444,170 @@ export default class Main {
             this.shadowPassCube1.setLightPos(this.room.lightKitchen.getWorldPos());
             this.shadowPassCube2.setLightPos(this.room.lightLab.getWorldPos());
             this.lightRoomPass.setUniforms()
-           // RenderSettings.onChange()
+            // RenderSettings.onChange()
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
             this.shadowPass1.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
             this.shadowPass2.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
             if (checkHit) this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.outside.lightGrave.getWorldPos());
-            this.lightOutsidePass.setUniforms(this.shadowPass1.camera.viewProjection,this.shadowPass2.camera.viewProjection)
+            this.lightOutsidePass.setUniforms(this.shadowPass1.camera.viewProjection, this.shadowPass2.camera.viewProjection)
             //RenderSettings.onChange()
         }
 
-        if(GameModel.debug)
-        this.updateUI();
+        if (GameModel.debug)
+            this.updateUI();
 
 
     }
+
     updateUI() {
-       /* this.drawer.onUI();
-        if (GameModel.currentScene == Scenes.PRELOAD) {
-            UI.pushWindow("Loading")
-            UI.LText(this.preloader.count + "/" + this.preloader.totalCount, "loading");
-            this.lightIntroRenderPass.onUI()
-            UI.popWindow()
+        /* this.drawer.onUI();
+         if (GameModel.currentScene == Scenes.PRELOAD) {
+             UI.pushWindow("Loading")
+             UI.LText(this.preloader.count + "/" + this.preloader.totalCount, "loading");
+             this.lightIntroRenderPass.onUI()
+             UI.popWindow()
 
-            return;
-        }
-        UI.pushWindow("Game")
+             return;
+         }
+         UI.pushWindow("Game")
 
-        this.characterHandler.onUI()
-        this.outside.onUIGame();
-        this.room.onUIGame();
-        UI.popWindow()
-
-
-        UI.pushWindow("Light")
-        GameModel.dayNight = UI.LFloatSlider("dayNight", GameModel.dayNight, 0, 1);
-        this.shadowPass1.onUI()
-        this.shadowPass2.onUI()
-        this.lightRoomPass.onUI();
-        this.lightOutsidePass.onUI();
-
-        UI.popWindow()
+         this.characterHandler.onUI()
+         this.outside.onUIGame();
+         this.room.onUIGame();
+         UI.popWindow()
 
 
-        UI.pushWindow("Render Setting")
-        if(UI.LButton("log unused textures")){
-            console.log("-----------------------")
-            for(let t of this.renderer.textures)
-            {
-                if(t.useCount <2)console.log(t.label)
-            }
-        }
-        GameModel.textHandler.onUI();
-        GameModel.frustumCull = UI.LBool("frustumCull", true)
-       // UI.pushGroup("Performance");
-        if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
-        this.timeStampQuery.onUI();
-        UI.popGroup()
+         UI.pushWindow("Light")
+         GameModel.dayNight = UI.LFloatSlider("dayNight", GameModel.dayNight, 0, 1);
+         this.shadowPass1.onUI()
+         this.shadowPass2.onUI()
+         this.lightRoomPass.onUI();
+         this.lightOutsidePass.onUI();
 
-        this.canvasRenderPass.onUI();
+         UI.popWindow()
 
-        RenderSettings.onUI();
-        UI.popWindow()
 
-        this.animationMixer.onUI()
+         UI.pushWindow("Render Setting")
+         if(UI.LButton("log unused textures")){
+             console.log("-----------------------")
+             for(let t of this.renderer.textures)
+             {
+                 if(t.useCount <2)console.log(t.label)
+             }
+         }
+         GameModel.textHandler.onUI();
+         GameModel.frustumCull = UI.LBool("frustumCull", true)
+        // UI.pushGroup("Performance");
+         if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
+         this.timeStampQuery.onUI();
+         UI.popGroup()
 
-        UI.pushWindow("Objects")
-        if (UI.LButton("saveData")) {
-            let data = {}
-            for (let m of this.renderer.models) {
-                m.saveData(data)
-            }
-            saveToJsonFile(data, "materialData")
+         this.canvasRenderPass.onUI();
 
-        }
+         RenderSettings.onUI();
+         UI.popWindow()
 
-        UI.pushGroup("Room");
-        this.room.onUI()
-        UI.popGroup()
-        UI.pushGroup("Outside");
-        this.outside.onUI()
-        UI.popGroup()
-        UI.popWindow()
+         this.animationMixer.onUI()
 
-        if (this.renderer.selectedUIObject) {
-            UI.pushWindow("Object Data")
+         UI.pushWindow("Objects")
+         if (UI.LButton("saveData")) {
+             let data = {}
+             for (let m of this.renderer.models) {
+                 m.saveData(data)
+             }
+             saveToJsonFile(data, "materialData")
 
-            UI.pushID(this.renderer.selectedUIObject.label)
-            this.renderer.selectedUIObject.onDataUI()
-            UI.popID()
-            UI.popWindow()
-        }
-        GameModel.sound.onUI()
-*/
+         }
+
+         UI.pushGroup("Room");
+         this.room.onUI()
+         UI.popGroup()
+         UI.pushGroup("Outside");
+         this.outside.onUI()
+         UI.popGroup()
+         UI.popWindow()
+
+         if (this.renderer.selectedUIObject) {
+             UI.pushWindow("Object Data")
+
+             UI.pushID(this.renderer.selectedUIObject.label)
+             this.renderer.selectedUIObject.onDataUI()
+             UI.popID()
+             UI.popWindow()
+         }
+         GameModel.sound.onUI()
+ */
 //main
         UI.pushWindow("Dev Settings")
         this.canvasRenderPass.onUI();
-        let speed =UI.LBool("Go fast",GameModel.devSpeed);
-        if(speed!= GameModel.devSpeed ){
-            GameModel.devSpeed =speed;
-            if(GameModel.devSpeed) {
+        let speed = UI.LBool("Go fast", GameModel.devSpeed);
+        if (speed != GameModel.devSpeed) {
+            GameModel.devSpeed = speed;
+            if (GameModel.devSpeed) {
                 gsap.globalTimeline.timeScale(5);
-            }else{
+            } else {
                 gsap.globalTimeline.timeScale(1);
             }
         }
 
-        if(UI.LButton("Hide Dev windows")){
-            GameModel.debug =false;
-            UIData.debug =false;
+        if (UI.LButton("Hide Dev windows")) {
+            GameModel.debug = false;
+            UIData.debug = false;
             GameModel.gameUI.menu.checkBtn.select(false)
         }
 
-        if(UI.LButton("Clear local storage")){
+        if (UI.LButton("Clear local storage")) {
             localStorage.removeItem("devData");
             UI.clearLocalData();
         }
         UI.separator("Windows");
-        UIData.performance =(UI.LBool("Preformance",false));
-        UIData.gameState =UI.LBool("Game State",UIData.gameState)
-        UI.LBool("Render settings",false)
-        UI.LBool("Light Inside",false)
-        UI.LBool("Light Outside",false)
-        UIData.sceneObjects =UI.LBool("Scene Objects", UIData.sceneObjects )
-        UI.LBool("Draw",false)
+        UIData.performance = (UI.LBool("Preformance", false));
+        UIData.gameState = UI.LBool("Game State", UIData.gameState);
+        UIData.renderSettings =UI.LBool("Render Settings",  UIData.renderSettings)
+        UI.LBool("Light Inside", false)
+        UI.LBool("Light Outside", false)
+        UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
+        UI.LBool("Draw", false)
         UI.separator("Info");
-        if(UI.LButton("Check on Github")){
+        if (UI.LButton("Check on Github")) {
             window.open("https://github.com/neuroprod/webgpu", '_blank');
         }
 
         UI.popWindow()
 
-//performance
-        if(UIData.performance){
+        //performance
+        if (UIData.performance) {
             UI.pushWindow("Performance")
-            UI.LText(Timer.fps+"","FPS")
-            UI.LText(GameModel.screenWidth+" "+GameModel.screenHeight,"Render Size");
+            UI.LText(Timer.fps + "", "FPS")
+            UI.LText(GameModel.screenWidth + " " + GameModel.screenHeight, "Render Size");
             if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
             this.timeStampQuery.onUI();
             UI.popWindow()
         }
         //gameState
-        if(UIData.gameState && GameModel.currentScene != Scenes.PRELOAD){
+        if (UIData.gameState && GameModel.currentScene != Scenes.PRELOAD) {
             GameModel.onUI();
         }
+        //gameRender
+        if ( UIData.renderSettings && GameModel.currentScene != Scenes.PRELOAD) {
+            UI.pushWindow("Render Settings")
+            if(UI.LButton("log unused textures")){
+                console.log("-----------------------")
+                for(let t of this.renderer.textures)
+                {
+                    if(t.useCount <2)console.log(t.label)
+                }
+            }
+            GameModel.textHandler.onUI();
+            GameModel.frustumCull = UI.LBool("frustumCull", true)
 
-    //objects
-        if(UIData.sceneObjects && GameModel.currentScene != Scenes.PRELOAD){
+            RenderSettings.onUI();
+            UI.popWindow()
+        }
+        //objects
+        if (UIData.sceneObjects && GameModel.currentScene != Scenes.PRELOAD) {
             UI.pushWindow("Scene Objects")
             if (UI.LButton("saveData")) {
                 let data = {}
@@ -634,7 +642,6 @@ export default class Main {
         this.timeStampQuery.start();
 
 
-
         if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube1.add();
@@ -662,10 +669,9 @@ export default class Main {
         // this.aoPass.add();
         // this.aoBlurPass.add();
         this.timeStampQuery.setStamp("AOPass");
-        if( GameModel.currentScene == Scenes.PRELOAD){
+        if (GameModel.currentScene == Scenes.PRELOAD) {
             this.lightIntroRenderPass.add();
-        }
-        else if (GameModel.currentScene == Scenes.ROOM ) {
+        } else if (GameModel.currentScene == Scenes.ROOM) {
             this.lightRoomPass.add();
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.lightOutsidePass.add();

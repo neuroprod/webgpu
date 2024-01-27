@@ -1,4 +1,16 @@
 class UIData{
+    get renderSettings(): boolean {
+        return this._renderSettings;
+    }
+
+    set renderSettings(value: boolean) {
+
+        if( this._renderSettings != value) {
+            this._renderSettings = value;
+            this.save()
+        }
+    }
+
     get sceneObjects(): boolean {
         return this._sceneObjects;
     }
@@ -45,23 +57,21 @@ class UIData{
     private _debug:boolean=false;
     private _sceneObjects: boolean=false;
     private _gameState: boolean=false;
+    private _renderSettings: boolean=false;
     constructor() {
     }
     init(){
         let dataS = localStorage.getItem("devData")
         let data = JSON.parse(dataS)
         if(data){
-            console.log(data);
-
             for (let value of Object.keys(data)) {
-
                 this[value] =data[value];
             }
         }
     }
     save(){
         let s = JSON.stringify(this);
-console.log("save")
+
        localStorage.setItem("devData", s);
     }
 

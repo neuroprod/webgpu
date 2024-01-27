@@ -28,7 +28,7 @@ export default class TextHandler {
     private hitTextTarget: Vector3;
     private hitTextAlpha: number;
     private objectLabel: string;
-    private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.50);
+    private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.53);
     private numChars: number;
     private showChars = 10;
 

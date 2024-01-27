@@ -65,7 +65,7 @@ export default class Menu extends UIBitmapModel {
     hide() {
 
         gsap.killTweensOf(this);
-        GameModel.sound.playWoosh()
+
         gsap.to(this, {
             yOff: -50, duration: 0.1, ease: "power2.in", onComplete: () => {
                 this.visible = false;

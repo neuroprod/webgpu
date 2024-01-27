@@ -50,10 +50,15 @@ export default class Mill{
     setState(state: MillState) {
         if(state==MillState.OFF){
             if(this.tl)this.tl.clear()
+            this.headPos=0.1;
+            this.bedZ =-0.2;
         }else if(state==MillState.ON){
             if(this.tl) this.tl.clear()
+            this.headPos=0.1;
+            this.bedZ =-0.2;
             this.tl = gsap.timeline({repeat: -1, repeatDelay: 1,});
             this.tl.timeScale(3);
+
             this.tl.to(this,{"headPos":0.0,ease: "sine.inOut"})
             this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut"},">")
             this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
@@ -61,6 +66,8 @@ export default class Mill{
         }
         else if(state==MillState.DONE){
             if(this.tl) this.tl.clear()
+            this.headPos=0.3;
+            this.bedZ =-0.0;
         }
     }
 }
