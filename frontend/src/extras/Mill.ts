@@ -1,7 +1,7 @@
-import Object3D from "../lib/core/Object3D";
-import Timer from "../lib/Timer";
 import gsap from "gsap"
 import Model from "../lib/model/Model";
+import {MillState} from "../GameModel";
+
 export default class Mill{
     private millBed: Model;
     private millHead: Model;
@@ -39,12 +39,7 @@ export default class Mill{
 
         return;
 
-        this.tl = gsap.timeline({repeat: -1, repeatDelay: 1,});
-        this.tl.timeScale(3);
-        this.tl.to(this,{"headPos":0.0,ease: "sine.inOut"})
-        this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut"},">")
-        this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
-        this.tl.to(this,{"bedZ":-0.2,duration:2,ease: "sine.inOut"},"<")
+
     }
     update(){
 
@@ -52,4 +47,20 @@ export default class Mill{
         this.millBed.setPosition(0,0,this.bedZ)
     }
 
+    setState(state: MillState) {
+        if(state==MillState.OFF){
+            if(this.tl)this.tl.clear()
+        }else if(state==MillState.ON){
+            if(this.tl) this.tl.clear()
+            this.tl = gsap.timeline({repeat: -1, repeatDelay: 1,});
+            this.tl.timeScale(3);
+            this.tl.to(this,{"headPos":0.0,ease: "sine.inOut"})
+            this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut"},">")
+            this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
+            this.tl.to(this,{"bedZ":-0.2,duration:2,ease: "sine.inOut"},"<")
+        }
+        else if(state==MillState.DONE){
+            if(this.tl) this.tl.clear()
+        }
+    }
 }

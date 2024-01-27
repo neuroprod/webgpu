@@ -42,7 +42,6 @@ import Ray from "./lib/Ray";
 import Drawer from "./drawing/Drawer";
 import DrawingPreloader from "./drawing/DrawingPreloader";
 import {saveToJsonFile} from "./lib/SaveUtils";
-import {FloorHitIndicator} from "./extras/FloorHitIndicator";
 import OutlinePass from "./renderPasses/OutlinePass";
 import MainLight from "./MainLight";
 import ModelRenderer from "./lib/model/ModelRenderer";
@@ -124,6 +123,7 @@ export default class Main {
             this.setup()
         })
         this.mouseListener = new MouseListener(canvas)
+        UIData.init();
     }
 
     //pre-preload
@@ -166,6 +166,7 @@ export default class Main {
         this.introLight3 = new MainLight(this.renderer, "preloadLight3")
         this.introLight4 = new MainLight(this.renderer, "preloadLight4")
         this.font = new Font(this.renderer, this.preloader);
+        GameModel.debug =UIData.debug;
 
         //devSpeed
         if(GameModel.devSpeed) gsap.globalTimeline.timeScale(5);
@@ -334,16 +335,14 @@ export default class Main {
     init() {
 
 
-        //console.log(  this.glFTLoaderTyping.animations)
-      //  this.animationMixer.addAnimations(this.glFTLoaderTyping.animations)
-
+        GameModel.room =this.room;
+        GameModel.outside =this.outside;
 
         this.room.init()
         this.outside.init();
         GameModel.initText();
         GameModel.setUIState(UIState.PRELOAD_DONE)
-        //this.gameUI.init();
-        //  this.outlinePass.init()
+
         this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
 
@@ -566,13 +565,17 @@ export default class Main {
             GameModel.gameUI.menu.checkBtn.select(false)
         }
 
-        if(UI.LButton("Clear local storage")) UI.clearLocalData();
+        if(UI.LButton("Clear local storage")){
+            localStorage.removeItem("devData");
+            UI.clearLocalData();
+        }
         UI.separator("Windows");
         UIData.performance =(UI.LBool("Preformance",false));
+        UIData.gameState =UI.LBool("Game State",UIData.gameState)
         UI.LBool("Render settings",false)
         UI.LBool("Light Inside",false)
         UI.LBool("Light Outside",false)
-        UIData.sceneObjects =UI.LBool("Scene Objects",false)
+        UIData.sceneObjects =UI.LBool("Scene Objects", UIData.sceneObjects )
         UI.LBool("Draw",false)
         UI.separator("Info");
         if(UI.LButton("Check on Github")){
@@ -590,7 +593,13 @@ export default class Main {
             this.timeStampQuery.onUI();
             UI.popWindow()
         }
-        if(UIData.sceneObjects){
+        //gameState
+        if(UIData.gameState && GameModel.currentScene != Scenes.PRELOAD){
+            GameModel.onUI();
+        }
+
+    //objects
+        if(UIData.sceneObjects && GameModel.currentScene != Scenes.PRELOAD){
             UI.pushWindow("Scene Objects")
             if (UI.LButton("saveData")) {
                 let data = {}

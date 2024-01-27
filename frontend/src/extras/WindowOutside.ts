@@ -2,7 +2,7 @@ import Object3D from "../lib/core/Object3D";
 import Model from "../lib/model/Model";
 import Material from "../lib/core/Material";
 import Plane from "../lib/meshes/Plane";
-import LaptopScreenShader from "./LaptopScreenShader";
+import LaptopTrianagleShader from "./LaptopTrianagleShader";
 import Timer from "../lib/Timer";
 import WindowOutsideShader from "./WindowOutsideShader";
 import GameModel from "../GameModel";

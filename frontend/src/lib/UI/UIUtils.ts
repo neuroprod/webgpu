@@ -12,7 +12,7 @@ export default class UIUtils {
 
     */
 
-  public static EnumToSelectItem(en: any) {
+  public static EnumToSelectItem(en: any):Array<SelectItem> {
     let selectArray = [];
     for (const value in Object.keys(en)) {
       if (typeof en[value] !== "string") {

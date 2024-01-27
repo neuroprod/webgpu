@@ -138,9 +138,9 @@ export default class UI_IC {
     index = 0,
     settings?: LSelectSettings
   ): any {
-    if (!UI_I.setComponent(label)) {
+    if (!UI_I.setComponent(label+index)) {
       if (!settings) settings = new LSelectSettings();
-      let comp = new LSelect(UI_I.getID(label), label, items, index, settings);
+      let comp = new LSelect(UI_I.getID(label+index), label, items, index, settings);
       UI_I.addComponent(comp);
     }
     let result = UI_I.currentComponent.getReturnValue();

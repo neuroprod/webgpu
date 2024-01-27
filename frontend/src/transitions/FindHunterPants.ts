@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {UIState} from "../GameModel";
+import GameModel, {StateHunter, UIState} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class FindHunterPants extends Transition{
@@ -23,7 +23,7 @@ export default class FindHunterPants extends Transition{
             GameModel.gameUI.updateInventory();
             GameModel.sound.playPop();
             GameModel.gameUI.cursor.hide()
-
+            GameModel.stateHunter =StateHunter.HAVE_PANTS;
             this.onComplete()
             GameModel.setUIState(UIState.INVENTORY_DETAIL,1)
         }

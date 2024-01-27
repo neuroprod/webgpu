@@ -31,6 +31,10 @@ import FindHunterPants from "./transitions/FindHunterPants";
 import TextInfo from "./transitions/TextInfo";
 import BookCaseTrigger from "./trigers/BookCaseTrigger";
 import MillTrigger from "./trigers/MillTrigger";
+import Room from "./Room";
+import Outside from "./Outside";
+import UIUtils from "./lib/UI/UIUtils";
+import SelectItem from "./lib/UI/math/SelectItem";
 
 export enum StateGold {
     START,
@@ -41,6 +45,7 @@ export enum StateGold {
     GET_SHOVEL,
     GET_GOLD,
 }
+
 export enum StateFasion {
     START,
     READ_MAIL,
@@ -49,6 +54,29 @@ export enum StateFasion {
     READ_MAIL_MAILBOX,
     GET_FASION_PANTS,
 }
+
+
+export enum StateHunter {
+    START,
+    HAVE_PANTS,
+
+}
+
+
+export enum LaptopState {
+    MAIL,
+    NONE,
+    TRIANGLE,
+
+}
+
+export enum MillState {
+    OFF,
+    ON,
+    DONE,
+
+}
+
 export const Transitions =
     {
         GO_OUTSIDE: new GoOutside(),
@@ -73,7 +101,6 @@ export enum UIState {
 }
 
 
-
 export enum Scenes {
     OUTSIDE,
     ROOM,
@@ -82,13 +109,11 @@ export enum Scenes {
 
 class GameModel {
 
-    public stateGold:StateGold =StateGold.START
-    public stateFashion:StateFasion=StateFasion.START
-
-
-
-
-
+    public stateGold: StateGold = StateGold.START
+    public stateFashion: StateFasion = StateFasion.START
+    public stateHunter = StateHunter.START
+    public millState = MillState.OFF;
+    public laptopState = LaptopState.MAIL;
 
 
     public renderer: Renderer;
@@ -131,15 +156,20 @@ class GameModel {
     uiOpen = false;
     //debugstuff
     devSpeed: boolean = false;
-    debug: boolean =false;
+    debug: boolean = false;
     startOutside: boolean = false;
+    room: Room;
+    outside: Outside;
     private triggers: Array<Trigger> = []
-
     private currentTransition: Transition;
+    private laptopSelect: Array<SelectItem>;
+    private millSelect: Array<SelectItem>;
+
 
     constructor() {
 
         this.makeTriggers();
+        this.prepUI()
     }
 
     private _hitObjectLabel: string = "";
@@ -160,6 +190,16 @@ class GameModel {
         this._hitObjectLabel = value;
         if (this.debug) UI.logEvent("Hit", value);
 
+    }
+
+    setMillState(state: MillState) {
+        this.millState = state;
+        this.room.mill.setState(state);
+    }
+
+    setLaptopState(state: LaptopState) {
+        this.laptopState = state;
+        this.room.laptopScreen.setState(state);
     }
 
     update() {
@@ -183,6 +223,7 @@ class GameModel {
         if (this.textHandler) this.textHandler.update();
         this.hitStateChange = false;
     }
+
 
     public setScene(scenes: Scenes) {
         this.main.setScene(scenes);
@@ -208,7 +249,6 @@ class GameModel {
     }
 
 
-
     getDrawingByLabel(label: string) {
         return this.drawingByLabel[label];
     }
@@ -230,7 +270,6 @@ class GameModel {
             this.triggers.push(new HitTextTrigger(d.scene, d.object))
         }
     }
-
 
 
     setUIState(state: UIState, data: any = null) {
@@ -259,14 +298,28 @@ class GameModel {
         this.triggers.push(new DoorInsideTrigger(Scenes.ROOM, "_HitCenterDoor"));
         this.triggers.push(new SitTrigger(Scenes.ROOM, "chair"));
         this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
-        this.triggers.push(new MillTrigger(Scenes.ROOM, ["mill","millBed","millControle","millHead"]));
+        this.triggers.push(new MillTrigger(Scenes.ROOM, ["mill", "millBed", "millControle", "millHead"]));
         this.triggers.push(new BookCaseTrigger(Scenes.ROOM, "bookCaseDoor"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
     }
+    prepUI(){
+        this.laptopSelect = UIUtils.EnumToSelectItem(LaptopState)
+        this.millSelect = UIUtils.EnumToSelectItem(MillState)
+    }
+onUI(){
+        UI.pushWindow("GameModel")
+        UI.separator("GameState")
+        UI.separator("objects")
 
+        let ls = UI.LSelect("labtop",this.laptopSelect,this.laptopState)
+        if(ls != this.laptopState)this.setLaptopState(ls);
 
+        let ms = UI.LSelect("mill",this.millSelect,this.millState)
+        if(ms != this.millState)this.setMillState(ms);
 
+        UI.popWindow()
+}
 
 }
 

@@ -5,7 +5,7 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
-export default class LaptopScreenShader extends Shader{
+export default class LaptopShader extends Shader{
 
 
     init(){
@@ -18,8 +18,8 @@ export default class LaptopScreenShader extends Shader{
         }
         this.addUniform("time",0);
         this.addUniform("ratio",0);
-        this.addTexture("triangle",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("text",DefaultTextures.getWhite(this.renderer))
+        this.addTexture("image",DefaultTextures.getWhite(this.renderer))
+
         this.addSampler("mySampler")
 
         this.needsTransform =true;
@@ -58,39 +58,19 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     
     return output;
 }
-fn rotate( v:vec2f,  a:f32)->vec2f {
-    let s = sin(a);
-    let c= cos(a);
-    let m = mat2x2(c, s, -s, c);
-    return m * v;
-}
 
 @fragment
 fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOutput
 {
     var output : GBufferOutput;
-   var  uv = uv0-vec2(0.5);
+  let uv = uv0*vec2(1.0,1./uniforms.ratio);
  
-    uv.x*=uniforms.ratio;
-    uv*=1.5;
-    uv =rotate(uv,uniforms.time);
-    uv+=vec2(0.5);
-    let colorTri =  textureSample(triangle, mySampler,uv);
-    output.color = colorTri;
-    
-    var uvText = uv0;
-      uvText.x*=uniforms.ratio;
-      uvText*=0.7;
-    let colorText= textureSample(text, mySampler,uvText);
-     output.color +=colorText;
-
-
-  
-    output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
-    
-  
    
-    output.mra =vec4(0.0,0.8,min( colorText.a+colorTri.a,1.0)*0.7,1.0);
+   
+    output.color = textureSample(image, mySampler,uv );
+   
+    output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
+    output.mra =vec4(0.0,0.8,0.5,1.0);
  
 
     return output;

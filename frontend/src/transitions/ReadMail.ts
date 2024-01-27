@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateFasion} from "../GameModel";
+import GameModel, {LaptopState, StateFasion} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class ReadMail extends Transition{
@@ -9,6 +9,7 @@ export default class ReadMail extends Transition{
         super.set(onComplete)
         GameModel.characterHandler.startTyping()
         GameModel.textHandler.showHitTrigger("yougotmail")
+        GameModel.setLaptopState(LaptopState.NONE)
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
     onMouseDown(){
