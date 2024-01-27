@@ -82,7 +82,15 @@
   {
 
     "object": "millStart",
-    "copy": ["My trusty old mill.\nIt can almost make everything."]
+    "copy": ["My trusty old mill.\nIt can almost make\neverything."]
+  },{
+
+    "object": "millRun",
+    "copy": ["So, lets make that key.","It's going to take a\nwhile before its finished'."]
+  },{
+
+    "object": "millWait",
+    "copy": ["It's running"]
   }
 ]
 }

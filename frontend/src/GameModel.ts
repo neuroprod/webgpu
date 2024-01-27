@@ -35,6 +35,7 @@ import Room from "./Room";
 import Outside from "./Outside";
 import UIUtils from "./lib/UI/UIUtils";
 import SelectItem from "./lib/UI/math/SelectItem";
+import StartMill from "./transitions/StartMill";
 
 export enum StateGold {
     START,
@@ -87,6 +88,8 @@ export const Transitions =
         READ_MAIL: new ReadMail(),
         FIND_HUNTER_PANTS: new FindHunterPants(),
         TEXT_INFO: new TextInfo(),
+        START_MILL: new StartMill(),
+
     }
 
 export enum UIState {
