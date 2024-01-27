@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {GameState} from "../GameModel";
+import GameModel from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoGraveTrigger extends HitTrigger{

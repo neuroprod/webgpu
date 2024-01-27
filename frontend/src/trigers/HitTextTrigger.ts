@@ -1,6 +1,5 @@
 import HitTrigger from "./HitTrigger";
 import GameModel, {Scenes, Transitions} from "../GameModel";
-import UI from "../lib/UI/UI";
 import {CURSOR} from "../ui/Cursor";
 
 export default class HitTextTrigger extends HitTrigger{

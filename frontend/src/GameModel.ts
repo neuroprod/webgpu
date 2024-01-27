@@ -120,7 +120,7 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull = true;
     textHandler: TextHandler;
-    public gameState = 0
+
     catchMouseDown: boolean = false;
     sound: SoundHandler;
     gameUI: GameUI;
