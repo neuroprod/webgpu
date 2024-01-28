@@ -15,7 +15,12 @@ export default class CursorIconWalk extends CursorIcon {
         this.walkLeft= new UIBitmapModel(renderer,preLoader,"walkLeft","UI/walk.png")
         this.addChild(this.walkLeft)
         this.walkRight= new UIBitmapModel(renderer,preLoader,"walkRight","UI/walkRight.png")
+
         this.addChild(this.walkRight)
+
+        this.walkRight.mouseEnabled =false
+        this.walkLeft.mouseEnabled =false
+     
     }
 
     update() {

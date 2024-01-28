@@ -13,7 +13,7 @@ export default class BookCaseTrigger extends HitTrigger{
       }
         if(GameModel.stateGold==StateGold.START_MILL){
             GameModel.setTransition(Transitions.TEXT_INFO,"bookCaseLockedMillRunning")
-            GameModel.stateGold=StateGold.LOCKED_DOOR;
+
             return;
         }
     }

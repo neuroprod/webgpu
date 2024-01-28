@@ -1,14 +1,18 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateFasion, Transitions} from "../GameModel";
+import GameModel, {StateFasion, StateHunter, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoWorkTrigger extends HitTrigger{
 
     protected click() {
-       if(GameModel.stateFashion==StateFasion.READ_MAIL){
+       if(GameModel.stateFashion==StateFasion.READ_MAIL && GameModel.stateHunter !=StateHunter.HAVE_PANTS){
            GameModel.setTransition(Transitions.TEXT_INFO,"readMailDone")
            return;
        }
+        if(GameModel.stateFashion==StateFasion.MAKE_TRIANGLE){
+            GameModel.setTransition(Transitions.TEXT_INFO,"triangleDone")
+            return;
+        }
         let obj = GameModel.renderer.modelByLabel["labtop"]
         let world = obj.getWorldPos()
         world.z+=1.0;
@@ -17,7 +21,13 @@ export default class GoWorkTrigger extends HitTrigger{
         GameModel.characterHandler.walkTo(world,Math.PI+0.1,this.onCompleteWalk)
     }
     onCompleteWalk(){
-        GameModel.setTransition(Transitions.READ_MAIL)
+
+        if(GameModel.stateFashion==StateFasion.READ_MAIL){
+            GameModel.setTransition(Transitions.MAKE_TRIANGLE)
+        }else{
+            GameModel.setTransition(Transitions.READ_MAIL)
+        }
+
        /* GameModel.setGameState(GameState.READ_MAIL)
         GameModel.textHandler.showHitTrigger("yougotmail")*/
        // GameModel.characterHandler.startTyping()

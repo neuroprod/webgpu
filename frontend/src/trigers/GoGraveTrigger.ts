@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel from "../GameModel";
+import GameModel, {Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoGraveTrigger extends HitTrigger{
@@ -8,12 +8,13 @@ export default class GoGraveTrigger extends HitTrigger{
 
         let obj = GameModel.renderer.modelByLabel["cross"]
         let world = obj.getWorldPos()
-        world.z-=1.0;
-        GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk)
+        world.z-=1.5;
+        world.x+=1;
+        GameModel.characterHandler.walkTo(world,-0.5,this.onCompleteWalk)
         GameModel.outlinePass.setModel(null);
     }
     public over() {
-        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["chair"]);
+        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["cross"]);
         GameModel.gameUI.cursor.show(CURSOR.LOOK)
 
     }
@@ -26,9 +27,9 @@ export default class GoGraveTrigger extends HitTrigger{
 
     onCompleteWalk(){
 
+        GameModel.setTransition(Transitions.GO_GRAVE)
 
 
-      //  GameModel.setGameState(GameState.READ_CROSS)
        /// GameModel.textHandler.showHitTrigger("readCross")
 
 

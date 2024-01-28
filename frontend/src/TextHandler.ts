@@ -50,6 +50,7 @@ export default class TextHandler {
         for (let d of data.text) {
             this.hitTriggerByLabel[d.object] = d;
             d.count = 0;
+
             d.readAll = false;
         }
     }
@@ -66,7 +67,7 @@ export default class TextHandler {
             this.currentHitText.material.uniforms.setUniform("fontEdge", this.fontEdge)
             this.currentHitText.update()
             if (this.currentHitText.mesh) {
-                console.log()
+
                 this.currentHitText.mesh.numDrawIndices = Math.ceil(this.showChars) * 6;
             }
 
@@ -81,12 +82,27 @@ export default class TextHandler {
         let copy = "";
         if (ht) {
             if (isArray(ht.copy)) {
-                copy = ht.copy[ht.count]
-                ht.count++;
+                console.log(ht);
+                if(ht.random){
 
-                if (ht.count >= ht.copy.length) {
-                    ht.count = 0;
+
+                    copy = ht.copy[ht.count]
+                    ht.count++;
+                    if (ht.count >= ht.copy.length) {
+                        ht.count = 0;
+                    }
                     ht.readAll = true;
+                }
+                else {
+
+
+                    copy = ht.copy[ht.count]
+                    ht.count++;
+
+                    if (ht.count >= ht.copy.length) {
+                        ht.count = 0;
+                        ht.readAll = true;
+                    }
                 }
 
             } else {
@@ -191,10 +207,15 @@ export default class TextHandler {
         }
         if (isArray(ht.copy)) {
 
+            if(ht.random){
+                this.hideHitTrigger();
+                return true;
+            }
             if (ht.count == 0) {
                 this.hideHitTrigger();
                 return true;
             }
+
 
         } else {
             this.hideHitTrigger();

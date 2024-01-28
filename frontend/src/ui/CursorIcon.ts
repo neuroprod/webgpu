@@ -8,6 +8,7 @@ export default class CursorIcon extends UIBitmapModel{
     cursorAngle =0;
     constructor(renderer: Renderer,preLoader:PreLoader,label:string, url: string) {
         super(renderer,preLoader,label,url);
+        this.mouseEnabled =false
     }
     update(){
         if(!this.visible)return;

@@ -36,6 +36,8 @@ import Outside from "./Outside";
 import UIUtils from "./lib/UI/UIUtils";
 import SelectItem from "./lib/UI/math/SelectItem";
 import StartMill from "./transitions/StartMill";
+import MakeTriangle from "./transitions/MakeTriangle";
+import GoGrave from "./transitions/GoGrave";
 
 export enum StateGold {
     START,
@@ -89,6 +91,9 @@ export const Transitions =
         FIND_HUNTER_PANTS: new FindHunterPants(),
         TEXT_INFO: new TextInfo(),
         START_MILL: new StartMill(),
+        MAKE_TRIANGLE:new MakeTriangle(),
+        GO_GRAVE: new GoGrave(),
+
 
     }
 

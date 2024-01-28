@@ -54,7 +54,7 @@
   {
 
     "object": "yougotmail",
-    "copy": ["Looks like It's from\nthe ad-agency","They wants me to make\nan underwear simulator\nfor an important client.","Due today...","Oh well,\nsome fresh air will get me\nthe inspiration I need."]
+    "copy": ["Looks like It's from\nthe ad-agency","They wants me to make\nan underwear simulator\nfor an important client.","Oh well,\nsome fresh air will get me\nthe inspiration I need."]
   },  {
 
     "object": "readCross",
@@ -68,7 +68,7 @@
   {
 
     "object": "bookCaseLocked",
-    "copy": ["It's locked.\nDon't know whats inside,\nprobably some old junk","Maybe i should make a key for it."]
+    "copy": ["It's locked.\nDon't know whats inside,\nprobably some old junk","Maybe i should\nmake a key for it."]
   }, {
 
     "object": "bookCaseLockedMillRunning",
@@ -88,9 +88,18 @@
     "object": "millRun",
     "copy": ["So, lets make that key.","It's going to take a\nwhile before its finished'."]
   },{
-
+    "random": true,
     "object": "millWait",
-    "copy": ["It's running"]
+    "copy": ["It's running","It's going to take a while"]
+  },
+  {
+    "object": "makeTriangle",
+    "copy": ["Lets start with making a triangle", "the shape of shapes"]
+  }
+,
+  {
+    "object": "triangleDone",
+    "copy": ["what a beauty"]
   }
 ]
 }
