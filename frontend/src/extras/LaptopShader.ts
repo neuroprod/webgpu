@@ -70,7 +70,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
     output.color = textureSample(image, mySampler,uv );
    
     output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
-    output.mra =vec4(0.0,0.8,0.5,1.0);
+    output.mra =vec4(0.5,0.3,0.9,0.5);
  
 
     return output;

@@ -136,9 +136,9 @@ export default class Room extends Scene {
         this.glFTLoader.root.setPosition(0, -1.5, 0)
         this.hitLeftRoomCenter.setScale(Math.max(0, this.renderer.ratio * 3 - 4.4), 1, 1)
         this.hitRightRoom.setScale(this.renderer.ratio * 3 - 1.1, 1, 1)
-        let bookPos = ((Math.abs(left) - 3.2) + 1.3) / 2; //right edge +left edge /2
+      //  let bookPos = ((Math.abs(left) - 3.2) + 1.3) / 2; //right edge +left edge /2
 
-        this.bookCase.setPosition(bookPos, 0, -3.9)
+        //this.bookCase.setPosition(bookPos, 0, -3.9)
         this.osc2Screen.update();
         this.osc1Screen.update();
         this.mill.update();

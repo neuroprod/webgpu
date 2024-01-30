@@ -164,7 +164,7 @@ export default class Main {
         this.introLight4 = new MainLight(this.renderer, "preloadLight4")
         this.font = new Font(this.renderer, this.preloader);
         GameModel.debug = UIData.debug;
-
+        GameModel.devSpeed = UIData.devSpeed;
         //devSpeed
         if (GameModel.devSpeed) gsap.globalTimeline.timeScale(5);
     }
@@ -545,6 +545,7 @@ export default class Main {
         let speed = UI.LBool("Go fast", GameModel.devSpeed);
         if (speed != GameModel.devSpeed) {
             GameModel.devSpeed = speed;
+            UIData.devSpeed =speed;
             if (GameModel.devSpeed) {
                 gsap.globalTimeline.timeScale(5);
             } else {
@@ -563,11 +564,11 @@ export default class Main {
             UI.clearLocalData();
         }
         UI.separator("Windows");
-        UIData.performance = (UI.LBool("Preformance", false));
+        UIData.performance = (UI.LBool("Preformance",    UIData.performance));
         UIData.gameState = UI.LBool("Game State", UIData.gameState);
         UIData.renderSettings =UI.LBool("Render Settings",  UIData.renderSettings)
-        UI.LBool("Light Inside", false)
-        UI.LBool("Light Outside", false)
+        UIData.lightInside  =UI.LBool("Light Inside",  UIData.lightInside)
+        UIData.lightOutside  =UI.LBool("Light Outside",  UIData.lightOutside )
         UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
         UI.LBool("Draw", false)
         UI.separator("Info");
@@ -604,6 +605,18 @@ export default class Main {
             GameModel.frustumCull = UI.LBool("frustumCull", true)
 
             RenderSettings.onUI();
+            UI.popWindow()
+        }
+        if ( UIData.lightInside && GameModel.currentScene != Scenes.PRELOAD) {
+            UI.pushWindow("Light Inside")
+            this.lightRoomPass.onUI();
+            UI.popWindow()
+        }
+        if ( UIData.lightOutside && GameModel.currentScene != Scenes.PRELOAD) {
+            UI.pushWindow("Light Outside")
+            this.shadowPass1.onUI()
+            this.shadowPass2.onUI()
+            this.lightOutsidePass.onUI();
             UI.popWindow()
         }
         //objects

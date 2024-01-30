@@ -103,8 +103,8 @@ export default class GLFTLoader {
             this.parseSkin();
             this.makeModels();
         }
-this.meshBuffer =null;
-this.json =null;
+        this.meshBuffer =null;
+        this.json =null;
     }
 
     toMatrixData(f: Float32Array) {
@@ -245,6 +245,7 @@ this.json =null;
 
 
         let colorTexture = this.getTexture(name + "_Color");
+
         if (colorTexture) material.uniforms.setTexture("colorTexture", colorTexture)
 
         let normalTexture = this.getTexture(name + "_Normal");

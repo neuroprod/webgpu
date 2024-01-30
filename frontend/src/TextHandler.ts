@@ -25,7 +25,7 @@ export default class TextHandler {
     private renderer: Renderer;
     private jsonLoader: JSONLoader;
     private currentHitText: Model;
-    private hitTextTarget: Vector3;
+    private hitTextTarget: Vector3=new Vector3();
     private hitTextAlpha: number;
     private objectLabel: string;
     private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.53);
@@ -75,14 +75,15 @@ export default class TextHandler {
     }
 
     showHitTrigger(objectLabel: string) {
-
+GameModel.sound.playClick(0.2)
         this.objectLabel = objectLabel;
         this.hideHitTrigger()
         let ht = this.hitTriggerByLabel[objectLabel];
+
         let copy = "";
         if (ht) {
             if (isArray(ht.copy)) {
-                console.log(ht);
+
                 if(ht.random){
 
 
@@ -135,20 +136,31 @@ export default class TextHandler {
 
         gsap.killTweensOf(this.hitTextTarget)
         gsap.killTweensOf(this)
-        this.hitTextTarget = GameModel.characterPos.clone()
-        let p = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone())
-        let p2 = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone().add([1, 0, 0]))
-        let d = 0.35 / (p.distance(p2));
-
         let align = TEXT_ALIGN.LEFT;
         let offset = 0.5;
-        if (p.x > 0) {
-            align = TEXT_ALIGN.RIGHT;
-            offset = -0.5;
-        }
+        let d =0.8
+        if(ht.subtitle){
+            align = TEXT_ALIGN.CENTER;
+            offset =0;
+            this.hitTextTarget.y =-0.5;
+            this.hitTextTarget.x=0;
+            this.hitTextTarget.z=0;
+        }else {
+            this.hitTextTarget = GameModel.characterPos.clone()
+            let p = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone())
+            let p2 = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone().add([1, 0, 0]))
+             d = 0.35 / (p.distance(p2));
 
-        this.hitTextTarget.y = -1.5 + 2.0;
-        this.hitTextTarget.x += offset * 0.8;
+
+
+            if (p.x > 0) {
+                align = TEXT_ALIGN.RIGHT;
+                offset = -0.5;
+            }
+
+            this.hitTextTarget.y = -1.5 + 2.0;
+            this.hitTextTarget.x += offset * 0.8;
+        }
 
         this.hitTextAlpha = 0;
 
@@ -199,7 +211,7 @@ export default class TextHandler {
     }
 
     readNext() {
-
+        GameModel.sound.playClick(0.2)
         let ht = this.hitTriggerByLabel[this.objectLabel];
         if (!ht) {
             this.hideHitTrigger();

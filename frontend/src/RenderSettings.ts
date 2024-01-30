@@ -61,10 +61,10 @@ class RenderSettings{
        this.dof_Settings.x =UI.LFloatSlider("Min",   this.dof_Settings.x ,0,1) ;
        this.dof_Settings.y =UI.LFloatSlider("Max",   this.dof_Settings.y ,0,1) ;
 
-       let cPos =GameModel.characterPos.clone()
+     /*  let cPos =GameModel.characterPos.clone()
        let sp =GameModel.gameCamera.getScreenPos(cPos)
        this.dof_Settings.x =sp.z+0.08
-       this.dof_Settings.y =sp.z+0.32;
+       this.dof_Settings.y =sp.z+0.32;*/
        UI.popGroup()
        UI.pushGroup("Post");
 

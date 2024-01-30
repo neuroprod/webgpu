@@ -2,7 +2,8 @@ import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
 import GLFTLoader from "./GLFTLoader";
 import Ray from "./lib/Ray";
-import GameModel from "./GameModel";
+import GameModel, {Scenes} from "./GameModel";
+import {Vector3} from "math.gl";
 
 export default class Scene {
     public renderer: Renderer;
@@ -20,8 +21,24 @@ export default class Scene {
         for (let m of this.glFTLoader.modelsHit) {
 
             if (!m.needsHitTest) continue;
+            if(GameModel.currentScene ==Scenes.ROOM ){
+                if(GameModel.roomCamOffset>0)
+                {
+                    if(m.getWorldPos(Vector3.ZERO).x<-0.1){
+                        continue
+                    }
+                }else{
+                    if(m.getWorldPos(Vector3.ZERO).x>0.1){
+                        continue
+                    }
+                }
+            }
+
 
             if (m.checkHit(mouseRay)) {
+
+
+
                 label = m.label
                 hit = true;
                 GameModel.hitWorldPos = m.getWorldPos(m.hitTestObject.localPos)

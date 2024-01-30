@@ -1,34 +1,48 @@
 import Transition from "./Transition";
 import GameModel, {Scenes, UIState} from "../GameModel";
-import {Vector3} from "math.gl";
 import Timeline from "gsap";
 import RenderSettings from "../RenderSettings";
+import {CURSOR} from "../ui/Cursor";
 
-export default class StartGame extends Transition{
-    set(onComplete: () => void){
-        let ts = Timeline.timeline({onComplete:onComplete})
+export default class StartGame extends Transition {
+    set(onComplete: () => void) {
+        this.onComplete =onComplete
+        GameModel.textHandler.showHitTrigger("radio")
 
-        GameModel.sound.startMusic();
-        RenderSettings.fadeToBlack(1.5)
-
-        ts.call(()=>{
-if(GameModel.startOutside){
-    GameModel.setScene(Scenes.OUTSIDE)
-
-    GameModel.characterPos.set(-5, 0, -1);
-}else{
-    GameModel.setScene(Scenes.ROOM)
-    GameModel.roomCamOffset=1;
-    GameModel.characterPos.set(2, 0, -1);
-}
-
-            RenderSettings.fadeToScreen(3)
-        },[],2)
-        ts.call(()=>{
-            GameModel.setUIState(UIState.GAME_DEFAULT)
-
-        },[],4)
+        GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
 
+
+    }
+    onMouseDown(){
+        GameModel.gameUI.cursor.animate()
+        if(GameModel.textHandler.readNext()){
+
+            GameModel.gameUI.cursor.hide()
+            GameModel.characterHandler.setIdleAndTurn()
+            GameModel.sound.startMusic();
+            RenderSettings.fadeToBlack(1.5)
+            let ts = Timeline.timeline({onComplete: this.onComplete})
+
+
+
+            ts.call(() => {
+                if (GameModel.startOutside) {
+                    GameModel.setScene(Scenes.OUTSIDE)
+
+                    GameModel.characterPos.set(-5, 0, -1);
+                } else {
+                    GameModel.setScene(Scenes.ROOM)
+                    GameModel.roomCamOffset = 1;
+                    GameModel.characterPos.set(2, 0, -1);
+                }
+
+                RenderSettings.fadeToScreen(3)
+            }, [], 2)
+            ts.call(() => {
+                GameModel.setUIState(UIState.GAME_DEFAULT)
+
+            }, [], 4)
+        }
     }
 }

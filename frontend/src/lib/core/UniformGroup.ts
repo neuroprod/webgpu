@@ -122,6 +122,7 @@ export default class UniformGroup extends ObjectGPU {
             texture: value,
             usage: usage,
             dimension: dimension
+
         })
 
     }
@@ -132,8 +133,8 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addSampler(name: string, usage= GPUShaderStage.FRAGMENT,filter:GPUFilterMode=FilterMode.Linear,addressMode=AddressMode.ClampToEdge) {
-        let sampler = this.renderer.device.createSampler({magFilter: filter, minFilter: filter,mipmapFilter:filter,addressModeU:addressMode,addressModeV:addressMode})
+    addSampler(name: string, usage= GPUShaderStage.FRAGMENT,filter:GPUFilterMode=FilterMode.Linear,addressMode=AddressMode.ClampToEdge,maxAnisotropy:number=4) {
+        let sampler = this.renderer.device.createSampler({magFilter: filter, minFilter: filter,mipmapFilter:filter,addressModeU:addressMode,addressModeV:addressMode,maxAnisotropy:maxAnisotropy})
         this.samplerUniforms.push({name: name, sampler: sampler, usage:  usage, compare: false})
 
 

@@ -6,16 +6,16 @@ import {Vector2} from "math.gl";
 //https://www.npmjs.com/package/msdf-bmfont-xml
 
 class Char {
-    w: number;
-    h: number;
-    uvSize: Vector2;
-    uvPos: Vector2;
-    xadvance: number;
-    xOffset: number;
-    yOffset: number;
+    w: number=0;
+    h: number=0;
+    uvSize: Vector2 =new Vector2();
+    uvPos: Vector2=new Vector2();
+    xadvance: number=0;
+    xOffset: number=0;
+    yOffset: number=0;
 
     constructor(data: any) {
-
+if(!data)return;
         this.w = data.width / 300;
         this.h = data.height / 300;
         this.xadvance = data.xadvance / 300;
@@ -65,7 +65,7 @@ export default class Font {
 
     getMesh(text: string,align:TEXT_ALIGN=TEXT_ALIGN.LEFT,spacing:number =0) {
 
-spacing*=0.01;
+        spacing*=0.01;
         let lines = text.split("\n");
         let textLength = 0;
         for (let l of lines) {
@@ -88,6 +88,7 @@ spacing*=0.01;
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
                 let char = this.charArray[c];
+
                 lineSize+=char.xadvance+spacing
             }
 
@@ -99,6 +100,7 @@ spacing*=0.01;
                 let c = l.charCodeAt(i);
 
                 let char = this.charArray[c];
+
                 let offX = char.xOffset;
                 let offY = char.yOffset;
 

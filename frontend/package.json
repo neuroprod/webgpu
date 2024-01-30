@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@math.gl/types": "^3.6.3",
+    "@next/third-parties": "^14.1.0",
     "@types/howler": "^2.2.11",
     "@webgpu/types": "latest",
     "gl-matrix": "^3.4.3",

@@ -54,11 +54,16 @@
   {
 
     "object": "yougotmail",
-    "copy": ["Looks like It's from\nthe ad-agency","They wants me to make\nan underwear simulator\nfor an important client.","Oh well,\nsome fresh air will get me\nthe inspiration I need."]
+    "copy": ["An underwear\nsimulator...","The ad-agency wants\nme to make an\nunderwear simulator","Oh well,\nLet's get some fresh air first"]
   },  {
 
     "object": "readCross",
     "copy": ["blablabla","grandpa dead"]
+  },
+  {
+    "subtitle": true,
+    "object": "radio",
+    "copy": ["Good morning!\nThis is 100.5 FM Morning Radio,\nIt's 7AM" ,"The temperature is expected to reach a\nrecord-breaking 38C today.","Unrest rizes as the strikes continue","The S&P 500 is tracking towards its\nfifth consecutive record high."]
   },
   {
 

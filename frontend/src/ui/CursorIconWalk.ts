@@ -20,7 +20,7 @@ export default class CursorIconWalk extends CursorIcon {
 
         this.walkRight.mouseEnabled =false
         this.walkLeft.mouseEnabled =false
-     
+
     }
 
     update() {
