@@ -110,8 +110,8 @@ export default class Room extends Scene {
 
         this.clock = new Clock(this.glFTLoader.modelsByName["hour"], this.glFTLoader.modelsByName["minutes"])
 
-        this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
-        this.modelRenderer.addModel(this.windowOutside);
+     //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
+      //  this.modelRenderer.addModel(this.windowOutside);
 
     }
 
