@@ -8,7 +8,7 @@ export default class GoGrave extends Transition{
     set(onComplete: () => void){
         super.set(onComplete)
 
-        GameModel.textHandler.showHitTrigger("readGrave")
+        GameModel.textHandler.showHitTrigger("readCross")
 
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
