@@ -15,7 +15,7 @@ export default class ShadowCubePass extends RenderPass {
 
     public modelRenderer: ModelRenderer;
     public camera: Camera;
-    models: Array<Model>;
+    models: Array<Model> =[];
 
 
 

@@ -28,6 +28,12 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("lightPos4",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("lightColor4",new Vector4(1,0.7,0.7,0.1))
 
+        this.addUniform("lightPos5",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightColor5",new Vector4(1,0.7,0.7,0.1))
+
+        this.addUniform("lightPos6",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightColor6",new Vector4(1,0.7,0.7,0.1))
+
         this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("midColor",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
@@ -35,10 +41,13 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
         this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
-        this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
+
         this.addTexture("shadowCube1",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
+        this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube3",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube4",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
+        this.addTexture("shadowCube5",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
+        this.addTexture("shadowCube6",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
        // this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -212,7 +221,11 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
      let shadowColor4 =cubeShadow(shadowCube4,uniforms.lightPos4.xyz,world,uv0);
     lightL +=  pointLight(uniforms.lightPos4.xyz,uniforms.lightColor4,albedo,world,N,V,F0,roughness)*shadowColor4;
  
+   let shadowColor5 =cubeShadow(shadowCube5,uniforms.lightPos5.xyz,world,uv0);
+    lightL +=  pointLight(uniforms.lightPos5.xyz,uniforms.lightColor5,albedo,world,N,V,F0,roughness)*shadowColor5;
  
+   let shadowColor6 =cubeShadow(shadowCube6,uniforms.lightPos6.xyz,world,uv0);
+    lightL +=  pointLight(uniforms.lightPos6.xyz,uniforms.lightColor6,albedo,world,N,V,F0,roughness)*shadowColor6;
  
     if(mra.w==0.0){return vec4(albedo,0.0);}
 

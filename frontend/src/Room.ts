@@ -41,7 +41,8 @@ export default class Room extends Scene {
     private hitRightRoom: Object3D;
     private osc2Screen: Osc2Screen;
     private osc1Screen: Osc1Screen;
-
+    lightWallLiving: MainLight;
+    lightTable: MainLight;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -77,6 +78,16 @@ export default class Room extends Scene {
 
         this.hitLeftRoomCenter = this.glFTLoader.objectsByName["_HitLeftRoomCenter"]
         this.hitRightRoom = this.glFTLoader.objectsByName["_HitRightRoom"];
+
+
+
+        this.lightWallLiving= new MainLight(this.renderer, "lightWallLiving")
+        this.glFTLoader.modelsByName["wallLampLamp"].addChild(this.lightWallLiving)
+        this.glFTLoader.modelsByName["wallLampLamp"].castShadow = false;
+
+        this.lightTable= new MainLight(this.renderer, "lightTable")
+        this.glFTLoader.modelsByName["tableLampCap"].addChild( this.lightTable)
+        this.glFTLoader.modelsByName["tableLampCap"].castShadow = false;
 
         this.lightKitchen = new MainLight(this.renderer, "mainLightKitchen")
         this.glFTLoader.modelsByName["mainLight"].addChild(this.lightKitchen)

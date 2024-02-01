@@ -81,6 +81,8 @@ export default class Main {
     private shadowPassCube2: ShadowCube;
     private shadowPassCube3: ShadowCube;
     private shadowPassCube4: ShadowCube;
+    private shadowPassCube5: ShadowCube;
+    private shadowPassCube6: ShadowCube;
     private glFTLoaderChar: GLFTLoader;
 
     private animationMixer: AnimationMixer;
@@ -212,6 +214,8 @@ export default class Main {
         this.shadowPassCube2 = new ShadowCube(this.renderer, null, "2");
         this.shadowPassCube3 = new ShadowCube(this.renderer, null, "3");
         this.shadowPassCube4 = new ShadowCube(this.renderer, null, "4");
+        this.shadowPassCube5 = new ShadowCube(this.renderer, null, "5");
+        this.shadowPassCube6 = new ShadowCube(this.renderer, null, "6");
         this.shadowPass1 = new ShadowPass(this.renderer, 1);
         this.shadowPass2 = new ShadowPass(this.renderer, 2);
         // this.aoPass = new AORenderPass(this.renderer);
@@ -301,6 +305,13 @@ export default class Main {
             this.shadowPassCube4.setModels(this.gBufferPass.modelRenderer.models);
             this.shadowPassCube4.setLightPos(this.room.lightWall.getWorldPos())
 
+            this.shadowPassCube5.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube5.setLightPos(this.room.lightWallLiving.getWorldPos())
+
+            this.shadowPassCube6.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube6.setLightPos(this.room.lightTable.getWorldPos())
+
+
             RenderSettings.exposure = 1.8;
             RenderSettings.onChange()
 
@@ -338,7 +349,7 @@ export default class Main {
         GameModel.initText();
         GameModel.setUIState(UIState.PRELOAD_DONE)
 
-        this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
+        this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall, this.room.lightWallLiving,this.room.lightTable], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
 
 
@@ -443,6 +454,8 @@ export default class Main {
             if (checkHit) this.room.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.room.lightKitchen.getWorldPos());
             this.shadowPassCube2.setLightPos(this.room.lightLab.getWorldPos());
+            this.shadowPassCube5.setLightPos(this.room.lightWallLiving.getWorldPos())
+            this.shadowPassCube6.setLightPos(this.room.lightTable.getWorldPos())
             this.lightRoomPass.setUniforms()
             // RenderSettings.onChange()
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
@@ -653,14 +666,26 @@ export default class Main {
     onDraw() {
 
         this.timeStampQuery.start();
-
-
-        if (GameModel.currentScene == Scenes.ROOM || GameModel.currentScene == Scenes.PRELOAD) {
+        if ( GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube1.add();
             this.shadowPassCube2.add();
             this.shadowPassCube3.add();
             this.shadowPassCube4.add();
+            this.shadowPassCube5.add();
+            this.shadowPassCube6.add();
+
+        }
+
+       else  if (GameModel.currentScene == Scenes.ROOM ) {
+
+            this.shadowPassCube1.add();
+            this.shadowPassCube2.add();
+            this.shadowPassCube3.add();
+            this.shadowPassCube4.add();
+            this.shadowPassCube5.add();
+            this.shadowPassCube6.add();
+
 
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
 
