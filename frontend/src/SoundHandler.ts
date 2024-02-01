@@ -9,17 +9,22 @@ export default class SoundHandler {
     private bg: Howl;
     private door: Howl;
     private forest: Howl;
-    private clicks : Howl;
-    private wooshes  : Howl;
-    private pop: Howl;
-    private fxVolume: number =1;
+    private clicks: Howl;
+    private wooshes: Howl;
+
+    private pants: Howl;
+    private fxVolume: number = 1;
+    private pickPants: Howl;
+
     constructor(preloader: PreLoader) {
 
-        this.forest  = new Howl({src: ['sound/forest.mp3'],loop:true,volume:2});
-        this.bg = new Howl({src: ['sound/Goldberg.mp3'],loop:true, volume: 0.5});
+        this.forest = new Howl({src: ['sound/forest.mp3'], loop: true, volume: 2});
+        this.bg = new Howl({src: ['sound/Goldberg.mp3'], loop: true, volume: 0.5});
         this.door = new Howl({src: ['sound/door.mp3']});
-        this.pop = new Howl({src: ['sound/pop.mp3']});
-        this.clicks  = new Howl({src: ['sound/clicks.mp3'],
+        this.pickPants = new Howl({src: ['sound/pickPants.mp3']})
+        this.pants = new Howl({src: ['sound/pants.mp3']});
+        this.clicks = new Howl({
+            src: ['sound/clicks.mp3'],
             sprite: {
                 s0: [0, 200],
                 s1: [200, 200],
@@ -28,9 +33,11 @@ export default class SoundHandler {
                 s4: [800, 200],
                 s5: [1000, 200],
 
-            }});
+            }
+        });
 
-        this.wooshes  = new Howl({src: ['sound/wooshes.mp3'],
+        this.wooshes = new Howl({
+            src: ['sound/wooshes.mp3'],
             sprite: {
                 s0: [0, 500],
                 s1: [500, 500],
@@ -40,9 +47,8 @@ export default class SoundHandler {
                 s5: [2500, 500],
                 s6: [3000, 500],
 
-            }});
-
-
+            }
+        });
 
 
         // this.sound.load()
@@ -87,12 +93,14 @@ export default class SoundHandler {
 
             }
         });
-       this.stepOutside.volume(0.5)
+        this.stepOutside.volume(0.5)
 
     }
-startMusic(){
+
+    startMusic() {
         this.bg.play();
-}
+    }
+
     onUI() {
         /*  UI.pushWindow("Sound")
           if(UI.LButton("test")){
@@ -103,65 +111,77 @@ startMusic(){
           }
           UI.popWindow()*/
     }
-    playPop() {
-        this.pop.play();
 
+    playPants() {
+        this.pants.volume(this.fxVolume);
+        this.pants.play();
     }
+
     playForest() {
         this.forest.play();
-        this.forest.fade(0,1,1000)
+        this.forest.fade(0, 1, 1000)
     }
+
     stopForest() {
         this.forest.stop()
     }
+
     playDoor() {
         this.door.play()
         this.door.volume(this.fxVolume)
     }
-    playWoosh(volMult:number=1) {
+
+    playWoosh(volMult: number = 1) {
 
 
         let s = Math.floor(Math.random() * 1000) % 7;
-        this.wooshes.volume(volMult*0.2*this.fxVolume);
+        this.wooshes.volume(volMult * 0.2 * this.fxVolume);
         this.wooshes.play("s" + s)
 
 
     }
-    playClick(volMult:number=1) {
+
+    playClick(volMult: number = 1) {
 
 
-            let s = Math.floor(Math.random() * 1000) % 6;
+        let s = Math.floor(Math.random() * 1000) % 6;
 
-        this.clicks.volume(volMult*this.fxVolume);
-            this.clicks.play("s" + s)
+        this.clicks.volume(volMult * this.fxVolume);
+        this.clicks.play("s" + s)
 
     }
+
     playFootstep() {
 
         let pos = GameModel.characterPos.clone()
-        let p =GameModel.gameCamera.getScreenPos( pos)
+        let p = GameModel.gameCamera.getScreenPos(pos)
 
         if (GameModel.currentScene == Scenes.ROOM) {
             let s = Math.floor(Math.random() * 1000) % 15;
 
-            this.stepInside.pos(pos.x,pos.y,pos.z)
+            this.stepInside.pos(pos.x, pos.y, pos.z)
             this.stepInside.play("step" + s)
-            this.stepInside.volume(0.1*this.fxVolume)
+            this.stepInside.volume(0.1 * this.fxVolume)
         } else {
             let s = Math.floor(Math.random() * 1000) % 14;
-            this.stepOutside.pos(pos.x,pos.y,pos.z)
+            this.stepOutside.pos(pos.x, pos.y, pos.z)
             this.stepOutside.play("step" + s)
-            this.stepInside.volume(0.5,this.fxVolume)
+            this.stepInside.volume(0.5* this.fxVolume)
         }
     }
 
     setMusicVolume(value: number) {
-        this.bg.volume(0.5*value)
+        this.bg.volume(0.5 * value)
 
     }
 
     setFXVolume(value: number) {
-        this.forest.volume(2*value)
-       this.fxVolume =value;
+        this.forest.volume(2 * value)
+        this.fxVolume = value;
+    }
+
+    playPickPants() {
+        this.pickPants.volume(this.fxVolume)
+        this.pickPants.play()
     }
 }

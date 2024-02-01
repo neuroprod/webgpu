@@ -21,7 +21,7 @@ export default class FindHunterPants extends Transition{
             GameModel.renderer.modelByLabel["hunterPants"].enableHitTest =false;
             GameModel.pantsFound =1;
             GameModel.gameUI.updateInventory();
-            GameModel.sound.playPop();
+            GameModel.sound.playPickPants();
             GameModel.gameUI.cursor.hide()
             GameModel.stateHunter =StateHunter.HAVE_PANTS;
             this.onComplete()

@@ -39,8 +39,8 @@ private items:Array<UIBitmapModel>=[];
         this.useButton.setPosition(370,320,0);
         this.addChild(  this.useButton)
         this.useButton.onClick=()=>{
-            GameModel.sound.playPop()
-            GameModel.sound.playWoosh()
+            GameModel.sound.playPants()
+            //GameModel.sound.playWoosh()
             GameModel.setUIState(UIState.GAME_DEFAULT);
             GameModel.usePants(this.id);
             GameModel.characterHandler.characterRot=0;

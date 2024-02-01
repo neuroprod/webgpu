@@ -176,7 +176,7 @@ GameModel.sound.playClick(0.2)
 
             gsap.to(this, {showChars: this.numChars, ease: "none", duration: (this.numChars - 10) / 90})
         }
-
+       if(GameModel.screenHeight>800)d *=800/GameModel.screenHeight;
         this.currentHitText.setScale(d, d, d);
         this.fontMeshRenderer.addText(this.currentHitText);
         this.update();

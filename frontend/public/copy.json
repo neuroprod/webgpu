@@ -63,7 +63,7 @@
   {
     "subtitle": true,
     "object": "radio",
-    "copy": ["Good morning!\nThis is 100.5 FM Morning Radio,\nIt's 7AM" ,"The temperature is expected to reach a\nrecord-breaking 38C today.","The S&P 500 is tracking towards its\nfifth consecutive record high."]
+    "copy": ["Good morning!\nThis is Radio City,\nIt's 7AM" ,"Its going to be a hot day.\nThe temperature is expected\nto reach 38C.","The S&P 500 is tracking towards its\nfifth consecutive record high."]
   },
   {
 
