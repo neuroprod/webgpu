@@ -7,9 +7,14 @@ export default class TextInfo extends Transition{
 
     set(onComplete: () => void,data:string=""){
         super.set(onComplete)
+        GameModel.lastClickObject =data;
+        if(GameModel.textHandler.showHitTrigger(data)){
+            GameModel.gameUI.cursor.show(CURSOR.NEXT)
+        }else{
+            this.onComplete();
+        }
 
-        GameModel.textHandler.showHitTrigger(data)
-        GameModel.gameUI.cursor.show(CURSOR.NEXT)
+
     }
     onMouseDown(){
         GameModel.gameUI.cursor.animate()

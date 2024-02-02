@@ -173,6 +173,8 @@ class GameModel {
     private laptopSelect: Array<SelectItem>;
     private millSelect: Array<SelectItem>;
 
+    lastClickLabels: Array<string>=[];
+
 
     constructor() {
 
@@ -191,7 +193,11 @@ class GameModel {
         if (value == this._hitObjectLabel) {
             return;
         }
-
+      if(this.lastClickLabels.includes(value)){
+          return;
+      }
+      if(value!=""){
+        this.lastClickLabels=[]}
 
         this.hitStateChange = true;
         this.hitObjectLabelPrev = this._hitObjectLabel;
@@ -218,6 +224,8 @@ class GameModel {
         if (this.currentTransition) {
             if (this.mouseDownThisFrame) this.currentTransition.onMouseDown()
 
+        }else if (this.mouseDownThisFrame){
+            this.textHandler.hideHitTrigger()
         }
         this.gameUI.updateMouse(this.mousePos, this.mouseDownThisFrame, this.mouseUpThisFrame)
         this.gameUI.update()
@@ -250,6 +258,7 @@ class GameModel {
     }
 
     transitionComplete() {
+
         this.mouseDownThisFrame = false
         this.catchMouseDown = false;
         this.currentTransition = null;

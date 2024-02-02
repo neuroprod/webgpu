@@ -21,7 +21,9 @@ export default class HitTrigger extends Trigger{
 
         if(GameModel.mouseDownThisFrame){
             if(this.objectLabels.includes(GameModel.hitObjectLabel)){
+                GameModel.lastClickLabels =this.objectLabels;
                 this.click()
+
             }
 
         }

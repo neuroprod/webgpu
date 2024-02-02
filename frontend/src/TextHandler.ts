@@ -25,7 +25,7 @@ export default class TextHandler {
     private renderer: Renderer;
     private jsonLoader: JSONLoader;
     private currentHitText: Model;
-    private hitTextTarget: Vector3=new Vector3();
+    private hitTextTarget: Vector3 = new Vector3();
     private hitTextAlpha: number;
     private objectLabel: string;
     private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.53);
@@ -75,16 +75,16 @@ export default class TextHandler {
     }
 
     showHitTrigger(objectLabel: string) {
-GameModel.sound.playClick(0.2)
+        GameModel.sound.playClick(0.2)
         this.objectLabel = objectLabel;
         this.hideHitTrigger()
         let ht = this.hitTriggerByLabel[objectLabel];
-
+let multiline =false;
         let copy = "";
         if (ht) {
             if (isArray(ht.copy)) {
 
-                if(ht.random){
+                if (ht.random) {
 
 
                     copy = ht.copy[ht.count]
@@ -93,16 +93,16 @@ GameModel.sound.playClick(0.2)
                         ht.count = 0;
                     }
                     ht.readAll = true;
-                }
-                else {
+                } else {
 
 
                     copy = ht.copy[ht.count]
                     ht.count++;
-
+                    multiline =true
                     if (ht.count >= ht.copy.length) {
                         ht.count = 0;
                         ht.readAll = true;
+                        multiline =false
                     }
                 }
 
@@ -138,19 +138,18 @@ GameModel.sound.playClick(0.2)
         gsap.killTweensOf(this)
         let align = TEXT_ALIGN.LEFT;
         let offset = 0.5;
-        let d =0.8
-        if(ht.subtitle){
+        let d = 0.8
+        if (ht.subtitle) {
             align = TEXT_ALIGN.CENTER;
-            offset =0;
-            this.hitTextTarget.y =-0.5;
-            this.hitTextTarget.x=0;
-            this.hitTextTarget.z=0;
-        }else {
+            offset = 0;
+            this.hitTextTarget.y = -0.5;
+            this.hitTextTarget.x = 0;
+            this.hitTextTarget.z = 0;
+        } else {
             this.hitTextTarget = GameModel.characterPos.clone()
             let p = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone())
             let p2 = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone().add([1, 0, 0]))
-             d = 0.35 / (p.distance(p2));
-
+            d = 0.35 / (p.distance(p2));
 
 
             if (p.x > 0) {
@@ -176,10 +175,11 @@ GameModel.sound.playClick(0.2)
 
             gsap.to(this, {showChars: this.numChars, ease: "none", duration: (this.numChars - 10) / 90})
         }
-       if(GameModel.screenHeight>800)d *=800/GameModel.screenHeight;
+        if (GameModel.screenHeight > 800) d *= 800 / GameModel.screenHeight;
         this.currentHitText.setScale(d, d, d);
         this.fontMeshRenderer.addText(this.currentHitText);
         this.update();
+        return multiline;
     }
 
     hideHitTrigger(objectLabel: string = "") {
@@ -219,7 +219,7 @@ GameModel.sound.playClick(0.2)
         }
         if (isArray(ht.copy)) {
 
-            if(ht.random){
+            if (ht.random) {
                 this.hideHitTrigger();
                 return true;
             }
