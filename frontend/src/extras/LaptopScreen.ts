@@ -5,26 +5,33 @@ import LaptopTrianagleShader from "./LaptopTrianagleShader";
 import Timer from "../lib/Timer";
 import LaptopShader from "./LaptopShader";
 import {LaptopState} from "../GameModel";
+import LaptopMailShader from "./LaptopMailShader";
+import LaptopReadTextShader from "./LaptopReadTextShader";
 
 export class LaptopScreen extends Model{
     private triangleMaterial: Material;
-    private imgMaterial: Material;
+
+    private readTextMaterial: Material;
+    private emailMaterialLaptop: Material;
 
     constructor(renderer,parent:Model) {
         super(renderer,"laptopScreen");
         this.mesh = new Plane(renderer);
 
 
-        this.imgMaterial =new Material(this.renderer,"imgLaptopMaterial", new LaptopShader(this.renderer,"laptopShader"))
-        this.imgMaterial.uniforms.setTexture("image",renderer.texturesByLabel["laptopEmail.png"])
-        this.imgMaterial.uniforms.setUniform("ratio",8/5);
-        this.material =this.imgMaterial;
+        this.emailMaterialLaptop =new Material(this.renderer,"imgLaptopMaterial", new LaptopMailShader(this.renderer,"laptopShader"))
+        this.emailMaterialLaptop.uniforms.setTexture("image",renderer.texturesByLabel["laptopEmail.png"])
+        this.emailMaterialLaptop.uniforms.setUniform("ratio",8/5);
+        this.material = this.emailMaterialLaptop;
 
         this.triangleMaterial  =    new Material(this.renderer,this.label,new LaptopTrianagleShader(this.renderer,this.label));
         this.triangleMaterial.uniforms.setUniform("ratio",8/5);
         this.triangleMaterial.uniforms.setTexture("triangle",renderer.texturesByLabel["triangle.png"])
         this.triangleMaterial.uniforms.setTexture("text",renderer.texturesByLabel["text_s.png"])
 
+        this.readTextMaterial  =new Material(this.renderer,"imgLaptopMaterial", new LaptopReadTextShader(this.renderer,"laptopShader"))
+        this.readTextMaterial.uniforms.setTexture("image",renderer.texturesByLabel["laptopText.png"])
+        this.readTextMaterial.uniforms.setUniform("ratio",8/5);
 
 
 
@@ -42,12 +49,12 @@ export class LaptopScreen extends Model{
 
     setState(state: LaptopState) {
         if(state ==LaptopState.NONE){
-            this.material =  this.imgMaterial;
-            this.material.uniforms.setTexture("image",this.renderer.texturesByLabel["laptopText.png"])
+            this.material =   this.readTextMaterial;
+
         }
         if(state ==LaptopState.MAIL){
-            this.material =  this.imgMaterial;
-            this.material.uniforms.setTexture("image",this.renderer.texturesByLabel["laptopEmail.png"])
+           this.material = this.emailMaterialLaptop;
+            //this.material.uniforms.setTexture("image",this.renderer.texturesByLabel["laptopEmail.png"])
         }
         if(state ==LaptopState.TRIANGLE){
             this.material =    this.triangleMaterial ;
