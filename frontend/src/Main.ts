@@ -577,12 +577,14 @@ export default class Main {
             UI.clearLocalData();
         }
         UI.separator("Windows");
+
         UIData.performance = (UI.LBool("Preformance",    UIData.performance));
         UIData.gameState = UI.LBool("Game State", UIData.gameState);
         UIData.renderSettings =UI.LBool("Render Settings",  UIData.renderSettings)
         UIData.lightInside  =UI.LBool("Light Inside",  UIData.lightInside)
         UIData.lightOutside  =UI.LBool("Light Outside",  UIData.lightOutside )
         UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
+        UIData.animation= UI.LBool("Animations", UIData.animation)
         UI.LBool("Draw", false)
         UI.separator("Info");
         if (UI.LButton("Check on Github")) {
@@ -590,7 +592,8 @@ export default class Main {
         }
 
         UI.popWindow()
-
+//animation
+        if (UIData.animation) this.animationMixer.onUI()
         //performance
         if (UIData.performance) {
             UI.pushWindow("Performance")

@@ -14,7 +14,11 @@ export default class AnimationChannel{
     protected nextIndex: number;
     protected firstIndex: number=0;
     protected  mixValue :number=-1;
+    public name:string=""
+
     constructor(type:"translation"|"rotation"|"scale",startTime:number,stopTime:number,interpolation:"STEP"|"LINEAR",timeData:Array<number>,target:Object3D) {
+
+        this.name = type+target.label;
         this.type =type;
         this.startTime =startTime;
         this.stopTime=stopTime

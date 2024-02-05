@@ -2,6 +2,7 @@ import ObjectGPU from "../core/ObjectGPU";
 import Renderer from "../Renderer";
 import AnimationChannel from "./AnimationChannel";
 import Timer from "../Timer";
+import Object3D from "../core/Object3D";
 
 class AnimationCallBack {
     time: number;
@@ -16,12 +17,16 @@ class AnimationCallBack {
 export default class Animation extends ObjectGPU
 {
     public channels: Array<AnimationChannel>=[] ;
+
+    public channelsByName :{ [name: string]: AnimationChannel } = {};
     private startTime :number=Number.MAX_VALUE;
     private stopTime :number=Number.MIN_VALUE;
    public time:number =0;
     private totalTime: number;
     private prevTime: number =0;
     private callBacks:Array<AnimationCallBack>=[]
+    public mixValue: number=0;
+    public isMixAnimation: boolean=false;
 
     constructor(renderer:Renderer,label:string) {
         super(renderer,label)
@@ -29,6 +34,7 @@ export default class Animation extends ObjectGPU
     }
 
     addChannel(channel: AnimationChannel) {
+        this.channelsByName[channel.name] =channel;
         this.startTime = Math.min(channel.startTime,this.startTime)
         this.stopTime = Math.max(channel.stopTime,this.stopTime)
         this.channels.push(channel)
@@ -80,5 +86,24 @@ export default class Animation extends ObjectGPU
         {
             c.setStart();
         }
+    }
+
+    setAsMixAnimation(strings: string[]) {
+        this.mixValue =0;
+        this.isMixAnimation =true;
+        let tempChannels =[]
+        for(let c of this.channels){
+            for (let f of strings){
+                if(c.target.label.includes(f)){
+                    if(c.type=="rotation") {
+                        tempChannels.push(c)
+                       // c.setTime(0);
+                    }
+                    continue;
+                }
+            }
+
+        }
+        this.channels =tempChannels;
     }
 }

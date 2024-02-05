@@ -1,7 +1,20 @@
 class UIData {
+
     constructor() {
     }
 
+    private _animation:boolean =false;
+    get animation(): boolean {
+        return this._animation;
+    }
+
+    set animation(value: boolean) {
+
+        if (this._animation != value) {
+            this._animation = value;
+            this.save()
+        }
+    }
     private _lightOutside: boolean =false;
 
     get lightOutside(): boolean {
