@@ -57,14 +57,14 @@ export default class Renderer {
         const requiredFeatures: Array<GPUFeatureName> = ["rg11b10ufloat-renderable","float32-filterable"];
         if (adapter.features.has('timestamp-query')) {
             requiredFeatures.push('timestamp-query');
-            this.useTimeStampQuery = true;
+          //  this.useTimeStampQuery = true;
 
         }
         //TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES
       //  console.log(adapter.limits)
         //extentions
         for (let a of adapter.features.keys()) {
-       //    console.log(a)
+        console.log(a)
         }
         //console.log("timestamps?", this.useTimeStampQuery)
         //let limits={
@@ -73,7 +73,7 @@ export default class Renderer {
         //limits.maxUniformBufferBindingSize = limits.maxUniformBufferBindingSize*2
 
         this.device = await adapter.requestDevice({requiredFeatures: requiredFeatures});
-
+console.log(this.device)
         this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
         this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
 
