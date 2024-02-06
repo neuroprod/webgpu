@@ -26,7 +26,7 @@ export default class AnimationMixer{
 
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
-
+        this.anime2.speedMultiplier =0.8;
      let walking =this.animationsByName["walking"];
         walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
         walking.setCallBack(11*(1/30),()=>{GameModel.sound.playFootstep()})

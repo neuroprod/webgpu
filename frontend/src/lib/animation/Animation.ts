@@ -2,7 +2,7 @@ import ObjectGPU from "../core/ObjectGPU";
 import Renderer from "../Renderer";
 import AnimationChannel from "./AnimationChannel";
 import Timer from "../Timer";
-import Object3D from "../core/Object3D";
+
 
 class AnimationCallBack {
     time: number;
@@ -27,7 +27,7 @@ export default class Animation extends ObjectGPU
     private callBacks:Array<AnimationCallBack>=[]
     public mixValue: number=0;
     public isMixAnimation: boolean=false;
-
+public speedMultiplier=1;
     constructor(renderer:Renderer,label:string) {
         super(renderer,label)
 
@@ -49,7 +49,7 @@ export default class Animation extends ObjectGPU
     }
     update()
     {
-        this.time +=Timer.delta;
+        this.time +=Timer.delta*this.speedMultiplier;
         if(this.time>this.totalTime){
             this.time-=this.totalTime;
         }
