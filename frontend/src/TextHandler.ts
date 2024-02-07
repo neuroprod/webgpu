@@ -139,7 +139,7 @@ let multiline =false;
         let align = TEXT_ALIGN.LEFT;
         let offset = 0.5;
         let d = 0.8
-        if (ht.subtitle) {
+        if (ht && ht.subtitle) {
             align = TEXT_ALIGN.CENTER;
             offset = 0;
             this.hitTextTarget.y = -0.5;

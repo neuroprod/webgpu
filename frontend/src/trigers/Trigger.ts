@@ -9,6 +9,7 @@ export default class Trigger{
         this.scene = scene;
 
     }
+    init(){}
     check(){
 
         if(GameModel.currentScene !=this.scene) return false;

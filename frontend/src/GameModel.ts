@@ -38,6 +38,8 @@ import SelectItem from "./lib/UI/math/SelectItem";
 import StartMill from "./transitions/StartMill";
 import MakeTriangle from "./transitions/MakeTriangle";
 import GoGrave from "./transitions/GoGrave";
+import FlowerPotHitTrigger from "./trigers/FlowerPotHitTrigger";
+import FlowerHitTrigger from "./trigers/FlowerHitTrigger";
 
 export enum StateGold {
     START,
@@ -58,6 +60,12 @@ export enum StateFasion {
     GET_FASION_PANTS,
 }
 
+export enum StateHighTech {
+    START,
+    GROW_FLOWER,
+    PICK_FLOWER,
+
+}
 
 export enum StateHunter {
     START,
@@ -91,7 +99,7 @@ export const Transitions =
         FIND_HUNTER_PANTS: new FindHunterPants(),
         TEXT_INFO: new TextInfo(),
         START_MILL: new StartMill(),
-        MAKE_TRIANGLE:new MakeTriangle(),
+        MAKE_TRIANGLE: new MakeTriangle(),
         GO_GRAVE: new GoGrave(),
 
 
@@ -116,18 +124,14 @@ export enum Scenes {
 }
 
 class GameModel {
-
     public stateGold: StateGold = StateGold.START
     public stateFashion: StateFasion = StateFasion.START
     public stateHunter = StateHunter.START
     public millState = MillState.OFF;
     public laptopState = LaptopState.MAIL;
-
-
     public renderer: Renderer;
     public roomCamOffset: number = 0;
     public isLeftRoom = false;
-
     public currentScene: Scenes = Scenes.PRELOAD
     // public floorHitIndicator: FloorHitIndicator;
     public yMouseCenter: number = 1;
@@ -142,7 +146,6 @@ class GameModel {
     public characterScreenPos: Vector3 = new Vector3(0, 0, 0);
     dayNight: number = 0;
     lockView: boolean = false;
-
     public drawingByLabel: { [label: string]: Drawing } = {};
     public hitStateChange: boolean = false;
     public hitObjectLabelPrev: string = "";
@@ -153,7 +156,6 @@ class GameModel {
     gameCamera: GameCamera;
     frustumCull = true;
     textHandler: TextHandler;
-
     catchMouseDown: boolean = false;
     sound: SoundHandler;
     gameUI: GameUI;
@@ -168,18 +170,48 @@ class GameModel {
     startOutside: boolean = false;
     room: Room;
     outside: Outside;
+    lastClickLabels: Array<string> = [];
+    private floorLabels: string[];
     private triggers: Array<Trigger> = []
     private currentTransition: Transition;
     private laptopSelect: Array<SelectItem>;
     private millSelect: Array<SelectItem>;
-
-    lastClickLabels: Array<string>=[];
-
+    private highTechSelect: Array<SelectItem>;
 
     constructor() {
 
-        this.makeTriggers();
+
         this.prepUI()
+    }
+
+    private _stateHighTech = StateHighTech.START
+
+    get stateHighTech(): StateHighTech {
+        return this._stateHighTech;
+    }
+
+    set stateHighTech(value: StateHighTech) {
+        if (value == StateHighTech.START) {
+            this.renderer.modelByLabel["glowFlower"].visible = false
+            this.renderer.modelByLabel["glowFlower"].enableHitTest = false
+            this.renderer.modelByLabel["glowFlowerStem"].visible = false
+            this.renderer.modelByLabel["pot"].enableHitTest = true
+            this.renderer.modelByLabel["Bush3"].enableHitTest = true
+        } else if (value == StateHighTech.GROW_FLOWER) {
+            this.renderer.modelByLabel["glowFlower"].visible = true
+            this.renderer.modelByLabel["glowFlower"].enableHitTest = true
+            this.renderer.modelByLabel["glowFlowerStem"].visible = true
+            this.renderer.modelByLabel["pot"].enableHitTest = false
+            this.renderer.modelByLabel["Bush3"].enableHitTest = false
+        } else {
+            this.renderer.modelByLabel["glowFlower"].visible = false
+            this.renderer.modelByLabel["glowFlower"].enableHitTest = false
+            this.renderer.modelByLabel["glowFlowerStem"].visible = true
+            this.renderer.modelByLabel["pot"].enableHitTest = false
+            this.renderer.modelByLabel["Bush3"].enableHitTest = false
+        }
+
+        this._stateHighTech = value;
     }
 
     private _hitObjectLabel: string = "";
@@ -193,11 +225,18 @@ class GameModel {
         if (value == this._hitObjectLabel) {
             return;
         }
-      if(this.lastClickLabels.includes(value)){
-          return;
-      }
-      if(value!=""){
-        this.lastClickLabels=[]}
+        if (this.lastClickLabels.includes(value)) {
+            if (this.floorLabels.includes(value)) {
+
+            } else {
+                return;
+            }
+       
+
+        }
+        if (value != "") {
+            this.lastClickLabels = []
+        }
 
         this.hitStateChange = true;
         this.hitObjectLabelPrev = this._hitObjectLabel;
@@ -224,7 +263,7 @@ class GameModel {
         if (this.currentTransition) {
             if (this.mouseDownThisFrame) this.currentTransition.onMouseDown()
 
-        }else if (this.mouseDownThisFrame){
+        } else if (this.mouseDownThisFrame) {
             this.textHandler.hideHitTrigger()
         }
         this.gameUI.updateMouse(this.mousePos, this.mouseDownThisFrame, this.mouseUpThisFrame)
@@ -307,7 +346,9 @@ class GameModel {
         this.characterHandler.setPants(id)
     }
 
-    private makeTriggers() {
+    makeTriggers() {
+        this.triggers.push(new FlowerHitTrigger(Scenes.OUTSIDE, ["glowFlower"]));
+        this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3"]));
         this.triggers.push(new GoHunterTrigger(Scenes.OUTSIDE, "hunterPants"));
         this.triggers.push(new GoGraveTrigger(Scenes.OUTSIDE, "cross"));
         this.triggers.push(new DoorGoOutsideTrigger(Scenes.ROOM, "door_HO"));
@@ -319,24 +360,36 @@ class GameModel {
         this.triggers.push(new BookCaseTrigger(Scenes.ROOM, "bookCaseDoor"));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
+
+        for (let t of this.triggers) {
+            t.init()
+        }
+        this.floorLabels = ["_HitGround", "_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]
+        this.stateHighTech = StateHighTech.START;
     }
-    prepUI(){
+
+    prepUI() {
         this.laptopSelect = UIUtils.EnumToSelectItem(LaptopState)
         this.millSelect = UIUtils.EnumToSelectItem(MillState)
+        this.highTechSelect = UIUtils.EnumToSelectItem(StateHighTech)
+
     }
-onUI(){
+
+    onUI() {
         UI.pushWindow("GameModel")
         UI.separator("GameState")
+        let sht = UI.LSelect("HighTechPants", this.highTechSelect, this._stateHighTech)
+        if (sht != this._stateHighTech) this.stateHighTech = sht
         UI.separator("objects")
 
-        let ls = UI.LSelect("labtop",this.laptopSelect,this.laptopState)
-        if(ls != this.laptopState)this.setLaptopState(ls);
+        let ls = UI.LSelect("labtop", this.laptopSelect, this.laptopState)
+        if (ls != this.laptopState) this.setLaptopState(ls);
 
-        let ms = UI.LSelect("mill",this.millSelect,this.millState)
-        if(ms != this.millState)this.setMillState(ms);
+        let ms = UI.LSelect("mill", this.millSelect, this.millState)
+        if (ms != this.millState) this.setMillState(ms);
 
         UI.popWindow()
-}
+    }
 
 }
 

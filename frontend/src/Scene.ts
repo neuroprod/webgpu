@@ -47,8 +47,10 @@ export default class Scene {
 
             }
         }
-
-        GameModel.hitObjectLabel = label
+        if(label!="") {GameModel.hitObjectLabel = this.renderer.modelByLabel[label].hitLabel}
+        else{
+            GameModel.hitObjectLabel ="";
+        }
         return hit;
     }
 

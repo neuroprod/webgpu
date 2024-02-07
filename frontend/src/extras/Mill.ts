@@ -17,21 +17,21 @@ export default class Mill{
         this.millControle =mill.children[1]as Model;
 
 
-        mill.hitFriends.push( this.millBed)
-        mill.hitFriends.push( this.millHead)
-        mill.hitFriends.push( this.millControle)
+       //* mill.hitFriends.push( this.millBed)
+       // mill.hitFriends.push( this.millHead)
+       // mill.hitFriends.push( this.millControle)
 
-        this.millBed.hitFriends.push( mill)
-        this.millBed.hitFriends.push( this.millHead)
-        this.millBed.hitFriends.push( this.millControle)
-
+        //this.millBed.hitFriends.push( mill)
+        //this.millBed.hitFriends.push( this.millHead)
+        //this.millBed.hitFriends.push( this.millControle)
+/*
         this.millHead.hitFriends.push( this.millBed)
         this.millHead.hitFriends.push( mill)
         this.millHead.hitFriends.push( this.millControle)
 
         this.millControle.hitFriends.push( this.millBed)
         this.millControle.hitFriends.push( this.millHead)
-        this.millControle.hitFriends.push( mill)
+        this.millControle.hitFriends.push( mill)*/
 
 
 

@@ -1,17 +1,14 @@
-import Trigger from "./Trigger";
-import GameModel, {Scenes} from "../GameModel";
-import {CURSOR} from "../ui/Cursor";
 
-export class FloorHitTrigger extends Trigger {
-    private objectLabels: Array<String>;
+import GameModel from "../GameModel";
+import {CURSOR} from "../ui/Cursor";
+import HitTrigger from "./HitTrigger";
+
+export class FloorHitTrigger extends HitTrigger {
+
     private hit: boolean = false;
 
 
-    constructor(scene: Scenes, objectLabels: Array<String>) {
-        super(scene);
-        this.objectLabels = objectLabels;
 
-    }
 
     check() {
         if (!super.check()) return false;
@@ -31,10 +28,13 @@ export class FloorHitTrigger extends Trigger {
 
 
         } else {
+
             if (this.hit) {
                 this.hit = false;
                 this.out()
+
             }
+            this.hit = false;
         }
 
 

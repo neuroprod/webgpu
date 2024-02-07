@@ -10,11 +10,27 @@ export default class HitTrigger extends Trigger{
         super(scene);
         if(isArray(objectLabel)){
             this.objectLabels =objectLabel as Array<string>;
+
         }else{
             this.objectLabels.push(objectLabel as string);
+
         }
 
 
+    }
+    init(){
+        let firstObject = this.objectLabels[0]
+        let mF =GameModel.renderer.modelByLabel[firstObject]
+        for(let label of this.objectLabels){
+            let obj =GameModel.renderer.modelByLabel[label]
+            if(obj.hitTestObject){
+                obj.hitLabel = mF.label;
+                if(mF!=obj){
+                    mF.hitFriends.push(obj);
+                }
+            }
+
+        }
     }
     check() {
         if(!super.check())return false;

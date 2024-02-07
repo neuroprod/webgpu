@@ -347,6 +347,7 @@ export default class Main {
         this.room.init()
         this.outside.init();
         GameModel.initText();
+        GameModel.makeTriggers();
         GameModel.setUIState(UIState.PRELOAD_DONE)
 
         this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall, this.room.lightWallLiving,this.room.lightTable], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])

@@ -105,6 +105,12 @@
   {
     "object": "triangleDone",
     "copy": ["what a beauty"]
+  },
+  {
+    "object": "flowerPreBloom",
+    "copy": ["Flora Candentis.\nIt flower only once\nin its lifetime.","But that won't happen\nin this climate"]
   }
+
+
 ]
 }
