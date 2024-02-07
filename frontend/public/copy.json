@@ -54,7 +54,7 @@
   {
 
     "object": "yougotmail",
-    "copy": ["An underwear\nsimulator...","The ad-agency wants\nme to make an\nunderwear simulator","Oh well,\nLet's get some fresh air first"]
+    "copy": ["An underwear\nsimulator...","The ad-agency wants\nme to make an\nunderwear simulator","Let's get some fresh air first"]
   },  {
 
     "object": "readCross",
@@ -63,7 +63,7 @@
   {
     "subtitle": true,
     "object": "radio",
-    "copy": ["Good morning!\nThis is Radio City,\nIt's 7AM" ,"Its going to be a hot day.\nThe temperature is expected\nto reach 38C.","The S&P 500 is tracking towards its\nfifth consecutive record high."]
+    "copy": ["Good morning!\nThis is Radio City,\nIt's 7AM" ,"Its going to be a hot day.\nThe temperature is expected\nto reach 38C."]
   },
   {
 

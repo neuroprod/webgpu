@@ -231,7 +231,7 @@ class GameModel {
             } else {
                 return;
             }
-       
+
 
         }
         if (value != "") {

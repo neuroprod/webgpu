@@ -1,6 +1,6 @@
 import gsap from "gsap"
 import Model from "../lib/model/Model";
-import {MillState} from "../GameModel";
+import GameModel, {MillState} from "../GameModel";
 
 export default class Mill{
     private millBed: Model;
@@ -17,21 +17,6 @@ export default class Mill{
         this.millControle =mill.children[1]as Model;
 
 
-       //* mill.hitFriends.push( this.millBed)
-       // mill.hitFriends.push( this.millHead)
-       // mill.hitFriends.push( this.millControle)
-
-        //this.millBed.hitFriends.push( mill)
-        //this.millBed.hitFriends.push( this.millHead)
-        //this.millBed.hitFriends.push( this.millControle)
-/*
-        this.millHead.hitFriends.push( this.millBed)
-        this.millHead.hitFriends.push( mill)
-        this.millHead.hitFriends.push( this.millControle)
-
-        this.millControle.hitFriends.push( this.millBed)
-        this.millControle.hitFriends.push( this.millHead)
-        this.millControle.hitFriends.push( mill)*/
 
 
 
@@ -52,7 +37,11 @@ export default class Mill{
             if(this.tl)this.tl.clear()
             this.headPos=0.1;
             this.bedZ =-0.2;
+            GameModel.renderer.modelByLabel["keyStock"].visible =true;
+            GameModel.renderer.modelByLabel["key"].visible =false
         }else if(state==MillState.ON){
+            GameModel.renderer.modelByLabel["keyStock"].visible =true;
+            GameModel.renderer.modelByLabel["key"].visible =false
             if(this.tl) this.tl.clear()
             this.headPos=0.1;
             this.bedZ =-0.2;
@@ -63,11 +52,14 @@ export default class Mill{
             this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut"},">")
             this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
             this.tl.to(this,{"bedZ":-0.2,duration:2,ease: "sine.inOut"},"<")
+
         }
         else if(state==MillState.DONE){
             if(this.tl) this.tl.clear()
             this.headPos=0.3;
             this.bedZ =-0.0;
+            GameModel.renderer.modelByLabel["keyStock"].visible =false;
+            GameModel.renderer.modelByLabel["key"].visible =true;
         }
     }
 }
