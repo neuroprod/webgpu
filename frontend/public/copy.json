@@ -109,8 +109,19 @@
   {
     "object": "flowerPreBloom",
     "copy": ["Flora Candentis.\nIt flower only once\nin its lifetime.","But that won't happen\nin this climate"]
+  },
+  {
+    "object": "missingIngredient",
+    "copy": ["blabla.\n missingIngredient"]
+  },
+  {
+    "object": "pickFlower",
+    "copy": ["blabla.\n pickFlower"]
+  },
+  {
+    "object": "startMachine",
+    "copy": ["blabla.\n startMachine"]
   }
-
 
 ]
 }

@@ -13,7 +13,7 @@ export default class FlowerHitTrigger extends HitTrigger{
 
     }
     onCompleteWalk(){
-      //  GameModel.setTransition(Transitions.GO_OUTSIDE);
+       GameModel.setTransition(Transitions.PICK_FLOWER);
 
     }
     public over() {

@@ -21,7 +21,7 @@ export default class PointLight extends Object3D {
     private mesh: Sphere;
     private shader: KawaseDownShader;
     private material: Material;
-    private model: Model;
+    public model: Model;
 
     private shaderMesh: LightMeshShader;
     private materialMesh: Material;
@@ -139,7 +139,14 @@ export default class PointLight extends Object3D {
         this.addChild(this.modelMesh)
 
     }
-
+    setStrength(value:number){
+    if(value==0){
+        this.model.visible =false
+        return
+    }
+        this.model.visible =true
+        this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength*value))
+    }
     getData(): any {
         let data = {
             label:this.label,

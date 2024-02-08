@@ -25,7 +25,7 @@ export default class LightRoomRenderPass extends RenderPass {
 
     public target: RenderTexture;
     private colorAttachment: ColorAttachment;
-    private modelRenderer: ModelRenderer
+    private modelRenderer: ModelRenderer;
     private mainLights: Array<MainLight>;
     private lights: Array<PointLight> = []
     private currentLight!: PointLight
@@ -102,8 +102,11 @@ export default class LightRoomRenderPass extends RenderPass {
 
             if (lightParents.length) {
                 for (let plData of data.pointLights) {
+
                     let p = new PointLight(this.renderer, "light1", this.modelRenderer, plData, this.lightParents)
+                   p.setStrength(0);
                     this.lights.push(p)
+                    GameModel.pointLightsByLabel[p.label] =p;
 
                 }
             }

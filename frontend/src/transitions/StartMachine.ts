@@ -1,17 +1,16 @@
 import Transition from "./Transition";
-import GameModel, {LaptopState, StateFasion, StateHighTech} from "../GameModel";
+import GameModel, {LaptopState, StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
-export default class MakeTriangle extends Transition{
+export default class StartMachine extends Transition{
 
 
     set(onComplete: () => void){
         super.set(onComplete)
         GameModel.characterHandler.startTyping()
-        GameModel.textHandler.showHitTrigger("makeTriangle")
-        GameModel.setLaptopState(LaptopState.TRIANGLE)
+        GameModel.textHandler.showHitTrigger("startMachine")
+        GameModel.setLaptopState(LaptopState.NONE)
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
-        GameModel.stateHighTech =StateHighTech.GROW_FLOWER;
     }
     onMouseDown(){
         GameModel.gameUI.cursor.animate()
@@ -19,7 +18,7 @@ export default class MakeTriangle extends Transition{
 
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
-            GameModel.stateFashion =StateFasion.MAKE_TRIANGLE;
+            GameModel.stateHighTech=StateHighTech.START_MACHINE;
             this.onComplete()
         }
     }

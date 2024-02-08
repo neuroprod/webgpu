@@ -40,6 +40,11 @@ import MakeTriangle from "./transitions/MakeTriangle";
 import GoGrave from "./transitions/GoGrave";
 import FlowerPotHitTrigger from "./trigers/FlowerPotHitTrigger";
 import FlowerHitTrigger from "./trigers/FlowerHitTrigger";
+import Object3D from "./lib/core/Object3D";
+import PointLight from "./renderPasses/PointLight";
+import MachineHitTrigger from "./trigers/MachineTrigger";
+import PickFlower from "./transitions/PickFlower";
+import StartMachine from "./transitions/StartMachine";
 
 export enum StateGold {
     START,
@@ -64,6 +69,7 @@ export enum StateHighTech {
     START,
     GROW_FLOWER,
     PICK_FLOWER,
+    START_MACHINE,
 
 }
 
@@ -101,6 +107,8 @@ export const Transitions =
         START_MILL: new StartMill(),
         MAKE_TRIANGLE: new MakeTriangle(),
         GO_GRAVE: new GoGrave(),
+        PICK_FLOWER: new PickFlower(),
+        START_MACHINE: new StartMachine(),
 
 
     }
@@ -177,7 +185,7 @@ class GameModel {
     private laptopSelect: Array<SelectItem>;
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
-
+    pointLightsByLabel:{ [name: string]: PointLight } = {};
     constructor() {
 
 
@@ -347,6 +355,9 @@ class GameModel {
     }
 
     makeTriggers() {
+
+
+        this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker","coffeeControler","flask_G","pantsGlow"]));
         this.triggers.push(new FlowerHitTrigger(Scenes.OUTSIDE, ["glowFlower"]));
         this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3"]));
         this.triggers.push(new GoHunterTrigger(Scenes.OUTSIDE, "hunterPants"));

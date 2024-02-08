@@ -64,7 +64,7 @@ export default class Room extends Scene {
         this.root = this.glFTLoader.root
         this.glFTLoader.root.setPosition(0, -1.5, 0)
 
-        this.mill = new Mill(this.glFTLoader.modelsByName["mill"])
+        this.mill = new Mill(this.glFTLoader.modelsByName["mill"],this.renderer)
         for (let m of this.glFTLoader.models) {
             this.modelRenderer.addModel(m)
 
@@ -136,6 +136,7 @@ export default class Room extends Scene {
             this.modelRendererTrans.addModel(m)
 
         }
+        this.modelRendererTrans.addModel(this.mill.sparkModel)
     }
 
     update() {
