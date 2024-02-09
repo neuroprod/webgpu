@@ -19,7 +19,7 @@ export default class FindHunterPants extends Transition{
 
             GameModel.renderer.modelByLabel["hunterPants"].visible =false;
             GameModel.renderer.modelByLabel["hunterPants"].enableHitTest =false;
-            GameModel.pantsFound =1;
+            GameModel.pantsFound.push(1);
             GameModel.gameUI.updateInventory();
             GameModel.sound.playPickPants();
             GameModel.gameUI.cursor.hide()

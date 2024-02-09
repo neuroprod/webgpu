@@ -32,6 +32,7 @@ export default class Fish{
         this.fish2  =fish2;
         this.fish2.setScale(0.7,0.7,0.7)
         this.fish2.material =new Material(renderer,"fishMat",new GBufferShaderFish(renderer,"gBufferFish"));
+   this.fish1.hitFriends.push(this.fish2);
     }
 
 

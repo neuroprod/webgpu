@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Scenes, UIState} from "../GameModel";
+import GameModel, {Scenes, StateGrandpa} from "../GameModel";
 import {Vector3} from "math.gl";
 import Timeline from "gsap";
 import RenderSettings from "../RenderSettings";
@@ -7,7 +7,9 @@ import RenderSettings from "../RenderSettings";
 export default class GoOutside extends Transition{
     set(onComplete: () => void){
 
-
+if(GameModel.stateGrandpa==StateGrandpa.FEED_FISH){
+    GameModel.stateGrandpa =StateGrandpa.SHOW_GRANDPA_PANTS;
+}
         let ts = Timeline.timeline({onComplete:onComplete})
 
 

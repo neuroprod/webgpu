@@ -45,6 +45,16 @@ import PointLight from "./renderPasses/PointLight";
 import MachineHitTrigger from "./trigers/MachineTrigger";
 import PickFlower from "./transitions/PickFlower";
 import StartMachine from "./transitions/StartMachine";
+import FishFoodTrigger from "./trigers/FishFoodTrigger";
+import BirdHouseTrigger from "./trigers/BirdHouseTrigger";
+import FishTrigger from "./trigers/FishTrigger";
+import GirlPantsTrigger from "./trigers/GirlPantsTrigger";
+import GrandpaPantsTrigger from "./trigers/GrandpaPantsTrigger";
+import ShovelTrigger from "./trigers/ShovelTrigger";
+import StickTrigger from "./trigers/StickTrigger";
+import TakeFishFood from "./transitions/TakeFishFood";
+import FeedFish from "./transitions/FeedFish";
+import FindGrandpaPants from "./transitions/FindGrandpaPants";
 
 export enum StateGold {
     START,
@@ -56,6 +66,23 @@ export enum StateGold {
     GET_GOLD,
 }
 
+export enum StateGrandpa {
+    START,
+    FISH_HUNGRY,
+    TAKE_FISH_FOOD,
+    FEED_FISH,
+    SHOW_GRANDPA_PANTS,
+    TAKE_GRANDPA_PANTS,
+}
+
+export enum StateGirl {
+    START,
+    BIRD_HOUSE_FELL,
+    FIND_STICK,
+    HIT_BIRDHOUSE,
+    TAKE_GIRL_PANTS,
+
+}
 export enum StateFasion {
     START,
     READ_MAIL,
@@ -109,6 +136,9 @@ export const Transitions =
         GO_GRAVE: new GoGrave(),
         PICK_FLOWER: new PickFlower(),
         START_MACHINE: new StartMachine(),
+        TAKE_FISH_FOOD: new TakeFishFood(),
+        FEED_FISH: new FeedFish(),
+        FIND_GRANDPA_PANTS: new FindGrandpaPants(),
 
 
     }
@@ -132,6 +162,42 @@ export enum Scenes {
 }
 
 class GameModel {
+    get stateGrandpa(): StateGrandpa {
+        return this._stateGrandpa;
+    }
+
+    set stateGrandpa(value: StateGrandpa) {
+        console.log("setGrandpa",value)
+
+        if (value == StateGrandpa.SHOW_GRANDPA_PANTS) {
+            this.renderer.modelByLabel["grandpaPants"].visible =true;
+            this.renderer.modelByLabel["grandpaPants"].enableHitTest =true;
+        }else{
+            this.renderer.modelByLabel["grandpaPants"].visible =false;
+            this.renderer.modelByLabel["grandpaPants"].enableHitTest =false;
+        }
+        this._stateGrandpa = value;
+    }
+    get stateGirl(): StateGirl {
+
+        return this._stateGirl;
+    }
+
+    set stateGirl(value: StateGirl) {
+        if (value == StateGirl.START) {
+            this.renderer.modelByLabel["girlPants"].visible =false;
+            this.renderer.modelByLabel["girlPants"].enableHitTest =false;
+
+            this.renderer.modelByLabel["stick"].visible =false;
+            this.renderer.modelByLabel["stick"].enableHitTest =false;
+        }else if  (value == StateGirl.BIRD_HOUSE_FELL){
+            this.renderer.modelByLabel["stick"].visible =true;
+            this.renderer.modelByLabel["stick"].enableHitTest =true;
+
+            this.renderer.modelByLabel["birdHouse"].setEuler(0,0,0.6);
+        }
+        this._stateGirl = value;
+    }
     public stateGold: StateGold = StateGold.START
     public stateFashion: StateFasion = StateFasion.START
     public stateHunter = StateHunter.START
@@ -169,7 +235,7 @@ class GameModel {
     gameUI: GameUI;
     screenWidth: number;
     screenHeight: number;
-    public pantsFound: number = 0;
+    public pantsFound: Array<number> =[0];
     public currentPants: number = 0;
     uiOpen = false;
     //debugstuff
@@ -186,6 +252,10 @@ class GameModel {
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
     pointLightsByLabel:{ [name: string]: PointLight } = {};
+    private girlSelect: Array<SelectItem>;
+    private grandpaSelect: Array<SelectItem>;
+    private _stateGirl: StateGirl =StateGirl.START;
+    private _stateGrandpa: StateGrandpa=StateGrandpa.START;
     constructor() {
 
 
@@ -330,12 +400,16 @@ class GameModel {
         return this.characterScreenPos;
     }
 
-    initText() {
+    init() {
         this.textHandler.init()
         for (let d of this.textHandler.hitTriggers) {
 
             this.triggers.push(new HitTextTrigger(d.scene, d.object))
         }
+
+        this.stateGrandpa =StateGrandpa.START;
+        this.stateGirl = StateGirl.START;
+        this.stateHighTech= StateHighTech.START;
     }
 
 
@@ -359,7 +433,13 @@ class GameModel {
 
     makeTriggers() {
 
-
+        this.triggers.push(new BirdHouseTrigger(Scenes.OUTSIDE, ["birdHouse"]));
+        this.triggers.push(new FishTrigger(Scenes.OUTSIDE, ["fishHit"]));
+        this.triggers.push(new GirlPantsTrigger(Scenes.OUTSIDE, ["girlPants"]));
+        this.triggers.push(new GrandpaPantsTrigger(Scenes.OUTSIDE, ["grandpaPants"]));
+        this.triggers.push(new ShovelTrigger(Scenes.OUTSIDE, ["shovel"]));
+        this.triggers.push(new StickTrigger(Scenes.OUTSIDE, ["stick"]));
+        this.triggers.push(new FishFoodTrigger(Scenes.ROOM, ["fishFood"]));
         this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker","coffeeControler","flask_G","pantsGlow"]));
         this.triggers.push(new FlowerHitTrigger(Scenes.OUTSIDE, ["glowFlower"]));
         this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3"]));
@@ -386,7 +466,8 @@ class GameModel {
         this.laptopSelect = UIUtils.EnumToSelectItem(LaptopState)
         this.millSelect = UIUtils.EnumToSelectItem(MillState)
         this.highTechSelect = UIUtils.EnumToSelectItem(StateHighTech)
-
+        this.girlSelect = UIUtils.EnumToSelectItem(StateGirl)
+        this.grandpaSelect = UIUtils.EnumToSelectItem(StateGrandpa)
     }
 
     onUI() {
@@ -394,6 +475,13 @@ class GameModel {
         UI.separator("GameState")
         let sht = UI.LSelect("HighTechPants", this.highTechSelect, this._stateHighTech)
         if (sht != this._stateHighTech) this.stateHighTech = sht
+
+        let sg = UI.LSelect("GirlPants", this.girlSelect, this._stateGirl)
+        if (sg != this._stateGirl) this.stateGirl = sg;
+
+        let sgp = UI.LSelect("GrandpaPants", this.grandpaSelect, this._stateGrandpa)
+        if (sgp != this._stateGrandpa) this.stateGrandpa = sgp;
+
         UI.separator("objects")
 
         let ls = UI.LSelect("labtop", this.laptopSelect, this.laptopState)

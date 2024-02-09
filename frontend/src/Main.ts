@@ -346,7 +346,7 @@ export default class Main {
 
         this.room.init()
         this.outside.init();
-        GameModel.initText();
+        GameModel.init();
         GameModel.makeTriggers();
         GameModel.setUIState(UIState.PRELOAD_DONE)
 
