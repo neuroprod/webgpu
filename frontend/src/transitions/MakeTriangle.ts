@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {LaptopState, StateFasion, StateHighTech} from "../GameModel";
+import GameModel, {LaptopState, StateFasion, StateGirl, StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class MakeTriangle extends Transition{
@@ -12,6 +12,7 @@ export default class MakeTriangle extends Transition{
         GameModel.setLaptopState(LaptopState.TRIANGLE)
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.stateHighTech =StateHighTech.GROW_FLOWER;
+        GameModel.stateGirl =StateGirl.BIRD_HOUSE_FELL;
     }
     onMouseDown(){
         GameModel.gameUI.cursor.animate()
