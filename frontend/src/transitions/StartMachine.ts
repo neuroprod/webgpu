@@ -9,7 +9,7 @@ export default class StartMachine extends Transition{
         super.set(onComplete)
         GameModel.characterHandler.startTyping()
         GameModel.textHandler.showHitTrigger("startMachine")
-        GameModel.setLaptopState(LaptopState.NONE)
+
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
     onMouseDown(){

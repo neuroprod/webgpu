@@ -23,6 +23,7 @@ export default class EnterButton extends UIBitmapModel{
     }
    onClick() {
        super.onClick();
+       this.mouseEnabled =false;
        GameModel.setTransition(Transitions.START_GAME)
        this.kill =true;
        gsap.to(this,{scale:0,duration:0.15,ease:"back.out",onComplete:()=>{this.visible =false}})

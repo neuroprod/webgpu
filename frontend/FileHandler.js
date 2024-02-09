@@ -119,6 +119,13 @@ function updateChangedFilesDownload() {
 
 
         }
+        if (filename.includes("lightRoom.json")) {
+
+            fs.copyFileSync(downloadFolder + filename, targetDirData + filename)
+            fs.unlinkSync(downloadFolder + filename)
+
+
+        }
         if (filename.includes(".bin")) {
             fs.copyFileSync(downloadFolder + filename, targetDirDrawing + filename)
             fs.unlinkSync(downloadFolder + filename)

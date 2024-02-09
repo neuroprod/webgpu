@@ -15,6 +15,7 @@ import Scene from "./Scene";
 import Clock from "./extras/Clock";
 import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
+import Machine from "./extras/Machine";
 
 
 export default class Room extends Scene {
@@ -43,6 +44,7 @@ export default class Room extends Scene {
     private osc1Screen: Osc1Screen;
     lightWallLiving: MainLight;
     lightTable: MainLight;
+    machine:Machine;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -53,7 +55,7 @@ export default class Room extends Scene {
         new TextureLoader(this.renderer, preloader, "laptopText.png", {});
 
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
-
+        new TextureLoader(this.renderer, preloader, "glowPantsProgress.png", {});
 
     }
 
@@ -120,7 +122,7 @@ export default class Room extends Scene {
         this.modelRenderer.addModel(this.osc1Screen);
 
         this.clock = new Clock(this.glFTLoader.modelsByName["hour"], this.glFTLoader.modelsByName["minutes"])
-
+        this.machine =new Machine(this.renderer);
      //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
       //  this.modelRenderer.addModel(this.windowOutside);
 
@@ -154,7 +156,7 @@ export default class Room extends Scene {
         this.osc2Screen.update();
         this.osc1Screen.update();
         this.mill.update();
-
+this.machine.update();
     }
 
 

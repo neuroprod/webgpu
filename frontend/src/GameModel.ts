@@ -218,6 +218,9 @@ class GameModel {
             this.renderer.modelByLabel["pot"].enableHitTest = false
             this.renderer.modelByLabel["Bush3"].enableHitTest = false
         }
+        if(value==StateHighTech.START_MACHINE){
+            this.room.machine.start()
+        }
 
         this._stateHighTech = value;
     }
