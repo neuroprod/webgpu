@@ -55,6 +55,8 @@ import StickTrigger from "./trigers/StickTrigger";
 import TakeFishFood from "./transitions/TakeFishFood";
 import FeedFish from "./transitions/FeedFish";
 import FindGrandpaPants from "./transitions/FindGrandpaPants";
+import TakeStick from "./transitions/TakeStick";
+import PushBirdHouse from "./transitions/PushBirdHouse";
 
 export enum StateGold {
     START,
@@ -79,7 +81,7 @@ export enum StateGirl {
     START,
     BIRD_HOUSE_FELL,
     FIND_STICK,
-    HIT_BIRDHOUSE,
+    PUSH_BIRDHOUSE,
     TAKE_GIRL_PANTS,
 
 }
@@ -139,6 +141,8 @@ export const Transitions =
         TAKE_FISH_FOOD: new TakeFishFood(),
         FEED_FISH: new FeedFish(),
         FIND_GRANDPA_PANTS: new FindGrandpaPants(),
+        TAKE_STICK: new TakeStick(),
+        PUSH_BIRDHOUSE: new PushBirdHouse(),
 
 
     }

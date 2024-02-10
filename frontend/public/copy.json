@@ -121,6 +121,47 @@
   {
     "object": "startMachine",
     "copy": ["blabla.\n startMachine"]
+  },
+
+  {
+    "object": "fishFoodNoNeed",
+    "copy": ["Food for Fish\nPremium fish food"]
+  },
+  {
+    "object": "fishHungry",
+    "copy": ["The fish seem hungry\nMaybe is should feed them."]
+  },
+  {
+    "object": "takeFishFood",
+    "copy": ["Food for Fish\nThe fish are going\nto love that","I'll Take it!"]
+  }
+,
+  {
+    "object": "feedFish",
+    "copy": ["Here you go Friends\nSome delicious food"]
+  }
+,
+  {
+    "object": "findGrandpaPants",
+    "copy": ["The fish left me a gift","The old underpants of grandpa!\nI assumed he was buried with them?"]
+  }
+,
+  {
+    "object": "birdHouseFine",
+    "copy": ["A family of robins\nlived there this summer","I hope the come back next year"]
+  }
+,
+  {
+    "object": "birdHouseFell",
+    "copy": ["Oh, the wind must\nhave blown it like that","I can't seem to reach it"]
+  },
+  {
+    "object": "takeStick",
+    "copy": ["That's a nice stick!","I'll keep that"]
+  },
+  {
+    "object": "straitenBirdHouse",
+    "copy": ["Let's try that"]
   }
 
 ]

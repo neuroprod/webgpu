@@ -5,12 +5,18 @@ import {CURSOR} from "../ui/Cursor";
 export default class StickTrigger extends HitTrigger{
 
     protected click() {
-        GameModel.setTransition(Transitions.TEXT_INFO,"takeStick")
 
-
-        return;
+        let obj = GameModel.renderer.modelByLabel["stick"]
+        let world = obj.getWorldPos()
+        world.z+=1.5;
+        GameModel.characterHandler.walkTo(world,Math.PI,this.onCompleteWalk)
     }
     onCompleteWalk(){
+
+        GameModel.setTransition(Transitions.TAKE_STICK)
+
+        // GameModel.setGameState(GameState.FIND_HUNTER)
+        // GameModel.textHandler.showHitTrigger("findHunter")
 
 
     }
