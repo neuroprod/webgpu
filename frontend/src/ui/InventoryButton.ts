@@ -11,6 +11,7 @@ private scale =0.5;
     private rot =0.5;
     constructor(renderer:Renderer,preLoader:PreLoader,url,id:number,posX:number) {
         super(renderer,preLoader,url,url);
+        console.log(url)
         this.id =id;
         this.rot = (Math.random()-0.5)*0.4;
         this.setPosition(posX,-25,0)
@@ -47,6 +48,7 @@ private scale =0.5;
         super.onClick();
 GameModel.sound.playClick()
         GameModel.sound.playWoosh()
+        console.log(this.id)
         GameModel.setUIState(UIState.INVENTORY_DETAIL,this.id);
     }
 

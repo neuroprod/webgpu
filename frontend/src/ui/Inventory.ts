@@ -19,7 +19,7 @@ export default class Inventory extends UIBitmapModel{
         this.yPos=this.closePos;
         for(let i=0;i<7;i++){
             let posX = -320+i*135;
-            console.log((i+1))
+    console.log((i+1))
             let btn =new InventoryButton(this.renderer,preLoader,"UI/pants_"+(i+1)+".png",i,posX);
             this.addChild(btn);
             this.btns.push(btn)
@@ -73,7 +73,7 @@ close(){
 
 let foundCount =0;
         for(let i=0;i<7;i++){
-            console.log(i)
+
             if(GameModel.pantsFound.includes(i)){
                 this.btns[i].visible =true;
                 let posX =  -320+foundCount*135
