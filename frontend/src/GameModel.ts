@@ -40,7 +40,6 @@ import MakeTriangle from "./transitions/MakeTriangle";
 import GoGrave from "./transitions/GoGrave";
 import FlowerPotHitTrigger from "./trigers/FlowerPotHitTrigger";
 import FlowerHitTrigger from "./trigers/FlowerHitTrigger";
-import Object3D from "./lib/core/Object3D";
 import PointLight from "./renderPasses/PointLight";
 import MachineHitTrigger from "./trigers/MachineTrigger";
 import PickFlower from "./transitions/PickFlower";
@@ -85,6 +84,7 @@ export enum StateGirl {
     TAKE_GIRL_PANTS,
 
 }
+
 export enum StateFasion {
     START,
     READ_MAIL,
@@ -166,42 +166,6 @@ export enum Scenes {
 }
 
 class GameModel {
-    get stateGrandpa(): StateGrandpa {
-        return this._stateGrandpa;
-    }
-
-    set stateGrandpa(value: StateGrandpa) {
-        console.log("setGrandpa",value)
-
-        if (value == StateGrandpa.SHOW_GRANDPA_PANTS) {
-            this.renderer.modelByLabel["grandpaPants"].visible =true;
-            this.renderer.modelByLabel["grandpaPants"].enableHitTest =true;
-        }else{
-            this.renderer.modelByLabel["grandpaPants"].visible =false;
-            this.renderer.modelByLabel["grandpaPants"].enableHitTest =false;
-        }
-        this._stateGrandpa = value;
-    }
-    get stateGirl(): StateGirl {
-
-        return this._stateGirl;
-    }
-
-    set stateGirl(value: StateGirl) {
-        if (value == StateGirl.START) {
-            this.renderer.modelByLabel["girlPants"].visible =false;
-            this.renderer.modelByLabel["girlPants"].enableHitTest =false;
-
-            this.renderer.modelByLabel["stick"].visible =false;
-            this.renderer.modelByLabel["stick"].enableHitTest =false;
-        }else if  (value == StateGirl.BIRD_HOUSE_FELL){
-            this.renderer.modelByLabel["stick"].visible =true;
-            this.renderer.modelByLabel["stick"].enableHitTest =true;
-
-            this.renderer.modelByLabel["birdHouse"].setEuler(0,0,0.6);
-        }
-        this._stateGirl = value;
-    }
     public stateGold: StateGold = StateGold.START
     public stateFashion: StateFasion = StateFasion.START
     public stateHunter = StateHunter.START
@@ -239,7 +203,7 @@ class GameModel {
     gameUI: GameUI;
     screenWidth: number;
     screenHeight: number;
-    public pantsFound: Array<number> =[0];
+    public pantsFound: Array<number> = [0];
     public currentPants: number = 0;
     uiOpen = false;
     //debugstuff
@@ -249,21 +213,62 @@ class GameModel {
     room: Room;
     outside: Outside;
     lastClickLabels: Array<string> = [];
+    pointLightsByLabel: { [name: string]: PointLight } = {};
     private floorLabels: string[];
     private triggers: Array<Trigger> = []
     private currentTransition: Transition;
     private laptopSelect: Array<SelectItem>;
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
-    pointLightsByLabel:{ [name: string]: PointLight } = {};
     private girlSelect: Array<SelectItem>;
     private grandpaSelect: Array<SelectItem>;
-    private _stateGirl: StateGirl =StateGirl.START;
-    private _stateGrandpa: StateGrandpa=StateGrandpa.START;
+
     constructor() {
 
 
         this.prepUI()
+    }
+
+    private _stateGirl: StateGirl = StateGirl.START;
+
+    get stateGirl(): StateGirl {
+
+        return this._stateGirl;
+    }
+
+    set stateGirl(value: StateGirl) {
+        if (value == StateGirl.START) {
+            this.renderer.modelByLabel["girlPants"].visible = false;
+            this.renderer.modelByLabel["girlPants"].enableHitTest = false;
+
+            this.renderer.modelByLabel["stick"].visible = false;
+            this.renderer.modelByLabel["stick"].enableHitTest = false;
+        } else if (value == StateGirl.BIRD_HOUSE_FELL) {
+            this.renderer.modelByLabel["stick"].visible = true;
+            this.renderer.modelByLabel["stick"].enableHitTest = true;
+
+            this.renderer.modelByLabel["birdHouse"].setEuler(0, 0, 0.6);
+        }
+        this._stateGirl = value;
+    }
+
+    private _stateGrandpa: StateGrandpa = StateGrandpa.START;
+
+    get stateGrandpa(): StateGrandpa {
+        return this._stateGrandpa;
+    }
+
+    set stateGrandpa(value: StateGrandpa) {
+        console.log("setGrandpa", value)
+
+        if (value == StateGrandpa.SHOW_GRANDPA_PANTS) {
+            this.renderer.modelByLabel["grandpaPants"].visible = true;
+            this.renderer.modelByLabel["grandpaPants"].enableHitTest = true;
+        } else {
+            this.renderer.modelByLabel["grandpaPants"].visible = false;
+            this.renderer.modelByLabel["grandpaPants"].enableHitTest = false;
+        }
+        this._stateGrandpa = value;
     }
 
     private _stateHighTech = StateHighTech.START
@@ -292,7 +297,7 @@ class GameModel {
             this.renderer.modelByLabel["pot"].enableHitTest = false
             this.renderer.modelByLabel["Bush3"].enableHitTest = false
         }
-        if(value==StateHighTech.START_MACHINE){
+        if (value == StateHighTech.START_MACHINE) {
             this.room.machine.start()
         }
 
@@ -411,9 +416,9 @@ class GameModel {
             this.triggers.push(new HitTextTrigger(d.scene, d.object))
         }
 
-        this.stateGrandpa =StateGrandpa.START;
+        this.stateGrandpa = StateGrandpa.START;
         this.stateGirl = StateGirl.START;
-        this.stateHighTech= StateHighTech.START;
+        this.stateHighTech = StateHighTech.START;
     }
 
 
@@ -444,7 +449,7 @@ class GameModel {
         this.triggers.push(new ShovelTrigger(Scenes.OUTSIDE, ["shovel"]));
         this.triggers.push(new StickTrigger(Scenes.OUTSIDE, ["stick"]));
         this.triggers.push(new FishFoodTrigger(Scenes.ROOM, ["fishFood"]));
-        this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker","coffeeControler","flask_G","pantsGlow"]));
+        this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker", "coffeeControler", "flask_G", "pantsGlow"]));
         this.triggers.push(new FlowerHitTrigger(Scenes.OUTSIDE, ["glowFlower"]));
         this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3"]));
         this.triggers.push(new GoHunterTrigger(Scenes.OUTSIDE, "hunterPants"));
@@ -487,7 +492,10 @@ class GameModel {
         if (sgp != this._stateGrandpa) this.stateGrandpa = sgp;
 
         UI.separator("objects")
-
+        if (UI.LButton("AllPants")) {
+            this.pantsFound = [0, 1, 2, 3, 4, 5, 6]
+            this.gameUI.updateInventory();
+        }
         let ls = UI.LSelect("labtop", this.laptopSelect, this.laptopState)
         if (ls != this.laptopState) this.setLaptopState(ls);
 

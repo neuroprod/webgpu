@@ -112,21 +112,22 @@ export default class CharacterHandler {
         }
     }
 
-    public onUI() {
 
-        return;
-        UI.separator("animations")
-        if (UI.LButton("dance")) this.setAnimation("dance")
-        if (UI.LButton("sit")) this.setAnimation("sit")
-        UI.separator("underpants")
-
-
-    }
 
     public setPants(id: number) {
         let name = "";
         if (id == 1) {
             name = "Army"
+        } else if (id == 2) {
+            name = "Girl"
+        } else if (id == 3) {
+            name = "Grandpa"
+        } else if (id == 4) {
+            name = "Glow"
+        } else if (id == 5) {
+            name = "Fasion"
+        } else if (id == 6) {
+            name = "Gold"
         }
         this.pants.uniforms.setTexture("colorTexture", this.renderer.texturesByLabel["textures/pants" + name + "_Color.png"])
         this.pants.uniforms.setTexture("normalTexture", this.renderer.texturesByLabel["textures/pants" + name + "_Normal.png"])
