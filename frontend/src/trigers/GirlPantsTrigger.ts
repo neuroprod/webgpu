@@ -5,14 +5,17 @@ import {CURSOR} from "../ui/Cursor";
 export default class GirlPantsTrigger extends HitTrigger{
 
     protected click() {
-        GameModel.setTransition(Transitions.TEXT_INFO,"takeGirlPants")
 
+        let obj = GameModel.renderer.modelByLabel["girlPants"]
+        let world = obj.getWorldPos()
+        world.x-=1;
+        GameModel.characterHandler.walkTo(world,Math.PI/2,this.onCompleteWalk)
 
         return;
     }
     onCompleteWalk(){
 
-
+        GameModel.setTransition(Transitions.FIND_GIRL_PANTS)
     }
     public over() {
         GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["girlPants"]);

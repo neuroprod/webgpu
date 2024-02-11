@@ -53,7 +53,7 @@
   },
   {
 
-    "object": "yougotmail",
+    "object": "readMail",
     "copy": ["An underwear\nsimulator...","The ad-agency wants\nme to make an\nunderwear simulator","Let's get some fresh air first"]
   },  {
 
@@ -112,15 +112,15 @@
   },
   {
     "object": "missingIngredient",
-    "copy": ["blabla.\n missingIngredient"]
+    "copy": ["I'm trying to create the\nbest underpants in the world.","but it's still missing some important ingredient"]
   },
   {
     "object": "pickFlower",
-    "copy": ["blabla.\n pickFlower"]
+    "copy": ["It's beautiful.","I think I'll take it"]
   },
   {
     "object": "startMachine",
-    "copy": ["blabla.\n startMachine"]
+    "copy": ["Let's see if this will work"]
   },
 
   {
@@ -148,7 +148,7 @@
 ,
   {
     "object": "birdHouseFine",
-    "copy": ["A family of robins\nlived there this summer","I hope the come back next year"]
+    "copy": ["A family of robins\nlived there\nthis summer","I hope they come\nback next year."]
   }
 ,
   {
@@ -160,8 +160,12 @@
     "copy": ["That's a nice stick!","I'll keep that"]
   },
   {
-    "object": "straitenBirdHouse",
-    "copy": ["Let's try that"]
+    "object": "pushBirdHouse",
+    "copy": ["Let's try that."]
+  },
+  {
+    "object": "findGirlPants",
+    "copy": ["The birds must have\nused that to make a nest.","I can use that."]
   }
 
 ]

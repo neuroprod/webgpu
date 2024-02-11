@@ -9,7 +9,7 @@ import {FpsScreen} from "./extras/FpsScreen";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Mill from "./extras/Mill";
 
-import {WindowOutside} from "./extras/WindowOutside";
+
 
 import Scene from "./Scene";
 import Clock from "./extras/Clock";
@@ -36,7 +36,7 @@ export default class Room extends Scene {
     public lightDoor: MainLight;
     public lightWall: MainLight;
     private fpsScreen: FpsScreen;
-    private windowOutside: WindowOutside;
+
     private bookCase: Object3D;
     private hitLeftRoomCenter: Object3D;
     private hitRightRoom: Object3D;
@@ -49,10 +49,13 @@ export default class Room extends Scene {
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "room")
-        new TextureLoader(this.renderer, preloader, "triangle.png", {});
-        new TextureLoader(this.renderer, preloader, "text_s.png", {});
-        new TextureLoader(this.renderer, preloader, "laptopEmail.png", {});
-        new TextureLoader(this.renderer, preloader, "laptopText.png", {});
+        new TextureLoader(this.renderer, preloader, "LT_email.png", {});
+        new TextureLoader(this.renderer, preloader, "LT_triangle.png", {});
+        new TextureLoader(this.renderer, preloader, "LT_readMail1.png", {});
+        new TextureLoader(this.renderer, preloader, "LT_wait.png", {});
+        new TextureLoader(this.renderer, preloader, "LT_programming.png",{});
+        new TextureLoader(this.renderer, preloader, "LT_readMail2.png", {});
+        new TextureLoader(this.renderer, preloader, "LT_pantsTemp.png",{});
 
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
         new TextureLoader(this.renderer, preloader, "glowPantsProgress.png", {});
@@ -156,7 +159,7 @@ export default class Room extends Scene {
         this.osc2Screen.update();
         this.osc1Screen.update();
         this.mill.update();
-this.machine.update();
+        this.machine.update();
     }
 
 

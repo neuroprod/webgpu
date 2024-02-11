@@ -5,7 +5,7 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
-export default class WindowOutsideShader extends Shader{
+export default class LaptopProgrammingShader extends Shader{
 
 
     init(){
@@ -17,7 +17,10 @@ export default class WindowOutsideShader extends Shader{
 
         }
         this.addUniform("time",0);
+        this.addUniform("ratio",0);
+        this.addTexture("image",DefaultTextures.getWhite(this.renderer))
 
+        this.addSampler("mySampler",GPUShaderStage.FRAGMENT,"repeat");
 
         this.needsTransform =true;
         this.needsCamera=true;
@@ -56,21 +59,23 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     return output;
 }
 
-
 @fragment
 fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOutput
 {
     var output : GBufferOutput;
-
-     output.color=vec4(0.8,0.8,1.0,0.0);
-output.color*=uniforms.time;
-
-  
-    output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
     
-  
+    var uv =uv0;
+    uv.y =uv.y+round(uniforms.time)/16.0-0.01;
+  if(uv0.y>0.8125){
+   uv.y=0.1;//blank line
+  }
+ 
    
-    output.mra =vec4(0.0,1.0,uniforms.time*0.6,1.0);
+   
+    output.color = textureSample(image, mySampler,uv );
+   
+    output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
+    output.mra =vec4(0.5,0.3,0.5,0.5);
  
 
     return output;

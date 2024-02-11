@@ -9,7 +9,8 @@ export default class MakeTriangle extends Transition{
         super.set(onComplete)
         GameModel.characterHandler.startTyping()
         GameModel.textHandler.showHitTrigger("makeTriangle")
-        GameModel.setLaptopState(LaptopState.TRIANGLE)
+      //  GameModel.setLaptopState(LaptopState.TRIANGLE)
+        GameModel.stateFashion = StateFasion.MAKE_TRIANGLE
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.stateHighTech =StateHighTech.GROW_FLOWER;
         GameModel.stateGirl =StateGirl.BIRD_HOUSE_FELL;
@@ -20,7 +21,7 @@ export default class MakeTriangle extends Transition{
 
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
-            GameModel.stateFashion =StateFasion.MAKE_TRIANGLE;
+            GameModel.stateFashion =StateFasion.MAKE_TRIANGLE_DONE;
             this.onComplete()
         }
     }

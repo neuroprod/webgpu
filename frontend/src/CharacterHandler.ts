@@ -45,21 +45,13 @@ export default class CharacterHandler {
         this.animationMixer = animationMixer;
         this.characterRoot = glft.root;
         this.body = glft.modelsByName["body"];
-        //      this.body.mesh.max.scale(100);
-        //    this.body.mesh.min.scale(100);
-//console.log(  this.body.mesh.max, this.body.mesh.min)
+
         this.body.mesh.max.set(30, 30, 0)
         this.body.mesh.min.set(-30, -30, -220)
-        /* let m =new Model(renderer,"testSphere")
-         m.mesh =new Sphere(renderer)
-         this.body.parent.addChild(m)
 
-         m.castShadow=false;
-         m.material =new Material(renderer,"testSpherer",new GBufferShader(renderer,"eee"))
- */
 
         this.pants = glft.materialsByName["pants"]
-      // this.head =glft.objectsByName["Ctrl_Head"]
+
         this.animationMixer.setAnimation("idle");
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
 

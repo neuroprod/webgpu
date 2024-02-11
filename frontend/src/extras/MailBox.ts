@@ -15,8 +15,8 @@ export default class MailBox {
         this.flag = outside.modelsByName["mailBoxFlag"];
         this.door = outside.modelsByName["mailBoxDoor"];
         this.package = outside.modelsByName["package"];
-        this.mailBox.hitFriends.push(  this.flag )
-        this.mailBox.hitFriends.push(  this.door )
+        //this.mailBox.hitFriends.push(  this.flag )
+        //this.mailBox.hitFriends.push(  this.door )
 
         this.setState(0)
 

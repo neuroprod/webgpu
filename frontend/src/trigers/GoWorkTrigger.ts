@@ -5,11 +5,11 @@ import {CURSOR} from "../ui/Cursor";
 export default class GoWorkTrigger extends HitTrigger{
 
     protected click() {
-       if(GameModel.stateFashion==StateFasion.READ_MAIL && GameModel.stateHunter !=StateHunter.HAVE_PANTS){
+       if(GameModel.stateFashion==StateFasion.READ_MAIL_DONE){
            GameModel.setTransition(Transitions.TEXT_INFO,"readMailDone")
            return;
        }
-        if(GameModel.stateFashion==StateFasion.MAKE_TRIANGLE){
+        if(GameModel.stateFashion==StateFasion.MAKE_TRIANGLE_DONE){
             GameModel.setTransition(Transitions.TEXT_INFO,"triangleDone")
             return;
         }

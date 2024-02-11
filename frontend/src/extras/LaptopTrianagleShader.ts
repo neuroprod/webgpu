@@ -19,7 +19,7 @@ export default class LaptopTrianagleShader extends Shader{
         this.addUniform("time",0);
         this.addUniform("ratio",0);
         this.addTexture("triangle",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("text",DefaultTextures.getWhite(this.renderer))
+
         this.addSampler("mySampler")
 
         this.needsTransform =true;
@@ -78,11 +78,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
     let colorTri =  textureSample(triangle, mySampler,uv);
     output.color = colorTri;
     
-    var uvText = uv0;
-      uvText.x*=uniforms.ratio;
-      uvText*=0.7;
-    let colorText= textureSample(text, mySampler,uvText);
-     output.color +=colorText;
+
 
 
   

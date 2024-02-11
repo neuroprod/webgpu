@@ -56,6 +56,7 @@ import FeedFish from "./transitions/FeedFish";
 import FindGrandpaPants from "./transitions/FindGrandpaPants";
 import TakeStick from "./transitions/TakeStick";
 import PushBirdHouse from "./transitions/PushBirdHouse";
+import FindGirlpaPants from "./transitions/FindGirlPants";
 
 export enum StateGold {
     START,
@@ -88,8 +89,14 @@ export enum StateGirl {
 export enum StateFasion {
     START,
     READ_MAIL,
+    READ_MAIL_DONE,
+    CAN_MAKE_TRIANGLE,
     MAKE_TRIANGLE,
+    MAKE_TRIANGLE_DONE,
+    CAN_FINISH_WEBSITE,
     FINISH_WEBSITE,
+    FINISH_WEBSITE_DONE,
+    CAN_READ_MAIL_MAILBOX,
     READ_MAIL_MAILBOX,
     GET_FASION_PANTS,
 }
@@ -109,12 +116,7 @@ export enum StateHunter {
 }
 
 
-export enum LaptopState {
-    MAIL,
-    NONE,
-    TRIANGLE,
 
-}
 
 export enum MillState {
     OFF,
@@ -123,6 +125,16 @@ export enum MillState {
 
 }
 
+export const Pants =
+    {
+        default: 0,
+        hunter: 1,
+        girl: 2,
+        grandpa: 3,
+        glow: 4,
+        fashion: 5,
+        gold: 6,
+    }
 export const Transitions =
     {
         GO_OUTSIDE: new GoOutside(),
@@ -143,6 +155,7 @@ export const Transitions =
         FIND_GRANDPA_PANTS: new FindGrandpaPants(),
         TAKE_STICK: new TakeStick(),
         PUSH_BIRDHOUSE: new PushBirdHouse(),
+        FIND_GIRL_PANTS: new FindGirlpaPants()
 
 
     }
@@ -167,10 +180,9 @@ export enum Scenes {
 
 class GameModel {
     public stateGold: StateGold = StateGold.START
-    public stateFashion: StateFasion = StateFasion.START
     public stateHunter = StateHunter.START
     public millState = MillState.OFF;
-    public laptopState = LaptopState.MAIL;
+
     public renderer: Renderer;
     public roomCamOffset: number = 0;
     public isLeftRoom = false;
@@ -217,16 +229,28 @@ class GameModel {
     private floorLabels: string[];
     private triggers: Array<Trigger> = []
     private currentTransition: Transition;
-    private laptopSelect: Array<SelectItem>;
+
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
     private girlSelect: Array<SelectItem>;
     private grandpaSelect: Array<SelectItem>;
+    private fashionSelect: Array<SelectItem>;
 
     constructor() {
 
 
         this.prepUI()
+    }
+
+    private _stateFashion: StateFasion = StateFasion.START
+
+    get stateFashion(): StateFasion {
+        return this._stateFashion;
+    }
+
+    set stateFashion(value: StateFasion) {
+        this.room.laptopScreen.setState(value);
+        this._stateFashion = value;
     }
 
     private _stateGirl: StateGirl = StateGirl.START;
@@ -259,7 +283,7 @@ class GameModel {
     }
 
     set stateGrandpa(value: StateGrandpa) {
-        console.log("setGrandpa", value)
+
 
         if (value == StateGrandpa.SHOW_GRANDPA_PANTS) {
             this.renderer.modelByLabel["grandpaPants"].visible = true;
@@ -340,10 +364,7 @@ class GameModel {
         this.room.mill.setState(state);
     }
 
-    setLaptopState(state: LaptopState) {
-        this.laptopState = state;
-        this.room.laptopScreen.setState(state);
-    }
+
 
     update() {
 
@@ -419,6 +440,7 @@ class GameModel {
         this.stateGrandpa = StateGrandpa.START;
         this.stateGirl = StateGirl.START;
         this.stateHighTech = StateHighTech.START;
+        this.stateFashion =StateFasion.START;
     }
 
 
@@ -472,11 +494,12 @@ class GameModel {
     }
 
     prepUI() {
-        this.laptopSelect = UIUtils.EnumToSelectItem(LaptopState)
+
         this.millSelect = UIUtils.EnumToSelectItem(MillState)
         this.highTechSelect = UIUtils.EnumToSelectItem(StateHighTech)
         this.girlSelect = UIUtils.EnumToSelectItem(StateGirl)
         this.grandpaSelect = UIUtils.EnumToSelectItem(StateGrandpa)
+        this.fashionSelect= UIUtils.EnumToSelectItem(StateFasion)
     }
 
     onUI() {
@@ -491,13 +514,16 @@ class GameModel {
         let sgp = UI.LSelect("GrandpaPants", this.grandpaSelect, this._stateGrandpa)
         if (sgp != this._stateGrandpa) this.stateGrandpa = sgp;
 
+        let sf = UI.LSelect("FashionPants", this.fashionSelect, this._stateFashion)
+        if (sf != this._stateFashion) this.stateFashion = sf;
+
+
         UI.separator("objects")
         if (UI.LButton("AllPants")) {
             this.pantsFound = [0, 1, 2, 3, 4, 5, 6]
             this.gameUI.updateInventory();
         }
-        let ls = UI.LSelect("labtop", this.laptopSelect, this.laptopState)
-        if (ls != this.laptopState) this.setLaptopState(ls);
+
 
         let ms = UI.LSelect("mill", this.millSelect, this.millState)
         if (ms != this.millState) this.setMillState(ms);
