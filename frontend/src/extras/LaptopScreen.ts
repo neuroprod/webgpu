@@ -82,18 +82,12 @@ export class LaptopScreen extends Model{
 
         }else if(state ==StateFasion.MAKE_TRIANGLE|| state ==StateFasion.FINISH_WEBSITE  ){
             this.material =  this.programMaterial;
-           // this.imageMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_wait.png"])
-
         }
-
         else if(state ==StateFasion.FINISH_WEBSITE_DONE){
             this.material = this.imageMaterial;
             this.imageMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_pantsTemp.png"])
         }
-        else if(state ==StateFasion.READ_MAIL_MAILBOX){
-            this.material = this.imageMaterial;
-            this.imageMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_readMail2.png"])
-        }
+
 
     }
 }
