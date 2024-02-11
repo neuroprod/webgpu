@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {LaptopState, StateFasion} from "../GameModel";
+import GameModel from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoGrave extends Transition{

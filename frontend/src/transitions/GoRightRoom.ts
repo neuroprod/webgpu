@@ -1,7 +1,7 @@
 import Transition from "./Transition";
-import GameModel, {Scenes} from "../GameModel";
+import GameModel from "../GameModel";
 import gsap from "gsap";
-import {Vector3} from "math.gl";
+
 export default class GoRightRoom extends Transition{
     set(onComplete: () => void){
 

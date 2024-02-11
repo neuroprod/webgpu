@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {LaptopState, StateFasion, StateGirl, StateHighTech} from "../GameModel";
+import GameModel, { StateFasion, StateGirl, StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class MakeTriangle extends Transition{

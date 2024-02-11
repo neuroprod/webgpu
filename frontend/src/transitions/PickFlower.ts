@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateHighTech, StateHunter, UIState} from "../GameModel";
+import GameModel, {StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class PickFlower extends Transition{
