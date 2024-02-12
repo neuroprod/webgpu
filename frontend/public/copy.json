@@ -23,150 +23,234 @@
     {
       "scene": 1,
       "object": "pictureFrame2",
-      "copy": ["The legendary golden\nunderpants of Tukilaka.\nGrandpa was obsesed by them.\n...","They where stolen by the"]
+      "copy": [
+        "The legendary golden\nunderpants of Tukilaka.\nGrandpa was obsesed by them.\n...",
+        "They where stolen by the"
+      ]
     },
     {
       "scene": 1,
       "object": "painting2",
-      "copy": ["The 'SeaLion':\nGrandpa used to travel\nthe world with this ship.\n...","It sunk in 1934 in the Bering Sea.\n25 miles from Saint Paul Island"]
+      "copy": [
+        "The 'SeaLion':\nGrandpa used to travel\nthe world with this ship.\n...",
+        "It sunk in 1934 in the Bering Sea.\n25 miles from Saint Paul Island"
+      ]
     },
-
     {
       "scene": 1,
       "object": "painting",
-      "copy": ["Roses are red","Violets are blue"]
+      "copy": [
+        "Roses are red",
+        "Violets are blue"
+      ]
     },
-
-
     {
       "scene": 1,
       "object": "clock",
       "copy": "Time to get some work done."
     }
   ],
+  "text": [
+    {
+      "object": "readMailFirst",
+      "copy": [
+        "Maybe i should read\nthat mail first"
+      ]
+    },
+    {
+      "object": "readMail",
+      "copy": [
+        "An underwear\nsimulator...",
+        "The ad-agency wants\nme to make an\nunderwear simulator",
+        "Let's get some fresh air first"
+      ]
+    },
+    {
+      "object": "readMailDone",
+      "copy": [
+        "Work can wait,\nlets check outside"
+      ]
+    },
+    {
+      "object": "makeTriangle",
+      "copy": [
+        "Lets start with making a triangle",
+        "the shape of shapes"
+      ]
+    },
+    {
+      "object": "triangleDone",
+      "copy": [
+        "what a beauty"
+      ]
+    },
+    {
+      "object": "makeWebsite",
+      "copy": [
+        "making thing...",
+        "lets send it to the agency"
+      ]
+    }, {
+      "object": "websiteDone",
+      "copy": [
+        "I hope they like it"
+      ]
+    }, {
+      "object": "readMailAward",
+      "copy": [
+        "they won an award","they send me a gift"
+      ]
+    },
 
-"text": [
-  {
-
-    "object": "readMailFirst",
-    "copy": ["Maybe i should read\nthat mail first"]
-  },
-  {
-
-    "object": "readMail",
-    "copy": ["An underwear\nsimulator...","The ad-agency wants\nme to make an\nunderwear simulator","Let's get some fresh air first"]
-  },  {
-
-    "object": "readCross",
-    "copy": ["blablabla","grandpa dead"]
-  },
-  {
-    "subtitle": true,
-    "object": "radio",
-    "copy": ["Good morning!\nThis is Radio City,\nIt's 7AM" ,"Its going to be a hot day.\nThe temperature is expected\nto reach 38C."]
-  },
-  {
-
-    "object": "findHunter",
-    "copy": ["Looks like some nice underpants","A hunter must have lost it\nwhile roaming this woods.","I'll take them!"]
-  },
-  {
-
-    "object": "bookCaseLocked",
-    "copy": ["It's locked.\nDon't know whats inside,\nprobably some old junk","Maybe i should\nmake a key for it."]
-  }, {
-
-    "object": "bookCaseLockedMillRunning",
-    "copy": ["It's locked.\nThe Key will be finished soon."]
-  },
-  {
-
-    "object": "readMailDone",
-    "copy": ["Work can wait,\nlets check outside"]
-  },
-  {
-
-    "object": "millStart",
-    "copy": ["My trusty old mill.\nIt can almost make\neverything."]
-  },{
-
-    "object": "millRun",
-    "copy": ["So, lets make that key.","It's going to take a\nwhile before its finished'."]
-  },{
-    "random": true,
-    "object": "millWait",
-    "copy": ["It's running","It's going to take a while"]
-  },
-  {
-    "object": "makeTriangle",
-    "copy": ["Lets start with making a triangle", "the shape of shapes"]
-  }
-,
-  {
-    "object": "triangleDone",
-    "copy": ["what a beauty"]
-  },
-  {
-    "object": "flowerPreBloom",
-    "copy": ["Flora Candentis.\nIt flower only once\nin its lifetime.","But that won't happen\nin this climate"]
-  },
-  {
-    "object": "missingIngredient",
-    "copy": ["I'm trying to create the\nbest underpants in the world.","but it's still missing some important ingredient"]
-  },
-  {
-    "object": "pickFlower",
-    "copy": ["It's beautiful.","I think I'll take it"]
-  },
-  {
-    "object": "startMachine",
-    "copy": ["Let's see if this will work"]
-  },
-
-  {
-    "object": "fishFoodNoNeed",
-    "copy": ["Food for Fish\nPremium fish food"]
-  },
-  {
-    "object": "fishHungry",
-    "copy": ["The fish seem hungry\nMaybe is should feed them."]
-  },
-  {
-    "object": "takeFishFood",
-    "copy": ["Food for Fish\nThe fish are going\nto love that","I'll Take it!"]
-  }
-,
-  {
-    "object": "feedFish",
-    "copy": ["Here you go Friends\nSome delicious food"]
-  }
-,
-  {
-    "object": "findGrandpaPants",
-    "copy": ["The fish left me a gift","The old underpants of grandpa!\nI assumed he was buried with them?"]
-  }
-,
-  {
-    "object": "birdHouseFine",
-    "copy": ["A family of robins\nlived there\nthis summer","I hope they come\nback next year."]
-  }
-,
-  {
-    "object": "birdHouseFell",
-    "copy": ["Oh, the wind must\nhave blown it like that","I can't seem to reach it"]
-  },
-  {
-    "object": "takeStick",
-    "copy": ["That's a nice stick!","I'll keep that"]
-  },
-  {
-    "object": "pushBirdHouse",
-    "copy": ["Let's try that."]
-  },
-  {
-    "object": "findGirlPants",
-    "copy": ["The birds must have\nused that to make a nest.","I can use that."]
-  }
-
-]
+    {
+      "object": "readCross",
+      "copy": [
+        "blablabla",
+        "grandpa dead"
+      ]
+    },
+    {
+      "subtitle": true,
+      "object": "radio",
+      "copy": [
+        "Good morning!\nThis is Radio City,\nIt's 7AM",
+        "Its going to be a hot day.\nThe temperature is expected\nto reach 38C."
+      ]
+    },
+    {
+      "object": "findHunter",
+      "copy": [
+        "Looks like some nice underpants",
+        "A hunter must have lost it\nwhile roaming this woods.",
+        "I'll take them!"
+      ]
+    },
+    {
+      "object": "bookCaseLocked",
+      "copy": [
+        "It's locked.\nDon't know whats inside,\nprobably some old junk",
+        "Maybe i should\nmake a key for it."
+      ]
+    },
+    {
+      "object": "bookCaseLockedMillRunning",
+      "copy": [
+        "It's locked.\nThe Key will be finished soon."
+      ]
+    },
+    {
+      "object": "millStart",
+      "copy": [
+        "My trusty old mill.\nIt can almost make\neverything."
+      ]
+    },
+    {
+      "object": "millRun",
+      "copy": [
+        "So, lets make that key.",
+        "It's going to take a\nwhile before its finished'."
+      ]
+    },
+    {
+      "random": true,
+      "object": "millWait",
+      "copy": [
+        "It's running",
+        "It's going to take a while"
+      ]
+    },
+    {
+      "object": "flowerPreBloom",
+      "copy": [
+        "Flora Candentis.\nIt flower only once\nin its lifetime.",
+        "But that won't happen\nin this climate"
+      ]
+    },
+    {
+      "object": "missingIngredient",
+      "copy": [
+        "I'm trying to create the\nbest underpants in the world.",
+        "but it's still missing some important ingredient"
+      ]
+    },
+    {
+      "object": "pickFlower",
+      "copy": [
+        "It's beautiful.",
+        "I think I'll take it"
+      ]
+    },
+    {
+      "object": "startMachine",
+      "copy": [
+        "Let's see if this will work"
+      ]
+    },
+    {
+      "object": "fishFoodNoNeed",
+      "copy": [
+        "Food for Fish\nPremium fish food"
+      ]
+    },
+    {
+      "object": "fishHungry",
+      "copy": [
+        "The fish seem hungry\nMaybe is should feed them."
+      ]
+    },
+    {
+      "object": "takeFishFood",
+      "copy": [
+        "Food for Fish\nThe fish are going\nto love that",
+        "I'll Take it!"
+      ]
+    },
+    {
+      "object": "feedFish",
+      "copy": [
+        "Here you go Friends\nSome delicious food"
+      ]
+    },
+    {
+      "object": "findGrandpaPants",
+      "copy": [
+        "The fish left me a gift",
+        "The old underpants of grandpa!\nI assumed he was buried with them?"
+      ]
+    },
+    {
+      "object": "birdHouseFine",
+      "copy": [
+        "A family of robins\nlived there\nthis summer",
+        "I hope they come\nback next year."
+      ]
+    },
+    {
+      "object": "birdHouseFell",
+      "copy": [
+        "Oh, the wind must\nhave blown it like that",
+        "I can't seem to reach it"
+      ]
+    },
+    {
+      "object": "takeStick",
+      "copy": [
+        "That's a nice stick!",
+        "I'll keep that"
+      ]
+    },
+    {
+      "object": "pushBirdHouse",
+      "copy": [
+        "Let's try that."
+      ]
+    },
+    {
+      "object": "findGirlPants",
+      "copy": [
+        "The birds must have\nused that to make a nest.",
+        "I can use that."
+      ]
+    }
+  ]
 }

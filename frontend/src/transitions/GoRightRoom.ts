@@ -1,9 +1,20 @@
 import Transition from "./Transition";
-import GameModel from "../GameModel";
+import GameModel, {StateFasion} from "../GameModel";
 import gsap from "gsap";
 
 export default class GoRightRoom extends Transition{
     set(onComplete: () => void){
+
+        if(GameModel.stateFashion ==StateFasion.READ_MAIL_DONE && GameModel.pantsFound.length>=2){
+            GameModel.stateFashion =StateFasion.CAN_MAKE_TRIANGLE
+        }
+        if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE_DONE && GameModel.pantsFound.length>=3){
+            GameModel.stateFashion =StateFasion.CAN_FINISH_WEBSITE
+        }
+        if(GameModel.stateFashion==StateFasion.FINISH_WEBSITE_DONE){
+            GameModel.stateFashion=StateFasion.CAN_READ_MAIL_MAILBOX
+        }
+
 
         gsap.to(GameModel,{roomCamOffset:1,duration:2});
         GameModel.isLeftRoom =false;

@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateFasion, StateHunter, Transitions} from "../GameModel";
+import GameModel, {StateFasion, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoWorkTrigger extends HitTrigger{
@@ -13,6 +13,10 @@ export default class GoWorkTrigger extends HitTrigger{
             GameModel.setTransition(Transitions.TEXT_INFO,"triangleDone")
             return;
         }
+        if(GameModel.stateFashion==StateFasion.FINISH_WEBSITE_DONE){
+            GameModel.setTransition(Transitions.TEXT_INFO,"websiteDone")
+            return;
+        }
         let obj = GameModel.renderer.modelByLabel["labtop"]
         let world = obj.getWorldPos()
         world.z+=1.0;
@@ -22,9 +26,9 @@ export default class GoWorkTrigger extends HitTrigger{
     }
     onCompleteWalk(){
 
-        if(GameModel.stateFashion==StateFasion.READ_MAIL){
-            GameModel.setTransition(Transitions.MAKE_TRIANGLE)
-        }else{
+        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
+            GameModel.setTransition(Transitions.WORK)
+        }else if(GameModel.stateFashion==StateFasion.START || GameModel.stateFashion==StateFasion.CAN_READ_MAIL_MAILBOX){
             GameModel.setTransition(Transitions.READ_MAIL)
         }
 

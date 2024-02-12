@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, { StateFasion} from "../GameModel";
+import GameModel, {StateFasion} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class ReadMail extends Transition{
@@ -8,8 +8,14 @@ export default class ReadMail extends Transition{
     set(onComplete: () => void){
         super.set(onComplete)
         GameModel.characterHandler.startTyping()
-        GameModel.textHandler.showHitTrigger("readMail")
-        GameModel.stateFashion =StateFasion.READ_MAIL;
+       if(GameModel.stateFashion==StateFasion.START) {
+           GameModel.textHandler.showHitTrigger("readMail")
+           GameModel.stateFashion = StateFasion.READ_MAIL;
+       }
+        if(GameModel.stateFashion==StateFasion.CAN_READ_MAIL_MAILBOX) {
+            GameModel.textHandler.showHitTrigger("readMailAward")
+            GameModel.stateFashion = StateFasion.READ_MAIL_MAILBOX;
+        }
        // GameModel.setLaptopState(LaptopState.NONE)
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
@@ -19,7 +25,12 @@ export default class ReadMail extends Transition{
 
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
-            GameModel.stateFashion =StateFasion.READ_MAIL_DONE;
+            if(GameModel.stateFashion == StateFasion.READ_MAIL) {
+                GameModel.stateFashion = StateFasion.READ_MAIL_DONE;
+            }
+            if(GameModel.stateFashion == StateFasion.READ_MAIL_MAILBOX) {
+                GameModel.stateFashion = StateFasion.GET_FASION_PANTS;
+            }
             this.onComplete()
         }
     }

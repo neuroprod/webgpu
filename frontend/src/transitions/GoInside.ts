@@ -8,6 +8,7 @@ export default class GoInside extends Transition{
     set(onComplete: () => void){
 
 
+
         let ts = Timeline.timeline({onComplete:onComplete})
 
 

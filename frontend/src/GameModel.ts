@@ -36,7 +36,7 @@ import Outside from "./Outside";
 import UIUtils from "./lib/UI/UIUtils";
 import SelectItem from "./lib/UI/math/SelectItem";
 import StartMill from "./transitions/StartMill";
-import MakeTriangle from "./transitions/MakeTriangle";
+import Work from "./transitions/Work";
 import GoGrave from "./transitions/GoGrave";
 import FlowerPotHitTrigger from "./trigers/FlowerPotHitTrigger";
 import FlowerHitTrigger from "./trigers/FlowerHitTrigger";
@@ -146,7 +146,7 @@ export const Transitions =
         FIND_HUNTER_PANTS: new FindHunterPants(),
         TEXT_INFO: new TextInfo(),
         START_MILL: new StartMill(),
-        MAKE_TRIANGLE: new MakeTriangle(),
+        WORK: new Work(),
         GO_GRAVE: new GoGrave(),
         PICK_FLOWER: new PickFlower(),
         START_MACHINE: new StartMachine(),
@@ -155,7 +155,8 @@ export const Transitions =
         FIND_GRANDPA_PANTS: new FindGrandpaPants(),
         TAKE_STICK: new TakeStick(),
         PUSH_BIRDHOUSE: new PushBirdHouse(),
-        FIND_GIRL_PANTS: new FindGirlpaPants()
+        FIND_GIRL_PANTS: new FindGirlpaPants(),
+
 
 
     }
