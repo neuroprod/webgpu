@@ -153,7 +153,7 @@ export default class GLFTLoader {
             }
             let mData = materialData[m.model.mesh.label]
             if (mData) {
-
+                m.model.needsHitTest = mData.needsHitTest
                 m.model.needsAlphaClip = mData.needsAlphaClip
                 m.model.alphaClipValue = mData.alphaClipValue
                 m.model.castShadow = mData.castShadow;
