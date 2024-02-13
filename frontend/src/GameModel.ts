@@ -57,6 +57,9 @@ import FindGrandpaPants from "./transitions/FindGrandpaPants";
 import TakeStick from "./transitions/TakeStick";
 import PushBirdHouse from "./transitions/PushBirdHouse";
 import FindGirlpaPants from "./transitions/FindGirlPants";
+import PackageTrigger from "./trigers/PackageTrigger";
+import MailBoxTrigger from "./trigers/MailBoxTrigger";
+import FindFasionPants from "./transitions/FindFasionPants";
 
 export enum StateGold {
     START,
@@ -99,6 +102,7 @@ export enum StateFasion {
     CAN_READ_MAIL_MAILBOX,
     READ_MAIL_MAILBOX,
     GET_FASION_PANTS,
+    TAKE_FASION_PANTS,
 }
 
 export enum StateHighTech {
@@ -156,7 +160,7 @@ export const Transitions =
         TAKE_STICK: new TakeStick(),
         PUSH_BIRDHOUSE: new PushBirdHouse(),
         FIND_GIRL_PANTS: new FindGirlpaPants(),
-
+        TAKE_PACKAGE:  new FindFasionPants(),
 
 
     }
@@ -252,6 +256,17 @@ class GameModel {
     set stateFashion(value: StateFasion) {
         this.room.laptopScreen.setState(value);
         this._stateFashion = value;
+        if(this._stateFashion==StateFasion.GET_FASION_PANTS){
+           this.outside.mailBox.setState(1)
+            this.renderer.modelByLabel["labtop"].enableHitTest = false;
+        }
+        else if(this._stateFashion==StateFasion.TAKE_FASION_PANTS){
+            this.renderer.modelByLabel["labtop"].enableHitTest = false;
+        }
+        else{
+            this.outside.mailBox.setState(0)
+            this.renderer.modelByLabel["labtop"].enableHitTest = true;
+        }
     }
 
     private _stateGirl: StateGirl = StateGirl.START;
@@ -273,6 +288,9 @@ class GameModel {
             this.renderer.modelByLabel["stick"].enableHitTest = true;
 
             this.renderer.modelByLabel["birdHouse"].setEuler(0, 0, 0.6);
+        }else if(value==StateGirl.TAKE_GIRL_PANTS){
+            this.renderer.modelByLabel["girlPants"].visible = false;
+            this.renderer.modelByLabel["girlPants"].enableHitTest = false;
         }
         this._stateGirl = value;
     }
@@ -464,7 +482,8 @@ class GameModel {
     }
 
     makeTriggers() {
-
+        this.triggers.push(new PackageTrigger(Scenes.OUTSIDE, ["package"]));
+        this.triggers.push(new MailBoxTrigger(Scenes.OUTSIDE, ["mailBox","mailBoxDoor","mailBoxFlag"]));
         this.triggers.push(new BirdHouseTrigger(Scenes.OUTSIDE, ["birdHouse"]));
         this.triggers.push(new FishTrigger(Scenes.OUTSIDE, ["fishHit"]));
         this.triggers.push(new GirlPantsTrigger(Scenes.OUTSIDE, ["girlPants"]));

@@ -464,6 +464,7 @@ export default class GLFTLoader {
             let positionData = this.getSlize(posAccessor);
             let floatPos = new Float32Array(positionData)
             let md = materialData[m.name];
+
             if (md) {
                 if (md.needsHitTest) {
 

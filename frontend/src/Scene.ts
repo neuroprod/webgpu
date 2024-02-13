@@ -18,6 +18,7 @@ export default class Scene {
         let label = ""
         let hit = false;
 //TODO check closest hit
+
         for (let m of this.glFTLoader.modelsHit) {
 
             if (!m.needsHitTest) continue;

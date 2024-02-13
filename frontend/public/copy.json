@@ -98,7 +98,25 @@
     }, {
       "object": "readMailAward",
       "copy": [
-        "they won an award","they send me a gift"
+        "They won an award","They send me a package?"
+      ]
+    },
+    {
+      "object": "noMail",
+      "copy": [
+        "I hardly get any mail these days."
+      ]
+    },
+    {
+      "object": "findFashionPants",
+      "copy": [
+        "Oh, must be the package\nfrom the agency."
+      ]
+    },
+    {
+      "object": "noMail",
+      "copy": [
+        "I hardly get any mail these days."
       ]
     },
 

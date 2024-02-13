@@ -5,6 +5,7 @@ import RenderSettings from "../RenderSettings";
 import {CURSOR} from "../ui/Cursor";
 
 export default class StartGame extends Transition {
+    private start: boolean=false ;
     set(onComplete: () => void) {
         this.onComplete =onComplete
         GameModel.textHandler.showHitTrigger("radio")
@@ -17,7 +18,8 @@ export default class StartGame extends Transition {
     onMouseDown(){
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
-
+            if(this.start)return;
+            this.start =true;
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
             GameModel.sound.startMusic();
