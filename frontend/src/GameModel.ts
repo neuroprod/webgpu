@@ -66,6 +66,8 @@ import KeyTrigger from "./trigers/KeyTrigger";
 import TakeKey from "./transitions/TakeKey";
 import OpenBookcase from "./transitions/OpenBookcase";
 import TakeShovel from "./transitions/TakeShovel";
+import DigGraveTrigger from "./trigers/DigGraveTrigger";
+import DigGrave from "./transitions/DigGrave";
 
 export enum StateGold {
     START,
@@ -174,7 +176,8 @@ export const Transitions =
         FIND_GLOW_PANTS: new FindGlowPants(),
         TAKE_KEY:  new TakeKey(),
         OPEN_BOOKCASE: new OpenBookcase(),
-        TAKE_SHOVEL :new TakeShovel()
+        TAKE_SHOVEL :new TakeShovel(),
+        DIG_GRAVE:new DigGrave()
 
     }
 
@@ -265,6 +268,9 @@ class GameModel {
     }
 
     set stateGold(value: StateGold) {
+        if (value == StateGold.START) {
+            this.renderer.modelByLabel["shovel"].visible =true
+        }
         if (value == StateGold.START_MILL) {
 
         }
@@ -274,8 +280,12 @@ class GameModel {
         }
         if(value==StateGold.FIND_NOTE || value==StateGold.GET_SHOVEL|| value==StateGold.GET_GOLD){
             this.dayNight =1;
+            this.renderer.modelByLabel["grave"].enableHitTest =true
+            this.renderer.modelByLabel["cross"].enableHitTest =false
         }else{
             this.dayNight =0;
+            this.renderer.modelByLabel["grave"].enableHitTest =false
+            this.renderer.modelByLabel["cross"].enableHitTest =true
         }
         this._stateGold = value;
     }
@@ -499,6 +509,7 @@ class GameModel {
         this.stateGirl = StateGirl.START;
         this.stateHighTech = StateHighTech.START;
         this.stateFashion = StateFasion.START;
+        this.stateGold =StateGold.START;
     }
 
 
@@ -521,6 +532,7 @@ class GameModel {
     }
 
     makeTriggers() {
+        this.triggers.push(new DigGraveTrigger(Scenes.OUTSIDE, ["grave"]))
         this.triggers.push(new KeyTrigger(Scenes.ROOM, ["key"]))
         this.triggers.push(new HighTechPantsTrigger(Scenes.ROOM, ["pantsGlow"]))
         this.triggers.push(new PackageTrigger(Scenes.OUTSIDE, ["package"]));

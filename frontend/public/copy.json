@@ -195,13 +195,31 @@
       "copy": [
         "A letter from grandpa!","Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it","So i will take it\nwith me to my grave."
       ]
+    },{
+      "object": "shovelNoNeed",
+      "copy": [
+        "It's a shovel!"
+      ]
     },
     {
       "object": "takeShovel",
       "copy": [
         "I'm going to need that"
       ]
+    },   {
+      "object": "diggHand",
+      "copy": [
+        "I'm not going to dig\nhim up with my hands."
+      ]
     },
+    {
+      "object": "digGrave",
+      "copy": [
+        "you won, end anime"
+      ]
+    },
+
+
 
     {
       "object": "flowerPreBloom",
