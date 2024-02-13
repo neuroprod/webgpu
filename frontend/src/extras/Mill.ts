@@ -17,10 +17,12 @@ export default class Mill{
     private bedZ: number =-0.2;
     public sparkModel: Model;
     private renderer: Renderer;
+    private mill: Model;
 
 
     constructor(mill: Model, renderer: Renderer) {
         this.renderer = renderer;
+        this.mill= mill;
         this.millBed =mill.children[0]as Model;
         this.millHead =mill.children[2]as Model;
         this.millControle =mill.children[1]as Model;
@@ -88,8 +90,13 @@ export default class Mill{
             if(this.tl)this.tl.clear()
             this.headPos=0.1;
             this.bedZ =-0.2;
+            this.millBed.enableHitTest =true;
+            this.millHead.enableHitTest =true;
+            this.millControle.enableHitTest =true;
+            this.mill.enableHitTest =true;
             GameModel.renderer.modelByLabel["keyStock"].visible =true;
             GameModel.renderer.modelByLabel["key"].visible =false
+            GameModel.renderer.modelByLabel["key"].enableHitTest =false;
            GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
             this.sparkModel.visible =false
 
@@ -97,6 +104,7 @@ export default class Mill{
         }else if(state==MillState.ON){
             GameModel.renderer.modelByLabel["keyStock"].visible =true;
             GameModel.renderer.modelByLabel["key"].visible =false
+            GameModel.renderer.modelByLabel["key"].enableHitTest =false;
             if(this.tl) this.tl.clear()
             this.headPos=0.1;
             this.bedZ =-0.2;
@@ -114,7 +122,14 @@ export default class Mill{
             this.headPos=0.3;
             this.bedZ =-0.0;
             GameModel.renderer.modelByLabel["keyStock"].visible =false;
+
+            this.millBed.enableHitTest =false;
+            this.millHead.enableHitTest =false;
+            this.millControle.enableHitTest =false;
+            this.mill.enableHitTest =false;
+
             GameModel.renderer.modelByLabel["key"].visible =true;
+            GameModel.renderer.modelByLabel["key"].enableHitTest =true;
             GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
             this.sparkModel.visible =false
         }

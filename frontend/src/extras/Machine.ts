@@ -28,7 +28,9 @@ export default class Machine
         this.drop.visible =false;
         this.dropStartPos = this.drop.getPosition().clone()
 
-console.log(this.drop,this.dropStartPos)
+        this.dropScale=0;
+        this.dropScale2 =0;
+        this.drop.setScale(this.dropScale-this.dropScale2*0.2,this.dropScale+this.dropScale2,this.dropScale-this.dropScale2*0.2)
         this.pants =this.renderer.modelByLabel["pantsGlow"]
        let m =new Material(renderer,"pantsglow",new GBufferGlowPantsProgress(renderer,"pantsGlowShader"))
         this.pants.material =m;
@@ -50,7 +52,7 @@ console.log(this.drop,this.dropStartPos)
         this.dripTL.to(this,{ dropOffset:-0.6,ease:"power2.in",duration:0.5},1.3)
         this.dripTL.call(()=>{
           this.targetProgress+=0.02;
-          if(this.targetProgress>0.5)this.targetProgress=0.5;
+          if(this.targetProgress>0.3)this.targetProgress=0.3;
         },[],1.8)
         this.dripTL.set(this,{ dropScale:0,dropScale2:0.0},1.8)
     }.1
@@ -64,5 +66,15 @@ console.log(this.drop,this.dropStartPos)
             GameModel.pointLightsByLabel[ "glowPantsLight"].setStrength(Math.sin(Timer.time*0.66)*0.2+0.8);
         this.arrow.setEuler(0,0,Math.sin(Timer.time)*0.2+Math.sin(Timer.time*3.0)*0.2+2)
         }
+    }
+
+    stop() {
+        if(this.dripTL)this.dripTL.clear()
+        this.drop.visible =false
+
+        this.pants.material.uniforms.setUniform("progress",1)
+        this.arrow.setEuler(0,0,0);
+        GameModel.pointLightsByLabel[ "glowPantsLight"].setStrength(1);
+
     }
 }

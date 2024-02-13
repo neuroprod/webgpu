@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateFasion} from "../GameModel";
+import GameModel, {StateFasion, StateGold, StateHighTech} from "../GameModel";
 import gsap from "gsap";
 
 export default class GoRightRoom extends Transition{
@@ -14,7 +14,12 @@ export default class GoRightRoom extends Transition{
         if(GameModel.stateFashion==StateFasion.FINISH_WEBSITE_DONE){
             GameModel.stateFashion=StateFasion.CAN_READ_MAIL_MAILBOX
         }
-
+        if(GameModel.stateHighTech==StateHighTech.START_MACHINE&& GameModel.pantsFound.length>=4){
+            GameModel.stateHighTech=StateHighTech.STOP_MACHINE
+        }
+        if(GameModel.stateGold==StateGold.START_MILL&& GameModel.pantsFound.length>=6){
+            GameModel.stateGold=StateGold.FINISH_KEY
+        }
 
         gsap.to(GameModel,{roomCamOffset:1,duration:2});
         GameModel.isLeftRoom =false;

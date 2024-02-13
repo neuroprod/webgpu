@@ -205,6 +205,20 @@
       ]
     },
     {
+      "object": "hightechDoneSoon",
+      "copy": [
+        "Will be done soon bla"
+      ]
+    },
+    {
+      "object": "findGlowPants",
+      "copy": [
+        "these are so nice","lets take them"
+      ]
+    },
+
+
+    {
       "object": "fishFoodNoNeed",
       "copy": [
         "Food for Fish\nPremium fish food"

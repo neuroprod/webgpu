@@ -60,6 +60,8 @@ import FindGirlpaPants from "./transitions/FindGirlPants";
 import PackageTrigger from "./trigers/PackageTrigger";
 import MailBoxTrigger from "./trigers/MailBoxTrigger";
 import FindFasionPants from "./transitions/FindFasionPants";
+import HighTechPantsTrigger from "./trigers/HighTechPantsTrigger";
+import FindGlowPants from "./transitions/FindGlowPants";
 
 export enum StateGold {
     START,
@@ -110,7 +112,8 @@ export enum StateHighTech {
     GROW_FLOWER,
     PICK_FLOWER,
     START_MACHINE,
-
+    STOP_MACHINE,
+    TAKE_HIGHTECH_PANTS,
 }
 
 export enum StateHunter {
@@ -161,6 +164,7 @@ export const Transitions =
         PUSH_BIRDHOUSE: new PushBirdHouse(),
         FIND_GIRL_PANTS: new FindGirlpaPants(),
         TAKE_PACKAGE:  new FindFasionPants(),
+        FIND_GLOW_PANTS: new FindGlowPants(),
 
 
     }
@@ -184,7 +188,23 @@ export enum Scenes {
 }
 
 class GameModel {
-    public stateGold: StateGold = StateGold.START
+    private goldSelect: Array<SelectItem>;
+    get stateGold(): StateGold {
+        return this._stateGold;
+    }
+
+    set stateGold(value: StateGold) {
+        if (value == StateGold.START_MILL)
+        {
+
+        }  if (value == StateGold.FINISH_KEY)
+        {
+
+            this.room.mill.setState(MillState.DONE)
+        }
+        this._stateGold = value;
+    }
+    private _stateGold: StateGold = StateGold.START
     public stateHunter = StateHunter.START
     public millState = MillState.OFF;
 
@@ -343,6 +363,15 @@ class GameModel {
         if (value == StateHighTech.START_MACHINE) {
             this.room.machine.start()
         }
+        if (value == StateHighTech.STOP_MACHINE) {
+            this.room.machine.stop()
+
+        }
+        if (value == StateHighTech.TAKE_HIGHTECH_PANTS) {
+            this.renderer.modelByLabel["pantsGlow"].enableHitTest = false
+            this.renderer.modelByLabel["pantsGlow"].visible =false
+
+        }
 
         this._stateHighTech = value;
     }
@@ -482,6 +511,7 @@ class GameModel {
     }
 
     makeTriggers() {
+        this.triggers.push(new HighTechPantsTrigger(Scenes.ROOM, ["pantsGlow"]))
         this.triggers.push(new PackageTrigger(Scenes.OUTSIDE, ["package"]));
         this.triggers.push(new MailBoxTrigger(Scenes.OUTSIDE, ["mailBox","mailBoxDoor","mailBoxFlag"]));
         this.triggers.push(new BirdHouseTrigger(Scenes.OUTSIDE, ["birdHouse"]));
@@ -491,7 +521,7 @@ class GameModel {
         this.triggers.push(new ShovelTrigger(Scenes.OUTSIDE, ["shovel"]));
         this.triggers.push(new StickTrigger(Scenes.OUTSIDE, ["stick"]));
         this.triggers.push(new FishFoodTrigger(Scenes.ROOM, ["fishFood"]));
-        this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker", "coffeeControler", "flask_G", "pantsGlow"]));
+        this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker", "coffeeControler", "flask_G"]));
         this.triggers.push(new FlowerHitTrigger(Scenes.OUTSIDE, ["glowFlower"]));
         this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3"]));
         this.triggers.push(new GoHunterTrigger(Scenes.OUTSIDE, "hunterPants"));
@@ -520,6 +550,7 @@ class GameModel {
         this.girlSelect = UIUtils.EnumToSelectItem(StateGirl)
         this.grandpaSelect = UIUtils.EnumToSelectItem(StateGrandpa)
         this.fashionSelect= UIUtils.EnumToSelectItem(StateFasion)
+    this.goldSelect = UIUtils.EnumToSelectItem(StateGold)
     }
 
     onUI() {
@@ -537,6 +568,8 @@ class GameModel {
         let sf = UI.LSelect("FashionPants", this.fashionSelect, this._stateFashion)
         if (sf != this._stateFashion) this.stateFashion = sf;
 
+        let sgo = UI.LSelect("GoldPants", this.goldSelect, this._stateGold)
+        if (sgo != this._stateGold) this.stateGold = sgo;
 
         UI.separator("objects")
         if (UI.LButton("AllPants")) {

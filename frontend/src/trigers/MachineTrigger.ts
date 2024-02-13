@@ -9,20 +9,28 @@ export default class MachineHitTrigger extends HitTrigger {
 
 
     public over() {
+        if(GameModel.stateHighTech == StateHighTech.STOP_MACHINE ||GameModel.stateHighTech == StateHighTech.TAKE_HIGHTECH_PANTS)return
         GameModel.outlinePass.setModel(GameModel.renderer.modelByLabel["coffeeMaker"]);
         GameModel.gameUI.cursor.show(CURSOR.LOOK)
 
     }
 
     public out() {
+        if(GameModel.stateHighTech == StateHighTech.STOP_MACHINE ||GameModel.stateHighTech == StateHighTech.TAKE_HIGHTECH_PANTS)return
         GameModel.outlinePass.setModel(null);
         GameModel.gameUI.cursor.hide()
 
     }
 
     protected click() {
+        if(GameModel.stateHighTech == StateHighTech.STOP_MACHINE ||GameModel.stateHighTech == StateHighTech.TAKE_HIGHTECH_PANTS)return
         if (GameModel.stateHighTech == StateHighTech.START || GameModel.stateHighTech == StateHighTech.GROW_FLOWER) {
             GameModel.setTransition(Transitions.TEXT_INFO, "missingIngredient")
+
+            return;
+        }
+        if (GameModel.stateHighTech == StateHighTech.START_MACHINE ) {
+            GameModel.setTransition(Transitions.TEXT_INFO, "hightechDoneSoon")
 
             return;
         }
