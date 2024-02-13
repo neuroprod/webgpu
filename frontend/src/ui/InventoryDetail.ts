@@ -55,6 +55,28 @@ private items:Array<UIBitmapModel>=[];
         this.addChild(item2)
         this.items.push(item2)
 
+
+        let item3=new UIBitmapModel(renderer,preLoader,"item3","UI/info3.png")
+        this.addChild(item3)
+        this.items.push(item3)
+
+        let item4=new UIBitmapModel(renderer,preLoader,"item4","UI/info4.png")
+        this.addChild(item4)
+        this.items.push(item4)
+
+        let item5=new UIBitmapModel(renderer,preLoader,"item5","UI/info5.png")
+        this.addChild(item5)
+        this.items.push(item5)
+
+        let item6=new UIBitmapModel(renderer,preLoader,"item6","UI/info6.png")
+        this.addChild(item6)
+        this.items.push(item6)
+
+        let item7=new UIBitmapModel(renderer,preLoader,"item7","UI/info7.png")
+        this.addChild(item7)
+        this.items.push(item7)
+
+
     }
     update() {
         if(!this.visible)return;

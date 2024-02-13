@@ -36,8 +36,11 @@ export default class MailBox {
             this.door.setEuler(0,0,Math.PI*0.95)
             this.package.visible = true;
             this.mailBox.needsHitTest =false
+            this.flag.needsHitTest =false
+            this.door.needsHitTest =false
             this.package.needsHitTest =true;
-            console.log("this.package.needsHitTest ")
+            console.log( this.package.enableHitTest,"package??")
+
         } else  if(state==2){
             this.flag.setEuler(0, 0 , Math.PI/2);
             this.door.setEuler(0,0,Math.PI*0.95)

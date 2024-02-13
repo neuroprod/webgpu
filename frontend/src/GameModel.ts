@@ -123,8 +123,6 @@ export enum StateHunter {
 }
 
 
-
-
 export enum MillState {
     OFF,
     ON,
@@ -163,7 +161,7 @@ export const Transitions =
         TAKE_STICK: new TakeStick(),
         PUSH_BIRDHOUSE: new PushBirdHouse(),
         FIND_GIRL_PANTS: new FindGirlpaPants(),
-        TAKE_PACKAGE:  new FindFasionPants(),
+        TAKE_PACKAGE: new FindFasionPants(),
         FIND_GLOW_PANTS: new FindGlowPants(),
 
 
@@ -188,26 +186,8 @@ export enum Scenes {
 }
 
 class GameModel {
-    private goldSelect: Array<SelectItem>;
-    get stateGold(): StateGold {
-        return this._stateGold;
-    }
-
-    set stateGold(value: StateGold) {
-        if (value == StateGold.START_MILL)
-        {
-
-        }  if (value == StateGold.FINISH_KEY)
-        {
-
-            this.room.mill.setState(MillState.DONE)
-        }
-        this._stateGold = value;
-    }
-    private _stateGold: StateGold = StateGold.START
     public stateHunter = StateHunter.START
     public millState = MillState.OFF;
-
     public renderer: Renderer;
     public roomCamOffset: number = 0;
     public isLeftRoom = false;
@@ -251,10 +231,10 @@ class GameModel {
     outside: Outside;
     lastClickLabels: Array<string> = [];
     pointLightsByLabel: { [name: string]: PointLight } = {};
+    private goldSelect: Array<SelectItem>;
     private floorLabels: string[];
     private triggers: Array<Trigger> = []
     private currentTransition: Transition;
-
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
     private girlSelect: Array<SelectItem>;
@@ -267,6 +247,23 @@ class GameModel {
         this.prepUI()
     }
 
+    private _stateGold: StateGold = StateGold.START
+
+    get stateGold(): StateGold {
+        return this._stateGold;
+    }
+
+    set stateGold(value: StateGold) {
+        if (value == StateGold.START_MILL) {
+
+        }
+        if (value == StateGold.FINISH_KEY) {
+
+            this.room.mill.setState(MillState.DONE)
+        }
+        this._stateGold = value;
+    }
+
     private _stateFashion: StateFasion = StateFasion.START
 
     get stateFashion(): StateFasion {
@@ -276,14 +273,12 @@ class GameModel {
     set stateFashion(value: StateFasion) {
         this.room.laptopScreen.setState(value);
         this._stateFashion = value;
-        if(this._stateFashion==StateFasion.GET_FASION_PANTS){
-           this.outside.mailBox.setState(1)
+        if (this._stateFashion == StateFasion.GET_FASION_PANTS) {
+            this.outside.mailBox.setState(1)
             this.renderer.modelByLabel["labtop"].enableHitTest = false;
-        }
-        else if(this._stateFashion==StateFasion.TAKE_FASION_PANTS){
+        } else if (this._stateFashion == StateFasion.TAKE_FASION_PANTS) {
             this.renderer.modelByLabel["labtop"].enableHitTest = false;
-        }
-        else{
+        } else {
             this.outside.mailBox.setState(0)
             this.renderer.modelByLabel["labtop"].enableHitTest = true;
         }
@@ -308,7 +303,7 @@ class GameModel {
             this.renderer.modelByLabel["stick"].enableHitTest = true;
 
             this.renderer.modelByLabel["birdHouse"].setEuler(0, 0, 0.6);
-        }else if(value==StateGirl.TAKE_GIRL_PANTS){
+        } else if (value == StateGirl.TAKE_GIRL_PANTS) {
             this.renderer.modelByLabel["girlPants"].visible = false;
             this.renderer.modelByLabel["girlPants"].enableHitTest = false;
         }
@@ -369,7 +364,7 @@ class GameModel {
         }
         if (value == StateHighTech.TAKE_HIGHTECH_PANTS) {
             this.renderer.modelByLabel["pantsGlow"].enableHitTest = false
-            this.renderer.modelByLabel["pantsGlow"].visible =false
+            this.renderer.modelByLabel["pantsGlow"].visible = false
 
         }
 
@@ -411,7 +406,6 @@ class GameModel {
         this.millState = state;
         this.room.mill.setState(state);
     }
-
 
 
     update() {
@@ -488,7 +482,7 @@ class GameModel {
         this.stateGrandpa = StateGrandpa.START;
         this.stateGirl = StateGirl.START;
         this.stateHighTech = StateHighTech.START;
-        this.stateFashion =StateFasion.START;
+        this.stateFashion = StateFasion.START;
     }
 
 
@@ -513,7 +507,7 @@ class GameModel {
     makeTriggers() {
         this.triggers.push(new HighTechPantsTrigger(Scenes.ROOM, ["pantsGlow"]))
         this.triggers.push(new PackageTrigger(Scenes.OUTSIDE, ["package"]));
-        this.triggers.push(new MailBoxTrigger(Scenes.OUTSIDE, ["mailBox","mailBoxDoor","mailBoxFlag"]));
+        this.triggers.push(new MailBoxTrigger(Scenes.OUTSIDE, ["mailBox", "mailBoxDoor", "mailBoxFlag"]));
         this.triggers.push(new BirdHouseTrigger(Scenes.OUTSIDE, ["birdHouse"]));
         this.triggers.push(new FishTrigger(Scenes.OUTSIDE, ["fishHit"]));
         this.triggers.push(new GirlPantsTrigger(Scenes.OUTSIDE, ["girlPants"]));
@@ -549,8 +543,8 @@ class GameModel {
         this.highTechSelect = UIUtils.EnumToSelectItem(StateHighTech)
         this.girlSelect = UIUtils.EnumToSelectItem(StateGirl)
         this.grandpaSelect = UIUtils.EnumToSelectItem(StateGrandpa)
-        this.fashionSelect= UIUtils.EnumToSelectItem(StateFasion)
-    this.goldSelect = UIUtils.EnumToSelectItem(StateGold)
+        this.fashionSelect = UIUtils.EnumToSelectItem(StateFasion)
+        this.goldSelect = UIUtils.EnumToSelectItem(StateGold)
     }
 
     onUI() {
