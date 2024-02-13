@@ -178,6 +178,32 @@
       ]
     },
     {
+      "object": "bookCaseMillFinished",
+      "copy": [
+        "I should check on that key"
+      ]
+    },
+    {
+      "object": "takeKey",
+      "copy": [
+        "Lets see if I can open that book case"
+      ]
+    },
+
+    {
+      "object": "findNote",
+      "copy": [
+        "A letter from grandpa!","Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it","So i will take it\nwith me to my grave."
+      ]
+    },
+    {
+      "object": "takeShovel",
+      "copy": [
+        "I'm going to need that"
+      ]
+    },
+
+    {
       "object": "flowerPreBloom",
       "copy": [
         "Flora Candentis.\nIt flower only once\nin its lifetime.",

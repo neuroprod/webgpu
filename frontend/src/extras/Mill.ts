@@ -44,7 +44,7 @@ export default class Mill{
       mill.addChild(this.sparkModel);
 
 
-
+        this.setState(0)
         return;
 
 
@@ -97,7 +97,7 @@ export default class Mill{
             GameModel.renderer.modelByLabel["keyStock"].visible =true;
             GameModel.renderer.modelByLabel["key"].visible =false
             GameModel.renderer.modelByLabel["key"].enableHitTest =false;
-           GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
+            if(  GameModel.pointLightsByLabel[ "millLight"]) GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
             this.sparkModel.visible =false
 
 

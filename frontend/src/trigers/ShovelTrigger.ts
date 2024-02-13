@@ -1,17 +1,26 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, { Transitions} from "../GameModel";
+import GameModel, {StateGold, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
+import {Vector3} from "math.gl";
 
 export default class ShovelTrigger extends HitTrigger{
 
     protected click() {
-        GameModel.setTransition(Transitions.TEXT_INFO,"shovelNoNeed")
+        if(GameModel.stateGold==StateGold.FIND_NOTE){
+            let pot = GameModel.renderer.modelByLabel["shovel"]
+            let world = pot.getWorldPos(new Vector3(-0.7,0,0.5))
+            GameModel.characterHandler.walkTo(world,2,this.onCompleteWalk,false)
+        }else{
+            GameModel.setTransition(Transitions.TEXT_INFO,"shovelNoNeed")
+        }
+
 
 
         return;
     }
     onCompleteWalk(){
 
+        GameModel.setTransition(Transitions.TAKE_SHOVEL)
 
     }
     public over() {

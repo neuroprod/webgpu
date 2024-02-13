@@ -62,15 +62,21 @@ import MailBoxTrigger from "./trigers/MailBoxTrigger";
 import FindFasionPants from "./transitions/FindFasionPants";
 import HighTechPantsTrigger from "./trigers/HighTechPantsTrigger";
 import FindGlowPants from "./transitions/FindGlowPants";
+import KeyTrigger from "./trigers/KeyTrigger";
+import TakeKey from "./transitions/TakeKey";
+import OpenBookcase from "./transitions/OpenBookcase";
+import TakeShovel from "./transitions/TakeShovel";
 
 export enum StateGold {
     START,
     LOCKED_DOOR,
     START_MILL,
     FINISH_KEY,
+    HAS_KEY,
     FIND_NOTE,
     GET_SHOVEL,
     GET_GOLD,
+
 }
 
 export enum StateGrandpa {
@@ -140,6 +146,9 @@ export const Pants =
         fashion: 5,
         gold: 6,
     }
+
+
+
 export const Transitions =
     {
         GO_OUTSIDE: new GoOutside(),
@@ -163,7 +172,9 @@ export const Transitions =
         FIND_GIRL_PANTS: new FindGirlpaPants(),
         TAKE_PACKAGE: new FindFasionPants(),
         FIND_GLOW_PANTS: new FindGlowPants(),
-
+        TAKE_KEY:  new TakeKey(),
+        OPEN_BOOKCASE: new OpenBookcase(),
+        TAKE_SHOVEL :new TakeShovel()
 
     }
 
@@ -260,6 +271,11 @@ class GameModel {
         if (value == StateGold.FINISH_KEY) {
 
             this.room.mill.setState(MillState.DONE)
+        }
+        if(value==StateGold.FIND_NOTE || value==StateGold.GET_SHOVEL|| value==StateGold.GET_GOLD){
+            this.dayNight =1;
+        }else{
+            this.dayNight =0;
         }
         this._stateGold = value;
     }
@@ -505,6 +521,7 @@ class GameModel {
     }
 
     makeTriggers() {
+        this.triggers.push(new KeyTrigger(Scenes.ROOM, ["key"]))
         this.triggers.push(new HighTechPantsTrigger(Scenes.ROOM, ["pantsGlow"]))
         this.triggers.push(new PackageTrigger(Scenes.OUTSIDE, ["package"]));
         this.triggers.push(new MailBoxTrigger(Scenes.OUTSIDE, ["mailBox", "mailBoxDoor", "mailBoxFlag"]));
