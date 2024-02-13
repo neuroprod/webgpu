@@ -21,6 +21,7 @@ export default class TextHandler {
     public hitTriggerByLabel: { [name: string]: any } = {};
     font: Font;
     fontMeshRenderer: FontMeshRenderer;
+    public words = 0;
     //
     private renderer: Renderer;
     private jsonLoader: JSONLoader;
@@ -44,6 +45,11 @@ export default class TextHandler {
         for (let d of this.hitTriggers) {
             this.hitTriggerByLabel[d.object] = d;
             d.count = 0;
+
+            for (let s in d.copy) {
+                this.wordCount(s)
+            }
+
             d.readAll = false;
         }
 
@@ -51,8 +57,18 @@ export default class TextHandler {
             this.hitTriggerByLabel[d.object] = d;
             d.count = 0;
 
+            for (let s in d.copy) {
+                this.wordCount(s)
+            }
             d.readAll = false;
         }
+        console.log("num words" ,this.words);
+    }
+
+    public wordCount(s: string) {
+        s = s.replace("\n", " ")
+        let a = s.split(" ")
+        this.words += a.length
     }
 
     onUI() {
@@ -79,7 +95,7 @@ export default class TextHandler {
         this.objectLabel = objectLabel;
         this.hideHitTrigger()
         let ht = this.hitTriggerByLabel[objectLabel];
-let multiline =false;
+        let multiline = false;
         let copy = "";
         if (ht) {
             if (isArray(ht.copy)) {
@@ -98,11 +114,11 @@ let multiline =false;
 
                     copy = ht.copy[ht.count]
                     ht.count++;
-                    multiline =true
+                    multiline = true
                     if (ht.count >= ht.copy.length) {
                         ht.count = 0;
                         ht.readAll = true;
-                        multiline =false
+                        multiline = false
                     }
                 }
 

@@ -44,7 +44,7 @@ export default class Outside extends Scene {
         this.root = this.glFTLoader.root
         this.root.setPosition(0, -1.5, 0)
         this.lightGrave = this.glFTLoader.objectsByName["lightGrave"];
-
+        this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
         this.fish = new Fish(this.renderer, this.glFTLoader.modelsByName["fish1"], this.glFTLoader.modelsByName["fish2"]);
 
         for (let m of this.glFTLoader.models) {
