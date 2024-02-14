@@ -1,6 +1,6 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
-import {Euler, Matrix4, Quaternion, Vector3, Vector4} from "math.gl";
+import {Euler, Matrix4, NumericArray, Quaternion, Vector3, Vector4} from "math.gl";
 import UI from "../UI/UI";
 import Group, {GroupSettings} from "../UI/components/Group";
 import {ButtonGroupSettings} from "../UI/components/ButtonGroup";
@@ -63,10 +63,14 @@ export default class Object3D extends ObjectGPU {
         this._scale.set(x, y, z)
         this.setDirty();
     }
-
+    setRotationQ(newRot: Quaternion) {
+        if(this._rotation.equals(newRot as NumericArray))return
+        this._rotation.from(newRot)
+        this.setDirty();
+    }
     public setRotation(x: number, y: number, z: number, w: number) {
 
-        if(this._rotation.equals([x,y,z]))return
+        if(this._rotation.equals([x,y,z,w]))return
         this._rotation.set(x, y, z, w)
         this.setDirty();
     }
@@ -150,6 +154,7 @@ export default class Object3D extends ObjectGPU {
        // this.onDataUI()
         UI.popGroup();
     }
+
 
 
 }

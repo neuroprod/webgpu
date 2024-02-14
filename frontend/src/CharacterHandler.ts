@@ -1,4 +1,4 @@
-import {Vector3} from "math.gl";
+import {NumericArray, Quaternion, Vector3} from "math.gl";
 import Renderer from "./lib/Renderer";
 import Camera from "./lib/Camera";
 import AnimationMixer from "./lib/animation/AnimationMixer";
@@ -31,13 +31,17 @@ export default class CharacterHandler {
     private scene: number = 0;
     private isWalking: boolean = false;
     private targetPos: Vector3 = new Vector3();
-    private targetRot: number = 0;
+
     private neck: Object3D;
     private head: Object3D;
     private pants: Material;
     private walkingSpeed: number = 0.72;
     private charScale: number = 1;
 
+    private rotateLerp =0;
+    private rotateStart :Quaternion =new Quaternion()
+    private rotateTarget :Quaternion =new Quaternion()
+    private rotateCurr :Quaternion =new Quaternion()
     constructor(renderer: Renderer, camera: Camera, glft: GLFTLoader, animationMixer: AnimationMixer) {
 
         this.renderer = renderer;
@@ -78,11 +82,26 @@ export default class CharacterHandler {
 
         this.characterRoot.setScale(this.charScale, this.charScale, this.charScale)
         this.characterRoot.setPosition(GameModel.characterPos.x, GameModel.characterPos.y, GameModel.characterPos.z)
-        this.characterRoot.setEuler(0, this.characterRot, 0)
+
+        this.rotateCurr.slerp(this.rotateStart as NumericArray,this.rotateTarget as NumericArray,this.rotateLerp) ;
+
+        this.characterRoot.setRotationQ( this.rotateCurr)
 
 
     }
+private rotateTo(angle:number,time:number)
+{
+  
 
+    this.rotateStart.from( this.characterRoot.getRotation());
+    this.rotateTarget.identity();
+    this.rotateTarget.rotateY(angle);
+
+    gsap.killTweensOf(this,"rotateLerp");
+    this.rotateLerp = 0
+    gsap.to(this,{rotateLerp:1,duration:time});
+
+}
     public walkTo(target: Vector3, targetRot = 0, completeCall: () => any = () => {
     }, keepWalking: boolean = false) {
 
@@ -137,7 +156,6 @@ export default class CharacterHandler {
         }, [], delay)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration:speed, ease: "none"}, delay)
     }
-
     public startWalking(keepWalking: boolean = false) {
         let pos = 0
         let dist = GameModel.characterPos.distance(this.targetPos);
@@ -150,7 +168,8 @@ export default class CharacterHandler {
             this.animationMixer.setAnimation("walking", 0)  , this.isWalking = true
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "power1.inOut"}, pos)
-        this.tl.to(this, {"characterRot": angle, duration: 0.5, ease: "none"}, pos)
+        this.tl.call(this.rotateTo.bind(this),[angle,0.5],pos)
+       // this.tl.to(this, {"characterRot": angle, duration: 0.5, ease: "none"}, pos)
 
         pos += 0.3;
         let duration = dist * this.walkingSpeed;
@@ -172,7 +191,8 @@ export default class CharacterHandler {
             this.isWalking = false
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
-        this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "power1.inOut"}, pos)
+        //this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "power1.inOut"}, pos)
+        this.tl.call(this.rotateTo.bind(this),[this.targetRot,0.5],pos)
     }
 
     startTyping() {
@@ -190,8 +210,8 @@ export default class CharacterHandler {
         let angle = Math.atan2(dir.x, dir.z);
 
 
-        this.tl.to(this, {"characterRot": angle, duration: 0.5, ease: "power1.inOut"}, pos)
-
+        //this.tl.to(this, {"characterRot": angle, duration: 0.5, ease: "power1.inOut"}, pos)
+        this.tl.call(this.rotateTo.bind(this),[angle,0.5],pos)
         let duration = dist * this.walkingSpeed;
         this.tl.to(GameModel.characterPos, {
             "x": this.targetPos.x,
@@ -211,19 +231,29 @@ export default class CharacterHandler {
             this.isWalking = false
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
-        this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "none"}, pos)
+       // this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "none"}, pos)
+        this.tl.call(this.rotateTo.bind(this),[this.targetRot,0.5],pos)
     }
 
     pullPants() {
         this.animationMixer.setAnimation("pullPants", 0);
         this.animationMixer.mixValue=1;
-        this.setAnimation("idle",0.4,0.2);
+        this.rotateTo(0,0.1);
+        this.setAnimation("idle",0.4,0.5);
     }
 
     setIdleAndTurn() {
 
 
         this.setAnimation("idle",0.5,0.0);
-        this.tl.to(this, {"characterRot":0, duration: 0.5, ease: "power1.inOut"},0.0)
+        this.tl.call(this.rotateTo.bind(this),[0,0.5],0)
+       // this.tl.to(this, {"characterRot":0, duration: 0.5, ease: "power1.inOut"},0.0)
+    }
+
+    setMixAnimation(anime: string, value: number, time: number, animationComplete: () => any = () => {
+}) {
+        let animation =this.animationMixer.animationsByName[anime];
+        gsap.killTweensOf(animation)
+        gsap.to(animation,{mixValue:value,duration:time,ease:"power2.Out",onComplete:animationComplete})
     }
 }

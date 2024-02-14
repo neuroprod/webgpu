@@ -5,7 +5,7 @@ import Texture from "../textures/Texture";
 import GameModel from "../../GameModel";
 export default class AnimationMixer{
     private animations: Array<Animation>;
-    private animationsByName: { [name: string]: Animation } = {};
+    public animationsByName: { [name: string]: Animation } = {};
     public mixValue: number=1;
 
     private anime1:Animation;
@@ -22,11 +22,13 @@ export default class AnimationMixer{
 
         }
         this.animationsByName["holding"].setAsMixAnimation(["RightArm","RightFore","RightHand"])
-
-
+        this.animationsByName["grabGlowPants"].setAsMixAnimation(["RightArm","RightFore","RightHand","RightShoulder"])
+        this.animationsByName["lookdown"].setAsMixAnimation(["Neck","Spine2","Head"])
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
         this.anime2.speedMultiplier =0.8;
+        this.animationsByName["pullPants"].speedMultiplier =0.6;
+
      let walking =this.animationsByName["walking"];
         walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
         walking.setCallBack(11*(1/30),()=>{GameModel.sound.playFootstep()})

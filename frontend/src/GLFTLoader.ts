@@ -148,7 +148,7 @@ export default class GLFTLoader {
                 m.model.hitTestObject = m.model.mesh.hitTestObject;
 
                 m.model.needsHitTest = true;
-console.log(m.model.label)
+
                 this.modelsHit.push(m.model);
             }
             let mData = materialData[m.model.mesh.label]

@@ -402,16 +402,29 @@ class GameModel {
     get hitObjectLabel(): string {
         return this._hitObjectLabel;
     }
-
+    emptyValueCount =0;
     set hitObjectLabel(value: string) {
 
         if (value == this._hitObjectLabel) {
+
+            if(this.lastClickLabels.length){
+               if(! this.lastClickLabels.includes(value)) {
+                   this.emptyValueCount++;
+                   if (this.emptyValueCount > 5) {
+                       this.lastClickLabels = [];
+                   }
+               }
+
+            }
+
             return;
         }
         if (this.lastClickLabels.includes(value)) {
             if (this.floorLabels.includes(value)) {
 
             } else {
+
+                this.emptyValueCount =0;
                 return;
             }
 

@@ -15,16 +15,20 @@ export default class FindGlowPants extends Transition{
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
+           GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.5,this.animationComplete.bind(this))
 
 
 
-            GameModel.pantsFound.push(Pants.glow);
-            GameModel.gameUI.updateInventory();
-            GameModel.sound.playPickPants();
-            GameModel.gameUI.cursor.hide()
-            GameModel.stateHighTech =StateHighTech.TAKE_HIGHTECH_PANTS;
-            this.onComplete()
-            GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.glow)
         }
+    }
+    animationComplete(){
+        GameModel.pantsFound.push(Pants.glow);
+        GameModel.gameUI.updateInventory();
+        GameModel.sound.playPickPants();
+        GameModel.gameUI.cursor.hide()
+        GameModel.stateHighTech =StateHighTech.TAKE_HIGHTECH_PANTS;
+        this.onComplete()
+        GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.glow)
+        GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2,null)
     }
 }

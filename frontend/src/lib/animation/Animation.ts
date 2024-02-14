@@ -27,7 +27,7 @@ export default class Animation extends ObjectGPU
     private callBacks:Array<AnimationCallBack>=[]
     public mixValue: number=0;
     public isMixAnimation: boolean=false;
-public speedMultiplier=1;
+    public speedMultiplier=1;
     constructor(renderer:Renderer,label:string) {
         super(renderer,label)
 
@@ -95,10 +95,11 @@ public speedMultiplier=1;
         for(let c of this.channels){
             for (let f of strings){
                 if(c.target.label.includes(f)){
-                    if(c.type=="rotation") {
+
+                   // if(c.type=="rotation") {
                         tempChannels.push(c)
                        // c.setTime(0);
-                    }
+                    //}
                     continue;
                 }
             }

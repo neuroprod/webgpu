@@ -9,7 +9,7 @@ export default class GoGrave extends Transition{
         super.set(onComplete)
 
         GameModel.textHandler.showHitTrigger("readCross")
-
+GameModel.characterHandler.setMixAnimation("lookdown",0.75,1)
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
     onMouseDown(){
@@ -18,7 +18,7 @@ export default class GoGrave extends Transition{
 
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
-
+            GameModel.characterHandler.setMixAnimation("lookdown",0.0,1)
             this.onComplete()
         }
     }

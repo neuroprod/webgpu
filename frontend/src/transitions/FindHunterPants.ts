@@ -15,17 +15,21 @@ export default class FindHunterPants extends Transition{
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
+            GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.2,this.animationComplete.bind(this))
 
 
-            GameModel.renderer.modelByLabel["hunterPants"].visible =false;
-            GameModel.renderer.modelByLabel["hunterPants"].enableHitTest =false;
-            GameModel.pantsFound.push(Pants.hunter);
-            GameModel.gameUI.updateInventory();
-            GameModel.sound.playPickPants();
-            GameModel.gameUI.cursor.hide()
-            GameModel.stateHunter =StateHunter.HAVE_PANTS;
-            this.onComplete()
-            GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.hunter)
         }
+    }
+    animationComplete(){
+        GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2);
+        GameModel.renderer.modelByLabel["hunterPants"].visible =false;
+        GameModel.renderer.modelByLabel["hunterPants"].enableHitTest =false;
+        GameModel.pantsFound.push(Pants.hunter);
+        GameModel.gameUI.updateInventory();
+        GameModel.sound.playPickPants();
+        GameModel.gameUI.cursor.hide()
+        GameModel.stateHunter =StateHunter.HAVE_PANTS;
+        this.onComplete()
+        GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.hunter)
     }
 }

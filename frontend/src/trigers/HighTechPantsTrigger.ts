@@ -26,7 +26,7 @@ export default class HighTechPantsTrigger extends HitTrigger {
 
         let obj = GameModel.renderer.modelByLabel["pantsGlow"]
         let world = obj.getWorldPos()
-        world.x-=1;
+        world.x-=0.7;
         GameModel.characterHandler.walkTo(world,Math.PI/2,this.onCompleteWalk)
 
         return;
