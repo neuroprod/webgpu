@@ -55,7 +55,7 @@ export default class LightOutsideRenderPass extends RenderPass {
 
 
     private lightColor: ColorV = new ColorV(0.99, 0.55, 0.00, 1.00);
-    private lightStrength: number = 10;
+    private lightStrength: number = 30;
 
 
     public sunDir = new Vector3(-0.172996, -0.694981, -0.697907);

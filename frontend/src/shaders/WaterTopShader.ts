@@ -23,6 +23,7 @@ export default class WaterTopShader extends Shader{
         this.addUniform("refSettings1", new Vector4());
         this.addUniform("refSettings2", new Vector4());
         this.addUniform("time", 0);
+        this.addUniform("dayNight", 0);
         this.addTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"], "unfilterable-float")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
         this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
@@ -107,9 +108,9 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let pPos =camera.viewProjectionMatrix*vec4(sPos,1.0);
     var uvRef = (pPos.xy/pPos.w)*0.5+0.5;
     uvRef.y = 1.0-uvRef.y;
-
+ let fog = mix(vec3(0.0,0.5,0.5),vec3(0.0),uniforms.dayNight);
     var refractColor = textureSampleLevel(reflectTexture,   mySampler, uvRef,dist).xyz;
- refractColor =mix(refractColor,vec3(0.0,0.5,0.5),smoothstep(0.0,2.0,dist));
+ refractColor =mix(refractColor,fog,smoothstep(0.0,2.0,dist));
     let NdotV =max(dot(N, V), 0.0);
     let F0 = mix(vec3(0.02), albedo, metallic);
     let F =fresnelSchlickRoughness(NdotV, F0,roughness);
@@ -121,9 +122,11 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let reflectColor = ssr(world,-N,V,metallic,roughness,textureSize)*2.0;
    var result = mix(refractColor,reflectColor,refValue);
 
+let foam = mix(vec3(1.0,1.0,0.8),vec3(0.05,0.05,0.1),uniforms.dayNight);
+
  var d =(abs((dist+(normalText1.y+normalText2.y)*0.4)*20.0-uniforms.time*20.0))%1.0;
 d =abs(d-0.5)*abs((normalText1.x+normalText2.x))*80.0*(1- smoothstep(0.0,0.2,dist));
-  result =mix(vec3(1.0,1.0,1.0),result,clamp(1.0-(d+(1.0-smoothstep(0.0,0.05 ,dist))),0.0,1.0));
+  result =mix(foam,result,clamp(1.0-(d+(1.0-smoothstep(0.0,0.05 ,dist))),0.0,1.0));
   return vec4( result,1.0);
  
 }

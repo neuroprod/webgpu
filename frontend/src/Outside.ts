@@ -14,6 +14,7 @@ import Fish from "./extras/Fish";
 import FogPlanes from "./extras/FogPlanes";
 import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
+import GameModel from "./GameModel";
 
 
 export default class Outside extends Scene {
@@ -66,6 +67,9 @@ export default class Outside extends Scene {
         this.leaves.update()
         //GameModel.dayNight
         this.waterTop.material.uniforms.setUniform("time", Timer.time * 0.05)
+
+        this.waterFront.material.uniforms.setUniform("dayNight", GameModel.dayNight)
+        this.waterTop.material.uniforms.setUniform("dayNight", GameModel.dayNight)
 
         for (let m of this.glFTLoader.models) {
             if (m.needsWind) {

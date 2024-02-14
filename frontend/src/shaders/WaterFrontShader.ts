@@ -20,10 +20,11 @@ export default class WaterFrontShader extends Shader{
 
         }
 
-        this.addUniform("time", 0);
+
         this.addUniform("refSettings1", new Vector4());
         this.addUniform("refSettings2", new Vector4());
-
+        this.addUniform("time", 0);
+        this.addUniform("dayNight", 0);
 
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
         this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
@@ -94,9 +95,11 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     uvRef.y = 1.0-uvRef.y;
 
     var refractColor = textureSampleLevel(reflectTexture,   mySampler, uvRef,dist*dist).xyz;
- refractColor =mix(refractColor,vec3(0.0,0.5,0.5),smoothstep(0.0,2.0,dist));
-   
-   let result =  refractColor;
+ let fog = mix(vec3(0.0,0.5,0.5),vec3(0.0),uniforms.dayNight);
+ 
+ refractColor =mix(refractColor,fog,smoothstep(0.0,2.0,dist));
+   refractColor*=1.0-(uniforms.dayNight*0.5);
+   let result = refractColor;
  
   return vec4( result,1.0);
  
