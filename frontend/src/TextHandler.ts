@@ -91,7 +91,11 @@ export default class TextHandler {
     }
 
     showHitTrigger(objectLabel: string) {
-        GameModel.sound.playClick(0.2)
+
+        if(GameModel.characterHandler.isWalking){
+            GameModel.characterHandler.setIdleAndTurn()
+        }
+        //GameModel.sound.playClick(0.2)
         this.objectLabel = objectLabel;
         this.hideHitTrigger()
         let ht = this.hitTriggerByLabel[objectLabel];

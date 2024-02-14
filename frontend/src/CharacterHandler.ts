@@ -29,7 +29,7 @@ export default class CharacterHandler {
     // @ts-ignore
     private tl: Timeline;
     private scene: number = 0;
-    private isWalking: boolean = false;
+    isWalking: boolean = false;
     private targetPos: Vector3 = new Vector3();
 
     private neck: Object3D;
@@ -42,6 +42,7 @@ export default class CharacterHandler {
     private rotateStart :Quaternion =new Quaternion()
     private rotateTarget :Quaternion =new Quaternion()
     private rotateCurr :Quaternion =new Quaternion()
+    private targetRot: number =0;
     constructor(renderer: Renderer, camera: Camera, glft: GLFTLoader, animationMixer: AnimationMixer) {
 
         this.renderer = renderer;
@@ -91,7 +92,7 @@ export default class CharacterHandler {
     }
 private rotateTo(angle:number,time:number)
 {
-  
+
 
     this.rotateStart.from( this.characterRoot.getRotation());
     this.rotateTarget.identity();
@@ -121,6 +122,7 @@ private rotateTo(angle:number,time:number)
         } else {
             this.continueWalking(keepWalking)
         }
+
     }
 
 
@@ -191,7 +193,7 @@ private rotateTo(angle:number,time:number)
             this.isWalking = false
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
-        //this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "power1.inOut"}, pos)
+
         this.tl.call(this.rotateTo.bind(this),[this.targetRot,0.5],pos)
     }
 
@@ -231,7 +233,7 @@ private rotateTo(angle:number,time:number)
             this.isWalking = false
         }, [], pos)
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
-       // this.tl.to(this, {"characterRot": this.targetRot, duration: 0.5, ease: "none"}, pos)
+
         this.tl.call(this.rotateTo.bind(this),[this.targetRot,0.5],pos)
     }
 
