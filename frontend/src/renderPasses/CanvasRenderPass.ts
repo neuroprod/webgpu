@@ -15,6 +15,7 @@ import DrawingRenderer from "../drawing/DrawingRenderer";
 
 import FontMeshRenderer from "../lib/text/FontMeshRenderer";
 import GameModel from "../GameModel";
+import DefaultTextures from "../lib/textures/DefaultTextures";
 
 
 export default class CanvasRenderPass extends RenderPass {
@@ -65,12 +66,12 @@ export default class CanvasRenderPass extends RenderPass {
 
         this.blitTestMaterial = new Material(this.renderer, "blit", new DebugTextureShader(this.renderer, "blit"))
 
-
+DefaultTextures.getMagicNoise(renderer)
         this.blitTest = new Blit(renderer, 'blit', this.blitTestMaterial)
-
+       // this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 1}));
 
         this.passSelect.push(new SelectItem("Final", {texture: "FXAAPass", type: 0}));
-
+        this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 0}));
         this.passSelect.push(new SelectItem("SSAO", {texture: "GTAO", type: 1}));
         this.passSelect.push(new SelectItem("SSAOdenoise", {texture: "GTAOdenoise", type: 1}));
 

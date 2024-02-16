@@ -1,6 +1,7 @@
 import Texture from "./Texture";
 import {TextureFormat} from "../WebGPUConstants";
 import Renderer from "../Renderer";
+import {Vector3} from "math.gl";
 
 
 export default class DefaultTextures {
@@ -10,8 +11,9 @@ export default class DefaultTextures {
     private static normal: Texture;
     private static mre: Texture;
     private static cube: Texture;
-    private static hilbert: Texture;
+
     private static depth: Texture;
+    private static magicNoise: Texture;
 
 
     static getMRE(render: Renderer) {
@@ -32,6 +34,7 @@ export default class DefaultTextures {
 
         return this.mre;
     }
+
     static getDepth(render: Renderer) {
         if (this.depth) return this.depth;
 
@@ -43,6 +46,7 @@ export default class DefaultTextures {
 
         return this.depth;
     }
+
     static getWhite(render: Renderer) {
         if (this.white) return this.white;
 
@@ -148,9 +152,92 @@ export default class DefaultTextures {
         return this.grid;
     }
 
+    static getMagicNoise(render: Renderer):Texture {
+        if (this.magicNoise) return this.magicNoise;
 
 
+        let size =3
+        this.magicNoise = new Texture(render, "magicNoise", {
+            width: size,
+            height: size,
+            format: TextureFormat.RGBA8Unorm,
+            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+        })
+        this.magicNoise.make();
+        const magicSquare = this.generateMagicSquare( size );
+        const noiseSquareSize = magicSquare.length;
+        const data = new Uint8Array( noiseSquareSize * 4 );
 
+        for ( let inx = 0; inx < noiseSquareSize; ++ inx ) {
+
+            const iAng = magicSquare[ inx ];
+            const angle = ( 2 * Math.PI * iAng ) / noiseSquareSize;
+            const randomVec = new Vector3(
+                Math.cos( angle ),
+                Math.sin( angle ),
+                0
+            ).normalize();
+            data[ inx * 4 ] = ( randomVec.x * 0.5 + 0.5 ) * 255;
+            data[ inx * 4 + 1 ] = ( randomVec.y * 0.5 + 0.5 ) * 255;
+            data[ inx * 4 + 2 ] = 127;
+            data[ inx * 4 + 3 ] = 255;
+
+        }
+        this.magicNoise.writeTexture(data, size, size, 4 * size);
+        return this.magicNoise;
+
+    }
+
+    static generateMagicSquare(size =5) {
+
+        const noiseSize = Math.floor(size) % 2 === 0 ? Math.floor(size) + 1 : Math.floor(size);
+        const noiseSquareSize = noiseSize * noiseSize;
+        const magicSquare = Array(noiseSquareSize).fill(0);
+        let i = Math.floor(noiseSize / 2);
+        let j = noiseSize - 1;
+
+        for (let num = 1; num <= noiseSquareSize;) {
+
+            if (i === -1 && j === noiseSize) {
+
+                j = noiseSize - 2;
+                i = 0;
+
+            } else {
+
+                if (j === noiseSize) {
+
+                    j = 0;
+
+                }
+
+                if (i < 0) {
+
+                    i = noiseSize - 1;
+
+                }
+
+            }
+
+            if (magicSquare[i * noiseSize + j] !== 0) {
+
+                j -= 2;
+                i++;
+                continue;
+
+            } else {
+
+                magicSquare[i * noiseSize + j] = num++;
+
+            }
+
+            j++;
+            i--;
+
+        }
+
+        return magicSquare;
+    }
 
 
 }

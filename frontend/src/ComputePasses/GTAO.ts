@@ -4,6 +4,7 @@ import Texture from "../lib/textures/Texture";
 import {FilterMode, TextureDimension, TextureFormat} from "../lib/WebGPUConstants";
 import RenderTexture from "../lib/textures/RenderTexture";
 import Camera from "../lib/Camera";
+import DefaultTextures from "../lib/textures/DefaultTextures";
 
 export default class GTAO {
     private renderer: Renderer;
@@ -41,7 +42,8 @@ export default class GTAO {
 
             format:TextureFormat.R32Uint,
         })
-        this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addTexture("noise",DefaultTextures.getMagicNoise(this.renderer),"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+      //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addTexture("preprocessed_depth",this.renderer.texturesByLabel["AOPreprocessedDepth"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addTexture("normals",this.renderer.texturesByLabel["GNormal"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addStorageTexture("ambient_occlusion", this.texture, TextureFormat.R32Float);
@@ -104,13 +106,41 @@ ${Camera.getShaderText(1)}
 
 
 fn load_noise(pixel_coordinates: vec2<i32>) -> vec2<f32> {
- var index = textureLoad(noise, pixel_coordinates % 64, 0).r;
+ var index = textureLoad(noise, pixel_coordinates%3 , 0).rg*2.0-1.0;
 
+return  normalize(index);
     // R2 sequence - http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences
-    return fract(0.5 + index * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
+    //return fract(0.5 + index * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
 }
 
+// Calculate differences in depth between neighbor pixels (later used by the spatial denoiser pass to preserve object edges)
+fn calculate_neighboring_depth_differences_(pixel_coordinates: vec2<i32>,textureSize :vec2<f32>) -> f32 {
+    // Sample the pixel's depth and 4 depths around it
+    let uv = vec2<f32>(pixel_coordinates) / textureSize;
+    let depths_upper_left = textureGather(0, preprocessed_depth, point_clamp_sampler, uv);
+    let depths_bottom_right = textureGather(0, preprocessed_depth, point_clamp_sampler, uv, vec2<i32>(1i, 1i));
+    let depth_center = depths_upper_left.y;
+    let depth_left = depths_upper_left.x;
+    let depth_top = depths_upper_left.z;
+    let depth_bottom = depths_bottom_right.x;
+    let depth_right = depths_bottom_right.z;
 
+    // Calculate the depth differences (large differences represent object edges)
+    var edge_info = vec4<f32>(depth_left, depth_right, depth_top, depth_bottom) - depth_center;
+    let slope_left_right = (edge_info.y - edge_info.x) * 0.5;
+    let slope_top_bottom = (edge_info.w - edge_info.z) * 0.5;
+    let edge_info_slope_adjusted = edge_info + vec4<f32>(slope_left_right, -slope_left_right, slope_top_bottom, -slope_top_bottom);
+    edge_info = min(abs(edge_info), abs(edge_info_slope_adjusted));
+    let bias = 0.25; // Using the bias and then saturating nudges the values a bit
+    let scale = depth_center * 0.011; // Weight the edges by their distance from the camera
+    edge_info = saturate((1.0 + bias) - edge_info / scale); // Apply the bias and scale, and invert edge_info so that small values become large, and vice versa
+
+    // Pack the edge info into the texture
+    let edge_info_packed = vec4<u32>(pack4x8unorm(edge_info), 0u, 0u, 0u);
+    textureStore(depth_differences, pixel_coordinates, edge_info_packed);
+
+    return depth_center;
+}
 fn calculate_neighboring_depth_differences(pixel_coordinates: vec2<i32>, textureSize :vec2<f32>) -> f32 {
     // Sample the pixel's depth and 4 depths around it
     let uv = vec2<f32>(pixel_coordinates) / textureSize;
@@ -185,9 +215,9 @@ fn fast_acos(in_x: f32) -> f32 {
 @compute
 @workgroup_size(8, 8, 1)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
-    let slice_count = 4.0;
+    let slice_count = 3.0;
     let samples_per_slice_side =2.0;
-    let effect_radius = 0.5 * 1.457;
+    let effect_radius = 0.2 * 1.457;
     let falloff_range = 0.615 * effect_radius;
     let falloff_from = effect_radius * (1.0 - 0.615);
     let falloff_mul = -1.0 / falloff_range;
@@ -236,7 +266,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
             s *= s; // https://github.com/GameTechDev/XeGTAO#sample-distribution
             let sample = s * sample_mul;
 
-            let sample_mip_level = clamp(log2(length(sample)) - 3.3, 0.0, 4.0); // https://github.com/GameTechDev/XeGTAO#memory-bandwidth-bottleneck
+            let sample_mip_level = clamp(log2(length(sample)) - 3.3, 0.0, 3.0); // https://github.com/GameTechDev/XeGTAO#memory-bandwidth-bottleneck
             let sample_position_1 = load_and_reconstruct_view_space_position(uv + sample, sample_mip_level);
             let sample_position_2 = load_and_reconstruct_view_space_position(uv - sample, sample_mip_level);
 
