@@ -19,7 +19,8 @@ export default class FogPlanes{
         this.renderer =renderer;
 
         let positions =[]
-        positions.push(new Vector4(-24.564834625684803, -1, -0.6283240994982702,1))
+
+        positions.push(new Vector4(-22, -1, 1,2))
 
         this.numPlanes=positions.length;
         let l: GPUBlendState = {
@@ -45,7 +46,7 @@ export default class FogPlanes{
             fog.material.depthWrite = false;
             let p = positions[i];
             fog.setPosition(p.x,p.y,p.z)
-            fog.setScale(4*p.w,1*p.w,1*p.w)
+            fog.setScale(6*p.w,1*p.w,1*p.w)
             fog.setEuler(Math.PI/2,0,0)
             fog.material.blendModes = [l];
             this.models.push(fog)

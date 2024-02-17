@@ -5,6 +5,8 @@ import {FilterMode, TextureDimension, TextureFormat} from "../lib/WebGPUConstant
 import RenderTexture from "../lib/textures/RenderTexture";
 import Camera from "../lib/Camera";
 import DefaultTextures from "../lib/textures/DefaultTextures";
+import {Vector4} from "math.gl";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 
 export default class GTAO {
     private renderer: Renderer;
@@ -12,14 +14,14 @@ export default class GTAO {
     private computePipeline: GPUComputePipeline;
 
 
-    private uniformGroup: UniformGroup;
+    public uniformGroup: UniformGroup;
     private texture: Texture;
     private pipeLineLayout: GPUPipelineLayout;
     private textureDepth: RenderTexture;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
-        this.uniformGroup = new UniformGroup(this.renderer, "GTAO", "test")
+        this.uniformGroup = new UniformGroup(this.renderer, "GTAO", "uniforms")
 
 
 
@@ -42,6 +44,8 @@ export default class GTAO {
 
             format:TextureFormat.R32Uint,
         })
+
+        this.uniformGroup.addUniform("aoSettings",new Vector4(2,3,1,0)as MathArray);
         this.uniformGroup.addTexture("noise",DefaultTextures.getMagicNoise(this.renderer),"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
       //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addTexture("preprocessed_depth",this.renderer.texturesByLabel["AOPreprocessedDepth"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
@@ -94,13 +98,18 @@ export default class GTAO {
     private getShaderCode() {
         return /* wgsl */ `
 
+struct Uniforms
+{
+    aoSettings : vec4 <f32>,
+}
+@group(0) @binding(0)  var<uniform> uniforms : Uniforms ;
 
-@group(0) @binding(0) var noise: texture_2d<f32>;
-@group(0) @binding(1) var preprocessed_depth: texture_2d<f32>;
-@group(0) @binding(2) var normals: texture_2d<f32>;
-@group(0) @binding(3) var ambient_occlusion: texture_storage_2d<r32float, write>;
-@group(0) @binding(4) var depth_differences: texture_storage_2d<r32uint, write>;
-@group(0) @binding(5) var point_clamp_sampler: sampler;
+@group(0) @binding(1) var noise: texture_2d<f32>;
+@group(0) @binding(2) var preprocessed_depth: texture_2d<f32>;
+@group(0) @binding(3) var normals: texture_2d<f32>;
+@group(0) @binding(4) var ambient_occlusion: texture_storage_2d<r32float, write>;
+@group(0) @binding(5) var depth_differences: texture_storage_2d<r32uint, write>;
+@group(0) @binding(6) var point_clamp_sampler: sampler;
 
 ${Camera.getShaderText(1)}
 
@@ -215,9 +224,10 @@ fn fast_acos(in_x: f32) -> f32 {
 @compute
 @workgroup_size(8, 8, 1)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
-    let slice_count = 3.0;
-    let samples_per_slice_side =2.0;
-    let effect_radius = 0.2 * 1.457;
+
+    let slice_count = uniforms.aoSettings.x;
+    let samples_per_slice_side =uniforms.aoSettings.y;
+    let effect_radius = uniforms.aoSettings.z * 1.457;
     let falloff_range = 0.615 * effect_radius;
     let falloff_from = effect_radius * (1.0 - 0.615);
     let falloff_mul = -1.0 / falloff_range;
@@ -295,7 +305,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
     visibility /= slice_count;
     visibility = clamp(visibility, 0.03, 1.0);
 
-    textureStore(ambient_occlusion, pixel_coordinates, vec4<f32>(visibility, 0.0, 0.0, 0.0));
+    textureStore(ambient_occlusion, pixel_coordinates, vec4<f32>(pow(visibility,uniforms.aoSettings.w), 0.0, 0.0, 0.0));
 }
  
 `;

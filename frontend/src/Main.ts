@@ -263,6 +263,7 @@ export default class Main {
         this.drawer = new Drawer(this.renderer);
         this.dofPass.init();
         this.outlinePass.init();
+        RenderSettings.ao =this.gtaoPass;
         RenderSettings.onChange();
 
         this.shadowPassCube1.setModels(this.gBufferPass.modelRenderer.models);

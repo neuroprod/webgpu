@@ -36,6 +36,7 @@ export default class Outside extends Scene {
         super(renderer, preloader, "outside")
         new TextureLoader(this.renderer, preloader, "leaveAlpha.png", {});
         new TextureLoader(this.renderer, preloader, "leaveColor.png", {});
+        new TextureLoader(this.renderer, preloader, "fog.png", {});
     }
 
     init() {

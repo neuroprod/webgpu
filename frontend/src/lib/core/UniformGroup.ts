@@ -148,12 +148,7 @@ export default class UniformGroup extends ObjectGPU {
         const found = this.uniforms.find((element) => element.name == name);
 
         if (found) {
-            if(found.data === value && found.isSet ){
 
-            }else{
-
-
-            }
 
             found.data = value;
             this.isBufferDirty = true;
@@ -191,7 +186,7 @@ export default class UniformGroup extends ObjectGPU {
     update() {
 
        this.updateData();
-       
+
         for (let t of this.textureUniforms) {
             if (!t.texture) {
                 console.log("texture not found:", t.name, "in", this.label)
@@ -219,11 +214,7 @@ export default class UniformGroup extends ObjectGPU {
             if (this.isBufferDirty) {
 
                 this.updateBuffer();
-            }else{
-
-               //this.updateBuffer();
             }
-
 
 
         }
