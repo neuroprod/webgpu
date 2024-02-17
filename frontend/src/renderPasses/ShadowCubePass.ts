@@ -48,6 +48,7 @@ export default class ShadowCubePass extends RenderPass {
             if(!this.camera.modelInFrustum(model))continue;
 
             if( !model.shadowMaterial)continue
+            
             model.shadowMaterial.makePipeLine(this);
             passEncoder.setPipeline(model.shadowMaterial.pipeLine);
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);

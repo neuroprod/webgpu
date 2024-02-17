@@ -5,9 +5,9 @@ import Material from "../lib/core/Material";
 import Blit from "../lib/Blit";
 import Renderer from "../lib/Renderer";
 import {TextureFormat} from "../lib/WebGPUConstants";
-import AOBlurShader from "../shaders/AOBlurShader";
+
 import CombineShader from "../shaders/CombineShader";
-import DefaultTextures from "../lib/textures/DefaultTextures";
+
 import RenderSettings from "../RenderSettings";
 
 export default class CombinePass extends RenderPass{

@@ -93,7 +93,10 @@ private frame =0;
             let count =this.frame;
             for (let p of this.passes) {
                 if(p.camera.modelInFrustum(GameModel.characterHandler.body))p.add()
-                 else if(count%6==0){        p.add();}
+                 else if(count%6==0)
+                 {        p.add();
+
+                 }
             }
         }
         this.frame++;

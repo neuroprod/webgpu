@@ -15,6 +15,7 @@ import FogPlanes from "./extras/FogPlanes";
 import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
 import GameModel from "./GameModel";
+import {Vector3} from "math.gl";
 
 
 export default class Outside extends Scene {
@@ -30,7 +31,9 @@ export default class Outside extends Scene {
     private fish: Fish;
     private fogPlanes: FogPlanes;
     private leaves: Leaves;
-
+    private lightGraveHolder: Object3D;
+    private lightGraveHolderPos: Vector3;
+    private lightGraveHolderPosMove: Vector3=new Vector3();
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
@@ -45,10 +48,11 @@ export default class Outside extends Scene {
 
         this.root = this.glFTLoader.root
         this.root.setPosition(0, -1.5, 0)
-        let lg = this.glFTLoader.objectsByName["lightGrave"];
+        this.lightGraveHolder  = this.glFTLoader.objectsByName["lightGrave"];
+        this.lightGraveHolderPos =this.lightGraveHolder.getPosition().clone();
         this.lightGrave = new Object3D(this.renderer)
         this.lightGrave.setPosition(0,-0.5,0.0)
-        lg.addChild(this.lightGrave)
+        this.lightGraveHolder.addChild(this.lightGrave)
         this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
         this.fish = new Fish(this.renderer, this.glFTLoader.modelsByName["fish1"], this.glFTLoader.modelsByName["fish2"]);
 
@@ -72,6 +76,7 @@ export default class Outside extends Scene {
         this.waterFront.material.uniforms.setUniform("dayNight", GameModel.dayNight)
         this.waterTop.material.uniforms.setUniform("dayNight", GameModel.dayNight)
 
+
         for (let m of this.glFTLoader.models) {
             if (m.needsWind) {
                 m.material.uniforms.setUniform("time", Timer.time)
@@ -81,6 +86,10 @@ export default class Outside extends Scene {
                 }
             }
         }
+      //  this.lightGraveHolderPosMove.from(this.lightGraveHolderPos)
+       // this.lightGraveHolderPosMove.x +=Math.sin(Timer.time*2)
+        //this.lightGraveHolderPosMove.z +=Math.sin(Timer.time)
+        //this.lightGraveHolder.setPositionV( this.lightGraveHolderPosMove);
         //GameModel.dayNight
         // UI.LFloat('offset',0)
         //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)
