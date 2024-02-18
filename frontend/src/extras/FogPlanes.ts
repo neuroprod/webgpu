@@ -24,7 +24,7 @@ export default class FogPlanes{
         //positions.push(new Vector4(-22, -1, 1,2))
         positions.push(new Vector4(-24, -1, -5,2))
         positions.push(new Vector4(-24, -1, -2.5,2))
-        positions.push(new Vector4(-24, -1, 0.1,2))
+        positions.push(new Vector4(-24, -1, 0,2))
         this.numPlanes=positions.length;
         let l: GPUBlendState = {
 

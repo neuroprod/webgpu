@@ -44,7 +44,7 @@ export default class FogShader extends Shader{
             );
             v.normalize();
 
-            v.scale(.005);
+            v.scale(.01);
 
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";
@@ -107,14 +107,14 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
    var uvFog  = uv0;
    uvFog.x +=uniforms.time*0.7;
      var uvNoise  = uv0;
-   uvNoise.x -=uniforms.time*0.5;
-   uvNoise.y +=uniforms.time*0.25;
+   uvNoise.x -=uniforms.time*0.2;
+   uvNoise.y +=uniforms.time*0.1;
    uvNoise.x*=2.3;
     var noise =(textureSample(noise, mySampler,   uvNoise).xy)*0.15;
     var alpha =(textureSample(fog, mySampler,   uvFog+noise).x);
   
 
- alpha *=smoothstep(0.0,1.0,d);
+ alpha *=smoothstep(0.0,2.0,d);
  
    let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0 );
 

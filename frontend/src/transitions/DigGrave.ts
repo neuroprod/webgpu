@@ -24,7 +24,7 @@ export default class DigGrave extends Transition{
             GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.gold)
 
 
-            this.onComplete()
+
 
         }
     }
