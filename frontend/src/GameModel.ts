@@ -68,6 +68,7 @@ import OpenBookcase from "./transitions/OpenBookcase";
 import TakeShovel from "./transitions/TakeShovel";
 import DigGraveTrigger from "./trigers/DigGraveTrigger";
 import DigGrave from "./transitions/DigGrave";
+import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
 
 export enum StateGold {
     START,
@@ -254,6 +255,7 @@ class GameModel {
     private girlSelect: Array<SelectItem>;
     private grandpaSelect: Array<SelectItem>;
     private fashionSelect: Array<SelectItem>;
+    lightOutsidePass: LightOutsideRenderPass;
 
     constructor() {
 

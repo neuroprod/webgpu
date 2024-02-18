@@ -28,7 +28,7 @@ export default class ShadowCubePass extends RenderPass {
         super(renderer, "ShadowCubePass");
 
 
-       this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index,clearValue:{r:1,g:1,b:1,a:1}})];
+       this.colorAttachments =[new ColorAttachment(colorTexture,{arrayLayerCount:1,baseArrayLayer:index,clearValue:{r:1000,g:1000,b:1000,a:0}})];
         this.depthStencilAttachment = new DepthStencilAttachment(depthTexture,{arrayLayerCount:1,baseArrayLayer:index});
         this.camera =camera;
         this.colorAttachments[0].getAttachment()
@@ -48,7 +48,7 @@ export default class ShadowCubePass extends RenderPass {
             if(!this.camera.modelInFrustum(model))continue;
 
             if( !model.shadowMaterial)continue
-            
+
             model.shadowMaterial.makePipeLine(this);
             passEncoder.setPipeline(model.shadowMaterial.pipeLine);
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);

@@ -51,7 +51,7 @@ export default class Outside extends Scene {
         this.lightGraveHolder  = this.glFTLoader.objectsByName["lightGrave"];
         this.lightGraveHolderPos =this.lightGraveHolder.getPosition().clone();
         this.lightGrave = new Object3D(this.renderer)
-        this.lightGrave.setPosition(0,-0.5,0.0)
+        this.lightGrave.setPosition(0,0,0.0)
         this.lightGraveHolder.addChild(this.lightGrave)
         this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
         this.fish = new Fish(this.renderer, this.glFTLoader.modelsByName["fish1"], this.glFTLoader.modelsByName["fish2"]);
@@ -86,9 +86,9 @@ export default class Outside extends Scene {
                 }
             }
         }
-      //  this.lightGraveHolderPosMove.from(this.lightGraveHolderPos)
-       // this.lightGraveHolderPosMove.x +=Math.sin(Timer.time*2)
-        //this.lightGraveHolderPosMove.z +=Math.sin(Timer.time)
+    // this.lightGraveHolderPosMove.from(this.lightGraveHolderPos)
+      // this.lightGraveHolderPosMove.y +=Math.sin(Timer.time*2)
+
         //this.lightGraveHolder.setPositionV( this.lightGraveHolderPosMove);
         //GameModel.dayNight
         // UI.LFloat('offset',0)

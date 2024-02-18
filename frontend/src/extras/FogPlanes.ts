@@ -7,6 +7,7 @@ import Timer from "../lib/Timer";
 import {Vector4} from "math.gl";
 import Object3D from "../lib/core/Object3D";
 import {BlendFactor, BlendOperation} from "../lib/WebGPUConstants";
+import GameModel from "../GameModel";
 
 export default class FogPlanes{
     private renderer: Renderer;
@@ -19,9 +20,11 @@ export default class FogPlanes{
         this.renderer =renderer;
 
         let positions =[]
-
-        positions.push(new Vector4(-22, -1, 1,2))
-
+        //positions.push(new Vector4(-22, -1, 2,2))
+        //positions.push(new Vector4(-22, -1, 1,2))
+        positions.push(new Vector4(-24, -1, -5,2))
+        positions.push(new Vector4(-24, -1, -2.5,2))
+        positions.push(new Vector4(-24, -1, 0.1,2))
         this.numPlanes=positions.length;
         let l: GPUBlendState = {
 
@@ -56,9 +59,14 @@ export default class FogPlanes{
     }
 
     update() {
+
         for(let i=0;i<this.numPlanes;i++){
             let fp =this.models[i]
             fp.material.uniforms.setUniform("time",Timer.time*0.04+i*0.5)
+
+            fp.material.uniforms.setTexture("shadowCubeDebug",this.renderer.texturesByLabel["ShadowCubeColor1"]);
+            fp.material.uniforms.setUniform("pointlightColor", GameModel.lightOutsidePass.lightColor)
+            fp.material.uniforms.setUniform("pointlightPos",  new Vector4(GameModel.lightOutsidePass.lightPos.x,GameModel.lightOutsidePass.lightPos.y,GameModel.lightOutsidePass.lightPos.z,1));
 
         }
     }

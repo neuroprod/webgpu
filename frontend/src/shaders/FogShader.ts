@@ -4,9 +4,9 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
-import {Vector4} from "math.gl";
-import {AddressMode} from "../lib/WebGPUConstants";
+import {cubeShadow, fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
+import {Vector3, Vector4} from "math.gl";
+import {AddressMode, TextureViewDimension} from "../lib/WebGPUConstants";
 
 export default class FogShader extends Shader{
 
@@ -20,8 +20,10 @@ export default class FogShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
+        this.addUniform("pointlightPos",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("pointlightColor",new Vector4(1,0.7,0.7,0.1))
         this.addUniform("time", 0);
-
+        this.addTexture("shadowCubeDebug",this.renderer.texturesByLabel["ShadowCubeColor1"],"float",TextureViewDimension.Cube)
         this.addTexture("gDepth",this.renderer.texturesByLabel["GDepth"],"unfilterable-float");
         this.addTexture("fog",this.renderer.texturesByLabel["fog.png"],"float");
         this.addTexture("noise",this.renderer.texturesByLabel["noiseTexture.png"],"float");
@@ -30,6 +32,25 @@ export default class FogShader extends Shader{
         this.needsTransform =true;
         this.needsCamera=true;
 
+    }
+    getKernel() {
+        let numSamples =16;
+        let s = "const kernel = array<vec3f, " + numSamples + ">(";
+        for (let i = 0; i < numSamples; i++) {
+            let v = new Vector3(
+                Math.random() * 2.0 - 1.0,
+                Math.random() * 2.0 - 1.0,
+                Math.random()* 2.0 - 1.0
+            );
+            v.normalize();
+
+            v.scale(.005);
+
+
+            s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";
+        }
+        s += " );";
+        return s;
     }
     getShaderCode(): string {
         return /* wgsl */ `
@@ -46,11 +67,16 @@ struct VertexOutput
   
 }
 
-
+ ${this.getKernel()}
 ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
 ${this.getShaderUniforms(2)}
 ${getWorldFromUVDepth()}
+fn random(st : vec2f ) -> f32 {
+  return fract(sin(dot(st.xy, vec2f(12.9898, 78.233))) * 43758.5453123)-0.5;
+}
+
+${cubeShadow()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -89,9 +115,16 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
   
 
  alpha *=smoothstep(0.0,1.0,d);
+ 
+   let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0 );
 
-alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.5;
-  return vec4(vec3(alpha),alpha);
+ let distToLight=distance (uniforms.pointlightPos.xyz,world);
+
+     let an  =1.0/pow( distToLight,2.0);
+   
+alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.2;
+
+  return vec4(vec3(uniforms.pointlightColor.xyz*uniforms.pointlightColor.w*an *shadowColorP*alpha),alpha);
  
 }
 ///////////////////////////////////////////////////////////

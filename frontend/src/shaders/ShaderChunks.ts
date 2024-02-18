@@ -128,9 +128,11 @@ fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f) -> f3
       
       for(var i=0;i<8;i++){
       
-        let distToLightL=distance (lightPos,world);
+       // let distToLightL=distance (lightPos,world);
         let shadowDist = textureSample(cube, mySampler,normalize(dirN +TBN*kernel[i])).x;
-        if(shadowDist>distToLightL-0.05){shadowColor +=1.0;};
+  
+        
+        if(shadowDist>distToLight-0.05){shadowColor +=1.0;};
       }
         return      shadowColor/8.0;
 

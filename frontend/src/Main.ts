@@ -244,6 +244,7 @@ export default class Main {
         GameModel.renderer = this.renderer;
         GameModel.outlinePass = this.outlinePass;
         GameModel.gameCamera = this.gameCamera;
+        GameModel.lightOutsidePass=this.lightOutsidePass
         this.lightIntroRenderPass.init([this.introLight1, this.introLight2, this.introLight3, this.introLight4])
 
 

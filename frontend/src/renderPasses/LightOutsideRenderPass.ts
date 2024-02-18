@@ -54,12 +54,13 @@ export default class LightOutsideRenderPass extends RenderPass {
     private bottomColorNight: ColorV = new ColorV(0.01, 0.40, 1.00, 0.0);
 
 
-    private lightColor: ColorV = new ColorV(0.99, 0.55, 0.00, 1.00);
+    public lightColor: ColorV = new ColorV(0.99, 0.55, 0.00, 1.00);
     private lightStrength: number = 30;
 
 
     public sunDir = new Vector3(-0.172996, -0.694981, -0.697907);
     public lightGrave: Object3D;
+    public lightPos: Vector3 =new Vector3();
 
 
     constructor(renderer: Renderer, target: RenderTexture) {
@@ -123,8 +124,9 @@ export default class LightOutsideRenderPass extends RenderPass {
 
 
         this.lightColor.w = this.lightStrength * GameModel.dayNight;
+        this.lightPos = this.lightGrave.getWorldPos();
         this.globalLightMaterial.uniforms.setUniform("pointlightColor", this.lightColor);
-        this.globalLightMaterial.uniforms.setUniform("pointlightPos", this.lightGrave.getWorldPos());
+        this.globalLightMaterial.uniforms.setUniform("pointlightPos",  this.lightPos);
         this.globalLightMaterial.uniforms.setTexture("shadow1", this.renderer.texturesByLabel["Shadow1"]);
         this.globalLightMaterial.uniforms.setTexture("shadow2", this.renderer.texturesByLabel["Shadow2"]);
         this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAOdenoise"]);

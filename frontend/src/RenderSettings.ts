@@ -11,7 +11,7 @@ class RenderSettings{
     public bloom_softThreshold:number=1;
     public bloom_strength: number =0.2;
 
-    public exposure=1;
+    public exposure=1.2;
     public contrast =1;
     public brightness:number =0;
     public vibrance:number=0;
