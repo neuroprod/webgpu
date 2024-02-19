@@ -16,6 +16,7 @@ import Clock from "./extras/Clock";
 import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
 import Machine from "./extras/Machine";
+import GameModel from "./GameModel";
 
 
 export default class Room extends Scene {
@@ -145,14 +146,17 @@ export default class Room extends Scene {
     }
 
     update() {
-        let left = -this.renderer.ratio * 3 - 0.15;
+        let w = Math.max(this.renderer.ratio * 3,GameModel.minRoomSize);
+        let left = - w - 0.15;
         this.leftHolder.setPosition(left, 0, 0)
 
         this.centerHolder.setPosition(0, 0, 0)
-        this.rightHolder.setPosition(this.renderer.ratio * 3 + 0.15, 0, 0)
+        let right =w + 0.15;
+
+        this.rightHolder.setPosition(right, 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.hitLeftRoomCenter.setScale(Math.max(0, this.renderer.ratio * 3 - 4.4), 1, 1)
-        this.hitRightRoom.setScale(this.renderer.ratio * 3 - 1.1, 1, 1)
+        this.hitLeftRoomCenter.setScale(Math.max(0,w- 4.4), 1, 1)
+        this.hitRightRoom.setScale( w - 1.1, 1, 1)
       //  let bookPos = ((Math.abs(left) - 3.2) + 1.3) / 2; //right edge +left edge /2
 
         //this.bookCase.setPosition(bookPos, 0, -3.9)

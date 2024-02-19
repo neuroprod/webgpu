@@ -257,6 +257,7 @@ class GameModel {
     private fashionSelect: Array<SelectItem>;
     lightOutsidePass: LightOutsideRenderPass;
     introDraw: Drawing;
+    minRoomSize =4.5
 
     constructor() {
 

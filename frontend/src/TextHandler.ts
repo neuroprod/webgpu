@@ -36,6 +36,7 @@ export default class TextHandler {
     constructor(renderer: Renderer, preLoader: PreLoader) {
         this.jsonLoader = new JSONLoader("copy", preLoader)
         this.renderer = renderer;
+        if(this.renderer.pixelRatio ==1)this.fontEdge.z =0.33;
     }
 
     public init() {

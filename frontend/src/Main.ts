@@ -426,6 +426,8 @@ export default class Main {
         GameModel.mouseDownThisFrame = this.mouseListener.isDownThisFrame;
         GameModel.mouseUpThisFrame = this.mouseListener.isUpThisFrame;
         Timer.update();
+        this.updateSceneHeight()
+
         this.update();
         UI.updateGPU();
         this.renderer.update(this.onDraw.bind(this));
@@ -500,6 +502,7 @@ export default class Main {
     updateUI() {
 
         UI.pushWindow("Dev Settings")
+        GameModel.textHandler.onUI()
         this.canvasRenderPass.onUI();
         let speed = UI.LBool("Go fast", GameModel.devSpeed);
         if (speed != GameModel.devSpeed) {
@@ -688,5 +691,19 @@ export default class Main {
         this.timeStampQuery.setStamp("CanvasPass");
         this.timeStampQuery.stop();
 
+    }
+
+    private updateSceneHeight() {
+        if(GameModel.currentScene ==Scenes.ROOM){
+            let sw = this.renderer.ratio*3;
+
+            if(sw<GameModel.minRoomSize)
+            {
+                GameModel.sceneHeight =GameModel.minRoomSize/this.renderer.ratio;
+            }else{
+                GameModel.sceneHeight =3;
+            }
+         
+        }
     }
 }
