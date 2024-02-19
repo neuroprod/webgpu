@@ -1,7 +1,7 @@
 import UI from "./UI/UI";
 
 export default class CanvasManager {
-  private canvas: HTMLCanvasElement;
+  canvas: HTMLCanvasElement;
   private resizeTimeOut: ReturnType<typeof setTimeout>;
   public pixelRatio: number = 1;
   constructor(canvas: HTMLCanvasElement) {

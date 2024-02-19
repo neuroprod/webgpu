@@ -116,7 +116,8 @@ export default class Main {
     private introLight4: MainLight;
     private introDraw: Drawing;
     private loadingDraw: Drawing;
-
+    private ctx: CanvasRenderingContext2D;
+    private img: HTMLImageElement;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -124,17 +125,64 @@ export default class Main {
         this.canvasManager = new CanvasManager(canvas);
 
         this.renderer = new Renderer()
+
+
+       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+
+            this.showFailScreen(canvas)
+
+            return;
+        }
+
         this.renderer.setup(canvas).then(() => {
             this.setup()
-        }).catch(()=>{
-            this.showFailScreen()
+        }).catch(() => {
+            this.showFailScreen(canvas)
         })
         this.mouseListener = new MouseListener(canvas)
         UIData.init();
     }
-    showFailScreen(){
-        console.log("fail")
 
+    showFailScreen(canvas: HTMLCanvasElement) {
+
+        this.ctx = canvas.getContext("2d");
+        this.img = new Image();
+        let cRatio =   this.canvasManager.canvas.width/ this.canvasManager.canvas.height
+        if( cRatio>1) {
+            this.img.src = 'noWebgpu.jpg';
+            console.log("landscape")
+        }else{
+            console.log("portrait")
+            this.img.src = 'noWebgpuPort.jpg';
+        }
+        this.img.addEventListener("load", () => {
+            this.tickNoWebgpu();
+        });
+
+
+
+
+    }
+    private tickNoWebgpu() {
+            let cRatio =   this.canvasManager.canvas.width/ this.canvasManager.canvas.height
+            let iRatio = this.img.width/this.img.height
+
+            let h =  this.canvasManager.canvas.height;
+            let w =  this.canvasManager.canvas.height*iRatio;
+
+
+            if(iRatio<cRatio)
+            {
+                h =  this.canvasManager.canvas.width/iRatio;
+                w =  this.canvasManager.canvas.width;
+
+            }
+        let offX =(this.canvasManager.canvas.width-w)/2;
+        let offY =(this.canvasManager.canvas.height-h)/2;
+            this.ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height,
+                offX, offY, w ,h);
+
+        window.requestAnimationFrame(() => this.tickNoWebgpu());
     }
     //pre-preload
     setup() {
@@ -205,8 +253,6 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
 
 
-
-
         this.room = new Room(this.renderer, this.preloader);
         this.outside = new Outside(this.renderer, this.preloader);
 
@@ -256,7 +302,7 @@ export default class Main {
         GameModel.renderer = this.renderer;
         GameModel.outlinePass = this.outlinePass;
         GameModel.gameCamera = this.gameCamera;
-        GameModel.lightOutsidePass=this.lightOutsidePass
+        GameModel.lightOutsidePass = this.lightOutsidePass
         this.lightIntroRenderPass.init([this.introLight1, this.introLight2, this.introLight3, this.introLight4])
 
 
@@ -276,7 +322,7 @@ export default class Main {
         this.drawer = new Drawer(this.renderer);
         this.dofPass.init();
         this.outlinePass.init();
-        RenderSettings.ao =this.gtaoPass;
+        RenderSettings.ao = this.gtaoPass;
         RenderSettings.onChange();
 
         this.shadowPassCube1.setModels(this.gBufferPass.modelRenderer.models);
@@ -299,14 +345,14 @@ export default class Main {
             d.resolveParent();
 
             this.gBufferPass.drawingRenderer.addDrawing(d)
-            if(d.label=="drawings/intro_world.bin") {
+            if (d.label == "drawings/intro_world.bin") {
                 d.showIntro();
                 this.introDraw = d;
-                GameModel.introDraw  = d;
+                GameModel.introDraw = d;
             }
-            if(d.label=="drawings/loading_world.bin"){
+            if (d.label == "drawings/loading_world.bin") {
                 d.showLoad();
-                this.loadingDraw =d;
+                this.loadingDraw = d;
             }
 
         }
@@ -385,7 +431,7 @@ export default class Main {
         GameModel.makeTriggers();
 
 
-        this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall, this.room.lightWallLiving,this.room.lightTable], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
+        this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall, this.room.lightWallLiving, this.room.lightTable], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
 
 
@@ -405,7 +451,7 @@ export default class Main {
         }
 
         this.loadingDraw.hideLoad();
-       GameModel.setUIState(UIState.PRELOAD_DONE)
+        GameModel.setUIState(UIState.PRELOAD_DONE)
 
     }
 
@@ -462,7 +508,7 @@ export default class Main {
         if (!GameModel.lockView) this.characterHandler.update()
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
-        for (let d of this.drawingPreloader.drawings){
+        for (let d of this.drawingPreloader.drawings) {
             d.update()
         }
         GameModel.update()
@@ -507,7 +553,7 @@ export default class Main {
         let speed = UI.LBool("Go fast", GameModel.devSpeed);
         if (speed != GameModel.devSpeed) {
             GameModel.devSpeed = speed;
-            UIData.devSpeed =speed;
+            UIData.devSpeed = speed;
             if (GameModel.devSpeed) {
                 gsap.globalTimeline.timeScale(5);
             } else {
@@ -527,14 +573,14 @@ export default class Main {
         }
         UI.separator("Windows");
 
-        UIData.performance = (UI.LBool("Preformance",    UIData.performance));
+        UIData.performance = (UI.LBool("Preformance", UIData.performance));
         UIData.gameState = UI.LBool("Game State", UIData.gameState);
-        UIData.renderSettings =UI.LBool("Render Settings",  UIData.renderSettings)
-        UIData.lightInside  =UI.LBool("Light Inside",  UIData.lightInside)
-        UIData.lightOutside  =UI.LBool("Light Outside",  UIData.lightOutside )
+        UIData.renderSettings = UI.LBool("Render Settings", UIData.renderSettings)
+        UIData.lightInside = UI.LBool("Light Inside", UIData.lightInside)
+        UIData.lightOutside = UI.LBool("Light Outside", UIData.lightOutside)
         UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
-        UIData.animation= UI.LBool("Animations", UIData.animation)
-        UIData.draw=UI.LBool("Draw", UIData.draw)
+        UIData.animation = UI.LBool("Animations", UIData.animation)
+        UIData.draw = UI.LBool("Draw", UIData.draw)
         UI.separator("Info");
         if (UI.LButton("Check on Github")) {
             window.open("https://github.com/neuroprod/webgpu", '_blank');
@@ -562,13 +608,12 @@ export default class Main {
             GameModel.onUI();
         }
         //gameRender
-        if ( UIData.renderSettings && GameModel.currentScene != Scenes.PRELOAD) {
+        if (UIData.renderSettings && GameModel.currentScene != Scenes.PRELOAD) {
             UI.pushWindow("Render Settings")
-            if(UI.LButton("log unused textures")){
+            if (UI.LButton("log unused textures")) {
                 console.log("-----------------------")
-                for(let t of this.renderer.textures)
-                {
-                    if(t.useCount <2)console.log(t.label)
+                for (let t of this.renderer.textures) {
+                    if (t.useCount < 2) console.log(t.label)
                 }
             }
             GameModel.textHandler.onUI();
@@ -577,12 +622,12 @@ export default class Main {
             RenderSettings.onUI();
             UI.popWindow()
         }
-        if ( UIData.lightInside && GameModel.currentScene != Scenes.PRELOAD) {
+        if (UIData.lightInside && GameModel.currentScene != Scenes.PRELOAD) {
             UI.pushWindow("Light Inside")
             this.lightRoomPass.onUI();
             UI.popWindow()
         }
-        if ( UIData.lightOutside && GameModel.currentScene != Scenes.PRELOAD) {
+        if (UIData.lightOutside && GameModel.currentScene != Scenes.PRELOAD) {
             UI.pushWindow("Light Outside")
             this.shadowPass1.onUI()
             this.shadowPass2.onUI()
@@ -623,7 +668,7 @@ export default class Main {
     onDraw() {
 
         this.timeStampQuery.start();
-        if ( GameModel.currentScene == Scenes.PRELOAD) {
+        if (GameModel.currentScene == Scenes.PRELOAD) {
 
             this.shadowPassCube1.add();
             this.shadowPassCube2.add();
@@ -632,9 +677,7 @@ export default class Main {
             this.shadowPassCube5.add();
             this.shadowPassCube6.add();
 
-        }
-
-       else  if (GameModel.currentScene == Scenes.ROOM ) {
+        } else if (GameModel.currentScene == Scenes.ROOM) {
 
             this.shadowPassCube1.add();
             this.shadowPassCube2.add();
@@ -694,16 +737,17 @@ export default class Main {
     }
 
     private updateSceneHeight() {
-        if(GameModel.currentScene ==Scenes.ROOM){
-            let sw = this.renderer.ratio*3;
+        if (GameModel.currentScene == Scenes.ROOM) {
+            let sw = this.renderer.ratio * 3;
 
-            if(sw<GameModel.minRoomSize)
-            {
-                GameModel.sceneHeight =GameModel.minRoomSize/this.renderer.ratio;
-            }else{
-                GameModel.sceneHeight =3;
+            if (sw < GameModel.minRoomSize) {
+                GameModel.sceneHeight = GameModel.minRoomSize / this.renderer.ratio;
+            } else {
+                GameModel.sceneHeight = 3;
             }
-         
+
         }
     }
+
+
 }
