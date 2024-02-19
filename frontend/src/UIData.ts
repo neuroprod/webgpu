@@ -1,4 +1,16 @@
 class UIData {
+    get draw(): boolean {
+        return this._draw;
+    }
+
+    set draw(value: boolean) {
+        if (this._draw != value) {
+            this._draw = value;
+            this.save()
+        }
+
+    }
+    private _draw: boolean =false;
 
     constructor() {
     }
@@ -127,7 +139,8 @@ class UIData {
         let data = JSON.parse(dataS)
         if (data) {
             for (let value of Object.keys(data)) {
-                this[value] = data[value];
+                if(data[value]!=undefined)
+               this[value] = data[value];
             }
         }
     }

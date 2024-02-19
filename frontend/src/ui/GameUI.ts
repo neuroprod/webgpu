@@ -1,7 +1,7 @@
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import Camera from "../lib/Camera";
-import GameModel, {UIState} from "../GameModel";
+import GameModel, {Transitions, UIState} from "../GameModel";
 import UIModelRenderer from "./UIModelRenderer";
 import {Vector2} from "math.gl";
 import UIModel from "../lib/model/UIModel";
@@ -10,7 +10,7 @@ import Inventory from "./Inventory";
 import Menu from "./Menu";
 import InventoryDetail from "./InventoryDetail";
 import EnterButton from "./EnterButton";
-import Cursor from "./Cursor";
+import Cursor, {CURSOR} from "./Cursor";
 
 
 export default class GameUI {
@@ -28,6 +28,7 @@ export default class GameUI {
     menu: Menu;
     private inventoryDetail: InventoryDetail;
     private enterButton: EnterButton;
+    private state: UIState =UIState.PRELOAD;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
 
@@ -83,7 +84,10 @@ export default class GameUI {
 
     updateMouse(mousePos: Vector2, mouseDownThisFrame: boolean, mouseUpThisFrame: boolean) {
 
-
+if(this.state ==UIState.PRELOAD_DONE && mouseDownThisFrame){
+    GameModel.setTransition(Transitions.START_GAME)
+    GameModel.introDraw.hideDelay(0);
+}
         this.cursor.setMousePos(mousePos);
 
         let r = this.root.checkMouse(mousePos)
@@ -125,8 +129,7 @@ export default class GameUI {
 
         }
         if (state == UIState.PRELOAD_DONE) {
-            this.enterButton.visible = true
-            this.enterButton.update()
+           this.cursor.show(CURSOR.NEXT)
         }
         if (state == UIState.HIDE_MENU) {
             this.menuButton.hide()
@@ -151,6 +154,7 @@ export default class GameUI {
             this.inventoryDetail.show(data)
 
         }
+        this.state = state
     }
 
     updateInventory() {

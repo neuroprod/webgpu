@@ -36,7 +36,7 @@ export default class DrawLine{
 
             let dist =p.distance( lastPoint);
 
-            let   numSteps =Math.floor(dist/this.drawSize*4);
+            let   numSteps =Math.floor(dist/this.drawSize*6);
           if(numSteps==0)return;
             this.points.push(p)
 

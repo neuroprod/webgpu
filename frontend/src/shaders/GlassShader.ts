@@ -19,8 +19,9 @@ export default class GlassShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("refSettings1", new Vector4());
-        this.addUniform("refSettings2", new Vector4());
+
+        this.addUniform("refSettings1",  new Vector4(1,0,0.01,1.4));
+        this.addUniform("refSettings2", new Vector4(20,10,1,0));
         this.addTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"], "unfilterable-float")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
         this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");

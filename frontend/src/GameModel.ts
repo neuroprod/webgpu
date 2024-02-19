@@ -256,6 +256,7 @@ class GameModel {
     private grandpaSelect: Array<SelectItem>;
     private fashionSelect: Array<SelectItem>;
     lightOutsidePass: LightOutsideRenderPass;
+    introDraw: Drawing;
 
     constructor() {
 
@@ -475,6 +476,8 @@ class GameModel {
 
 
     public setScene(scenes: Scenes) {
+
+
         this.main.setScene(scenes);
         this.currentScene = scenes;
     }

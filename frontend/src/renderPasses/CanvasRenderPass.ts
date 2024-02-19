@@ -20,7 +20,7 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 
 export default class CanvasRenderPass extends RenderPass {
     public canvasColorAttachment: ColorAttachment;
-    public drawingRenderer: DrawingRenderer;
+
     private canvasColorTarget: RenderTexture;
     private canvasDepthTarget: RenderTexture;
     private blitTest: Blit;
@@ -36,7 +36,6 @@ export default class CanvasRenderPass extends RenderPass {
         RenderSettings.registerPass(this);
         this.sampleCount = 4
 
-        this.drawingRenderer = new DrawingRenderer(renderer, "drawing")
 
         this.canvasColorTarget = new RenderTexture(renderer, "canvasColor", {
             format: renderer.presentationFormat,
@@ -146,7 +145,7 @@ DefaultTextures.getMagicNoise(renderer)
 
 
         this.blitTest.draw(this);
-        this.drawingRenderer.draw(this);
+
         this.fontMeshRenderer.draw(this);
       GameModel.gameUI.modelRenderer.draw(this);
         UI.drawGPU(this.passEncoder, true)

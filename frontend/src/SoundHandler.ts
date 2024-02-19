@@ -118,6 +118,7 @@ export default class SoundHandler {
     }
 
     playForest() {
+        if(GameModel.dayNight==1)return;
         this.forest.play();
         this.forest.fade(0, 1, 1000)
     }
@@ -166,7 +167,7 @@ export default class SoundHandler {
             let s = Math.floor(Math.random() * 1000) % 14;
             this.stepOutside.pos(pos.x, pos.y, pos.z)
             this.stepOutside.play("step" + s)
-            this.stepInside.volume(0.5* this.fxVolume)
+            this.stepOutside.volume(0.5* this.fxVolume)
         }
     }
 

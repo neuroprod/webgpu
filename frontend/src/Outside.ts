@@ -16,6 +16,8 @@ import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
 import GameModel from "./GameModel";
 import {Vector3} from "math.gl";
+import FogShader from "./shaders/FogShader";
+import GlassGlowShader from "./shaders/GlassGlowShader";
 
 
 export default class Outside extends Scene {
@@ -33,7 +35,10 @@ export default class Outside extends Scene {
     private leaves: Leaves;
     private lightGraveHolder: Object3D;
     private lightGraveHolderPos: Vector3;
-    private lightGraveHolderPosMove: Vector3=new Vector3();
+
+    private glassGrave: Model;
+    private materialGlass: Material;
+    private materialGlow: Material;
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
@@ -51,11 +56,16 @@ export default class Outside extends Scene {
         this.lightGraveHolder  = this.glFTLoader.objectsByName["lightGrave"];
         this.lightGraveHolderPos =this.lightGraveHolder.getPosition().clone();
         this.lightGrave = new Object3D(this.renderer)
-        this.lightGrave.setPosition(0,0,0.0)
+        this.lightGrave.setPosition(0,-0.2,0.0)
         this.lightGraveHolder.addChild(this.lightGrave)
         this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
         this.fish = new Fish(this.renderer, this.glFTLoader.modelsByName["fish1"], this.glFTLoader.modelsByName["fish2"]);
+        this.glassGrave = this.glFTLoader.modelsByName["lightGrave_G"]
 
+        this.glassGrave.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["WaterNormal.jpg"]);
+        this.materialGlass = this.glassGrave.material;
+        this.materialGlow = new Material(this.renderer,"glassGlow",new GlassGlowShader(this.renderer,'glassGlow'));
+        this.materialGlow.depthWrite = false;
         for (let m of this.glFTLoader.models) {
             this.modelRenderer.addModel(m)
 
@@ -75,6 +85,15 @@ export default class Outside extends Scene {
 
         this.waterFront.material.uniforms.setUniform("dayNight", GameModel.dayNight)
         this.waterTop.material.uniforms.setUniform("dayNight", GameModel.dayNight)
+
+
+        if(GameModel.dayNight==0)
+        {
+            this.glassGrave.material = this.materialGlass
+
+        }else{
+            this.glassGrave.material = this.materialGlow
+        }
 
 
         for (let m of this.glFTLoader.models) {

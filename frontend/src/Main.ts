@@ -57,6 +57,7 @@ import GameUI from "./ui/GameUI";
 import LightIntroRenderPass from "./renderPasses/LightIntroRenderPass";
 import gsap from "gsap";
 import UIData from "./UIData";
+import Drawing from "./drawing/Drawing";
 
 export default class Main {
     public mouseRay: Ray;
@@ -113,20 +114,28 @@ export default class Main {
     private introLight2: MainLight;
     private introLight3: MainLight;
     private introLight4: MainLight;
-    private glFTLoaderTyping: GLFTLoader;
+    private introDraw: Drawing;
+    private loadingDraw: Drawing;
+
 
 
     constructor(canvas: HTMLCanvasElement) {
 
         this.canvasManager = new CanvasManager(canvas);
+
         this.renderer = new Renderer()
         this.renderer.setup(canvas).then(() => {
             this.setup()
+        }).catch(()=>{
+            this.showFailScreen()
         })
         this.mouseListener = new MouseListener(canvas)
         UIData.init();
     }
+    showFailScreen(){
+        console.log("fail")
 
+    }
     //pre-preload
     setup() {
         this.preloader = new PreLoader(
@@ -165,6 +174,10 @@ export default class Main {
         this.introLight3 = new MainLight(this.renderer, "preloadLight3")
         this.introLight4 = new MainLight(this.renderer, "preloadLight4")
         this.font = new Font(this.renderer, this.preloader);
+
+        this.drawingPreloader = new DrawingPreloader()
+        this.drawingPreloader.load(this.renderer, this.preloader)
+
         GameModel.debug = UIData.debug;
         GameModel.devSpeed = UIData.devSpeed;
         //devSpeed
@@ -192,8 +205,7 @@ export default class Main {
         new TextureLoader(this.renderer, this.preloader, "WaterNormal.jpg", {});
 
 
-        this.drawingPreloader = new DrawingPreloader()
-        this.drawingPreloader.load(this.renderer, this.preloader)
+
 
         this.room = new Room(this.renderer, this.preloader);
         this.outside = new Outside(this.renderer, this.preloader);
@@ -280,6 +292,26 @@ export default class Main {
 
         this.shadowPassCube4.setModels(this.gBufferPass.modelRenderer.models);
         this.shadowPassCube4.setLightPos(this.introLight4.getWorldPos())
+
+
+        this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
+        for (let d of this.drawingPreloader.drawings) {
+            d.resolveParent();
+
+            this.gBufferPass.drawingRenderer.addDrawing(d)
+            if(d.label=="drawings/intro_world.bin") {
+                d.showIntro();
+                this.introDraw = d;
+                GameModel.introDraw  = d;
+            }
+            if(d.label=="drawings/loading_world.bin"){
+                d.showLoad();
+                this.loadingDraw =d;
+            }
+
+        }
+
+
         this.tick()
         RenderSettings.fadeToScreen(1)
     }
@@ -287,6 +319,7 @@ export default class Main {
     setScene(scene: Scenes) {
 
         if (scene == Scenes.ROOM) {
+
             GameModel.yMouseScale = 1
             GameModel.yMouseCenter = 1
             GameModel.sceneHeight = 3
@@ -350,7 +383,7 @@ export default class Main {
         this.outside.init();
         GameModel.init();
         GameModel.makeTriggers();
-        GameModel.setUIState(UIState.PRELOAD_DONE)
+
 
         this.lightRoomPass.init(this.lightRoomJson.data, [this.room.lightKitchen, this.room.lightLab, this.room.lightDoor, this.room.lightWall, this.room.lightWallLiving,this.room.lightTable], [this.room.leftHolder, this.room.rightHolder, this.room.centerHolder])
         this.lightOutsidePass.init();
@@ -371,22 +404,8 @@ export default class Main {
             }
         }
 
-
-        /*  GameModel.floorHitIndicator = new FloorHitIndicator(this.renderer);
-
-          this.outside.modelRenderer.addModel(GameModel.floorHitIndicator);
-          this.room.modelRenderer.addModel(GameModel.floorHitIndicator);*/
-
-        //this.drawer = new Drawer(this.renderer);
-        this.gBufferPass.drawingRenderer.addDrawing(this.drawer.drawing)
-        for (let d of this.drawingPreloader.drawings) {
-            d.resolveParent();
-            this.gBufferPass.drawingRenderer.addDrawing(d)
-        }
-
-        /* GameModel.setTransition(Transitions.START_GAME)
-         RenderSettings.onChange()
- */
+        this.loadingDraw.hideLoad();
+       GameModel.setUIState(UIState.PRELOAD_DONE)
 
     }
 
@@ -441,8 +460,9 @@ export default class Main {
         if (!GameModel.lockView) this.characterHandler.update()
 
         if (this.drawer.enabled) this.drawer.setMouseData(this.mouseListener.isDownThisFrame, this.mouseListener.isUpThisFrame, this.mouseRay)
-
-
+        for (let d of this.drawingPreloader.drawings){
+            d.update()
+        }
         GameModel.update()
 
         if (GameModel.currentScene == Scenes.PRELOAD) {
@@ -511,13 +531,18 @@ export default class Main {
         UIData.lightOutside  =UI.LBool("Light Outside",  UIData.lightOutside )
         UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
         UIData.animation= UI.LBool("Animations", UIData.animation)
-        UI.LBool("Draw", false)
+        UIData.draw=UI.LBool("Draw", UIData.draw)
         UI.separator("Info");
         if (UI.LButton("Check on Github")) {
             window.open("https://github.com/neuroprod/webgpu", '_blank');
         }
 
         UI.popWindow()
+
+        //draw
+
+        if (UIData.draw) this.drawer.onUI()
+
 //animation
         if (UIData.animation) this.animationMixer.onUI()
         //performance

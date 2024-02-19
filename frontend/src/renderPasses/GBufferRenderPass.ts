@@ -28,7 +28,7 @@ export default class extends RenderPass {
         super(renderer, "GbufferRenderPass");
 
         this.modelRenderer = new ModelRenderer(renderer)
-this.drawingRenderer =new DrawingRenderer(renderer);
+        this.drawingRenderer =new DrawingRenderer(renderer);
         this.colorTarget = new RenderTexture(renderer, "GColor", {
             format: TextureFormat.RGBA8Unorm,
             sampleCount: this.sampleCount,
@@ -78,7 +78,7 @@ this.drawingRenderer =new DrawingRenderer(renderer);
     draw() {
 
         this.modelRenderer.draw(this);
-this.drawingRenderer.draw(this);
+        if(this.drawingRenderer.drawings.length>0) this.drawingRenderer.draw(this);
 
     }
 

@@ -24,7 +24,7 @@ export default class DrawingRenderer{
         for (let model of this.drawings) {
 
             if(!model.visible)continue
-            if(model.sceneID>=0 && model.sceneID!=this.currentScene )continue;
+          ///  if(model.sceneID>=0 && model.sceneID!=this.currentScene )continue;
             if( model.numDrawInstances==0)continue;
             model.material.makePipeLine(pass);
 

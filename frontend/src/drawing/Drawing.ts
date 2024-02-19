@@ -106,7 +106,19 @@ export default class Drawing extends Model {
         this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 1.0}, 0);
         this.tl.set(this,{isShowing:false},1.0)
     }
-
+    showIntro() {
+        if(this.isShowing)return;
+        if (this.tl) this.tl.clear();
+        this.tl = gsap.timeline();
+        if (this.start == 0 && this.progress == 1) {
+            return;
+        }
+        this.isShowing =true;
+        this.start = 0;
+        this.progress = 0;
+        this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 2.0}, 2);
+        this.tl.set(this,{isShowing:false},4.0)
+    }
     hideDelay(delay: number) {
 
         if (!this.tl)return;
@@ -119,6 +131,27 @@ export default class Drawing extends Model {
         }
 
         this.tl.to(this, {start: 0.5, progress: 0.5, ease: "power2.in", duration: 0.2}, delay);
+
+    }
+hideLoad(){
+    if (this.tl) this.tl.clear();
+    this.tl = gsap.timeline( {});
+
+
+
+    this.tl.to(this, {progress: 0, ease: "power2.Out", duration: 1.0}, 0);
+}
+    showLoad() {
+        if(this.isShowing)return;
+        if (this.tl) this.tl.clear();
+        this.tl = gsap.timeline( {repeat:-1,delay:5});
+        if (this.start == 0 && this.progress == 1) {
+            return;
+        }
+        this.isShowing =true;
+        this.start = 0;
+        this.progress = 0;
+        this.tl.to(this, {progress: 1, ease: "power2.Out", duration: 3.0}, 0);
 
     }
 }

@@ -81,11 +81,12 @@ ${cubeShadow()}
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    
-    output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( aPos,1.0);
+    var pos = aPos;
+    pos.y+=sin(pos.x*10.0+uniforms.time*5.0)*0.5;
+    output.position =camera.viewProjectionMatrix*model.modelMatrix *vec4( pos,1.0);
     output.uv0 =aUV0;
     output.projPos =output.position;
-    output.world =(model.modelMatrix *vec4( aPos,1.0)).xyz;
+    output.world =(model.modelMatrix *vec4( pos,1.0)).xyz;
     output.normal =model.normalMatrix *aNormal;
    
     return output;
@@ -120,11 +121,11 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
 
  let distToLight=distance (uniforms.pointlightPos.xyz,world);
 
-     let an  =1.0/pow( distToLight,2.0);
+     let an  =1.0/pow( distToLight,1.0);
    
-alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.2;
+alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.15;
 
-  return vec4(vec3(uniforms.pointlightColor.xyz*uniforms.pointlightColor.w*an *shadowColorP*alpha),alpha);
+  return vec4(vec3(uniforms.pointlightColor.xyz*uniforms.pointlightColor.w*0.5*an *shadowColorP*alpha),alpha);
  
 }
 ///////////////////////////////////////////////////////////

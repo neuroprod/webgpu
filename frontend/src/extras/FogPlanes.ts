@@ -44,14 +44,14 @@ export default class FogPlanes{
 
         for(let i=0;i<this.numPlanes;i++){
             let fog = new Model(this.renderer,"fogPlane"+i)
-            fog.mesh =new Plane(this.renderer,1,1,1,1,true)
+            fog.mesh =new Plane(this.renderer,1,1,10,1,true)
             fog.material =new Material(this.renderer,"fogPlane"+i,new FogShader(this.renderer,"fog"))
             fog.material.depthWrite = false;
             let p = positions[i];
             fog.setPosition(p.x,p.y,p.z)
             fog.setScale(6*p.w,1*p.w,1*p.w)
             fog.setEuler(Math.PI/2,0,0)
-            fog.material.blendModes = [l];
+            //fog.material.blendModes = [l];
             this.models.push(fog)
         }
 
@@ -62,7 +62,7 @@ export default class FogPlanes{
 
         for(let i=0;i<this.numPlanes;i++){
             let fp =this.models[i]
-            fp.material.uniforms.setUniform("time",Timer.time*0.04+i*0.5)
+            fp.material.uniforms.setUniform("time",Timer.time*0.04+i*123.5)
 
             fp.material.uniforms.setTexture("shadowCubeDebug",this.renderer.texturesByLabel["ShadowCubeColor1"]);
             fp.material.uniforms.setUniform("pointlightColor", GameModel.lightOutsidePass.lightColor)
