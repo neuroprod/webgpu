@@ -17,6 +17,8 @@ import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
 import Machine from "./extras/Machine";
 import GameModel from "./GameModel";
+import Dust from "./extras/Dust";
+import {render} from "react-dom";
 
 
 export default class Room extends Scene {
@@ -46,6 +48,7 @@ export default class Room extends Scene {
     lightWallLiving: MainLight;
     lightTable: MainLight;
     machine:Machine;
+    private dust: Dust;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -75,7 +78,7 @@ export default class Room extends Scene {
             this.modelRenderer.addModel(m)
 
         }
-
+this.dust =new Dust(this.renderer)
 
         this.leftHolder = this.glFTLoader.objectsByName["left"]
         this.rightHolder = this.glFTLoader.objectsByName["right"]
@@ -143,9 +146,11 @@ export default class Room extends Scene {
 
         }
         this.modelRendererTrans.addModel(this.mill.sparkModel)
+        this.modelRendererTrans.addModel(this.dust.model)
     }
 
     update() {
+        this.dust.update();
         let w = Math.max(this.renderer.ratio * 3,GameModel.minRoomSize);
         let left = - w - 0.15;
         this.leftHolder.setPosition(left, 0, 0)

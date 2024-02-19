@@ -10,6 +10,7 @@ export default class TextureLoader extends Texture {
         preLoader.startLoad();
         this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT;
         this.make();
+
         setTimeout(()=>{
 
     this.loadURL(url).then(() => {

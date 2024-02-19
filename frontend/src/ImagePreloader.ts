@@ -17,6 +17,7 @@ import GameModel from "./GameModel";
         let delay=100;
         for(let img of preloadImages){
             if(GameModel.devSpeed)delay =0;
+
             let name = "textures/"+img+".png";
             if(renderer.texturesByLabel[name]== undefined){
 
