@@ -21,6 +21,7 @@ export default class AnimationMixer{
             this.animationsByName[a.label] =a;
 
         }
+        this.animationsByName["coffee"].setAsMixAnimation(["RightArm","RightFore","RightHand"])
         this.animationsByName["holding"].setAsMixAnimation(["RightArm","RightFore","RightHand"])
         this.animationsByName["grabGlowPants"].setAsMixAnimation(["RightArm","RightFore","RightHand","RightShoulder"])
         this.animationsByName["lookdown"].setAsMixAnimation(["Neck","Spine2","Head"])

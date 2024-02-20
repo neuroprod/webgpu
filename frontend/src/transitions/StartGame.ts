@@ -8,7 +8,7 @@ export default class StartGame extends Transition {
     private start: boolean=false ;
     set(onComplete: () => void) {
         this.onComplete =onComplete
-        GameModel.textHandler.showHitTrigger("radio")
+        GameModel.textHandler.showHitTrigger("intro")
 
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
@@ -38,7 +38,8 @@ export default class StartGame extends Transition {
                     GameModel.roomCamOffset = 1;
                     GameModel.characterPos.set(2, 0, -1);
                 }
-
+                console.log("resetCoffee")
+                GameModel.characterHandler.setMixAnimation("coffee",0,0.0)
                 RenderSettings.fadeToScreen(3)
             }, [], 2)
             ts.call(() => {

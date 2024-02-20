@@ -189,6 +189,7 @@ export enum UIState {
     PRELOAD_DONE,
     PRELOAD,
     HIDE_MENU,
+    PRELOAD_DONE_WAIT,
 
 
 }

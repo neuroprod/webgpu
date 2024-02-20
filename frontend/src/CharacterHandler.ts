@@ -258,4 +258,8 @@ private rotateTo(angle:number,time:number)
         gsap.killTweensOf(animation)
         gsap.to(animation,{mixValue:value,duration:time,ease:"power2.Out",onComplete:animationComplete})
     }
+
+    rotate(angle: number) {
+        this.rotateTo(angle,0)
+    }
 }

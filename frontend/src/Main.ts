@@ -58,6 +58,7 @@ import LightIntroRenderPass from "./renderPasses/LightIntroRenderPass";
 import gsap from "gsap";
 import UIData from "./UIData";
 import Drawing from "./drawing/Drawing";
+import Intro from "./Intro";
 
 export default class Main {
     public mouseRay: Ray;
@@ -118,6 +119,7 @@ export default class Main {
     private loadingDraw: Drawing;
     private ctx: CanvasRenderingContext2D;
     private img: HTMLImageElement;
+    private intro: Intro;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -198,20 +200,9 @@ export default class Main {
         this.gameCamera = new GameCamera(this.camera, this.renderer)
         this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
         this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation2", this.preloader);
+this.intro  =new Intro(this.renderer,this.preloader)
 
 
-        new TextureLoader(this.renderer, this.preloader, "textures/body_Color.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/body_MRA.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/body_Normal.png", {});
-
-        new TextureLoader(this.renderer, this.preloader, "textures/pants_Color.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/pants_MRA.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/pants_Normal.png", {});
-
-        new TextureLoader(this.renderer, this.preloader, "textures/face_Color.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/face_MRA.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/face_Normal.png", {});
-        new TextureLoader(this.renderer, this.preloader, "textures/face_Op.png", {});
 
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
         new TextureLoader(this.renderer, this.preloader, "BlueNoise.png", {});
@@ -314,11 +305,12 @@ export default class Main {
         this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar, this.animationMixer)
 
         GameModel.characterHandler = this.characterHandler;
-        this.gBufferPass.modelRenderer = new ModelRenderer(this.renderer, "introModels")
-        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[0])
-        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[1])
-        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[2])
-        this.gBufferPass.modelRenderer.addModel(this.glFTLoaderChar.models[3])
+        this.intro.init(this.glFTLoaderChar)
+
+
+        this.gBufferPass.modelRenderer =this.intro.modelRenderer;
+
+
         this.drawer = new Drawer(this.renderer);
         this.dofPass.init();
         this.outlinePass.init();
@@ -442,14 +434,19 @@ export default class Main {
 
         this.shadowPass1.init();
         this.shadowPass2.init();
-        for (let m of this.glFTLoaderChar.models) {
+        for (let m of this.intro.modelsRoom) {
             //this.gBufferPass.modelRenderer.addModel(m)
-            if (m.label != "Cube") {
-                this.outside.modelRenderer.addModel(m)
-                this.room.modelRenderer.addModel(m)
-            }
-        }
 
+                this.room.modelRenderer.addModel(m)
+
+        }
+        for (let m of this.intro.modelsOutside) {
+            //this.gBufferPass.modelRenderer.addModel(m)
+
+                this.outside.modelRenderer.addModel(m)
+
+
+        }
         this.loadingDraw.hideLoad();
         GameModel.setUIState(UIState.PRELOAD_DONE)
 

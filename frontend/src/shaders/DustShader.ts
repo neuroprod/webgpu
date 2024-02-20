@@ -83,9 +83,9 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var insPos =instancePos.xyz;
 
 
-    insPos.z+=fbm(vec3(insPos.xy,uniforms.time),2)*3.0;
-    insPos.x+=fbm(vec3(insPos.yz,uniforms.time),2)*3.0;
-    insPos.y+=fbm(vec3(insPos.xz,uniforms.time),2)*3.0;
+    insPos.z+=fbm(vec3(insPos.xy,uniforms.time),1)*3.0;
+    insPos.x+=fbm(vec3(insPos.yz,uniforms.time),1)*6.0;
+    insPos.y+=fbm(vec3(insPos.xz,uniforms.time),1)*3.0;
     var pos =vec4(instancePos.w* aPos+insPos,1.0);
    
 

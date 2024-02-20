@@ -13,7 +13,7 @@
     {
       "scene": 1,
       "object": "coffee",
-      "copy": "Coffee helps me wake up in the morning,\n and fall a sleep at night."
+      "copy": "coffee is gone"
     },
     {
       "scene": 1,
@@ -51,6 +51,14 @@
     }
   ],
   "text": [
+    {
+
+      "object": "intro",
+      "copy": [
+        "nothing wakes me up like some efds",
+        "Its going to be a hot day.\nThe temperature is expected\nto reach 38C."
+      ]
+    },
     {
       "object": "readMailFirst",
       "copy": [
@@ -127,14 +135,7 @@
         "grandpa dead"
       ]
     },
-    {
-      "subtitle": true,
-      "object": "radio",
-      "copy": [
-        "Good morning!\nThis is Radio City,\nIt's 7AM",
-        "Its going to be a hot day.\nThe temperature is expected\nto reach 38C."
-      ]
-    },
+
     {
       "object": "findHunter",
       "copy": [

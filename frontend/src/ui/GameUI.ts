@@ -18,6 +18,7 @@ export default class GameUI {
 
     modelRenderer: UIModelRenderer;
     public cursor: Cursor;
+    menu: Menu;
     private camera: Camera;
     private renderer: Renderer;
     private root: UIModel;
@@ -25,10 +26,9 @@ export default class GameUI {
     private overItem: UIModel = null;
     private menuButton: MenuButton;
     private inventory: Inventory;
-    menu: Menu;
     private inventoryDetail: InventoryDetail;
     private enterButton: EnterButton;
-    private state: UIState =UIState.PRELOAD;
+    private state: UIState = UIState.PRELOAD;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
 
@@ -84,10 +84,17 @@ export default class GameUI {
 
     updateMouse(mousePos: Vector2, mouseDownThisFrame: boolean, mouseUpThisFrame: boolean) {
 
-if(this.state ==UIState.PRELOAD_DONE && mouseDownThisFrame){
-    GameModel.setTransition(Transitions.START_GAME)
-    GameModel.introDraw.hideDelay(0);
-}
+        if (this.state == UIState.PRELOAD_DONE && mouseDownThisFrame) {
+            this.state = UIState.PRELOAD_DONE_WAIT
+            GameModel.introDraw.hideDelay(0);
+            this.cursor.hide();
+            setTimeout(() => {
+                GameModel.setTransition(Transitions.START_GAME)
+
+            }, 1000)
+
+
+        }
         this.cursor.setMousePos(mousePos);
 
         let r = this.root.checkMouse(mousePos)
@@ -117,7 +124,7 @@ if(this.state ==UIState.PRELOAD_DONE && mouseDownThisFrame){
             if (this.downItem) this.downItem.onUp()
             this.downItem = null;
         }
-        if(!this.overItem && mouseDownThisFrame){
+        if (!this.overItem && mouseDownThisFrame) {
             this.inventory.close()
         }
 
@@ -129,7 +136,7 @@ if(this.state ==UIState.PRELOAD_DONE && mouseDownThisFrame){
 
         }
         if (state == UIState.PRELOAD_DONE) {
-           this.cursor.show(CURSOR.NEXT)
+            this.cursor.show(CURSOR.NEXT)
         }
         if (state == UIState.HIDE_MENU) {
             this.menuButton.hide()
