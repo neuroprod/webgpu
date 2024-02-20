@@ -306,7 +306,7 @@ this.intro  =new Intro(this.renderer,this.preloader)
 
         GameModel.characterHandler = this.characterHandler;
         this.intro.init(this.glFTLoaderChar)
-
+        this.glassPass.modelRenderer =this.intro.modelRendererTrans;
 
         this.gBufferPass.modelRenderer =this.intro.modelRenderer;
 
@@ -511,7 +511,7 @@ this.intro  =new Intro(this.renderer,this.preloader)
         GameModel.update()
 
         if (GameModel.currentScene == Scenes.PRELOAD) {
-
+this.intro.update();
             this.shadowPassCube1.setLightPos(this.introLight1.getWorldPos());
             this.shadowPassCube2.setLightPos(this.introLight2.getWorldPos());
             this.shadowPassCube3.setLightPos(this.introLight3.getWorldPos());

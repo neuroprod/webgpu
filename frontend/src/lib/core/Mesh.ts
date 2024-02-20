@@ -70,6 +70,13 @@ export default class Mesh extends ObjectGPU {
         this.buffers.push(buffer);
         this.bufferMap.set(name, buffer);
     }
+    updateBuffer(name:string,data:any){
+        let buffer =this.getBufferByName(name);
+        let i =this.buffers.indexOf(buffer)
+        this.buffers.splice(i,1);
+      buffer.destroy()
+        this.createBuffer(data, name)
+    }
     createBuffer(data: Float32Array, name: string) {
 
         const buffer = this.device.createBuffer({
