@@ -13,7 +13,7 @@
     {
       "scene": 1,
       "object": "coffee",
-      "copy": "coffee is gone"
+      "copy": "It was such a good coffee"
     },
     {
       "scene": 1,
@@ -24,8 +24,8 @@
       "scene": 1,
       "object": "pictureFrame2",
       "copy": [
-        "The legendary golden\nunderpants of Tukilaka.\nGrandpa was obsesed by them.\n...",
-        "They where stolen by the"
+        "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsesed by them.\n...",
+        "They where stolen by Genghis Khan in 1210\nAnd lost ever since."
       ]
     },
     {
@@ -33,15 +33,15 @@
       "object": "painting2",
       "copy": [
         "The 'SeaLion':\nGrandpa used to travel\nthe world with this ship.\n...",
-        "It sunk in 1934 in the Bering Sea.\n25 miles from Saint Paul Island"
+        "blalalalala"
       ]
     },
     {
       "scene": 1,
       "object": "painting",
       "copy": [
-        "Roses are red",
-        "Violets are blue"
+        "Roses are red"
+
       ]
     },
     {
@@ -62,14 +62,14 @@
     }, {
       "object": "introMail",
       "copy": [
-        "I think its going to be a great day!",
-        "but let's read that mail first."
+        "I think its going to\nbe a great day!",
+        "But let's read\nthat mail first."
       ]
     },
     {
       "object": "readMailFirst",
       "copy": [
-        "Maybe i should read\nthat mail first"
+        "Maybe I should read\nthat mail first"
       ]
     },
     {
@@ -77,7 +77,8 @@
       "copy": [
         "An underwear\nsimulator...",
         "The ad-agency wants\nme to make an\nunderwear simulator",
-        "Let's get some fresh air first"
+        "blalalalala",
+        "Let's first go outside\nand get some\ninspiration."
       ]
     },
     {
@@ -89,21 +90,23 @@
     {
       "object": "makeTriangle",
       "copy": [
-        "Lets start with making a triangle",
-        "the shape of shapes"
+        "Lets start with rendering a triangle",
+        "this polygon is\nthe building block of worlds",
+        "and underwear simulators"
       ]
     },
     {
       "object": "triangleDone",
       "copy": [
-        "what a beauty"
+        "I am a triangle,\nYes It's true,\nI have three sides,\nYes I do!",
+        "let's do some other things before "
       ]
     },
     {
       "object": "makeWebsite",
       "copy": [
-        "making thing...",
-        "lets send it to the agency"
+        "add some shading.",
+        "Lets send it to the agency\nI hope they like it"
       ]
     }, {
       "object": "websiteDone",
@@ -113,7 +116,7 @@
     }, {
       "object": "readMailAward",
       "copy": [
-        "They won an award","They send me a package?"
+        "They won an award","They send me a package!"
       ]
     },
     {
@@ -128,18 +131,13 @@
         "Oh, must be the package\nfrom the agency."
       ]
     },
-    {
-      "object": "noMail",
-      "copy": [
-        "I hardly get any mail these days."
-      ]
-    },
+
 
     {
       "object": "readCross",
       "copy": [
-        "blablabla",
-        "grandpa dead"
+        "Grandpa's grave.",
+        "He loved these woods."
       ]
     },
 
@@ -154,8 +152,8 @@
     {
       "object": "bookCaseLocked",
       "copy": [
-        "It's locked.\nDon't know whats inside,\nprobably some old junk",
-        "Maybe i should\nmake a key for it."
+        "It's locked.\nGrandpa kept his notes in it",
+        "Maybe I should\nmake a key for it."
       ]
     },
     {
@@ -174,7 +172,8 @@
       "object": "millRun",
       "copy": [
         "So, lets make that key.",
-        "It's going to take a\nwhile before its finished'."
+        "It's going to take a\nwhile before its finished.",
+        "Lets do some things\nin the meantime."
       ]
     },
     {
@@ -188,20 +187,20 @@
     {
       "object": "bookCaseMillFinished",
       "copy": [
-        "I should check on that key"
+        "I should check on that key."
       ]
     },
     {
       "object": "takeKey",
       "copy": [
-        "Lets see if I can open that book case"
+        "Lets see if I can\nopen that bookcase."
       ]
     },
 
     {
       "object": "findNote",
       "copy": [
-        "A letter from grandpa!","Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it","So i will take it\nwith me to my grave."
+        "A letter from grandpa!","Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it","So I will take it\nwith me to my grave.",";)\nGrandpa"
       ]
     },{
       "object": "shovelNoNeed",
@@ -232,15 +231,15 @@
     {
       "object": "flowerPreBloom",
       "copy": [
-        "Flora Candentis.\nIt flower only once\nin its lifetime.",
-        "But that won't happen\nin this climate"
+        "the blabla plant\nIt should flower any time now."
+
       ]
     },
     {
       "object": "missingIngredient",
       "copy": [
-        "I'm trying to create the\nbest underpants in the world.",
-        "but it's still missing some important ingredient"
+        "The machine is almost finished",
+        "I only need some flowers of\nthe blabla plant to make it work"
       ]
     },
     {
@@ -265,7 +264,7 @@
     {
       "object": "findGlowPants",
       "copy": [
-        "these are so nice","lets take them"
+        "Looks like it worked","lets take them"
       ]
     },
 
@@ -273,13 +272,13 @@
     {
       "object": "fishFoodNoNeed",
       "copy": [
-        "Food for Fish\nPremium fish food"
+        "Food for Fish tm\nPremium fish food"
       ]
     },
     {
       "object": "fishHungry",
       "copy": [
-        "The fish seem hungry\nMaybe is should feed them."
+        "The fish seem hungry\nI should feed them."
       ]
     },
     {
