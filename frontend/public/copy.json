@@ -52,11 +52,18 @@
   ],
   "text": [
     {
-
       "object": "intro",
       "copy": [
-        "nothing wakes me up like some efds",
-        "Its going to be a hot day.\nThe temperature is expected\nto reach 38C."
+        "I like early mornings.",
+        "Waking up with the birds.",
+        "A cup of coffee at dawn.",
+        "Watching the morning unfold."
+      ]
+    }, {
+      "object": "introMail",
+      "copy": [
+        "I think its going to be a great day!",
+        "but let's read that mail first."
       ]
     },
     {

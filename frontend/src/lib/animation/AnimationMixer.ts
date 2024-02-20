@@ -21,14 +21,15 @@ export default class AnimationMixer{
             this.animationsByName[a.label] =a;
 
         }
-        this.animationsByName["coffee"].setAsMixAnimation(["RightArm","RightFore","RightHand"])
+        this.animationsByName["coffee"].setAsMixAnimation(["RightArm","RightFore","RightHand","RightShoulder"])
         this.animationsByName["holding"].setAsMixAnimation(["RightArm","RightFore","RightHand"])
         this.animationsByName["grabGlowPants"].setAsMixAnimation(["RightArm","RightFore","RightHand","RightShoulder"])
         this.animationsByName["lookdown"].setAsMixAnimation(["Neck","Spine2","Head"])
         this.anime1 =this.animationsByName["idle"]
         this.anime2 =this.animationsByName["idle"]
-        this.anime2.speedMultiplier =0.8;
+        this.anime2.speedMultiplier =1;
         this.animationsByName["pullPants"].speedMultiplier =0.6;
+        this.animationsByName["walking"].speedMultiplier =1.2;
 
      let walking =this.animationsByName["walking"];
         walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
