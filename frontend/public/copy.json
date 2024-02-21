@@ -5,11 +5,7 @@
       "object": "teapot",
       "copy": "Mom got this teapot on\none of her travels."
     },
-    {
-      "scene": 1,
-      "object": "postcard1",
-      "copy": "it says:\n'Greetings from Utah!\nCheers, Mom'"
-    },
+
     {
       "scene": 1,
       "object": "coffee",
@@ -270,9 +266,9 @@
 
 
     {
-      "object": "fishFoodNoNeed",
+      "object": "fishHappy",
       "copy": [
-        "Food for Fish tm\nPremium fish food"
+        "They seem happy"
       ]
     },
     {

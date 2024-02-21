@@ -8,6 +8,8 @@ export default class DigGrave extends Transition{
     set(onComplete: () => void){
         super.set(onComplete)
         GameModel.textHandler.showHitTrigger("digGrave")
+        GameModel.renderer.modelByLabel["shovelHold"].visible =true
+        GameModel.characterHandler.setAnimation("digging",0.3);
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
     }
@@ -20,8 +22,11 @@ export default class DigGrave extends Transition{
             GameModel.sound.playPickPants();
             GameModel.gameUI.cursor.hide()
             GameModel.stateGold =StateGold.GET_GOLD
+            GameModel.renderer.modelByLabel["shovelHold"].visible =false
+            GameModel.characterHandler.setIdleAndTurn()
             this.onComplete()
             GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.gold)
+
 
 
 

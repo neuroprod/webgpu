@@ -25,7 +25,7 @@ export default class BookCaseTrigger extends HitTrigger{
         }
         if(GameModel.stateGold==StateGold.HAS_KEY){
 
-            let pot = GameModel.renderer.modelByLabel["bookCaseDoor"]
+            let pot = GameModel.renderer.modelByLabel["bookCaseDoorRight"]
             let world = pot.getWorldPos(new Vector3(-1, 0, 1))
             GameModel.characterHandler.walkTo(world, Math.PI, this.onCompleteWalk, false)
             return;
@@ -36,7 +36,7 @@ export default class BookCaseTrigger extends HitTrigger{
        GameModel.setTransition(Transitions.OPEN_BOOKCASE)
     }
     public over() {
-        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["bookCaseDoor"]);
+        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["bookCaseDoorRight"]);
         GameModel.gameUI.cursor.show(CURSOR.LOOK)
 
     }

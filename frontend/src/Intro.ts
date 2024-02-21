@@ -30,6 +30,8 @@ export default class Intro{
     private positionData: Float32Array;
     private coffeeOffset: Vector3=new Vector3(0,0.1,0);
 private smokePositions:Array<Vector3>=[]
+    private stick: Model;
+    private shovel: Model;
     constructor(renderer:Renderer,preloader:PreLoader) {
 
         this.renderer = renderer
@@ -78,9 +80,10 @@ private smokePositions:Array<Vector3>=[]
         this.coffee = glFTLoaderChar.modelsByName["coffee"]
         this.modelRenderer.addModel(     this.coffee )
 
-
+        this.stick = glFTLoaderChar.modelsByName["stickHold"]
+        this.shovel = glFTLoaderChar.modelsByName["shovelHold"]
         this.modelsRoom.push(this.face,this.body,this.pants)
-        this.modelsOutside.push(this.face,this.body,this.pants)
+        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel)
 
         GameModel.characterHandler.rotate(0.1)
 
@@ -94,7 +97,7 @@ private smokePositions:Array<Vector3>=[]
         this.modelRendererTrans.addModel(this.smoke)
     }
     update(){
-       
+
 
 
         let pos = this.coffee.getWorldPos(this.coffeeOffset)

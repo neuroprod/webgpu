@@ -23,7 +23,7 @@ export default class HighTechPantsTrigger extends HitTrigger {
     }
 
     protected click() {
-
+console.log("take")
         let obj = GameModel.renderer.modelByLabel["pantsGlow"]
         let world = obj.getWorldPos()
         world.x-=0.7;

@@ -84,7 +84,6 @@ export enum StateGold {
 
 export enum StateGrandpa {
     START,
-    FISH_HUNGRY,
     TAKE_FISH_FOOD,
     FEED_FISH,
     SHOW_GRANDPA_PANTS,
@@ -275,6 +274,7 @@ class GameModel {
     set stateGold(value: StateGold) {
         if (value == StateGold.START) {
             this.renderer.modelByLabel["shovel"].visible =true
+            this.renderer.modelByLabel["shovelHold"].visible = false;
         }
         if (value == StateGold.START_MILL) {
 
@@ -324,6 +324,7 @@ class GameModel {
 
     set stateGirl(value: StateGirl) {
         if (value == StateGirl.START) {
+            this.renderer.modelByLabel["stickHold"].visible = false;
             this.renderer.modelByLabel["girlPants"].visible = false;
             this.renderer.modelByLabel["girlPants"].enableHitTest = false;
 
@@ -373,6 +374,8 @@ class GameModel {
             this.renderer.modelByLabel["glowFlowerStem"].visible = false
             this.renderer.modelByLabel["pot"].enableHitTest = true
             this.renderer.modelByLabel["Bush3"].enableHitTest = true
+            this.renderer.modelByLabel["pantsGlow"].enableHitTest = false
+            this.renderer.modelByLabel["pantsGlow"].visible = true
         } else if (value == StateHighTech.GROW_FLOWER) {
             this.renderer.modelByLabel["glowFlower"].visible = true
             this.renderer.modelByLabel["glowFlower"].enableHitTest = true
@@ -391,11 +394,11 @@ class GameModel {
         }
         if (value == StateHighTech.STOP_MACHINE) {
             this.room.machine.stop()
-
+            this.renderer.modelByLabel["pantsGlow"].enableHitTest = true;
         }
         if (value == StateHighTech.TAKE_HIGHTECH_PANTS) {
-            this.renderer.modelByLabel["pantsGlow"].enableHitTest = false
-            this.renderer.modelByLabel["pantsGlow"].visible = false
+            this.renderer.modelByLabel["pantsGlow"].enableHitTest = false;
+            this.renderer.modelByLabel["pantsGlow"].visible = false;
 
         }
 
@@ -575,7 +578,7 @@ class GameModel {
         this.triggers.push(new SitTrigger(Scenes.ROOM, "chair"));
         this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
         this.triggers.push(new MillTrigger(Scenes.ROOM, ["mill", "millBed", "millControle", "millHead"]));
-        this.triggers.push(new BookCaseTrigger(Scenes.ROOM, "bookCaseDoor"));
+        this.triggers.push(new BookCaseTrigger(Scenes.ROOM, ["bookCaseDoorRight","bookCaseDoorLeft"]));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
 

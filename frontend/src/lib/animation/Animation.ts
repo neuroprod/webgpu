@@ -28,6 +28,9 @@ export default class Animation extends ObjectGPU
     public mixValue: number=0;
     public isMixAnimation: boolean=false;
     public speedMultiplier=1;
+     playOnce: boolean =false;
+    completeCallBack: () => void=()=>{};
+   animationDone: boolean =false;
     constructor(renderer:Renderer,label:string) {
         super(renderer,label)
 
@@ -51,7 +54,18 @@ export default class Animation extends ObjectGPU
     {
         this.time +=Timer.delta*this.speedMultiplier;
         if(this.time>this.totalTime){
-            this.time-=this.totalTime;
+            if(this.playOnce)
+            {
+                this.time=this.totalTime;
+               if(! this.animationDone){
+                   this.completeCallBack()
+                   this.animationDone =true;
+               }
+
+            }else{
+                this.time-=this.totalTime;
+            }
+
         }
         let t = this.time+this.startTime;
         for(let c of this.callBacks){

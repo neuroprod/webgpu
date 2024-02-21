@@ -5,9 +5,9 @@ import {CURSOR} from "../ui/Cursor";
 export default class FishTrigger extends HitTrigger{
 
     protected click() {
-        if(GameModel.stateGrandpa==StateGrandpa.START || GameModel.stateGrandpa==StateGrandpa.FISH_HUNGRY) {
+        if(GameModel.stateGrandpa==StateGrandpa.START ) {
             GameModel.setTransition(Transitions.TEXT_INFO, "fishHungry")
-            GameModel.stateGrandpa =StateGrandpa.FISH_HUNGRY
+
         }
         else if(GameModel.stateGrandpa==StateGrandpa.TAKE_FISH_FOOD) {
             let obj = GameModel.renderer.modelByLabel["fishHit"]

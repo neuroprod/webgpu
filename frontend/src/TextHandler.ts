@@ -10,7 +10,7 @@ import GameModel from "./GameModel";
 import Material from "./lib/core/Material";
 import FontShader from "./lib/text/FontShader";
 import {BlendFactor, BlendOperation} from "./lib/WebGPUConstants";
-import {isArray, Vector3, Vector4} from "math.gl";
+import {isArray, NumericArray, Vector3, Vector4} from "math.gl";
 import gsap from "gsap";
 import UI from "./lib/UI/UI";
 
@@ -169,8 +169,8 @@ export default class TextHandler {
         } else {
             this.hitTextTarget = GameModel.characterPos.clone()
             let p = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone())
-            let p2 = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone().add([1, 0, 0]))
-            d = 0.35 / (p.distance(p2));
+            let p2 = GameModel.gameCamera.getScreenPos(this.hitTextTarget.clone().add([0, 1, 0]))
+            d = 0.50 / (p.distance(p2 as NumericArray));
 
 
             if (p.x > 0) {
@@ -193,7 +193,7 @@ export default class TextHandler {
 
         this.showChars = Math.min(10, this.numChars)
         if (this.numChars > 10) {
-
+Image
             gsap.to(this, {showChars: this.numChars, ease: "none", duration: (this.numChars - 10) / 90})
         }
         if (GameModel.screenHeight > 800) d *= 800 / GameModel.screenHeight;

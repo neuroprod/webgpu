@@ -262,4 +262,11 @@ private rotateTo(angle:number,time:number)
     rotate(angle: number) {
         this.rotateTo(angle,0)
     }
+
+    setAnimationOnce(animation: string, fade: number,oncomplete:()=>void) {
+        if (this.tl) this.tl.clear()
+        this.tl = gsap.timeline();
+        this.animationMixer.setAnimationOnce(animation,oncomplete);
+        this.tl.to(this.animationMixer, {"mixValue": 1, duration: fade, ease: "none"}, 0)
+    }
 }
