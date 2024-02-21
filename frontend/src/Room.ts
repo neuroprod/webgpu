@@ -142,7 +142,7 @@ this.dust =new Dust(this.renderer)
         this.plant = this.glFTLoader.modelsByName["plant_Monstera_Deliciosa"]
         this.pot = this.glFTLoader.modelsByName["pot2"]
         this.posterLab = this.glFTLoader.modelsByName["posterLab"];
-      
+
         //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
       //  this.modelRenderer.addModel(this.windowOutside);
 

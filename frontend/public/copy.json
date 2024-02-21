@@ -3,7 +3,7 @@
     {
       "scene": 1,
       "object": "teapot",
-      "copy": "Mom got this teapot on\none of her travels."
+      "copy": "It's a teapot."
     },
 
     {
@@ -26,7 +26,7 @@
       "object": "pictureFrame2",
       "copy": [
         "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsesed by them.",
-        "They where stolen by Genghis Khan in 1210\nand are lost ever since."
+        "They where stolen by\nGenghis Khan in 1210\nand are lost ever since."
       ]
     },
     {
