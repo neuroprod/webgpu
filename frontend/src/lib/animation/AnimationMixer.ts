@@ -126,9 +126,11 @@ export default class AnimationMixer{
         this.anime1 =  this.anime2
         this.anime2 =this.animationsByName[animation]
         this.anime2.setStartValue()
-        this.anime2. playOnce =true;
+        this.anime2.animationDone =false;
+        this.anime2.playOnce =true;
+        this.anime2.time=0;
         this.anime2.completeCallBack =callBack;
-            this.anime2.time=0;
+
         this.mixValue =0;
 
     }

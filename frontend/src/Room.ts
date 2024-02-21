@@ -19,6 +19,7 @@ import Machine from "./extras/Machine";
 import GameModel from "./GameModel";
 import Dust from "./extras/Dust";
 import {render} from "react-dom";
+import Model from "./lib/model/Model";
 
 
 export default class Room extends Scene {
@@ -49,6 +50,10 @@ export default class Room extends Scene {
     lightTable: MainLight;
     machine:Machine;
     private dust: Dust;
+    private paintingHolder: Object3D;
+    private plant: Model;
+    private pot: Model;
+    private posterLab: Model;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -130,7 +135,15 @@ this.dust =new Dust(this.renderer)
 
         this.clock = new Clock(this.glFTLoader.modelsByName["hour"], this.glFTLoader.modelsByName["minutes"])
         this.machine =new Machine(this.renderer);
-     //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
+
+
+        this.paintingHolder =this.glFTLoader.objectsByName["paintingHolder"]
+
+        this.plant = this.glFTLoader.modelsByName["plant_Monstera_Deliciosa"]
+        this.pot = this.glFTLoader.modelsByName["pot2"]
+        this.posterLab = this.glFTLoader.modelsByName["posterLab"];
+      
+        //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
       //  this.modelRenderer.addModel(this.windowOutside);
 
     }
@@ -152,6 +165,28 @@ this.dust =new Dust(this.renderer)
     update() {
         this.dust.update();
         let w = Math.max(this.renderer.ratio * 3,GameModel.minRoomSize);
+
+
+        let plantOff =(w-5)/2
+        if(plantOff<0){
+            this.plant.visible =false;
+            this.pot.visible =false;
+        }else{
+            this.plant.visible =true;
+            this.pot.visible =true;
+            this.plant.setPosition(-2.200779914855957-plantOff, 0.001604527235031128, -3.398457527160644)
+            this.pot.setPosition(-2.200779914855957-plantOff, 0.001604527235031128, -3.398457527160644)
+        }
+        let posterOff =(w-3)/2
+let posterOffX =0
+        let posterOffY =0
+        if(w>5.5){
+            posterOffY=-0.5;
+            posterOffX=1;
+        }
+this.posterLab.setPosition(posterOff+posterOffX, 2.5+posterOffY, -2.2410359382629395)
+
+        this.paintingHolder.setPosition((w-1)/2, 1.8256490230560303, -3.9360575675964355)
         let left = - w - 0.15;
         this.leftHolder.setPosition(left, 0, 0)
 

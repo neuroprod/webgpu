@@ -7,9 +7,20 @@ export default class OpenBookcase extends Transition{
 
     set(onComplete: () => void){
         super.set(onComplete)
+        GameModel.characterHandler.setAnimationOnce("crunchDown",0.2,this.onCrunchDown.bind(this))
+
+
+
+    }
+    onCrunchDown(){
+
         GameModel.textHandler.showHitTrigger("findNote")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
+        let right =GameModel.renderer.modelByLabel["bookCaseDoorRight"]
+        let left =GameModel.renderer.modelByLabel["bookCaseDoorLeft"]
+        right.setEuler(0,1.5,0)
+        left.setEuler(0,-1,0)
     }
     onMouseDown(){
         GameModel.gameUI.cursor.animate()
@@ -17,8 +28,12 @@ export default class OpenBookcase extends Transition{
 
 
             GameModel.stateGold =StateGold.FIND_NOTE;
+            GameModel.characterHandler.setAnimationOnce("crunchUp",0.2,()=>{
 
-            this.onComplete()
+                GameModel.characterHandler.setIdleAndTurn()
+                this.onComplete()
+            })
+
 
         }
     }

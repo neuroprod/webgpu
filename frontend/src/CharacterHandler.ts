@@ -238,10 +238,13 @@ private rotateTo(angle:number,time:number)
     }
 
     pullPants() {
-        this.animationMixer.setAnimation("pullPants", 0);
-        this.animationMixer.mixValue=1;
         this.rotateTo(0,0.1);
-        this.setAnimation("idle",0.4,0.5);
+        this.setAnimationOnce("pullPants",0.2,()=>{
+
+            this.setIdleAndTurn()
+        })
+
+
     }
 
     setIdleAndTurn() {

@@ -18,18 +18,40 @@
     },
     {
       "scene": 1,
+      "object": "bookPicture2",
+      "copy": "bookpic2"
+    },
+    {
+      "scene": 1,
       "object": "pictureFrame2",
       "copy": [
-        "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsesed by them.\n...",
-        "They where stolen by Genghis Khan in 1210\nAnd lost ever since."
+        "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsesed by them.",
+        "They where stolen by Genghis Khan in 1210\nand are lost ever since."
+      ]
+    },
+    {
+      "scene": 1,
+      "object": "pictureFrame1",
+      "copy": [
+        "frame1"
+
       ]
     },
     {
       "scene": 1,
       "object": "painting2",
       "copy": [
-        "The 'SeaLion':\nGrandpa used to travel\nthe world with this ship.\n...",
-        "blalalalala"
+        "The 'SeaLion'","Grandpa used to travel\nthe world with this ship."
+
+      ]
+    },
+
+    {
+      "scene": 1,
+      "object": "painting2",
+      "copy": [
+        "The 'SeaLion':\nGrandpa used to travel\nthe world with this ship."
+
       ]
     },
     {
