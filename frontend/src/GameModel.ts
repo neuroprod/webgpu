@@ -70,6 +70,7 @@ import DigGraveTrigger from "./trigers/DigGraveTrigger";
 import DigGrave from "./transitions/DigGrave";
 import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
 import GrandpaFishTrigger from "./trigers/GrandpaFishTrigger";
+import AnimationMixer from "./lib/animation/AnimationMixer";
 
 export enum StateGold {
     START,
@@ -259,6 +260,7 @@ class GameModel {
     lightOutsidePass: LightOutsideRenderPass;
     introDraw: Drawing;
     minRoomSize =4.5
+    animationMixer: AnimationMixer;
 
     constructor() {
 

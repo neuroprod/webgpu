@@ -7,9 +7,12 @@ export default class StartMill extends Transition{
 
     set(onComplete: () => void){
         super.set(onComplete)
-        GameModel.characterHandler.startTyping()
+        GameModel.characterHandler.setAnimationOnce("startMill",0.3,()=>{
+            GameModel.setMillState(MillState.ON)
+           GameModel.characterHandler.setAnimation("idle",0.5);
+        })
         GameModel.textHandler.showHitTrigger("millRun")
-        GameModel.setMillState(MillState.ON)
+
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.stateGold=StateGold.START_MILL
     }

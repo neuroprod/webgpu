@@ -7,7 +7,7 @@ export default class AnimationMixer{
     private animations: Array<Animation>;
     public animationsByName: { [name: string]: Animation } = {};
     public mixValue: number=1;
-
+    private extraAnime:Animation;
     private anime1:Animation;
     private anime2:Animation;
     private currentAnimation: Animation;
@@ -29,12 +29,14 @@ export default class AnimationMixer{
         this.anime2 =this.animationsByName["idle"]
         this.anime2.speedMultiplier =1;
         this.animationsByName["pullPants"].speedMultiplier =0.6;
+        this.animationsByName["birdHouse2"].speedMultiplier =0.5;
         this.animationsByName["walking"].speedMultiplier =1.2;
 
      let walking =this.animationsByName["walking"];
         walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
         walking.setCallBack(11*(1/30),()=>{GameModel.sound.playFootstep()})
     }
+
     addAnimations(animations: Array<Animation>) {
         for(let a of animations){
             this.animationsByName[a.label] =a;
@@ -65,7 +67,15 @@ export default class AnimationMixer{
         UI.popWindow()
     }
     update(){
-
+        if(this.extraAnime){
+            console.log("extra")
+            this.extraAnime.update()
+            this.extraAnime.set();
+           if( this.extraAnime.animationDone){
+               this.extraAnime =null;
+               console.log("extraDone")
+           }
+        }
 
         if(this.mixValue<0.01){
             this.anime1.update()
@@ -120,7 +130,14 @@ export default class AnimationMixer{
        // this.animation2 = this.getAnimationIndexByName()
 
     }
+setExtraAnime(animation: string,callBack: () => void){
+        this.extraAnime=this.animationsByName[animation]
 
+    this.extraAnime.animationDone =false;
+    this.extraAnime.playOnce =true;
+    this.extraAnime.time=0;
+    this.extraAnime.completeCallBack =callBack;
+}
 
     setAnimationOnce(animation: string, callBack: () => void) {
         this.anime1 =  this.anime2

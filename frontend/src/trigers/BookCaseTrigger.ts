@@ -26,7 +26,7 @@ export default class BookCaseTrigger extends HitTrigger{
         if(GameModel.stateGold==StateGold.HAS_KEY){
             GameModel.hitObjectLabel=""
             let pot = GameModel.renderer.modelByLabel["bookCaseDoorRight"]
-            let world = pot.getWorldPos(new Vector3(-1, 0, 1))
+            let world = pot.getWorldPos(new Vector3(-0.5, 0, 1))
             GameModel.characterHandler.walkTo(world, Math.PI, this.onCompleteWalk, false)
             return;
         }

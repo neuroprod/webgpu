@@ -20,7 +20,7 @@ export default class OpenBookcase extends Transition{
         let right =GameModel.renderer.modelByLabel["bookCaseDoorRight"]
         let left =GameModel.renderer.modelByLabel["bookCaseDoorLeft"]
         right.setEuler(0,1.5,0)
-        left.setEuler(0,-1,0)
+        left.setEuler(0,-1.5,0)
     }
     onMouseDown(){
         GameModel.gameUI.cursor.animate()

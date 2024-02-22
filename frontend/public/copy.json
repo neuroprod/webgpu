@@ -5,7 +5,6 @@
       "object": "teapot",
       "copy": "It's a teapot."
     },
-
     {
       "scene": 1,
       "object": "coffee",
@@ -19,7 +18,7 @@
     {
       "scene": 1,
       "object": "bookPicture2",
-      "copy": "bookpic2"
+      "copy": "I don't know who they are."
     },
     {
       "scene": 1,
@@ -33,33 +32,29 @@
       "scene": 1,
       "object": "pictureFrame1",
       "copy": [
-        "frame1"
-
+        "Grandpa making friends\nin the Gobi desert."
       ]
     },
     {
       "scene": 1,
       "object": "painting2",
       "copy": [
-        "The 'SeaLion'","Grandpa used to travel\nthe world with this ship."
-
+        "The 'SeaLion'",
+        "Grandpa used to travel\nthe world with this ship."
       ]
     },
-
     {
       "scene": 1,
       "object": "painting2",
       "copy": [
         "The 'SeaLion':\nGrandpa used to travel\nthe world with this ship."
-
       ]
     },
     {
       "scene": 1,
       "object": "painting",
       "copy": [
-        "Roses are red"
-
+        "Just some painting.","I like it!"
       ]
     },
     {
@@ -77,7 +72,8 @@
         "A cup of coffee at dawn.",
         "Watching the morning unfold."
       ]
-    }, {
+    },
+    {
       "object": "introMail",
       "copy": [
         "I think its going to\nbe a great day!",
@@ -95,14 +91,20 @@
       "copy": [
         "An underwear\nsimulator...",
         "The ad-agency wants\nme to make an\nunderwear simulator",
-        "blalalalala",
-        "Let's first go outside\nand get some\ninspiration."
+        "blalalalala"
+      ]
+    },
+    {
+      "object": "letsGoOutsideFirst",
+      "copy": [
+        "Let's first go outside\nand get some\ninspiration,",
+        "and feed the fish."
       ]
     },
     {
       "object": "readMailDone",
       "copy": [
-        "Work can wait,\nlets check outside"
+        "Work can wait,\nlet's check outside"
       ]
     },
     {
@@ -126,15 +128,24 @@
         "add some shading.",
         "Lets send it to the agency\nI hope they like it"
       ]
-    }, {
+    },
+    {
       "object": "websiteDone",
       "copy": [
         "I hope they like it"
       ]
-    }, {
+    },
+    {
       "object": "readMailAward",
       "copy": [
-        "They won an award","They send me a package!"
+        "They won an award",
+        "They send me a package!"
+      ]
+    },
+    {
+      "object": "checkMailBox",
+      "copy": [
+        "Let check the mailbox,\nmaybe it already arrived."
       ]
     },
     {
@@ -146,11 +157,10 @@
     {
       "object": "findFashionPants",
       "copy": [
-        "Oh, must be the package\nfrom the agency."
+        "That must be the\npackage from\nthe agency.",
+        "I wonder what's inside."
       ]
     },
-
-
     {
       "object": "readCross",
       "copy": [
@@ -158,7 +168,6 @@
         "He loved these woods."
       ]
     },
-
     {
       "object": "findHunter",
       "copy": [
@@ -191,7 +200,7 @@
       "copy": [
         "So, lets make that key.",
         "It's going to take a\nwhile before its finished.",
-        "Lets do some things\nin the meantime."
+        "Let's do some other things\nin the meantime."
       ]
     },
     {
@@ -211,16 +220,19 @@
     {
       "object": "takeKey",
       "copy": [
-        "Lets see if I can\nopen that bookcase."
+        "Lets see if I can\nopen that bookcase now."
       ]
     },
-
     {
       "object": "findNote",
       "copy": [
-        "A letter from grandpa!","Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it","So I will take it\nwith me to my grave.",";)\nGrandpa"
+        "A letter from grandpa!",
+        "UI letter:Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it",
+        "So I will take it\nwith me to my grave.",
+        ";)\nGrandpa"
       ]
-    },{
+    },
+    {
       "object": "shovelNoNeed",
       "copy": [
         "It's a shovel!"
@@ -229,9 +241,10 @@
     {
       "object": "takeShovel",
       "copy": [
-        "I'm going to need that"
+        "I'm going to need that."
       ]
-    },   {
+    },
+    {
       "object": "diggHand",
       "copy": [
         "I'm not going to dig\nhim up with my hands."
@@ -243,20 +256,16 @@
         "you won, end anime"
       ]
     },
-
-
-
     {
       "object": "flowerPreBloom",
       "copy": [
         "the blabla plant\nIt should flower any time now."
-
       ]
     },
     {
       "object": "missingIngredient",
       "copy": [
-        "The machine is almost finished",
+        "It took me a long time, but almost finished",
         "I only need some flowers of\nthe blabla plant to make it work"
       ]
     },
@@ -282,11 +291,10 @@
     {
       "object": "findGlowPants",
       "copy": [
-        "Looks like it worked","lets take them"
+        "Looks like it worked",
+        "let's take them."
       ]
     },
-
-
     {
       "object": "fishHappy",
       "copy": [
@@ -296,20 +304,34 @@
     {
       "object": "fishHungry",
       "copy": [
-        "The fish seem hungry\nI should feed them."
+        "The fish seem hungry\nI should feed them.",
+        "I think I have some\nfish food inside."
       ]
     },
     {
       "object": "takeFishFood",
       "copy": [
-        "Food for Fish\nThe fish are going\nto love that",
-        "I'll Take it!"
+        "Food for Fish tm\npreprocessed fish food",
+        "Made from fish, for fish.",
+        "The fish are going\nto love that"
       ]
     },
     {
       "object": "feedFish",
       "copy": [
-        "Here you go Friends\nSome delicious food"
+        "Here you go Friends\nSome delicious food!"
+      ]
+    },
+    {
+      "object": "fishFoodDone",
+      "copy": [
+        "That will take care\nof them for a while."
+      ]
+    },
+    {
+      "object": "fishHappy",
+      "copy": [
+        "They seem happy"
       ]
     },
     {

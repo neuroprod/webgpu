@@ -44,7 +44,6 @@ import DrawingPreloader from "./drawing/DrawingPreloader";
 import {saveToJsonFile} from "./lib/SaveUtils";
 import OutlinePass from "./renderPasses/OutlinePass";
 import MainLight from "./MainLight";
-import ModelRenderer from "./lib/model/ModelRenderer";
 import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth";
 import GTAO from "./ComputePasses/GTAO";
 import GTAOdenoise from "./ComputePasses/GTAOdenoise";
@@ -129,7 +128,7 @@ export default class Main {
         this.renderer = new Renderer()
 
 
-       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
             this.showFailScreen(canvas)
 
@@ -149,11 +148,11 @@ export default class Main {
 
         this.ctx = canvas.getContext("2d");
         this.img = new Image();
-        let cRatio =   this.canvasManager.canvas.width/ this.canvasManager.canvas.height
-        if( cRatio>1) {
+        let cRatio = this.canvasManager.canvas.width / this.canvasManager.canvas.height
+        if (cRatio > 1) {
             this.img.src = 'noWebgpu.jpg';
             console.log("landscape")
-        }else{
+        } else {
             console.log("portrait")
             this.img.src = 'noWebgpuPort.jpg';
         }
@@ -162,30 +161,8 @@ export default class Main {
         });
 
 
-
-
     }
-    private tickNoWebgpu() {
-            let cRatio =   this.canvasManager.canvas.width/ this.canvasManager.canvas.height
-            let iRatio = this.img.width/this.img.height
 
-            let h =  this.canvasManager.canvas.height;
-            let w =  this.canvasManager.canvas.height*iRatio;
-
-
-            if(iRatio<cRatio)
-            {
-                h =  this.canvasManager.canvas.width/iRatio;
-                w =  this.canvasManager.canvas.width;
-
-            }
-        let offX =(this.canvasManager.canvas.width-w)/2;
-        let offY =(this.canvasManager.canvas.height-h)/2;
-            this.ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height,
-                offX, offY, w ,h);
-
-        window.requestAnimationFrame(() => this.tickNoWebgpu());
-    }
     //pre-preload
     setup() {
         this.preloader = new PreLoader(
@@ -200,8 +177,7 @@ export default class Main {
         this.gameCamera = new GameCamera(this.camera, this.renderer)
         this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
         this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation2", this.preloader);
-this.intro  =new Intro(this.renderer,this.preloader)
-
+        this.intro = new Intro(this.renderer, this.preloader)
 
 
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
@@ -300,15 +276,15 @@ this.intro  =new Intro(this.renderer,this.preloader)
 //init char
         this.animationMixer = new AnimationMixer()
         this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
-
+GameModel.animationMixer =this.animationMixer;
 
         this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar, this.animationMixer)
 
         GameModel.characterHandler = this.characterHandler;
         this.intro.init(this.glFTLoaderChar)
-        this.glassPass.modelRenderer =this.intro.modelRendererTrans;
+        this.glassPass.modelRenderer = this.intro.modelRendererTrans;
 
-        this.gBufferPass.modelRenderer =this.intro.modelRenderer;
+        this.gBufferPass.modelRenderer = this.intro.modelRenderer;
 
 
         this.drawer = new Drawer(this.renderer);
@@ -437,13 +413,13 @@ this.intro  =new Intro(this.renderer,this.preloader)
         for (let m of this.intro.modelsRoom) {
             //this.gBufferPass.modelRenderer.addModel(m)
 
-                this.room.modelRenderer.addModel(m)
+            this.room.modelRenderer.addModel(m)
 
         }
         for (let m of this.intro.modelsOutside) {
             //this.gBufferPass.modelRenderer.addModel(m)
 
-                this.outside.modelRenderer.addModel(m)
+            this.outside.modelRenderer.addModel(m)
 
 
         }
@@ -511,7 +487,7 @@ this.intro  =new Intro(this.renderer,this.preloader)
         GameModel.update()
 
         if (GameModel.currentScene == Scenes.PRELOAD) {
-this.intro.update();
+            this.intro.update();
             this.shadowPassCube1.setLightPos(this.introLight1.getWorldPos());
             this.shadowPassCube2.setLightPos(this.introLight2.getWorldPos());
             this.shadowPassCube3.setLightPos(this.introLight3.getWorldPos());
@@ -731,6 +707,27 @@ this.intro.update();
         this.timeStampQuery.setStamp("CanvasPass");
         this.timeStampQuery.stop();
 
+    }
+
+    private tickNoWebgpu() {
+        let cRatio = this.canvasManager.canvas.width / this.canvasManager.canvas.height
+        let iRatio = this.img.width / this.img.height
+
+        let h = this.canvasManager.canvas.height;
+        let w = this.canvasManager.canvas.height * iRatio;
+
+
+        if (iRatio < cRatio) {
+            h = this.canvasManager.canvas.width / iRatio;
+            w = this.canvasManager.canvas.width;
+
+        }
+        let offX = (this.canvasManager.canvas.width - w) / 2;
+        let offY = (this.canvasManager.canvas.height - h) / 2;
+        this.ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height,
+            offX, offY, w, h);
+
+        window.requestAnimationFrame(() => this.tickNoWebgpu());
     }
 
     private updateSceneHeight() {

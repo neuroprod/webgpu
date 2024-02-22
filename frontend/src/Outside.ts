@@ -49,6 +49,8 @@ export default class Outside extends Scene {
     }
 
     init() {
+
+        GameModel.animationMixer.addAnimations(    this.glFTLoader.animations)
         this.modelRenderer = new ModelRenderer(this.renderer, "outside");
         this.modelRendererTrans = new ModelRenderer(this.renderer, "outsideTrans");
 

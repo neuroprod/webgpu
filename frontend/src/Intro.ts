@@ -82,8 +82,9 @@ private smokePositions:Array<Vector3>=[]
 
         this.stick = glFTLoaderChar.modelsByName["stickHold"]
         this.shovel = glFTLoaderChar.modelsByName["shovelHold"]
+        GameModel.renderer.modelByLabel["fishFoodHold"].visible =false;
         this.modelsRoom.push(this.face,this.body,this.pants)
-        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel)
+        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel, GameModel.renderer.modelByLabel["fishFoodHold"])
 
         GameModel.characterHandler.rotate(0.1)
 

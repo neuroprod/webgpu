@@ -14,7 +14,7 @@ export default class FindGrandpaPants extends Transition{
         GameModel.characterHandler.setMixAnimation("lookdown",1,1)
     }
     onCrunchDown(){
-       // GameModel.characterHandler.setIdleAndTurn()
+      GameModel.characterHandler.setIdleAndTurn()
         GameModel.pantsFound.push(Pants.grandpa);
         GameModel.gameUI.updateInventory();
         GameModel.sound.playPickPants();

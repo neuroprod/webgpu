@@ -4,7 +4,7 @@ import {CURSOR} from "../ui/Cursor";
 
 export default class TakeFishFood extends Transition{
 
-
+    lockMouse =true
     set(onComplete: () => void){
         super.set(onComplete)
 
@@ -15,8 +15,10 @@ export default class TakeFishFood extends Transition{
     onCrunchDown(){
         GameModel.textHandler.showHitTrigger("takeFishFood")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
+        this.lockMouse=false;
     }
     onMouseDown(){
+        if(this.lockMouse)return;
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
@@ -27,6 +29,7 @@ export default class TakeFishFood extends Transition{
             GameModel.gameUI.cursor.hide()
 
             GameModel.characterHandler.setAnimationOnce("crunchUp",0.2,()=>{
+
 
                 GameModel.characterHandler.setIdleAndTurn()
                 this.onComplete()

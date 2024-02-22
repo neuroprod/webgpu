@@ -2,36 +2,70 @@ import Transition from "./Transition";
 import GameModel, {StateFasion} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
-export default class ReadMail extends Transition{
+export default class ReadMail extends Transition {
+    public state = 0;
+    private lockMouse: boolean;
 
-
-    set(onComplete: () => void){
+    set(onComplete: () => void) {
         super.set(onComplete)
-        GameModel.characterHandler.startTyping()
-       if(GameModel.stateFashion==StateFasion.START) {
-           GameModel.textHandler.showHitTrigger("readMail")
-           GameModel.stateFashion = StateFasion.READ_MAIL;
-       }
-        if(GameModel.stateFashion==StateFasion.CAN_READ_MAIL_MAILBOX) {
-            GameModel.textHandler.showHitTrigger("readMailAward")
-            GameModel.stateFashion = StateFasion.READ_MAIL_MAILBOX;
-        }
-       // GameModel.setLaptopState(LaptopState.NONE)
-        GameModel.gameUI.cursor.show(CURSOR.NEXT)
-    }
-    onMouseDown(){
-        GameModel.gameUI.cursor.animate()
-        if(GameModel.textHandler.readNext()){
+        this.lockMouse = true;
+        this.state = 0;
+        GameModel.characterHandler.setMixAnimation("lookdown", 0.8, 0.3)
+        GameModel.characterHandler.setAnimationOnce("hitKey", 0, () => {
+            this.lockMouse = false;
+            GameModel.characterHandler.setAnimation("idle")
+            if (GameModel.stateFashion == StateFasion.START) {
+                GameModel.textHandler.showHitTrigger("readMail")
+                GameModel.stateFashion = StateFasion.READ_MAIL;
+            }
+            if (GameModel.stateFashion == StateFasion.CAN_READ_MAIL_MAILBOX) {
+                GameModel.textHandler.showHitTrigger("readMailAward")
+                GameModel.stateFashion = StateFasion.READ_MAIL_MAILBOX;
+            }
+            // GameModel.setLaptopState(LaptopState.NONE)
+            GameModel.gameUI.cursor.show(CURSOR.NEXT)
+        })
 
-            GameModel.gameUI.cursor.hide()
-            GameModel.characterHandler.setIdleAndTurn()
-            if(GameModel.stateFashion == StateFasion.READ_MAIL) {
-                GameModel.stateFashion = StateFasion.READ_MAIL_DONE;
+    }
+
+    onMouseDown() {
+        if (this.lockMouse) return;
+        GameModel.gameUI.cursor.animate()
+        if (this.state == 0) {
+            if (GameModel.textHandler.readNext()) {
+                GameModel.characterHandler.setMixAnimation("lookdown", 0.0, 0.3)
+
+                GameModel.characterHandler.setIdleAndTurn()
+                if (GameModel.stateFashion == StateFasion.READ_MAIL) {
+                   console.log("setReadMail")
+                    GameModel.textHandler.showHitTrigger("letsGoOutsideFirst");
+                }
+                if (GameModel.stateFashion == StateFasion.READ_MAIL_MAILBOX) {
+
+                    GameModel.textHandler.showHitTrigger("checkMailBox");
+                }
+                this.state =1
+
             }
-            if(GameModel.stateFashion == StateFasion.READ_MAIL_MAILBOX) {
-                GameModel.stateFashion = StateFasion.GET_FASION_PANTS;
+        }
+        else if (this.state == 1) {
+            if (GameModel.textHandler.readNext()) {
+                GameModel.gameUI.cursor.hide();
+
+                if (GameModel.stateFashion == StateFasion.READ_MAIL) {
+                    GameModel.stateFashion = StateFasion.READ_MAIL_DONE;
+
+                }
+                if (GameModel.stateFashion == StateFasion.READ_MAIL_MAILBOX) {
+                    GameModel.stateFashion = StateFasion.GET_FASION_PANTS;
+
+                }
+
+                console.log("done")
+
+                this.onComplete()
+
             }
-            this.onComplete()
         }
     }
 }
