@@ -35,11 +35,6 @@ export default class FindGlowPants extends Transition{
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.glow)
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2,null)
 
-        if(GameModel.pantsFound.length>=6 ){
 
-            if( GameModel.stateGold ==StateGold.START_MILL)
-                    GameModel.stateGold=StateGold.FINISH_KEY;
-            
-        }
     }
 }

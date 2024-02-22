@@ -165,7 +165,7 @@ export default class GameUI {
     }
 
     updateInventory() {
-        if(GameModel.pantsFound>=5 && GameModel.stateGold==StateGold.START_MILL){
+        if(GameModel.pantsFound.length>=6 && GameModel.stateGold==StateGold.START_MILL){
             GameModel.stateGold=StateGold.FINISH_KEY;
         }
         this.inventory.updateInventory()
