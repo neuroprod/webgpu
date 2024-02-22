@@ -9,6 +9,7 @@ export default class StickTrigger extends HitTrigger{
         let obj = GameModel.renderer.modelByLabel["stick"]
         let world = obj.getWorldPos()
         world.z+=1.5;
+        GameModel.hitObjectLabel=""
         GameModel.characterHandler.walkTo(world,Math.PI,this.onCompleteWalk)
     }
     onCompleteWalk(){

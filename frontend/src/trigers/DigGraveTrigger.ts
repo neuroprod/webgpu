@@ -12,6 +12,7 @@ export default class DigGraveTrigger extends HitTrigger{
             let world = obj.getWorldPos()
             world.z-=1.5;
             world.x+=1;
+            GameModel.hitObjectLabel=""
             GameModel.characterHandler.walkTo(world,-0.5,this.onCompleteWalk)
             GameModel.outlinePass.setModel(null);
         }

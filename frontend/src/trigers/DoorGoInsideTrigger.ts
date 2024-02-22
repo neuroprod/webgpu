@@ -9,6 +9,7 @@ export default class DoorGoInsideTrigger extends HitTrigger{
         let door = GameModel.renderer.modelByLabel["door"]
         let world = door.getWorldPos(new Vector3(0,0,1))
         GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk,true)
+        GameModel.hitObjectLabel=""
     }
     onCompleteWalk(){
         GameModel.setTransition(Transitions.GO_INSIDE)

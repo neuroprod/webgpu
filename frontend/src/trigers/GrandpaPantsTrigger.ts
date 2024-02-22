@@ -9,6 +9,7 @@ export default class GrandpaPantsTrigger extends HitTrigger{
         let obj = GameModel.renderer.modelByLabel["grandpaPants"]
         let world = obj.getWorldPos()
         world.z-=0.7;
+        GameModel.hitObjectLabel=""
         GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk)
     }
     onCompleteWalk(){

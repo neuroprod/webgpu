@@ -10,6 +10,7 @@ export default class SitTrigger extends HitTrigger{
         let world = obj.getWorldPos()
         world.z+=0.6;
         world.x+=0.3;
+        GameModel.hitObjectLabel=""
         GameModel.characterHandler.walkTo(world,0.5,this.onCompleteWalk)
     }
     onCompleteWalk(){

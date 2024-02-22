@@ -16,6 +16,7 @@ export default class DoorInsideTrigger extends HitTrigger{
         let world = door.getWorldPos()
         GameModel.gameUI.cursor.hide()
         GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk,true)
+        GameModel.hitObjectLabel=""
     }
     protected over() {
         //UI.logEvent("Over", this.objectLabel);

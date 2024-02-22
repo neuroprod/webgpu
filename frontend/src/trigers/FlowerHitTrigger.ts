@@ -10,7 +10,7 @@ export default class FlowerHitTrigger extends HitTrigger{
         let pot = GameModel.renderer.modelByLabel["pot"]
         let world = pot.getWorldPos(new Vector3(-0.7,0,0.5))
         GameModel.characterHandler.walkTo(world,2,this.onCompleteWalk,false)
-
+        GameModel.hitObjectLabel=""
     }
     onCompleteWalk(){
        GameModel.setTransition(Transitions.PICK_FLOWER);

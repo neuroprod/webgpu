@@ -10,6 +10,7 @@ export default class ShovelTrigger extends HitTrigger{
             let pot = GameModel.renderer.modelByLabel["shovel"]
             let world = pot.getWorldPos(new Vector3(-0.7,0,0.5))
             GameModel.characterHandler.walkTo(world,2,this.onCompleteWalk,false)
+            GameModel.hitObjectLabel=""
         }else{
             GameModel.setTransition(Transitions.TEXT_INFO,"shovelNoNeed")
         }

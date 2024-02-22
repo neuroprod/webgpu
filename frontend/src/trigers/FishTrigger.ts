@@ -13,6 +13,7 @@ export default class FishTrigger extends HitTrigger{
             let obj = GameModel.renderer.modelByLabel["fishHit"]
             let world = obj.getWorldPos()
             world.z-=1.5;
+            GameModel.hitObjectLabel=""
             GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk)
         }else{
             GameModel.setTransition(Transitions.TEXT_INFO, "fishHappy")

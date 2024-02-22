@@ -69,6 +69,7 @@ import TakeShovel from "./transitions/TakeShovel";
 import DigGraveTrigger from "./trigers/DigGraveTrigger";
 import DigGrave from "./transitions/DigGrave";
 import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
+import GrandpaFishTrigger from "./trigers/GrandpaFishTrigger";
 
 export enum StateGold {
     START,
@@ -555,6 +556,7 @@ class GameModel {
     }
 
     makeTriggers() {
+        this.triggers.push(new GrandpaFishTrigger(Scenes.OUTSIDE))
         this.triggers.push(new DigGraveTrigger(Scenes.OUTSIDE, ["grave"]))
         this.triggers.push(new KeyTrigger(Scenes.ROOM, ["key"]))
         this.triggers.push(new HighTechPantsTrigger(Scenes.ROOM, ["pantsGlow"]))

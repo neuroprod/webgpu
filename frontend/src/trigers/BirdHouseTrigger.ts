@@ -15,6 +15,7 @@ export default class BirdHouseTrigger extends HitTrigger{
             let obj = GameModel.renderer.modelByLabel["birdHouse"]
             let world = obj.getWorldPos()
             world.z+=1.5;
+            GameModel.hitObjectLabel=""
             GameModel.characterHandler.walkTo(world,Math.PI,this.onCompleteWalk)
         }
 

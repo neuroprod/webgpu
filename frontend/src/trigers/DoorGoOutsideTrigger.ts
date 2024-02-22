@@ -10,6 +10,7 @@ export default class DoorGoOutsideTrigger extends HitTrigger{
         let doorOutside = GameModel.renderer.modelByLabel["door_HO"]
         let world = doorOutside.getWorldPos(new Vector3(1,0,0))
         GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk,true)
+        GameModel.hitObjectLabel=""
     }
     onCompleteWalk(){
         GameModel.setTransition(Transitions.GO_OUTSIDE);

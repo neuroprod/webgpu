@@ -18,6 +18,7 @@ import GameModel from "./GameModel";
 import {Vector3} from "math.gl";
 import FogShader from "./shaders/FogShader";
 import GlassGlowShader from "./shaders/GlassGlowShader";
+import DefaultTextures from "./lib/textures/DefaultTextures";
 
 
 export default class Outside extends Scene {
@@ -73,6 +74,21 @@ export default class Outside extends Scene {
         this.leaves =new Leaves(this.renderer)
         this.modelRenderer.addModel(this.leaves.model)
         this.mailBox = new MailBox(this.glFTLoader);
+
+        //"colorTexture"
+        //"mraTexture"
+       //"normalTexture
+
+        let gpMat =this.renderer.modelByLabel["grandpaPants"].material;
+        gpMat.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_Color.png"])
+        gpMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_MRA.png"])
+        gpMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_Normal.png"])
+
+        let gMat =this.renderer.modelByLabel["girlPants"].material;
+        gMat.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGirl_Color.png"])
+        gMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGirl_MRA.png"])
+        gMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGirl_Normal.png"])
+
     }
 
     public update() {

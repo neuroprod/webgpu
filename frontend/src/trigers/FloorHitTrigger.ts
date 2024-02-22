@@ -15,7 +15,7 @@ export class FloorHitTrigger extends HitTrigger {
 
         if (this.objectLabels.includes(GameModel.hitObjectLabel)) {
 
-
+          
 
             if (!this.hit) {
                 this.over()

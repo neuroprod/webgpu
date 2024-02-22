@@ -12,6 +12,7 @@ export default class GoGraveTrigger extends HitTrigger{
         world.x+=1;
         GameModel.characterHandler.walkTo(world,-0.5,this.onCompleteWalk)
         GameModel.outlinePass.setModel(null);
+        GameModel.hitObjectLabel=""
     }
     public over() {
         GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["cross"]);

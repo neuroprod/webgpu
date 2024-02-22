@@ -21,6 +21,7 @@ export default class GoWorkTrigger extends HitTrigger{
         let world = obj.getWorldPos()
         world.z+=1.0;
         world.x+=0.1;
+GameModel.hitObjectLabel=""
         GameModel.gameUI.cursor.hide()
         GameModel.characterHandler.walkTo(world,Math.PI+0.1,this.onCompleteWalk)
     }

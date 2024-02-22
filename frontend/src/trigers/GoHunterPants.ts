@@ -10,6 +10,7 @@ export default class GoHunterTrigger extends HitTrigger{
         let world = obj.getWorldPos()
         world.z+=1.5;
         GameModel.characterHandler.walkTo(world,Math.PI,this.onCompleteWalk)
+        GameModel.hitObjectLabel=""
     }
     onCompleteWalk(){
 

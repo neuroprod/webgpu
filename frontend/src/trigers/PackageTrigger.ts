@@ -10,7 +10,7 @@ export default class PackageTrigger extends HitTrigger{
         let pot = GameModel.renderer.modelByLabel["package"]
         let world = pot.getWorldPos(new Vector3(-1.5,0,0.5))
         GameModel.characterHandler.walkTo(world,2,this.onCompleteWalk,false)
-
+        GameModel.hitObjectLabel=""
     }
     onCompleteWalk(){
        GameModel.setTransition(Transitions.TAKE_PACKAGE);

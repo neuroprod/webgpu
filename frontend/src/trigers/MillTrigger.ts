@@ -13,12 +13,13 @@ export default class MillTrigger extends HitTrigger{
             GameModel.setTransition(Transitions.TEXT_INFO,"millWait")
             return;
         }
-  
+
 
         let obj = GameModel.renderer.modelByLabel["mill"]
         let world = obj.getWorldPos()
         world.z+=1.0;
         world.x+=0.1;
+        GameModel.hitObjectLabel=""
         GameModel.gameUI.cursor.hide()
         GameModel.characterHandler.walkTo(world,Math.PI,this.onCompleteWalk);
     }

@@ -10,7 +10,7 @@ export default class GirlPantsTrigger extends HitTrigger{
         let world = obj.getWorldPos()
         world.x-=1;
         GameModel.characterHandler.walkTo(world,Math.PI/2,this.onCompleteWalk)
-
+        GameModel.hitObjectLabel=""
         return;
     }
     onCompleteWalk(){

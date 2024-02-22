@@ -23,12 +23,12 @@ export default class HighTechPantsTrigger extends HitTrigger {
     }
 
     protected click() {
-console.log("take")
+
         let obj = GameModel.renderer.modelByLabel["pantsGlow"]
         let world = obj.getWorldPos()
         world.x-=0.7;
         GameModel.characterHandler.walkTo(world,Math.PI/2,this.onCompleteWalk)
-
+        GameModel.hitObjectLabel=""
         return;
     }
     onCompleteWalk(){
