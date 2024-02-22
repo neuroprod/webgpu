@@ -1,7 +1,7 @@
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import Camera from "../lib/Camera";
-import GameModel, {Transitions, UIState} from "../GameModel";
+import GameModel, {StateGold, Transitions, UIState} from "../GameModel";
 import UIModelRenderer from "./UIModelRenderer";
 import {Vector2} from "math.gl";
 import UIModel from "../lib/model/UIModel";
@@ -165,7 +165,11 @@ export default class GameUI {
     }
 
     updateInventory() {
+        if(GameModel.pantsFound>=5 && GameModel.stateGold==StateGold.START_MILL){
+            GameModel.stateGold=StateGold.FINISH_KEY;
+        }
         this.inventory.updateInventory()
+
     }
 
     private updateCamera() {

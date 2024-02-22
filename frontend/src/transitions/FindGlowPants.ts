@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Pants, StateHighTech, UIState} from "../GameModel";
+import GameModel, {Pants, StateGold, StateHighTech, UIState} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class FindGlowPants extends Transition{
@@ -22,6 +22,10 @@ export default class FindGlowPants extends Transition{
         }
     }
     animationComplete(){
+
+
+
+
         GameModel.pantsFound.push(Pants.glow);
         GameModel.gameUI.updateInventory();
         GameModel.sound.playPickPants();
@@ -30,5 +34,12 @@ export default class FindGlowPants extends Transition{
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.glow)
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2,null)
+
+        if(GameModel.pantsFound.length>=6 ){
+
+            if( GameModel.stateGold ==StateGold.START_MILL)
+                    GameModel.stateGold=StateGold.FINISH_KEY;
+            
+        }
     }
 }

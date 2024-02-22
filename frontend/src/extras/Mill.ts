@@ -119,8 +119,14 @@ export default class Mill{
         }
         else if(state==MillState.DONE){
             if(this.tl) this.tl.clear()
-            this.headPos=0.3;
-            this.bedZ =-0.0;
+            this.tl = gsap.timeline({});
+
+
+            this.tl.to(this,{"headPos":0.3,ease: "sine.inOut"},0);
+            this.tl.to(this,{"bedZ":0.0,ease: "sine.inOut"},0);
+
+            this.sparkModel.visible =false
+
             GameModel.renderer.modelByLabel["keyStock"].visible =false;
 
             this.millBed.enableHitTest =false;

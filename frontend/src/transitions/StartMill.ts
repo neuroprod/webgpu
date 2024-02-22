@@ -23,6 +23,16 @@ export default class StartMill extends Transition{
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
             GameModel.stateGold =StateGold.START_MILL;
+
+            if(GameModel.pantsFound.length>=6 ){
+
+                setTimeout(()=>{
+                    if( GameModel.stateGold ==StateGold.START_MILL)
+                    GameModel.stateGold=StateGold.FINISH_KEY;
+                },3000)
+
+            }
+
             this.onComplete()
         }
     }

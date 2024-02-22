@@ -5,7 +5,7 @@ import {Vector3} from "math.gl";
 import Material from "../lib/core/Material";
 import GBufferGlowPantsProgress from "../shaders/GBufferGlowPantsProgress";
 import Timer from "../lib/Timer";
-import GameModel from "../GameModel";
+import GameModel, {StateHighTech} from "../GameModel";
 
 export default class Machine
 {
@@ -22,6 +22,7 @@ export default class Machine
     private glowProgress: number = 0;
     private targetProgress: number = 0;
     private arrow: Model;
+    private finnish: boolean;
     constructor(renderer:Renderer) {
         this.renderer =renderer;
         this.drop =this.renderer.modelByLabel["drip"]
@@ -38,8 +39,12 @@ export default class Machine
 
         this.arrow =this.renderer.modelByLabel["coffeeArrow"];
     }
-    start(){
+
+    start(finnish: boolean =false){
+
+
         this.drop.visible =true;
+        this.finnish =finnish;
         if(this.dripTL)this.dripTL.clear()
         this.dripTL =gsap.timeline({repeat: -1, repeatDelay: 1,});
         this.dripTL.call(()=>{
@@ -51,8 +56,17 @@ export default class Machine
         this.dripTL.to(this,{dropScale2:3,duration:1},0.5)
         this.dripTL.to(this,{ dropOffset:-0.6,ease:"power2.in",duration:0.5},1.3)
         this.dripTL.call(()=>{
-          this.targetProgress+=0.02;
-          if(this.targetProgress>0.3)this.targetProgress=0.3;
+          if(finnish){
+              this.targetProgress+=0.2;
+              if(this.targetProgress>0.99){
+                  this.targetProgress=1;
+                  GameModel.stateHighTech =StateHighTech.STOP_MACHINE
+              }
+          }else{
+              this.targetProgress+=0.02;
+              if(this.targetProgress>0.3)this.targetProgress=0.3;
+          }
+
         },[],1.8)
         this.dripTL.set(this,{ dropScale:0,dropScale2:0.0},1.8)
     }.1

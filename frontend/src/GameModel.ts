@@ -393,7 +393,13 @@ class GameModel {
             this.renderer.modelByLabel["Bush3"].enableHitTest = false
         }
         if (value == StateHighTech.START_MACHINE) {
-            this.room.machine.start()
+            if(this.pantsFound.length>=5){
+                this.room.machine.start(true)
+            }else{
+                this.room.machine.start(true)
+            }
+
+
         }
         if (value == StateHighTech.STOP_MACHINE) {
             this.room.machine.stop()

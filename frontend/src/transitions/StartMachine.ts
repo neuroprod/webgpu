@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, { StateHighTech} from "../GameModel";
+import GameModel, {StateGold, StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class StartMachine extends Transition{
@@ -19,6 +19,9 @@ export default class StartMachine extends Transition{
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setIdleAndTurn()
             GameModel.stateHighTech=StateHighTech.START_MACHINE;
+
+
+
             this.onComplete()
         }
     }
