@@ -142,6 +142,9 @@ export default class LightRoomRenderPass extends RenderPass {
     }
 
 public setUniforms(){
+    for (let light of this.lights) {
+        light.update()
+    }
     this.globalLightMaterial.uniforms.setUniform("lightColor1", this.mainLights[0].color);
     this.globalLightMaterial.uniforms.setUniform("lightPos1", this.mainLights[0].getWorldPos());
 
