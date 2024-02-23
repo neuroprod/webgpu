@@ -58,6 +58,7 @@ import gsap from "gsap";
 import UIData from "./UIData";
 import Drawing from "./drawing/Drawing";
 import Intro from "./Intro";
+import {NumericArray} from "math.gl";
 
 export default class Main {
     public mouseRay: Ray;
@@ -276,7 +277,7 @@ export default class Main {
 //init char
         this.animationMixer = new AnimationMixer()
         this.animationMixer.setAnimations(this.glFTLoaderChar.animations)
-GameModel.animationMixer =this.animationMixer;
+        GameModel.animationMixer = this.animationMixer;
 
         this.characterHandler = new CharacterHandler(this.renderer, this.camera, this.glFTLoaderChar, this.animationMixer)
 
@@ -318,10 +319,9 @@ GameModel.animationMixer =this.animationMixer;
                 this.introDraw = d;
                 GameModel.introDraw = d;
             }
-            if (d.label == "drawings/loading_world.bin") {
-                d.showLoad();
+
                 this.loadingDraw = d;
-            }
+
 
         }
 
@@ -389,7 +389,7 @@ GameModel.animationMixer =this.animationMixer;
 
     init() {
 
-
+        this.intro.setNewTextures()
         GameModel.room = this.room;
         GameModel.outside = this.outside;
 
@@ -431,7 +431,7 @@ GameModel.animationMixer =this.animationMixer;
     tick() {
 
         window.requestAnimationFrame(() => this.tick());
-        if (GameModel.mousePos.equals(this.mouseListener.mousePos)) {
+        if (GameModel.mousePos.equals(this.mouseListener.mousePos as NumericArray)) {
             GameModel.mouseMove = false;
         } else {
             GameModel.mouseMove = true;
@@ -493,6 +493,10 @@ GameModel.animationMixer =this.animationMixer;
             this.shadowPassCube3.setLightPos(this.introLight3.getWorldPos());
             this.shadowPassCube4.setLightPos(this.introLight4.getWorldPos());
             GameModel.characterPos.set(-1, -1.2, -1);
+            if(this.introDraw.progress>0.99){
+                this.loadingDraw.progress +=  (this.preloader.getProgress()-this.loadingDraw.progress    )   *0.05;
+            }
+
         } else if (GameModel.currentScene == Scenes.ROOM) {
             this.room.update();
             if (checkHit) this.room.checkMouseHit(this.mouseRay);

@@ -11,10 +11,10 @@ import Timeline from "gsap";
 import GameModel, {Scenes} from "./GameModel";
 import GLFTLoader from "./GLFTLoader";
 
-import UI from "./lib/UI/UI";
+
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
-import Timer from "./lib/Timer";
+
 
 
 export default class CharacterHandler {
@@ -32,8 +32,7 @@ export default class CharacterHandler {
     isWalking: boolean = false;
     private targetPos: Vector3 = new Vector3();
 
-    private neck: Object3D;
-    private head: Object3D;
+
     private pants: Material;
     private walkingSpeed: number = 0.72;
     private charScale: number = 1;

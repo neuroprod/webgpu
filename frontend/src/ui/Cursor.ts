@@ -16,6 +16,12 @@ export enum CURSOR{
     LOOK,
     WALK,
     NEXT,
+    DIG,
+    FISH,
+    FLOWER,
+    KEY,
+    START,
+    STICK,
 }
 
 
@@ -50,6 +56,26 @@ export default class Cursor extends  UIModel{
 
         this.next= new CursorIcon(renderer,preLoader,"next","UI/next.png")
         this.icons.push(this.next)
+
+        let dig= new CursorIcon(renderer,preLoader,"dig","UI/dig.png")
+        this.icons.push(dig)
+
+        let fish= new CursorIcon(renderer,preLoader,"fish","UI/fish.png")
+        this.icons.push(fish)
+
+        let flower= new CursorIcon(renderer,preLoader,"flower","UI/flower.png")
+        this.icons.push(flower)
+
+        let key= new CursorIcon(renderer,preLoader,"key","UI/key.png")
+        this.icons.push(key)
+
+        let start= new CursorIcon(renderer,preLoader,"dig","UI/start.png")
+        this.icons.push(start)
+
+        let stick= new CursorIcon(renderer,preLoader,"stick","UI/stick.png")
+        this.icons.push(stick)
+
+
 
         for (let i of this.icons){
             this.addChild(i)

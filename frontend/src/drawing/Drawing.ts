@@ -5,7 +5,7 @@ import Material from "../lib/core/Material";
 import DrawShader from "../shaders/DrawShader";
 import Quad from "../lib/meshes/Quad";
 import Object3D from "../lib/core/Object3D";
-import {Vector3} from "math.gl";
+import {NumericArray, Vector3} from "math.gl";
 import ColorV from "../lib/ColorV";
 import gsap from "gsap";
 
@@ -13,9 +13,9 @@ import gsap from "gsap";
 export default class Drawing extends Model {
     public drawData: DrawData;
 
-    public numDrawInstances: number;
+    public numDrawInstances: number =1;
     public numDrawInstancesMax: number;
-    public firstDrawInstances: number;
+    public firstDrawInstances: number=0;
     worldParent: Object3D;
     progress: number = 0
     start: number = 0;
@@ -48,12 +48,13 @@ export default class Drawing extends Model {
             let target = this.offset.clone();
 
             if (this.worldParent) {
-                target.add(this.worldParent.getWorldPos())
+                target.add(this.worldParent.getWorldPos()as NumericArray)
 
             }
-            this.position.lerp(target, 1.0)
+            this.position.lerp(target as NumericArray, 0.5)
             this.setPosition(this.position.x, this.position.y, this.position.z);
         }
+
         this.firstDrawInstances = Math.floor(this.start * this.numDrawInstancesMax);
         this.numDrawInstances = Math.floor(this.progress * this.numDrawInstancesMax) - this.firstDrawInstances;
         super.update()
@@ -116,7 +117,7 @@ export default class Drawing extends Model {
         this.isShowing =true;
         this.start = 0;
         this.progress = 0;
-        this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 2.0}, 2);
+        this.tl.to(this, {progress: 1, ease: "power1.inOut", duration: 3.0}, 2);
         this.tl.set(this,{isShowing:false},4.0)
     }
     hideDelay(delay: number) {
@@ -130,7 +131,7 @@ export default class Drawing extends Model {
             this.tl = gsap.timeline();
         }
 
-        this.tl.to(this, {start: 0.5, progress: 0.5, ease: "power2.in", duration: 0.2}, delay);
+        this.tl.to(this, {start: 0.5, progress: 0.5, ease: "power2.in", duration: 0.1}, delay);
 
     }
 hideLoad(){
@@ -139,19 +140,20 @@ hideLoad(){
 
 
 
-    this.tl.to(this, {progress: 0, ease: "power2.Out", duration: 1.0}, 0);
+    this.tl.to(this, {start: 1, ease: "power2.Out", duration: 0.5}, 0);
 }
     showLoad() {
         if(this.isShowing)return;
         if (this.tl) this.tl.clear();
-        this.tl = gsap.timeline( {repeat:-1,delay:5});
+        this.tl = gsap.timeline( {repeat:-1,delay:4});
         if (this.start == 0 && this.progress == 1) {
             return;
         }
         this.isShowing =true;
         this.start = 0;
         this.progress = 0;
-        this.tl.to(this, {progress: 1, ease: "power2.Out", duration: 3.0}, 0);
+        this.tl.to(this, {progress: 1, ease: "power2.Out", duration: 0.8}, 0);
+        this.tl.to(this, {start: 1, ease: "power2.Out", duration: 1.9}, 1);
 
     }
 }

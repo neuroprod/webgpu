@@ -17,8 +17,8 @@ import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
 import Machine from "./extras/Machine";
 import GameModel from "./GameModel";
-import Dust from "./extras/Dust";
-import {render} from "react-dom";
+
+
 import Model from "./lib/model/Model";
 
 
@@ -49,7 +49,7 @@ export default class Room extends Scene {
     lightWallLiving: MainLight;
     lightTable: MainLight;
     machine:Machine;
-    private dust: Dust;
+
     private paintingHolder: Object3D;
     private plant: Model;
     private pot: Model;
@@ -83,7 +83,7 @@ export default class Room extends Scene {
             this.modelRenderer.addModel(m)
 
         }
-this.dust =new Dust(this.renderer)
+
 
         this.leftHolder = this.glFTLoader.objectsByName["left"]
         this.rightHolder = this.glFTLoader.objectsByName["right"]
@@ -159,11 +159,11 @@ this.dust =new Dust(this.renderer)
 
         }
         this.modelRendererTrans.addModel(this.mill.sparkModel)
-        this.modelRendererTrans.addModel(this.dust.model)
+
     }
 
     update() {
-        this.dust.update();
+
         let w = Math.max(this.renderer.ratio * 3,GameModel.minRoomSize);
 
 
@@ -184,7 +184,7 @@ let posterOffX =0
             posterOffY=-0.5;
             posterOffX=1;
         }
-this.posterLab.setPosition(posterOff+posterOffX, 2.5+posterOffY, -2.2410359382629395)
+        this.posterLab.setPosition(posterOff+posterOffX, 2.5+posterOffY, -2.2410359382629395)
 
         this.paintingHolder.setPosition((w-1)/2, 1.8256490230560303, -3.9360575675964355)
         let left = - w - 0.15;

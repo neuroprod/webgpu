@@ -136,7 +136,7 @@ export default class GameUI {
 
         }
         if (state == UIState.PRELOAD_DONE) {
-            this.cursor.show(CURSOR.NEXT)
+            this.cursor.show(CURSOR.START)
         }
         if (state == UIState.HIDE_MENU) {
             this.menuButton.hide()

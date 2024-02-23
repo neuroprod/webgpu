@@ -37,7 +37,12 @@ export default class BookCaseTrigger extends HitTrigger{
     }
     public over() {
         GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["bookCaseDoorRight"]);
-        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        if(GameModel.stateGold==StateGold.HAS_KEY){
+
+            GameModel.gameUI.cursor.show(CURSOR.KEY)
+        }else{
+            GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        }
 
     }
 

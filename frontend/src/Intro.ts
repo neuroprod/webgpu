@@ -12,6 +12,7 @@ import SmokeShader from "./shaders/SmokeShader";
 import {CullMode} from "./lib/WebGPUConstants";
 import {NumericArray, Vector3} from "math.gl";
 import Timer from "./lib/Timer";
+import DefaultTextures from "./lib/textures/DefaultTextures";
 
 export default class Intro{
     private renderer: Renderer;
@@ -29,9 +30,10 @@ export default class Intro{
     private segmentsY: number=10;
     private positionData: Float32Array;
     private coffeeOffset: Vector3=new Vector3(0,0.1,0);
-private smokePositions:Array<Vector3>=[]
+    private smokePositions:Array<Vector3>=[]
     private stick: Model;
     private shovel: Model;
+    private fishFood: Model;
     constructor(renderer:Renderer,preloader:PreLoader) {
 
         this.renderer = renderer
@@ -54,10 +56,24 @@ private smokePositions:Array<Vector3>=[]
         new TextureLoader(this.renderer, preloader, "textures/face_Normal.png", {});
         new TextureLoader(this.renderer, preloader, "textures/face_Op.png", {});
 
+
+
+
+
+
         const vertexCount: number = (this.segmentsX + 1) * (this.segmentsY + 1);
         this.positionData = new Float32Array(vertexCount * 3);
 
 
+    }
+    setNewTextures(){
+
+        this.fishFood.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/fishFood_Color.png"])
+        this.fishFood.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/fishFood_MRA.png"])
+        this.fishFood.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/fishFood_Normal.png"])
+        this.shovel.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/shovel_Color.png"])
+        this.shovel.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/shovel_MRA.png"])
+        this.shovel.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/shovel_Normal.png"])
     }
     init(glFTLoaderChar:GLFTLoader)
     {
@@ -82,9 +98,11 @@ private smokePositions:Array<Vector3>=[]
 
         this.stick = glFTLoaderChar.modelsByName["stickHold"]
         this.shovel = glFTLoaderChar.modelsByName["shovelHold"]
-        GameModel.renderer.modelByLabel["fishFoodHold"].visible =false;
+        this.fishFood =      GameModel.renderer.modelByLabel["fishFoodHold"];
+
+        this.fishFood.visible =false;
         this.modelsRoom.push(this.face,this.body,this.pants)
-        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel, GameModel.renderer.modelByLabel["fishFoodHold"])
+        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel, this.fishFood)
 
         GameModel.characterHandler.rotate(0.1)
 

@@ -25,4 +25,8 @@ export default class PreLoader {
   }
 
 
+    getProgress() {
+
+      return 1-(this.count / this.totalCount);
+    }
 }

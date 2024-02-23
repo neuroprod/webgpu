@@ -24,7 +24,12 @@ GameModel.setTransition(Transitions.DIG_GRAVE)
     }
     public over() {
         GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["grave"]);
-        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        if(GameModel.stateGold ==StateGold.FIND_NOTE){
+
+            GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        }else{
+            GameModel.gameUI.cursor.show(CURSOR.DIG)
+        }
 
     }
 

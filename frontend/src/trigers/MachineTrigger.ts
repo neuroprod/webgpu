@@ -11,7 +11,17 @@ export default class MachineHitTrigger extends HitTrigger {
     public over() {
         if(GameModel.stateHighTech == StateHighTech.STOP_MACHINE ||GameModel.stateHighTech == StateHighTech.TAKE_HIGHTECH_PANTS)return
         GameModel.outlinePass.setModel(GameModel.renderer.modelByLabel["coffeeMaker"]);
-        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+
+
+        if (GameModel.stateHighTech == StateHighTech.PICK_FLOWER)
+        {
+            GameModel.gameUI.cursor.show(CURSOR.FLOWER)
+        }
+        else{
+            GameModel.gameUI.cursor.show(CURSOR.LOOK)
+
+        }
+
 
     }
 

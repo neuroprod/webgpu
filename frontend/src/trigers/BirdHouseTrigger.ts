@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGirl, Transitions} from "../GameModel";
+import GameModel, {StateGirl, StateGrandpa, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class BirdHouseTrigger extends HitTrigger{
@@ -27,7 +27,12 @@ GameModel.setTransition(Transitions.PUSH_BIRDHOUSE)
     }
     public over() {
         GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["birdHouse"]);
-        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+
+        if(GameModel.stateGirl== StateGirl.FIND_STICK){
+            GameModel.gameUI.cursor.show(CURSOR.STICK)
+        }else{
+            GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        }
 
     }
 

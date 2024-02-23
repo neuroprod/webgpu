@@ -24,7 +24,7 @@
       "scene": 1,
       "object": "pictureFrame2",
       "copy": [
-        "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsesed by them.",
+        "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsessed by them.",
         "They where stolen by\nGenghis Khan in 1210\nand are lost ever since."
       ]
     },
@@ -60,7 +60,7 @@
     {
       "scene": 1,
       "object": "clock",
-      "copy": "Time to get some work done."
+      "copy": "It's a clock"
     }
   ],
   "text": [
@@ -89,8 +89,8 @@
     {
       "object": "readMail",
       "copy": [
-        "An underwear\nsimulator...",
-        "The ad-agency wants\nme to make an\nunderwear simulator",
+        "An UNDERWEAR\nSIMULATOR...",
+        "The ad-agency wants\nme to make an\nUNDERWEAR SIMULATOR",
         "blalalalala"
       ]
     },
@@ -326,9 +326,9 @@
     {
       "object": "takeFishFood",
       "copy": [
-        "Food for Fish tm\npreprocessed fish food",
+        "FOOD FOR FISH tm\npreprocessed fish food",
         "Made from fish, for fish.",
-        "The fish are going\nto love that"
+        "I'll take it!"
       ]
     },
     {

@@ -25,7 +25,7 @@ export default class DrawingRenderer{
 
             if(!model.visible)continue
           ///  if(model.sceneID>=0 && model.sceneID!=this.currentScene )continue;
-            if( model.numDrawInstances==0)continue;
+            if( model.numDrawInstances<=0)continue;
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);

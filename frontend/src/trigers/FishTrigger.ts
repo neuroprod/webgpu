@@ -26,7 +26,12 @@ export default class FishTrigger extends HitTrigger{
     }
     public over() {
         GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["fish1"]);
-        GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        if(GameModel.stateGrandpa==StateGrandpa.TAKE_FISH_FOOD){
+            GameModel.gameUI.cursor.show(CURSOR.FISH)
+        }else{
+            GameModel.gameUI.cursor.show(CURSOR.LOOK)
+        }
+
 
     }
 
