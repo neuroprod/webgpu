@@ -18,10 +18,10 @@ import GameModel from "./GameModel";
         for(let img of preloadImages){
             if(GameModel.devSpeed)delay =0;
 
-            let name = "textures/"+img+".png";
+            let name = "textures/"+img+".webp";
             if(renderer.texturesByLabel[name]== undefined){
 
-                new TextureLoader(renderer,preloader,"textures/"+img+".png",{mipLevelCount:6},delay);
+                new TextureLoader(renderer,preloader,"textures/"+img+".webp",{mipLevelCount:5},delay);
             }
 
             delay+=16;

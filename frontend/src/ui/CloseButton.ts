@@ -9,7 +9,7 @@ export default class CloseButton extends UIBitmapModel{
 
     private scale =1
     constructor(renderer:Renderer,preLoader:PreLoader,label:string) {
-        super(renderer,preLoader,label,"UI/closeBtn.png");
+        super(renderer,preLoader,label,"UI/closeBtn.webp");
     }
     update() {
         if(!this.visible)return;

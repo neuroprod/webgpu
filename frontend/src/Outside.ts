@@ -82,14 +82,14 @@ export default class Outside extends Scene {
        //"normalTexture
 
         let gpMat =this.renderer.modelByLabel["grandpaPants"].material;
-        gpMat.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_Color.png"])
-        gpMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_MRA.png"])
-        gpMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_Normal.png"])
+        gpMat.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_Color.webp"])
+        gpMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_MRA.webp"])
+        gpMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGrandpa_Normal.webp"])
 
         let gMat =this.renderer.modelByLabel["girlPants"].material;
-        gMat.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGirl_Color.png"])
-        gMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGirl_MRA.png"])
-        gMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGirl_Normal.png"])
+        gMat.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGirl_Color.webp"])
+        gMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGirl_MRA.webp"])
+        gMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGirl_Normal.webp"])
 
     }
 

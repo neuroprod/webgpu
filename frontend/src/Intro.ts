@@ -37,24 +37,24 @@ export default class Intro{
     constructor(renderer:Renderer,preloader:PreLoader) {
 
         this.renderer = renderer
-        new TextureLoader(this.renderer, preloader, "textures/body_Color.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/body_MRA.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/body_Normal.png", {});
+        new TextureLoader(this.renderer, preloader, "textures/body_Color.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/body_MRA.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/body_Normal.webp", {});
 
-        new TextureLoader(this.renderer, preloader, "textures/pants_Color.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/pants_MRA.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/pants_Normal.png", {});
+        new TextureLoader(this.renderer, preloader, "textures/pants_Color.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/pants_MRA.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/pants_Normal.webp", {});
 
-        new TextureLoader(this.renderer, preloader, "textures/coffee_Color.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/coffee_MRA.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/coffee_Normal.png", {});
+        new TextureLoader(this.renderer, preloader, "textures/coffee_Color.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/coffee_MRA.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/coffee_Normal.webp", {});
 
 
 
-        new TextureLoader(this.renderer, preloader, "textures/face_Color.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/face_MRA.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/face_Normal.png", {});
-        new TextureLoader(this.renderer, preloader, "textures/face_Op.png", {});
+        new TextureLoader(this.renderer, preloader, "textures/face_Color.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/face_MRA.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/face_Normal.webp", {});
+        new TextureLoader(this.renderer, preloader, "textures/face_Op.webp", {});
 
 
 
@@ -68,12 +68,12 @@ export default class Intro{
     }
     setNewTextures(){
 
-        this.fishFood.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/fishFood_Color.png"])
-        this.fishFood.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/fishFood_MRA.png"])
-        this.fishFood.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/fishFood_Normal.png"])
-        this.shovel.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/shovel_Color.png"])
-        this.shovel.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/shovel_MRA.png"])
-        this.shovel.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/shovel_Normal.png"])
+        this.fishFood.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/fishFood_Color.webp"])
+        this.fishFood.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/fishFood_MRA.webp"])
+        this.fishFood.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/fishFood_Normal.webp"])
+        this.shovel.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/shovel_Color.webp"])
+        this.shovel.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/shovel_MRA.webp"])
+        this.shovel.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/shovel_Normal.webp"])
     }
     init(glFTLoaderChar:GLFTLoader)
     {

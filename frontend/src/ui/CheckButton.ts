@@ -12,7 +12,7 @@ export default class CheckButton extends UIBitmapModel {
     private selected = false;
 
     constructor(renderer: Renderer, preLoader: PreLoader, label: string) {
-        super(renderer, preLoader, label, "UI/check.png");
+        super(renderer, preLoader, label, "UI/check.webp");
 
     }
 

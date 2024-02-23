@@ -20,9 +20,9 @@ export default class GBufferShaderFish extends Shader{
         this.addUniform("time",1);
         this.addUniform("scale",1);
 
-        this.addTexture("colorTexture",this.renderer.texturesByLabel["textures/fish_Color.png"])
-        this.addTexture("mraTexture",this.renderer.texturesByLabel["textures/fish_MRA.png"])
-        this.addTexture("normalTexture",this.renderer.texturesByLabel["textures/fish_Normal.png"])
+        this.addTexture("colorTexture",this.renderer.texturesByLabel["textures/fish_Color.webp"])
+        this.addTexture("mraTexture",this.renderer.texturesByLabel["textures/fish_MRA.webp"])
+        this.addTexture("normalTexture",this.renderer.texturesByLabel["textures/fish_Normal.webp"])
         this.addSampler("mySampler")
 
         this.needsTransform =true;

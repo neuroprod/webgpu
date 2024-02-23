@@ -9,7 +9,7 @@ export default class MenuButton extends UIBitmapModel{
     private isHiding: boolean =false;
 
     constructor(renderer:Renderer,preLoader:PreLoader) {
-        super(renderer,preLoader,"menuBtn","UI/menuBtn.png");
+        super(renderer,preLoader,"menuBtn","UI/menuBtn.webp");
     }
     update() {
         if(!this.visible)return;

@@ -15,7 +15,7 @@ export default class Inventory extends UIBitmapModel{
     private isOpen =false;
     private closePos =-50;
     constructor(renderer:Renderer,preLoader:PreLoader) {
-        super(renderer,preLoader,"inventory","UI/inventory.png");
+        super(renderer,preLoader,"inventory","UI/inventory.webp");
         this.yPos=this.closePos;
         for(let i=0;i<7;i++){
             let posX = -320+i*135;

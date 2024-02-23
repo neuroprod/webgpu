@@ -269,7 +269,7 @@ export default class GLFTLoader {
 
     private getTexture(text: string) {
 
-        return this.renderer.texturesByLabel["textures/" + text + ".png"];
+        return this.renderer.texturesByLabel["textures/" + text + ".webp"];
     }
     private parseAnimationsParent() {
         // for(an)

@@ -43,36 +43,36 @@ export default class Cursor extends  UIModel{
         super(renderer,"cursor");
         this.mouseEnabled =false;
 
-        this.arrowLeft = new CursorIconArrow(renderer,preLoader,"arrowLeft","UI/arrowLeft.png")
+        this.arrowLeft = new CursorIconArrow(renderer,preLoader,"arrowLeft","UI/arrowLeft.webp")
         this.icons.push(  this.arrowLeft)
-        this.arrowRight = new CursorIconArrow(renderer,preLoader,"arrowRight","UI/arrowRight.png")
+        this.arrowRight = new CursorIconArrow(renderer,preLoader,"arrowRight","UI/arrowRight.webp")
         this.icons.push(this.arrowRight)
-        this.look = new CursorIcon(renderer,preLoader,"look","UI/look.png")
+        this.look = new CursorIcon(renderer,preLoader,"look","UI/look.webp")
 
         this.icons.push( this.look)
-        this.walk= new CursorIconWalk(renderer,preLoader,"walk","UI/next.png")
+        this.walk= new CursorIconWalk(renderer,preLoader,"walk","UI/next.webp")
         this.icons.push( this.walk)
 
 
-        this.next= new CursorIcon(renderer,preLoader,"next","UI/next.png")
+        this.next= new CursorIcon(renderer,preLoader,"next","UI/next.webp")
         this.icons.push(this.next)
 
-        let dig= new CursorIcon(renderer,preLoader,"dig","UI/dig.png")
+        let dig= new CursorIcon(renderer,preLoader,"dig","UI/dig.webp")
         this.icons.push(dig)
 
-        let fish= new CursorIcon(renderer,preLoader,"fish","UI/fish.png")
+        let fish= new CursorIcon(renderer,preLoader,"fish","UI/fish.webp")
         this.icons.push(fish)
 
-        let flower= new CursorIcon(renderer,preLoader,"flower","UI/flower.png")
+        let flower= new CursorIcon(renderer,preLoader,"flower","UI/flower.webp")
         this.icons.push(flower)
 
-        let key= new CursorIcon(renderer,preLoader,"key","UI/key.png")
+        let key= new CursorIcon(renderer,preLoader,"key","UI/key.webp")
         this.icons.push(key)
 
-        let start= new CursorIcon(renderer,preLoader,"dig","UI/start.png")
+        let start= new CursorIcon(renderer,preLoader,"dig","UI/start.webp")
         this.icons.push(start)
 
-        let stick= new CursorIcon(renderer,preLoader,"stick","UI/stick.png")
+        let stick= new CursorIcon(renderer,preLoader,"stick","UI/stick.webp")
         this.icons.push(stick)
 
 

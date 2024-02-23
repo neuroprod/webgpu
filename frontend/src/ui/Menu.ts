@@ -17,7 +17,7 @@ export default class Menu extends UIBitmapModel {
      checkBtn: CheckButton;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
-        super(renderer, preLoader, "menu", "UI/mainMenu.png");
+        super(renderer, preLoader, "menu", "UI/mainMenu.webp");
         this.visible = false;
 
         this.closeButton = new CloseButton(renderer, preLoader, "closeMenu")
