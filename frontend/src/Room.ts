@@ -10,7 +10,6 @@ import ModelRenderer from "./lib/model/ModelRenderer";
 import Mill from "./extras/Mill";
 
 
-
 import Scene from "./Scene";
 import Clock from "./extras/Clock";
 import {Osc2Screen} from "./extras/Osc2Screen";
@@ -39,17 +38,15 @@ export default class Room extends Scene {
     public lightLab: MainLight;
     public lightDoor: MainLight;
     public lightWall: MainLight;
+    lightWallLiving: MainLight;
+    lightTable: MainLight;
+    machine: Machine;
     private fpsScreen: FpsScreen;
-
     private bookCase: Object3D;
     private hitLeftRoomCenter: Object3D;
     private hitRightRoom: Object3D;
     private osc2Screen: Osc2Screen;
     private osc1Screen: Osc1Screen;
-    lightWallLiving: MainLight;
-    lightTable: MainLight;
-    machine:Machine;
-
     private paintingHolder: Object3D;
     private plant: Model;
     private pot: Model;
@@ -62,9 +59,9 @@ export default class Room extends Scene {
         new TextureLoader(this.renderer, preloader, "LT_triangle.png", {});
         new TextureLoader(this.renderer, preloader, "LT_readMail1.png", {});
         new TextureLoader(this.renderer, preloader, "LT_wait.png", {});
-        new TextureLoader(this.renderer, preloader, "LT_programming.png",{});
+        new TextureLoader(this.renderer, preloader, "LT_programming.png", {});
         new TextureLoader(this.renderer, preloader, "LT_readMail2.png", {});
-        new TextureLoader(this.renderer, preloader, "LT_pantsTemp.png",{});
+        new TextureLoader(this.renderer, preloader, "LT_pantsTemp.png", {});
 
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
         new TextureLoader(this.renderer, preloader, "glowPantsProgress.png", {});
@@ -78,7 +75,7 @@ export default class Room extends Scene {
         this.root = this.glFTLoader.root
         this.glFTLoader.root.setPosition(0, -1.5, 0)
 
-        this.mill = new Mill(this.glFTLoader.modelsByName["mill"],this.renderer)
+        this.mill = new Mill(this.glFTLoader.modelsByName["mill"], this.renderer)
         for (let m of this.glFTLoader.models) {
             this.modelRenderer.addModel(m)
 
@@ -94,13 +91,12 @@ export default class Room extends Scene {
         this.hitRightRoom = this.glFTLoader.objectsByName["_HitRightRoom"];
 
 
-
-        this.lightWallLiving= new MainLight(this.renderer, "lightWallLiving")
+        this.lightWallLiving = new MainLight(this.renderer, "lightWallLiving")
         this.glFTLoader.modelsByName["wallLampLamp"].addChild(this.lightWallLiving)
         this.glFTLoader.modelsByName["wallLampLamp"].castShadow = false;
 
-        this.lightTable= new MainLight(this.renderer, "lightTable")
-        this.glFTLoader.modelsByName["tableLampCap"].addChild( this.lightTable)
+        this.lightTable = new MainLight(this.renderer, "lightTable")
+        this.glFTLoader.modelsByName["tableLampCap"].addChild(this.lightTable)
         this.glFTLoader.modelsByName["tableLampCap"].castShadow = false;
 
         this.lightKitchen = new MainLight(this.renderer, "mainLightKitchen")
@@ -134,17 +130,17 @@ export default class Room extends Scene {
         this.modelRenderer.addModel(this.osc1Screen);
 
         this.clock = new Clock(this.glFTLoader.modelsByName["hour"], this.glFTLoader.modelsByName["minutes"])
-        this.machine =new Machine(this.renderer);
+        this.machine = new Machine(this.renderer);
 
 
-        this.paintingHolder =this.glFTLoader.objectsByName["paintingHolder"]
+        this.paintingHolder = this.glFTLoader.objectsByName["paintingHolder"]
 
         this.plant = this.glFTLoader.modelsByName["plant_Monstera_Deliciosa"]
         this.pot = this.glFTLoader.modelsByName["pot2"]
         this.posterLab = this.glFTLoader.modelsByName["posterLab"];
 
         //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
-      //  this.modelRenderer.addModel(this.windowOutside);
+        //  this.modelRenderer.addModel(this.windowOutside);
 
     }
 
@@ -164,40 +160,40 @@ export default class Room extends Scene {
 
     update() {
 
-        let w = Math.max(this.renderer.ratio * 3,GameModel.minRoomSize);
+        let w = Math.max(this.renderer.ratio * 3, GameModel.minRoomSize);
 
 
-        let plantOff =(w-5)/2
-        if(plantOff<0){
-            this.plant.visible =false;
-            this.pot.visible =false;
-        }else{
-            this.plant.visible =true;
-            this.pot.visible =true;
-            this.plant.setPosition(-2.200779914855957-plantOff, 0.001604527235031128, -3.398457527160644)
-            this.pot.setPosition(-2.200779914855957-plantOff, 0.001604527235031128, -3.398457527160644)
+        let plantOff = (w - 5) / 2
+        if (plantOff < 0) {
+            this.plant.visible = false;
+            this.pot.visible = false;
+        } else {
+            this.plant.visible = true;
+            this.pot.visible = true;
+            this.plant.setPosition(-2.200779914855957 - plantOff, 0.001604527235031128, -3.398457527160644)
+            this.pot.setPosition(-2.200779914855957 - plantOff, 0.001604527235031128, -3.398457527160644)
         }
-        let posterOff =(w-3)/2
-let posterOffX =0
-        let posterOffY =0
-        if(w>5.5){
-            posterOffY=-0.5;
-            posterOffX=1;
+        let posterOff = (w - 3) / 2
+        let posterOffX = 0
+        let posterOffY = 0
+        if (w > 5.5) {
+            posterOffY = -0.5;
+            posterOffX = 1;
         }
-        this.posterLab.setPosition(posterOff+posterOffX, 2.5+posterOffY, -2.2410359382629395)
+        this.posterLab.setPosition(posterOff + posterOffX, 2.5 + posterOffY, -2.2410359382629395)
 
-        this.paintingHolder.setPosition((w-1)/2, 1.8256490230560303, -3.9360575675964355)
-        let left = - w - 0.15;
+        this.paintingHolder.setPosition((w - 1) / 2, 1.8256490230560303, -3.9360575675964355)
+        let left = -w - 0.15;
         this.leftHolder.setPosition(left, 0, 0)
 
         this.centerHolder.setPosition(0, 0, 0)
-        let right =w + 0.15;
+        let right = w + 0.15;
 
         this.rightHolder.setPosition(right, 0, 0)
         this.glFTLoader.root.setPosition(0, -1.5, 0)
-        this.hitLeftRoomCenter.setScale(Math.max(0,w- 4.4), 1, 1)
-        this.hitRightRoom.setScale( w - 1.1, 1, 1)
-      //  let bookPos = ((Math.abs(left) - 3.2) + 1.3) / 2; //right edge +left edge /2
+        this.hitLeftRoomCenter.setScale(Math.max(0, w - 4.4), 1, 1)
+        this.hitRightRoom.setScale(w - 1.1, 1, 1)
+        //  let bookPos = ((Math.abs(left) - 3.2) + 1.3) / 2; //right edge +left edge /2
 
         //this.bookCase.setPosition(bookPos, 0, -3.9)
         this.osc2Screen.update();

@@ -38,6 +38,8 @@ export default class Machine
         this.pants.material.uniforms.setUniform("progress",0)
 
         this.arrow =this.renderer.modelByLabel["coffeeArrow"];
+
+
     }
 
     start(finnish: boolean =false){

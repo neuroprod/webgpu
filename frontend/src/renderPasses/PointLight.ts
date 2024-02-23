@@ -225,6 +225,8 @@ export default class PointLight extends Object3D {
 
 
     update() {
+   
+        this.material.uniforms.setUniform("color", new Vector4(this.color.x, this.color.y, this.color.z, this.strength))
         let world = this.getWorldPos()
         this.material.uniforms.setUniform("position", new Vector4(world.x, world.y, world.z, this.size))
     }

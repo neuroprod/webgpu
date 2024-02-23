@@ -110,6 +110,7 @@ export default class LightRoomRenderPass extends RenderPass {
 
                 }
             }
+            GameModel.pointLightsByLabel[ "glowPantsLight"].setStrength(0.5);
         }
 
 
