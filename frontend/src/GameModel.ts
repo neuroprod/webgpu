@@ -71,6 +71,7 @@ import DigGrave from "./transitions/DigGrave";
 import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
 import GrandpaFishTrigger from "./trigers/GrandpaFishTrigger";
 import AnimationMixer from "./lib/animation/AnimationMixer";
+import WearPants from "./transitions/WearPants";
 
 export enum StateGold {
     START,
@@ -155,6 +156,7 @@ export const Pants =
 
 export const Transitions =
     {
+        WEAR_PANTS: new WearPants(),
         GO_OUTSIDE: new GoOutside(),
         START_GAME: new StartGame(),
         GO_INSIDE: new GoInside(),
@@ -559,6 +561,13 @@ class GameModel {
     }
 
     usePants(id: number) {
+        if(this.currentPants==id){
+            this.setTransition(Transitions.WEAR_PANTS,"")
+            return;
+        }
+        this.setTransition(Transitions.WEAR_PANTS,id+"")
+        this.characterHandler.characterRot = 0;
+        this.characterHandler.pullPants()
         this.currentPants = id;
         this.characterHandler.setPants(id)
     }

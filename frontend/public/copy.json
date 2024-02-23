@@ -108,6 +108,13 @@
       ]
     },
     {
+      "object": "makeTriangleFirst",
+      "copy": [
+        "Let's get some work done first."
+      ]
+    },
+
+    {
       "object": "makeTriangle",
       "copy": [
         "Lets start with rendering a triangle",
@@ -120,6 +127,12 @@
       "copy": [
         "I am a triangle,\nYes It's true,\nI have three sides,\nYes I do!",
         "let's do some other things before "
+      ]
+    },
+    {
+      "object": "makeWebsitesFirst",
+      "copy": [
+        "Let's get some work done first.\n finnish it up"
       ]
     },
     {
@@ -265,10 +278,12 @@
     {
       "object": "missingIngredient",
       "copy": [
-        "It took me a long time, but almost finished",
+        "It took me a long time,\nbut almost finished",
+        "blabla",
         "I only need some flowers of\nthe blabla plant to make it work"
       ]
     },
+
     {
       "object": "pickFlower",
       "copy": [
@@ -375,5 +390,23 @@
         "I can use that."
       ]
     }
+  ,
+    {
+      "object": "samePants",
+      "copy": [
+        "I'm already using them."
+
+      ]
+    },
+    {
+      "random": true,
+      "object": "newPants",
+      "copy": [
+        "Looks great on me!","I like those!","A little bit tight."
+
+      ]
+    }
+
+
   ]
 }
