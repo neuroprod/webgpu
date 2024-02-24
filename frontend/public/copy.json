@@ -8,12 +8,12 @@
     {
       "scene": 1,
       "object": "coffee",
-      "copy": "It was such a good coffee"
+      "copy": "An empty coffee mug."
     },
     {
       "scene": 1,
       "object": "bookPicture1",
-      "copy": "Grandpa is long dead now."
+      "copy": ["Grandpa","He died choking\non a plastic wrapper","Such a tragedy."]
     },
     {
       "scene": 1,
@@ -39,15 +39,7 @@
       "scene": 1,
       "object": "painting2",
       "copy": [
-        "The 'SeaLion'",
-        "Grandpa used to travel\nthe world with this ship."
-      ]
-    },
-    {
-      "scene": 1,
-      "object": "painting2",
-      "copy": [
-        "The 'SeaLion':\nGrandpa used to travel\nthe world with this ship."
+        "'The SeaLion'\nGrandpa used to travel\nthe world with this ship."
       ]
     },
     {
@@ -90,21 +82,21 @@
       "object": "readMail",
       "copy": [
         "An UNDERWEAR\nSIMULATOR...",
-        "The ad-agency wants\nme to make an\nUNDERWEAR SIMULATOR",
-        "blalalalala"
+        "The AD AGENCY wants\nme to make an\nunderwear simulator",
+        "Oh well, I'v heard worse ideas."
       ]
     },
     {
       "object": "letsGoOutsideFirst",
       "copy": [
-        "Let's first go outside\nand get some\ninspiration,",
+        "Let's first go outside\nand get some\ninspiration.",
         "and feed the fish."
       ]
     },
     {
       "object": "readMailDone",
       "copy": [
-        "Work can wait,\nlet's check outside"
+        "Work can wait,\nlet's check outside."
       ]
     },
     {
@@ -117,28 +109,27 @@
     {
       "object": "makeTriangle",
       "copy": [
-        "Lets start with rendering a triangle",
-        "this polygon is\nthe building block of worlds",
+        "Lets start with\nrendering a triangle",
+        "The building block of worlds",
         "and underwear simulators"
       ]
     },
     {
       "object": "triangleDone",
       "copy": [
-        "I am a triangle,\nYes It's true,\nI have three sides,\nYes I do!",
-        "let's do some other things before "
+       "First things first.\nThe underwear simulator\ncan wait."
       ]
     },
     {
       "object": "makeWebsitesFirst",
       "copy": [
-        "Let's get some work done first.\n finnish it up"
+        "Let's finnish the\nunderwear simulator"
       ]
     },
     {
       "object": "makeWebsite",
       "copy": [
-        "add some shading.",
+        "bla bla bal",
         "Lets send it to the agency\nI hope they like it"
       ]
     },
@@ -151,20 +142,21 @@
     {
       "object": "readMailAward",
       "copy": [
-        "They won an award",
-        "They send me a package!"
+        "Lots of sales\nfor the client.",
+        "And the ad agency\nwon a lot of awards.",
+        "They also\nsend me a package!"
       ]
     },
     {
       "object": "checkMailBox",
       "copy": [
-        "Let check the mailbox,\nmaybe it already arrived."
+        "Let check the mailbox.\nMaybe it already arrived."
       ]
     },
     {
       "object": "noMail",
       "copy": [
-        "I hardly get any mail these days."
+        "I hardly get any\nmail these days."
       ]
     },
     {
@@ -227,7 +219,7 @@
     {
       "object": "bookCaseMillFinished",
       "copy": [
-        "I should check on that key."
+        "I should check\non that key."
       ]
     },
     {
@@ -242,7 +234,8 @@
         "A letter from grandpa!",
         "UI letter:Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it",
         "So I will take it\nwith me to my grave.",
-        ";)\nGrandpa"
+        "wink wink ;)",
+        "Grandpa"
       ]
     },
     {
@@ -254,7 +247,7 @@
     {
       "object": "takeShovel",
       "copy": [
-        "I'm going to need that."
+        "That will do!"
       ]
     },
     {
@@ -278,8 +271,8 @@
     {
       "object": "missingIngredient",
       "copy": [
-        "It took me a long time,\nbut almost finished",
-        "blabla",
+        "It took me a long time,\nbut almost ready",
+        "my own revolutionary underpants",
         "I only need some flowers of\nthe blabla plant to make it work"
       ]
     },
@@ -287,33 +280,27 @@
     {
       "object": "pickFlower",
       "copy": [
-        "It's beautiful.",
-        "I think I'll take it"
+        "Finaly, this will\nhelp me finish\nthe underpants",
+        "I'll take it"
       ]
     },
     {
       "object": "startMachine",
       "copy": [
-        "Let's see if this will work"
+        "Let's see if\nthis will work."
       ]
     },
     {
       "object": "hightechDoneSoon",
       "copy": [
-        "Will be done soon bla"
+        "It just needs it\ntime to finnish up"
       ]
     },
     {
       "object": "findGlowPants",
       "copy": [
         "Looks like it worked",
-        "let's take them."
-      ]
-    },
-    {
-      "object": "fishHappy",
-      "copy": [
-        "They seem happy"
+        "Let's take them."
       ]
     },
     {
@@ -326,9 +313,10 @@
     {
       "object": "takeFishFood",
       "copy": [
-        "FOOD FOR FISH tm\npreprocessed fish food",
+        "FOOD FOR FISH tm",
+        "Preprocessed fish food",
         "Made from fish, for fish.",
-        "I'll take it!"
+        "I'm going to need that."
       ]
     },
     {
@@ -346,14 +334,16 @@
     {
       "object": "fishHappy",
       "copy": [
-        "They seem happy"
+        "They seem happy!",
+        "Not a care\nin the world."
       ]
     },
     {
       "object": "findGrandpaPants",
       "copy": [
         "The fish left me a gift",
-        "The old underpants of grandpa!\nI assumed he was buried with them?"
+        "It's the old underpants\nof grandpa!",
+        "I assumed he was\nburied with them?"
       ]
     },
     {
@@ -366,7 +356,7 @@
     {
       "object": "birdHouseFell",
       "copy": [
-        "Oh, the wind must\nhave blown it like that",
+        "Oh, the wind must\nhave blown it crooked",
         "I can't seem to reach it"
       ]
     },
@@ -380,7 +370,7 @@
     {
       "object": "pushBirdHouse",
       "copy": [
-        "Let's try that."
+        "Let's see if\nI can fix that."
       ]
     },
     {
@@ -402,7 +392,7 @@
       "random": true,
       "object": "newPants",
       "copy": [
-        "Looks great on me!","I like those!","A little bit tight."
+        "Looks great on me!","I like those!","A little bit tight.","So soft on my skin.","The support I need.","Fits like a glove."
 
       ]
     }

@@ -141,9 +141,9 @@ private rotateTo(angle:number,time:number)
         } else if (id == 6) {
             name = "Gold"
         }
-        this.pants.uniforms.setTexture("colorTexture", this.renderer.texturesByLabel["textures/pants" + name + "_Color.png"])
-        this.pants.uniforms.setTexture("normalTexture", this.renderer.texturesByLabel["textures/pants" + name + "_Normal.png"])
-        this.pants.uniforms.setTexture("mraTexture", this.renderer.texturesByLabel["textures/pants" + name + "_MRA.png"])
+        this.pants.uniforms.setTexture("colorTexture", this.renderer.texturesByLabel["textures/pants" + name + "_Color.webp"])
+        this.pants.uniforms.setTexture("normalTexture", this.renderer.texturesByLabel["textures/pants" + name + "_Normal.webp"])
+        this.pants.uniforms.setTexture("mraTexture", this.renderer.texturesByLabel["textures/pants" + name + "_MRA.webp"])
 
 
     }

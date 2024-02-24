@@ -70,7 +70,7 @@ close(){
         }
 }
     updateInventory() {
-
+        console.log("setbtns");
 let foundCount =0;
         for(let i=0;i<7;i++){
 
@@ -79,6 +79,7 @@ let foundCount =0;
                 let posX =  -320+foundCount*135
                     foundCount++;
                 this.btns[i].setPosition(posX,-25,0)
+                console.log(i)
             }
 
             else{
