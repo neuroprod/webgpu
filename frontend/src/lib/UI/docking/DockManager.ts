@@ -34,6 +34,7 @@ export default class DockManager {
   }
 
   public startDragging(panel: Panel) {
+    console.log("startDragg")
     let node = this.mainDockNode.getNodeWithPanel(panel);
     if (node) {
       if (node.splitType === DockSplit.Center) {
@@ -59,7 +60,11 @@ export default class DockManager {
         node.children = [];
         node.panel = null;
       }
-      this.mainDockNode.resize(UI_I.screenSize, true);
+      let size = UI_I.screenSize.clone()
+
+      size.scale(1/UI_I.pixelRatio)
+
+      this.mainDockNode.resize(size, true);
       this.mainDockNode.updateLayout();
       this.saveLocal();
     }
@@ -88,7 +93,11 @@ export default class DockManager {
       this.setPanelsFirst++;
       return;
     }
-    if (this.mainDockNode.resize(UI_I.screenSize)) {
+    let size = UI_I.screenSize.clone()
+
+    size.scale(1/UI_I.pixelRatio)
+
+    if (this.mainDockNode.resize(size)) {
       this.mainDockNode.updateLayout();
     }
 
@@ -247,7 +256,11 @@ export default class DockManager {
 
     //set the panels in the docknodes
     this.mainDockNode.setPanels();
-    this.mainDockNode.resize(UI_I.screenSize, true);
+    let size = UI_I.screenSize.clone()
+
+    size.scale(1/UI_I.pixelRatio)
+
+    this.mainDockNode.resize(size, true);
     this.mainDockNode.updateLayout();
 
     this.saveLocal();

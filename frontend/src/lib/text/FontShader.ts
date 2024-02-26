@@ -64,7 +64,8 @@ fn mainFragment(@location(0) uv0: vec2f) -> @location(0) vec4f
     let dist = max(min(text.r, text.g), min(max(text.r, text.g), text.b));
     let l =min(smoothstep(uniforms.fontEdge.x,uniforms.fontEdge.y,dist)*uniforms.alpha+dist,1.0);
      let e =smoothstep(uniforms.fontEdge.z,uniforms.fontEdge.w,dist);
-     let col =mix(vec3(0.07,0.03,0.00),vec3(0.90,0.83,0.65)*1.1,e);
+     let col =mix(vec3(0.07,0.03,0.00),vec3(0.96,0.9,0.8),e);
+     //vec3(0.90,0.83,0.65)
     return vec4(col*l,l);
  
 }

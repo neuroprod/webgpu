@@ -122,6 +122,7 @@ export default class DockNode {
     if (!force && this.size.equal(size)) return false;
 
     this.size = size.clone();
+
     this.updateRect();
 
     if (!this.children.length) return true;

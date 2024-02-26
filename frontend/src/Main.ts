@@ -525,6 +525,8 @@ export default class Main {
     updateUI() {
 
         UI.pushWindow("Dev Settings")
+
+        UI.LFloatSlider(GameModel,"sceneHeight",2,5)
         GameModel.textHandler.onUI()
         this.canvasRenderPass.onUI();
         let speed = UI.LBool("Go fast", GameModel.devSpeed);
@@ -735,6 +737,7 @@ export default class Main {
     }
 
     private updateSceneHeight() {
+
         if (GameModel.currentScene == Scenes.ROOM) {
             let sw = this.renderer.ratio * 3;
 

@@ -111,6 +111,7 @@ export default class Cursor extends  UIModel{
     }
 
     show(cursor: CURSOR) {
+
         for (let i of this.icons){
             i.visible =false;
         }

@@ -218,6 +218,7 @@ export default class Component {
         this.layoutRect.copySize(this.size);
       } else {
         this.layoutRect.copySize(UI_I.screenSize);
+        this.layoutRect.size.scale(1/UI_I.pixelRatio)
       }
       this.clippingRect.copy(this.layoutRect);
       if (this.parent) {
