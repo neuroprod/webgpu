@@ -111,9 +111,10 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
   if(mouth+eye+pupil  <0.5) {discard;}
   
   var color =vec4(1.0,1.0,1.0,1.0);
-  var mra  =vec4(0.0,0.6,0.0,1.0);
+  var mra  =vec4(0.0,0.3,0.0,1.0);
   if(pupil >0.5){
   color =vec4(0.0,0.0,0.0,1.0);
+   var mra  =vec4(0.0,0.1,0.0,1.0);
   }
   if(mouth >0.5){
   color =vec4(0.0,0.0,0.0,1.0);

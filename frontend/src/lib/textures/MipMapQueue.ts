@@ -1,6 +1,7 @@
 import Texture from "./Texture";
 import Renderer from "../Renderer";
 import MipMapRenderPass from "./MipMapRenderPass";
+import {TextureFormat} from "../WebGPUConstants";
 
 
 
@@ -8,6 +9,7 @@ export default class MipMapQueue{
 
     private textures:Array<Texture> =[];
     private passesBySize: { [size: number]: MipMapRenderPass } = {};
+    private passesOpBySize: { [size: number]: MipMapRenderPass } = {};
     private renderer: Renderer;
     constructor(renderer:Renderer) {
         this.renderer=renderer;
@@ -19,8 +21,16 @@ export default class MipMapQueue{
         let p =  this.passesBySize[size];
         if(p)return p;
 
-        p =new MipMapRenderPass(this.renderer,size);
+        p =new MipMapRenderPass(this.renderer,size,TextureFormat.RGBA8Unorm);
         this.passesBySize[size] = p;
+        return p;
+    }
+    public getPassOpBySize(size:number){
+        let p =  this.passesOpBySize[size];
+        if(p)return p;
+
+        p =new MipMapRenderPass(this.renderer,size,TextureFormat.R8Unorm);
+        this.passesOpBySize[size] = p;
         return p;
     }
     processQue(){
@@ -46,7 +56,14 @@ export default class MipMapQueue{
         {
 
             let size =Math.pow(2,i);
-            let pass = this.getPassBySize(size)
+            let pass;
+            if(texture.options.format ==TextureFormat.R8Unorm){
+                pass = this.getPassOpBySize(size)
+            }
+            else{
+                 pass = this.getPassBySize(size)
+            }
+
           //  console.log(i,"miplevel "+count,prevTexture.options.width+"->",size)
             pass.setInputTexture(prevTexture)
             pass.add();

@@ -16,12 +16,12 @@ export default class MipMapRenderPass extends RenderPass {
 
 
 
-    constructor(renderer: Renderer,size:number) {
+    constructor(renderer: Renderer,size:number,format:GPUTextureFormat) {
 
         super(renderer, "mipmapPass");
 
         this.target = new RenderTexture(renderer, "mipPrep"+size, {
-            format: TextureFormat.RGBA8Unorm,
+            format: format,
             sampleCount: 1,
             scaleToCanvas: false,
             width:size,

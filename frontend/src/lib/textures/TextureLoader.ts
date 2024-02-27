@@ -1,5 +1,6 @@
 import Texture, {TextureOptions} from "./Texture";
 import Renderer from "../Renderer";
+import {TextureFormat} from "../WebGPUConstants";
 
 export default class TextureLoader extends Texture {
     public loaded: boolean=false;
@@ -9,6 +10,9 @@ export default class TextureLoader extends Texture {
         super(renderer, url, options)
         preLoader.startLoad();
         this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT;
+       if(url.includes("_Op."))
+       this.options.format = TextureFormat.R8Unorm
+
         this.make();
 
         setTimeout(()=>{
