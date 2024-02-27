@@ -558,6 +558,7 @@ export default class Main {
         UIData.lightInside = UI.LBool("Light Inside", UIData.lightInside)
         UIData.lightOutside = UI.LBool("Light Outside", UIData.lightOutside)
         UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
+        UIData.face = UI.LBool("Face", UIData.face)
         UIData.animation = UI.LBool("Animations", UIData.animation)
         UIData.draw = UI.LBool("Draw", UIData.draw)
         UI.separator("Info");
@@ -566,7 +567,8 @@ export default class Main {
         }
 
         UI.popWindow()
-
+//
+        if (UIData.face) this.characterHandler.face.onUI();
         //draw
 
         if (UIData.draw) this.drawer.onUI()

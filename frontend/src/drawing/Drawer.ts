@@ -54,7 +54,7 @@ export default class Drawer {
 
             ray.intersectPlaneLocal(this.drawing.getWorldPos(), new Vector3(0, 0, 1));
             let pos = new Vector2(ray.hitPos.x, ray.hitPos.y)
-       
+
             this.currentLine.addPoint(pos);
             this.updateDrawing()
         }

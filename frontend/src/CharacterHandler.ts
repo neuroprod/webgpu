@@ -14,6 +14,7 @@ import GLFTLoader from "./GLFTLoader";
 
 import Material from "./lib/core/Material";
 import Model from "./lib/model/Model";
+import Face from "./extras/Face";
 
 
 
@@ -42,6 +43,7 @@ export default class CharacterHandler {
     private rotateTarget :Quaternion =new Quaternion()
     private rotateCurr :Quaternion =new Quaternion()
     private targetRot: number =0;
+    face: Face;
     constructor(renderer: Renderer, camera: Camera, glft: GLFTLoader, animationMixer: AnimationMixer) {
 
         this.renderer = renderer;
@@ -49,7 +51,7 @@ export default class CharacterHandler {
         this.animationMixer = animationMixer;
         this.characterRoot = glft.root;
         this.body = glft.modelsByName["body"];
-
+        this.face =new Face(renderer,glft.modelsByName["face"]);
         this.body.mesh.max.set(30, 30, 0)
         this.body.mesh.min.set(-30, -30, -220)
 
@@ -70,7 +72,7 @@ export default class CharacterHandler {
     }
 
     update() {
-
+        this.face.update()
         this.animationMixer.update();
         if (GameModel.currentScene == Scenes.ROOM) {
             this.charScale = 1.05;

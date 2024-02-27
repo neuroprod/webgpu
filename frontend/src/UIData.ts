@@ -1,4 +1,16 @@
 class UIData {
+    get face(): boolean {
+        return this._face;
+    }
+
+    set face(value: boolean) {
+
+        if (this._face  != value) {
+            this._face  = value;
+            this.save()
+        }
+    }
+    private _face: boolean =false;
     get draw(): boolean {
         return this._draw;
     }

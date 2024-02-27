@@ -75,7 +75,7 @@
     {
       "object": "readMailFirst",
       "copy": [
-        "Maybe I should read\nthat mail first"
+        "Maybe I should read\nthat mail first?"
       ]
     },
     {
@@ -83,7 +83,7 @@
       "copy": [
         "An UNDERWEAR\nSIMULATOR...",
         "The AD AGENCY wants\nme to make an\nunderwear simulator",
-        "Oh well, I'v heard worse ideas."
+        "Oh well."
       ]
     },
     {
@@ -184,20 +184,21 @@
     {
       "object": "bookCaseLocked",
       "copy": [
-        "It's locked.\nGrandpa kept his notes in it",
+        "Grandpa kept his notes\nin that bookcase",
+        "But it's locked.",
         "Maybe I should\nmake a key for it."
       ]
     },
     {
       "object": "bookCaseLockedMillRunning",
       "copy": [
-        "It's locked.\nThe Key will be finished soon."
+        "It's still locked.\nThe Key will be finished soon."
       ]
     },
     {
       "object": "millStart",
       "copy": [
-        "My trusty old mill.\nIt can almost make\neverything."
+        "My old mill.\nIt can almost make\neverything."
       ]
     },
     {
@@ -314,7 +315,6 @@
       "object": "takeFishFood",
       "copy": [
         "FOOD FOR FISH tm",
-        "Preprocessed fish food",
         "Made from fish, for fish.",
         "I'm going to need that."
       ]
