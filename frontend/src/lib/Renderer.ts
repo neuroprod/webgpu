@@ -56,8 +56,8 @@ export default class Renderer {
 
         const requiredFeatures: Array<GPUFeatureName> = ["rg11b10ufloat-renderable","float32-filterable"];
         if (adapter.features.has('timestamp-query')) {
-            requiredFeatures.push('timestamp-query');
-          this.useTimeStampQuery = true;
+           // requiredFeatures.push('timestamp-query');
+         // this.useTimeStampQuery = true;
 
         }
         //TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES
