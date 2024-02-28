@@ -263,6 +263,7 @@ class GameModel {
     introDraw: Drawing;
     minRoomSize =4.5
     animationMixer: AnimationMixer;
+    drawCount: number =0;
 
     constructor() {
 

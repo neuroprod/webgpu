@@ -8,6 +8,7 @@ import ModelRenderer from "../lib/model/ModelRenderer";
 import Model from "../lib/model/Model";
 
 import Camera from "../lib/Camera";
+import GameModel from "../GameModel";
 
 
 
@@ -48,7 +49,7 @@ export default class ShadowCubePass extends RenderPass {
             if(!this.camera.modelInFrustum(model))continue;
 
             if( !model.shadowMaterial)continue
-
+            GameModel.drawCount++;
             model.shadowMaterial.makePipeLine(this);
             passEncoder.setPipeline(model.shadowMaterial.pipeLine);
             passEncoder.setBindGroup(1,model.modelTransform.bindGroup);

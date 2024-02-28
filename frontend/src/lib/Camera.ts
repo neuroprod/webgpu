@@ -119,6 +119,7 @@ export default class Camera extends UniformGroup {
         if(!GameModel.frustumCull)return true;
         for (let i: number = 0; i < 6; i++) {
             if (this.dot(this.fplanes[i], model.center.x, model.center.y, model.center.z) < -model.radius) {
+
                 return false;
             }
         }

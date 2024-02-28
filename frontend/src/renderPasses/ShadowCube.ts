@@ -56,7 +56,7 @@ private frame =0;
 
             camera.fovy = Math.PI / 2
             camera.near = 0.01;
-            camera.far = 20;
+            camera.far = 10;
 
             // camera.cameraWorld =wp;
             // camera.cameraLookAt =wp.clone().add(this.offsets[i]);

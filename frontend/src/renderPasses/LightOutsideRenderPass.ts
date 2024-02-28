@@ -106,14 +106,19 @@ export default class LightOutsideRenderPass extends RenderPass {
 
 
     }
-
-    setUniforms(matrix: Matrix4,matrix2: Matrix4) {
+    setUniforms2(matrix2: Matrix4) {
+        this.globalLightMaterial.uniforms.setUniform("shadowMatrix2", matrix2);
+    }
+    setUniforms(matrix: Matrix4) {
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColorDay.clone().lerp(this.topColorNight, GameModel.dayNight))
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColorDay.clone().lerp(this.midColorNight, GameModel.dayNight))
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay.clone().lerp(this.bottomColorNight, GameModel.dayNight))
 
         this.globalLightMaterial.uniforms.setUniform("shadowMatrix1", matrix);
-        this.globalLightMaterial.uniforms.setUniform("shadowMatrix2", matrix2);
+
+
+
+
         this.sunLightColor.w = this.sunLightStrength;
         this.moonLightColor.w = this.moonLightStrength;
         this.globalLightMaterial.uniforms.setUniform("lightColor", this.sunLightColor.clone().lerp(this.moonLightColor, GameModel.dayNight));

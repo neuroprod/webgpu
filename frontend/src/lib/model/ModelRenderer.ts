@@ -1,6 +1,7 @@
 import Model from "./Model";
 import RenderPass from "../core/RenderPass";
 import Renderer from "../Renderer";
+import GameModel from "../../GameModel";
 
 export default class ModelRenderer{
 
@@ -23,7 +24,7 @@ export default class ModelRenderer{
             if(!model.visible)continue
            if(!this.renderer.camera.modelInFrustum(model))continue;
 
-
+           GameModel.drawCount++;
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);

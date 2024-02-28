@@ -12,6 +12,7 @@ import DepthSkinShader from "../shaders/DepthSkinShader";
 import Camera from "../lib/Camera";
 import {Vector3} from "math.gl";
 import UI from "../lib/UI/UI";
+import GameModel from "../GameModel";
 
 
 
@@ -122,12 +123,13 @@ export default class ShadowPass extends RenderPass {
                 if(!this.camera.modelInFrustum(model))continue;
 
                 if( !model.shadowMaterial)continue
+                GameModel.drawCount++;
                 model.shadowMaterial.makePipeLine(this);
                 passEncoder.setPipeline(model.shadowMaterial.pipeLine);
                 passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
 
                 if(model.material.skin != undefined){
-if(this.id==2)continue;
+                    if(this.id==2)continue;//?
 
                     passEncoder.setBindGroup(2,model.material.skin.bindGroup);
                     for (let attribute of model.shadowMaterial.shader.attributes) {

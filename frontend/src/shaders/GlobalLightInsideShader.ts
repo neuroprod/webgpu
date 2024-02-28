@@ -210,17 +210,17 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
        
     let shadowColor1 =cubeShadow(shadowCube1,uniforms.lightPos1.xyz,world,uv0);
     var lightL =  pointLight(uniforms.lightPos1.xyz,uniforms.lightColor1,albedo,world,N,V,F0,roughness)*shadowColor1;
-    
+   
     let shadowColor2 =cubeShadow(shadowCube2,uniforms.lightPos2.xyz,world,uv0);
     lightL +=  pointLight(uniforms.lightPos2.xyz,uniforms.lightColor2,albedo,world,N,V,F0,roughness)*shadowColor2;
  
     let shadowColor3 =cubeShadow(shadowCube3,uniforms.lightPos3.xyz,world,uv0);
     lightL +=  pointLight(uniforms.lightPos3.xyz,uniforms.lightColor3,albedo,world,N,V,F0,roughness)*shadowColor3;
-    
+  
     
      let shadowColor4 =cubeShadow(shadowCube4,uniforms.lightPos4.xyz,world,uv0);
     lightL +=  pointLight(uniforms.lightPos4.xyz,uniforms.lightColor4,albedo,world,N,V,F0,roughness)*shadowColor4;
- 
+
    let shadowColor5 =cubeShadow(shadowCube5,uniforms.lightPos5.xyz,world,uv0);
     lightL +=  pointLight(uniforms.lightPos5.xyz,uniforms.lightColor5,albedo,world,N,V,F0,roughness)*shadowColor5;
  
