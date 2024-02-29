@@ -110,6 +110,7 @@ export default class LightOutsideRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("shadowMatrix2", matrix2);
     }
     setUniforms(matrix: Matrix4) {
+
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColorDay.clone().lerp(this.topColorNight, GameModel.dayNight))
         this.globalLightMaterial.uniforms.setUniform("midColor", this.midColorDay.clone().lerp(this.midColorNight, GameModel.dayNight))
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColorDay.clone().lerp(this.bottomColorNight, GameModel.dayNight))
@@ -127,7 +128,7 @@ export default class LightOutsideRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("fogColor", this.fogColorDay.clone().lerp( this.fogColorNight, GameModel.dayNight));
         this.globalLightMaterial.uniforms.setUniform("fogData", this.fogDataDay.clone().lerp( this.fogDataNight, GameModel.dayNight));
 
-
+        this.globalLightMaterial.uniforms.setUniform("dayNight", GameModel.dayNight);
         this.lightColor.w = this.lightStrength * GameModel.dayNight;
         this.lightPos = this.lightGrave.getWorldPos();
         this.globalLightMaterial.uniforms.setUniform("pointlightColor", this.lightColor);

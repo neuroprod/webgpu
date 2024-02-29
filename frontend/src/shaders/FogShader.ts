@@ -117,7 +117,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
 
  alpha *=smoothstep(0.0,2.0,d);
  
-   let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0 );
+   let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0 ,2.0);
 
  let distToLight=distance (uniforms.pointlightPos.xyz,world);
 

@@ -62,11 +62,20 @@ export default class FogPlanes{
 
         for(let i=0;i<this.numPlanes;i++){
             let fp =this.models[i]
-            fp.material.uniforms.setUniform("time",Timer.time*0.04+i*123.5)
 
-            fp.material.uniforms.setTexture("shadowCubeDebug",this.renderer.texturesByLabel["ShadowCubeColor1"]);
-            fp.material.uniforms.setUniform("pointlightColor", GameModel.lightOutsidePass.lightColor)
-            fp.material.uniforms.setUniform("pointlightPos",  new Vector4(GameModel.lightOutsidePass.lightPos.x,GameModel.lightOutsidePass.lightPos.y,GameModel.lightOutsidePass.lightPos.z,1));
+            if(GameModel.dayNight==0){
+                fp.visible =false;
+            }else{
+                fp.visible =true;
+                fp.material.uniforms.setUniform("time",Timer.time*0.04+i*123.5)
+
+                fp.material.uniforms.setTexture("shadowCubeDebug",this.renderer.texturesByLabel["ShadowCubeColor1"]);
+                fp.material.uniforms.setUniform("pointlightColor", GameModel.lightOutsidePass.lightColor)
+                fp.material.uniforms.setUniform("pointlightPos",  new Vector4(GameModel.lightOutsidePass.lightPos.x,GameModel.lightOutsidePass.lightPos.y,GameModel.lightOutsidePass.lightPos.z,1));
+
+
+            }
+
 
         }
     }

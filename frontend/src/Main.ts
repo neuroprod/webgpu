@@ -138,14 +138,14 @@ export default class Main {
 
             return;
         }
-
+        UIData.init();
         this.renderer.setup(canvas).then(() => {
             this.setup()
         }).catch(() => {
             this.showFailScreen(canvas)
         })
         this.mouseListener = new MouseListener(canvas)
-        UIData.init();
+
     }
 
     showFailScreen(canvas: HTMLCanvasElement) {
@@ -363,7 +363,8 @@ export default class Main {
             this.shadowPassCube6.setModels(this.gBufferPass.modelRenderer.models);
             this.shadowPassCube6.setLightPos(this.room.lightTable.getWorldPos())
 
-
+//1,5,6 living
+            //2,3,4 work
             RenderSettings.exposure = 1.8;
             RenderSettings.onChange()
 
@@ -589,8 +590,12 @@ export default class Main {
             UI.pushWindow("Performance")
             UI.LText(Timer.fps + "", "FPS")
             UI.LText(GameModel.screenWidth + " " + GameModel.screenHeight, "Render Size");
-            UI.LText(GameModel.drawCount+"","Num draw Objects")
-            if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis", "", true)
+            UI.LText(GameModel.drawCount+"","Num Models")
+            if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis and check the box below, and refresh", "GPU Time stamps", true)
+            if (!this.renderer.useTimeStampQuery) UI.LText("Warning! it will crash the site if you refresh when you not enabled it in Chrome. Clear local storage to fix it","Don't touch", true)
+
+            UIData.useTimestamp = UI.LBool("Use Timestamp", UIData.useTimestamp)
+
             this.timeStampQuery.onUI();
             UI.popWindow()
         }

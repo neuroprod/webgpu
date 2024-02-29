@@ -19,6 +19,7 @@ import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
 import GameModel from "../GameModel";
 import RenderSettings from "../RenderSettings";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 
 export default class LightRoomRenderPass extends RenderPass {
 
@@ -171,6 +172,13 @@ public setUniforms(){
     this.globalLightMaterial.uniforms.setUniform("topColorRight", this.topColorRight)
     this.globalLightMaterial.uniforms.setUniform("midColorRight", this.midColorRight)
     this.globalLightMaterial.uniforms.setUniform("bottomColorRight", this.bottomColorRight)
+    if(GameModel.roomCamOffset>0.9){
+        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[1,4,2,0] as MathArray)
+    }else if(GameModel.roomCamOffset<-0.9){
+        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[4,1,2,0] as MathArray)
+    }else{
+        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[1,1,1,0] as MathArray)
+    }
 
 
     this.globalLightMaterial.uniforms.setTexture("shadowCube1", this.renderer.texturesByLabel["ShadowCubeColor1"]);

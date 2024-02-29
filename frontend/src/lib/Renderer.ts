@@ -14,6 +14,7 @@ import {Vector2} from "math.gl";
 import Skin from "./animation/Skin";
 import MipMapQueue from "./textures/MipMapQueue";
 import Object3D from "./core/Object3D";
+import UIData from "../UIData";
 
 export default class Renderer {
     public device: GPUDevice;
@@ -56,8 +57,10 @@ export default class Renderer {
 
         const requiredFeatures: Array<GPUFeatureName> = ["rg11b10ufloat-renderable","float32-filterable"];
         if (adapter.features.has('timestamp-query')) {
-           // requiredFeatures.push('timestamp-query');
-         // this.useTimeStampQuery = true;
+           if(UIData.useTimestamp) {
+               requiredFeatures.push('timestamp-query');
+               this.useTimeStampQuery = true;
+           }
 
         }
         //TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES

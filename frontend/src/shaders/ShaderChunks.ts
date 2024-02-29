@@ -112,7 +112,7 @@ fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)
 }
 export function cubeShadow() {
     return   /* wgsl */ `
-fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f) -> f32
+fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f,samples:f32) -> f32
 {
     var dir = lightPos-world;
 
@@ -124,12 +124,12 @@ fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f) -> f3
     let tangent   = normalize(randomVec -dirN * dot(randomVec, dirN));
     let bitangent = cross(dirN , tangent);
     let TBN       = mat3x3<f32>(tangent, bitangent,dirN); 
-      let samples =2.0;
-      let st =2;
+     
+      let st =i32(samples);
       
       for(var i=0;i<st;i++){
       
-       // let distToLightL=distance (lightPos,world);
+      
         let shadowDist = textureSample(cube, mySampler,normalize(dirN +TBN*kernel[i])).x;
   
         

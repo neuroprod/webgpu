@@ -46,6 +46,7 @@ export default class Model extends Object3D {
 
     public update() {
         if (!this._dirty) return;
+        if(!this.visible)return;
         this.updateMatrices()
 
     }
@@ -114,6 +115,7 @@ try{
 
             this.radius = this.center.distance(this.max);
         }
+
         this.modelTransform.setWorldMatrix(this.worldMatrix);
     }
 

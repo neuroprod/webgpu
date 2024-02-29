@@ -1,4 +1,17 @@
 class UIData {
+    get useTimestamp(): boolean {
+        return this._useTimestamp;
+    }
+
+    set useTimestamp(value: boolean) {
+        if (this._useTimestamp  != value) {
+            this._useTimestamp  = value;
+            this.save()
+        }
+
+    }
+
+    private _useTimestamp:boolean =false;
     get face(): boolean {
         return this._face;
     }

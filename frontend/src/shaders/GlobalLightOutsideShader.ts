@@ -31,6 +31,7 @@ export default class GlobalLightOutsideShader extends Shader{
         this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
         this.addUniform("fogColor",new Vector4(0.5,0.6,0.0,0.0))
         this.addUniform("fogData",new Vector4(0.5,0.6,0.0,0.0))
+        this.addUniform("dayNight",0)
         this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadow1",DefaultTextures.getDepth(this.renderer),"depth")
         this.addTexture("shadow2",DefaultTextures.getDepth(this.renderer),"depth")
@@ -171,14 +172,15 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
     //
     //shadow2
+     if(uniforms.dayNight<0.5){
      let shadowProj2 =uniforms.shadowMatrix2*vec4(world,1.0);
     let shadowProjN2=shadowProj2.xyz/ shadowProj.w;
     var shadowUV2 =shadowProjN2.xy * vec2(0.5, -0.5) + vec2(0.5);
     
-    let shadowVal2 =textureSampleCompare(shadow2, mySamplerComp, shadowUV2, shadowProjN2.z-0.004);
+    let shadowVal2 =textureSampleCompare(shadow2, mySamplerComp, shadowUV2, shadowProjN2.z-0.01);
     
     shadowVal =mix(shadowVal,shadowVal2,smoothstep(0.8,1.0,sd));
-    
+    }
     
     let albedo =pow(textureLoad(gColor,  uvPos ,0).xyz,vec3(2.2));;
     let N = normalize((textureLoad(gNormal,  uvPos ,0).xyz-0.5) *2.0);
@@ -220,10 +222,11 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
     
         let NdotL = max(dot(N, L), 0.0);
         let lightL= (kD * albedo / PI + specular) * radiance * NdotL *shadowVal;
-        
-        let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0);
-        let lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
-
+        var lightP =vec3(0.0);
+        if(uniforms.dayNight>0.5){
+        let shadowColorP =cubeShadow(shadowCubeDebug,uniforms.pointlightPos.xyz,world,uv0,4.0);
+        lightP =  pointLight(uniforms.pointlightPos.xyz,uniforms.pointlightColor,albedo,world,N,V,F0,roughness)*shadowColorP;
+        }
     if(mra.w==0.0){return vec4(albedo*1.5,0.0);}
     
     let fogStep =smoothstep(-30.0,-5.0,world.x);

@@ -41,7 +41,7 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
         this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
-
+        this.addUniform("shadowSamples",new Vector4(1.0,4.0,2.0,0.0))
         this.addTexture("shadowCube1",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube3",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
@@ -205,26 +205,26 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
         let V = normalize(camera.worldPosition.xyz - world);
         let F0 = mix(vec3(0.04), albedo, metallic);
        
-
+let sSamples =uniforms.shadowSamples;
        
-       
-    let shadowColor1 =cubeShadow(shadowCube1,uniforms.lightPos1.xyz,world,uv0);
+       //mainlightliving
+    let shadowColor1 =cubeShadow(shadowCube1,uniforms.lightPos1.xyz,world,uv0,sSamples.z);
     var lightL =  pointLight(uniforms.lightPos1.xyz,uniforms.lightColor1,albedo,world,N,V,F0,roughness)*shadowColor1;
-   
-    let shadowColor2 =cubeShadow(shadowCube2,uniforms.lightPos2.xyz,world,uv0);
+     //mainlightliving
+    let shadowColor2 =cubeShadow(shadowCube2,uniforms.lightPos2.xyz,world,uv0,sSamples.y);
     lightL +=  pointLight(uniforms.lightPos2.xyz,uniforms.lightColor2,albedo,world,N,V,F0,roughness)*shadowColor2;
  
-    let shadowColor3 =cubeShadow(shadowCube3,uniforms.lightPos3.xyz,world,uv0);
+    let shadowColor3 =cubeShadow(shadowCube3,uniforms.lightPos3.xyz,world,uv0,sSamples.y);
     lightL +=  pointLight(uniforms.lightPos3.xyz,uniforms.lightColor3,albedo,world,N,V,F0,roughness)*shadowColor3;
   
     
-     let shadowColor4 =cubeShadow(shadowCube4,uniforms.lightPos4.xyz,world,uv0);
+     let shadowColor4 =cubeShadow(shadowCube4,uniforms.lightPos4.xyz,world,uv0,sSamples.y);
     lightL +=  pointLight(uniforms.lightPos4.xyz,uniforms.lightColor4,albedo,world,N,V,F0,roughness)*shadowColor4;
 
-   let shadowColor5 =cubeShadow(shadowCube5,uniforms.lightPos5.xyz,world,uv0);
+   let shadowColor5 =cubeShadow(shadowCube5,uniforms.lightPos5.xyz,world,uv0,sSamples.x);
     lightL +=  pointLight(uniforms.lightPos5.xyz,uniforms.lightColor5,albedo,world,N,V,F0,roughness)*shadowColor5;
  
-   let shadowColor6 =cubeShadow(shadowCube6,uniforms.lightPos6.xyz,world,uv0);
+   let shadowColor6 =cubeShadow(shadowCube6,uniforms.lightPos6.xyz,world,uv0,sSamples.x);
     lightL +=  pointLight(uniforms.lightPos6.xyz,uniforms.lightColor6,albedo,world,N,V,F0,roughness)*shadowColor6;
  
     if(mra.w==0.0){return vec4(albedo,0.0);}
