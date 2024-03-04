@@ -3,12 +3,12 @@
     {
       "scene": 1,
       "object": "teapot",
-      "copy": "It's a teapot."
+      "copy":[ "It's a teapot."]
     },
     {
       "scene": 1,
       "object": "coffee",
-      "copy": "An empty coffee mug."
+      "copy": ["An empty coffee mug."]
     },
     {
       "scene": 1,
@@ -18,7 +18,7 @@
     {
       "scene": 1,
       "object": "bookPicture2",
-      "copy": "I don't know who they are."
+      "copy": ["I don't know who they are."]
     },
     {
       "scene": 1,
@@ -52,7 +52,7 @@
     {
       "scene": 1,
       "object": "clock",
-      "copy": "It's a clock"
+      "copy": ["It's a clock"]
     }
   ],
   "text": [

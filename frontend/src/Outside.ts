@@ -10,15 +10,19 @@ import Material from "./lib/core/Material";
 import WaterTopShader from "./shaders/WaterTopShader";
 import Model from "./lib/model/Model";
 import WaterFrontShader from "./shaders/WaterFrontShader";
+
 import Fish from "./extras/Fish";
 import FogPlanes from "./extras/FogPlanes";
 import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
 import GameModel from "./GameModel";
 import {Vector3} from "math.gl";
-import FogShader from "./shaders/FogShader";
+
 import GlassGlowShader from "./shaders/GlassGlowShader";
-import DefaultTextures from "./lib/textures/DefaultTextures";
+
+import SkyShader from "./shaders/SkyShader";
+import RenderSettings from "./RenderSettings";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 
 
 export default class Outside extends Scene {
@@ -40,6 +44,7 @@ export default class Outside extends Scene {
     private glassGrave: Model;
     private materialGlass: Material;
     private materialGlow: Material;
+    private sky: Model;
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
@@ -61,7 +66,7 @@ export default class Outside extends Scene {
         this.lightGrave = new Object3D(this.renderer)
         this.lightGrave.setPosition(0,-0.2,0.0)
         this.lightGraveHolder.addChild(this.lightGrave)
-        this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
+        //this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
         this.fish = new Fish(this.renderer, this.glFTLoader.modelsByName["fish1"], this.glFTLoader.modelsByName["fish2"]);
         this.glassGrave = this.glFTLoader.modelsByName["lightGrave_G"]
 
@@ -104,7 +109,8 @@ export default class Outside extends Scene {
         this.waterFront.material.uniforms.setUniform("dayNight", GameModel.dayNight)
         this.waterTop.material.uniforms.setUniform("dayNight", GameModel.dayNight)
 
-
+        this.sky.material.uniforms.setUniform("colorTop", RenderSettings.skyTop as MathArray)
+        this.sky.material.uniforms.setUniform("colorBottom", RenderSettings.skyBottom as MathArray)
         if(GameModel.dayNight==0)
         {
             this.glassGrave.material = this.materialGlass
@@ -141,6 +147,7 @@ export default class Outside extends Scene {
         }
 
         for (let m of this.glFTLoader.modelsGlass) {
+            let needsDepth =true
             if (m.label == "waterTop_G") {
                 m.material = new Material(this.renderer, m.label, new WaterTopShader(this.renderer, "waterTop"));
                 m.material.depthWrite = false;
@@ -151,8 +158,16 @@ export default class Outside extends Scene {
                 m.material.depthWrite = false;
                 this.waterFront = m;
             }
-            m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
-            m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["BlurLightPass"])
+            if (m.label == "sky_G") {
+                m.material = new Material(this.renderer, 'sky', new SkyShader(this.renderer, "sky"));
+                m.material.depthWrite = false;
+                this.sky = m;
+                needsDepth =false;
+            }
+            if(needsDepth) {
+                m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
+                m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["BlurLightPass"])
+            }
             this.modelRendererTrans.addModel(m)
 
         }

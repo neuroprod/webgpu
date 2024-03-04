@@ -35,7 +35,6 @@ export default class Scene {
                 }
             }
 
-
             if (m.checkHit(mouseRay)) {
 
 

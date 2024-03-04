@@ -265,6 +265,7 @@ class GameModel {
     animationMixer: AnimationMixer;
     drawCount: number =0;
 
+
     constructor() {
 
 

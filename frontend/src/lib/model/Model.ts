@@ -46,13 +46,14 @@ export default class Model extends Object3D {
 
     public update() {
         if (!this._dirty) return;
-        if(!this.visible)return;
+        if(!this.visible && !this.enableHitTest)return;
         this.updateMatrices()
 
     }
 
     public checkHit(ray: Ray) {
         if(!this.enableHitTest)return false;
+
         if(this.hitTestObject.checkHit(ray, this.worldMatrixInv)){
 
 

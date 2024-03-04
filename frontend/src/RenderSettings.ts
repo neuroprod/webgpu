@@ -5,6 +5,7 @@ import gsap from "gsap";
 import GameModel from "./GameModel";
 import GTAO from "./ComputePasses/GTAO";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
+import ColorV from "./lib/ColorV";
 class RenderSettings{
     private passes:Array<RenderPass>=[];
     public bloom_threshold: number=2;
@@ -31,6 +32,8 @@ class RenderSettings{
     private aoRadius: number=0.25;
     private aoStrength: number=1;
     private aoSettings =new Vector4()
+     skyTop =new ColorV(0.00,0.48,0.74,1.00);
+    skyBottom=new ColorV(0.55,0.84,0.92,1.00);
     constructor() {
 
     }
@@ -48,8 +51,11 @@ class RenderSettings{
 
    }
    onUI(){
+
+        UI.LColor("skyTop", this.skyTop);
+       UI.LColor("skyBottom", this.skyBottom);
        UI.pushGroup("AO");
-UI.floatPrecision =0
+        UI.floatPrecision =0
        this.aoLayers =UI.LFloatSlider("aoLayers",this.aoLayers,1,5)
        this.aoSamples=UI.LFloatSlider("aoSamplesLayer",  this.aoSamples,1,3)
        UI.floatPrecision =2

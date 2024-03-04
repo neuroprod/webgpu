@@ -47,7 +47,7 @@ export default class TextHandler {
             this.hitTriggerByLabel[d.object] = d;
             d.count = 0;
 
-            for (let s in d.copy) {
+            for (let s of d.copy) {
                 this.wordCount(s)
             }
 
@@ -58,7 +58,7 @@ export default class TextHandler {
             this.hitTriggerByLabel[d.object] = d;
             d.count = 0;
 
-            for (let s in d.copy) {
+            for (let s of d.copy) {
                 this.wordCount(s)
             }
             d.readAll = false;
@@ -69,6 +69,7 @@ export default class TextHandler {
     public wordCount(s: string) {
         s = s.replace("\n", " ")
         let a = s.split(" ")
+
         this.words += a.length
     }
 
