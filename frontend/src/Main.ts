@@ -372,7 +372,7 @@ export default class Main {
             this.outsideCount =0;
             GameModel.yMouseScale = 1.5
             GameModel.yMouseCenter = 0
-            GameModel.sceneHeight = 4
+            GameModel.sceneHeight = 2.5
 
 
             this.gBufferPass.drawingRenderer.currentScene = 1;
@@ -514,7 +514,7 @@ export default class Main {
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
             this.shadowPass1.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
-            if(this.outsideCount%10==0) {
+            if(this.outsideCount%2==0) {
                 this.shadowPass2.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
             this.updateShadowOutside =true
                 this.lightOutsidePass.setUniforms2( this.shadowPass2.camera.viewProjection);
@@ -779,6 +779,13 @@ export default class Main {
             } else {
                 GameModel.sceneHeight = 3;
             }
+
+        }else if(  GameModel.currentScene == Scenes.OUTSIDE){
+
+
+            let dist =Math.min( Math.max((Math.abs(GameModel.characterPos.x+12)-2)/10,0),1)*0.7;
+
+            GameModel.sceneHeight  += (4.1-dist-GameModel.sceneHeight )/50;
 
         }
     }

@@ -111,6 +111,7 @@ export default class Outside extends Scene {
 
         this.sky.material.uniforms.setUniform("colorTop", RenderSettings.skyTop as MathArray)
         this.sky.material.uniforms.setUniform("colorBottom", RenderSettings.skyBottom as MathArray)
+        this.sky.material.uniforms.setUniform("dayNight",1-(GameModel.dayNight*0.9));
         if(GameModel.dayNight==0)
         {
             this.glassGrave.material = this.materialGlass

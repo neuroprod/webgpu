@@ -20,7 +20,7 @@ export default class SkyShader extends Shader{
         }
 this.addUniform("colorTop",new Vector4() as MathArray)
         this.addUniform("colorBottom",new Vector4() as MathArray)
-
+        this.addUniform("dayNight",0)
         this.needsTransform =true;
         this.needsCamera=true;
 
@@ -57,7 +57,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(@location(0) uv0: vec2f) -> @location(0) vec4f
 {
    
- let color = mix(uniforms.colorTop.xyz,uniforms.colorBottom.xyz,uv0.y);
+ let color = mix(uniforms.colorTop.xyz,uniforms.colorBottom.xyz,uv0.y)*uniforms.dayNight;
   return vec4(vec3(color)*1.0,1.00);
  
 }

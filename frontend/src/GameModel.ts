@@ -245,7 +245,7 @@ class GameModel {
     //debugstuff
     devSpeed: boolean = false;
     debug: boolean = false;
-    startOutside: boolean = false;
+    startOutside: boolean =false;
     room: Room;
     outside: Outside;
     lastClickLabels: Array<string> = [];
