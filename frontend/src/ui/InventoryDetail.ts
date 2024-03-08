@@ -104,6 +104,7 @@ export default class InventoryDetail extends UIModel {
             if (i == this.id) vis = true;
             this.items[i].visible = vis;
 
+
         }
 
 

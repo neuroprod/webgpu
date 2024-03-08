@@ -507,6 +507,8 @@ export default class Main {
             if (checkHit) this.room.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.room.lightKitchen.getWorldPos());
             this.shadowPassCube2.setLightPos(this.room.lightLab.getWorldPos());
+            this.shadowPassCube3.setLightPos(this.room.lightDoor.getWorldPos())
+            this.shadowPassCube4.setLightPos(this.room.lightWall.getWorldPos())
             this.shadowPassCube5.setLightPos(this.room.lightWallLiving.getWorldPos())
             this.shadowPassCube6.setLightPos(this.room.lightTable.getWorldPos())
             this.lightRoomPass.setUniforms()

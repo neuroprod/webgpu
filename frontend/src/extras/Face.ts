@@ -26,6 +26,8 @@ export default class Face{
     private blink: number =-1;
     private nextBlink: number =0;
 private nextEyeMove =2;
+   isRandom: boolean =false;
+
     constructor(renderer,faceModel:Model) {
 
         this.model =faceModel;
@@ -37,9 +39,9 @@ private nextEyeMove =2;
 
         this.eyeLeftBase=new Vector4(0.61,0.34,0.1);
         this.eyeRightBase=new Vector4(0.38,0.32,0.1);
-        this.pupilLeftBase=new Vector4(0.39,0.35,0.03);
-        this.pupilRightBase=new Vector4(0.61,0.37,0.03);
-        this.mouthLeftBase=new Vector4(0.43,0.5,0.022);
+        this.pupilLeftBase=new Vector4(0.39,0.34,0.03);
+        this.pupilRightBase=new Vector4(0.63,0.352,0.03);
+        this.mouthLeftBase=new Vector4(0.420,0.493,0.022,0.000);
         this.mouthRightBase=new Vector4(0.56,0.51,0.02);
         this.setToBlink()
         this.setToBase()
@@ -81,6 +83,7 @@ private nextEyeMove =2;
         this.pupilRight.z  =this.pupilRightBase.z;
         this.blink =-1;
     }
+
     onUI(){
         UI.pushWindow("Face")
         if (UI.LButton("base")){
@@ -89,6 +92,11 @@ private nextEyeMove =2;
         if (UI.LButton("blink")){
             this.setToBlink()
         }
+        if (UI.LButton("intro")){
+            this.setToIntro()
+        }
+        this.isRandom = UI.LBool("random",this.isRandom);
+
         UI.floatPrecision=3
         UI.LVector("eyeLeft",this.eyeLeft)
         UI.LVector("eyeRight",this.eyeRight)
@@ -113,7 +121,7 @@ private nextEyeMove =2;
             }
         }
 
-        if(true){
+        if(this.isRandom){
             this.nextEyeMove-=Timer.delta
             if(this.nextEyeMove<0){
                 this.lookRandom();
@@ -132,4 +140,18 @@ private nextEyeMove =2;
     }
 
 
+    private setToIntro() {
+
+          this.setToBase()
+        this.pupilLeft.y  =0.331;
+        this.pupilRight.y  =0.347;
+        this.pupilRight.x  =0.619;
+    }
+
+    lookDown() {
+        this.isRandom =false;
+        this.setToBase()
+        this.pupilLeft.y  =0.364;
+        this.pupilRight.y  =0.38;
+    }
 }

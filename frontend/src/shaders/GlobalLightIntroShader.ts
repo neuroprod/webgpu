@@ -60,7 +60,7 @@ export default class GlobalLightIntroShader extends Shader{
             );
             v.normalize();
 
-            v.scale(.002);
+            v.scale(.005);
 
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";

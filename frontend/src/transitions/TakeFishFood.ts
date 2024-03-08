@@ -4,25 +4,40 @@ import {CURSOR} from "../ui/Cursor";
 
 export default class TakeFishFood extends Transition{
 
-    lockMouse =true
+    lockMouse =false
     set(onComplete: () => void){
         super.set(onComplete)
-
-        GameModel.characterHandler.setAnimationOnce("crunchDown",0.2,this.onCrunchDown.bind(this))
-
+        GameModel.textHandler.showHitTrigger("takeFishFood")
+       GameModel.characterHandler.setMixAnimation('lookdown',1,0.5,()=>{})
+        GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
     }
     onCrunchDown(){
-        GameModel.textHandler.showHitTrigger("takeFishFood")
-        GameModel.gameUI.cursor.show(CURSOR.NEXT)
+
+        GameModel.stateGrandpa =StateGrandpa.TAKE_FISH_FOOD;
+        GameModel.sound.playPickPants();
+        GameModel.renderer.modelByLabel["fishFoodHold"].visible = false
         this.lockMouse=false;
+        GameModel.characterHandler.setIdleAndTurn()
+        this.onComplete()
     }
     onMouseDown(){
-        if(this.lockMouse)return;
+       if(this.lockMouse)return;
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
+            this.lockMouse =true
 
-            GameModel.renderer.modelByLabel["fishFood"].visible =false;
+            GameModel.characterHandler.setMixAnimation('lookdown',0,0.5,()=>{})
+            GameModel.characterHandler.setAnimationOnce("takeFood",0.5,this.onCrunchDown.bind(this))
+            GameModel.gameUI.cursor.hide()
+            setTimeout(()=>{
+                GameModel.renderer.modelByLabel["fishFoodHold"].visible = true
+                GameModel.renderer.modelByLabel["fishFood"].visible =false;
+                GameModel.renderer.modelByLabel["fishFood"].enableHitTest=false;
+            },666);
+
+
+           /* GameModel.renderer.modelByLabel["fishFood"].visible =false;
             GameModel.renderer.modelByLabel["fishFood"].enableHitTest=false;
             GameModel.stateGrandpa =StateGrandpa.TAKE_FISH_FOOD;
             GameModel.sound.playPickPants();
@@ -33,7 +48,7 @@ export default class TakeFishFood extends Transition{
 
                 GameModel.characterHandler.setIdleAndTurn()
                 this.onComplete()
-            })
+            })*/
 
 
         }

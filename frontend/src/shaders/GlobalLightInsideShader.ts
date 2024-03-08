@@ -41,7 +41,7 @@ export default class GlobalLightInsideShader extends Shader{
         this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
         this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
         this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
-        this.addUniform("shadowSamples",new Vector4(1.0,4.0,2.0,0.0))
+        this.addUniform("shadowSamples",new Vector4(4.0,4.0,2.0,0.0))
         this.addTexture("shadowCube1",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
         this.addTexture("shadowCube3",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)

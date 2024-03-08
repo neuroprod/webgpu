@@ -11,7 +11,8 @@ export default class FeedFish extends Transition {
         this.clickState = 0
         GameModel.textHandler.showHitTrigger("feedFish")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
-
+        GameModel.characterHandler.setMixAnimation('lookdown',0.5,0.5,()=>{})
+        GameModel.characterHandler.face.lookDown()
     }
 
     onMouseDown() {
@@ -20,7 +21,8 @@ export default class FeedFish extends Transition {
             if (GameModel.textHandler.readNext()) {
                 this.clickState = 1
                 GameModel.gameUI.cursor.hide();
-                GameModel.renderer.modelByLabel["fishFoodHold"].visible = true
+                GameModel.characterHandler.setMixAnimation('lookdown',0,0.5,()=>{})
+                setTimeout(()=>{GameModel.renderer.modelByLabel["fishFoodHold"].visible = true},300);
                 GameModel.characterHandler.setAnimationOnce('feedFish', 0.2, this.feedComplete.bind(this))
 
             }
@@ -29,6 +31,7 @@ export default class FeedFish extends Transition {
             GameModel.gameUI.cursor.animate()
             if (GameModel.textHandler.readNext()) {
                 GameModel.gameUI.cursor.hide();
+                this.clickState =3;
                 this.onComplete()
 
             }
@@ -42,6 +45,8 @@ export default class FeedFish extends Transition {
         this.clickState = 2
         GameModel.textHandler.showHitTrigger("fishFoodDone")
             GameModel.gameUI.cursor.show(CURSOR.NEXT)
+        GameModel.characterHandler.face.setToBase()
+        GameModel.characterHandler.face.isRandom =true;
         this.onComplete()
     }
 }

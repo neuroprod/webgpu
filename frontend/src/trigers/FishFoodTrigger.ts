@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGrandpa, Transitions} from "../GameModel";
+import GameModel, { Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 import {Vector3} from "math.gl";
 
@@ -9,8 +9,8 @@ export default class FishFoodTrigger extends HitTrigger{
 
 
             let pot = GameModel.renderer.modelByLabel["fishFood"]
-            let world = pot.getWorldPos(new Vector3(0,0,-1.0))
-            GameModel.characterHandler.walkTo(world,-Math.PI,this.onCompleteWalk,false)
+            let world = pot.getWorldPos(new Vector3(-0.15,0,-0.4))
+            GameModel.characterHandler.walkTo(world,-Math.PI+0.3,this.onCompleteWalk,false)
         GameModel.hitObjectLabel=""
 
 

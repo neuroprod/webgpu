@@ -35,6 +35,10 @@ export default class AnimationMixer{
      let walking =this.animationsByName["walking"];
         walking.setCallBack(31*(1/30),()=>{GameModel.sound.playFootstep()})
         walking.setCallBack(11*(1/30),()=>{GameModel.sound.playFootstep()})
+
+
+       this.animationsByName["hitKey"].setCallBack(14*(1/30),()=>{GameModel.sound.playClick(2)})
+
     }
 
     addAnimations(animations: Array<Animation>) {

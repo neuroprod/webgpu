@@ -101,7 +101,7 @@ export default class Intro{
         this.fishFood =      GameModel.renderer.modelByLabel["fishFoodHold"];
 
         this.fishFood.visible =false;
-        this.modelsRoom.push(this.face,this.body,this.pants)
+        this.modelsRoom.push(this.face,this.body,this.pants,this.fishFood)
         this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel, this.fishFood)
 
         GameModel.characterHandler.rotate(0.1)

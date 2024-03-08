@@ -24,15 +24,17 @@
       "scene": 1,
       "object": "pictureFrame2",
       "copy": [
-        "The legendary golden\nunderpants of Emperor Zhangzong.\nGrandpa was obsessed by them.",
-        "They where stolen by\nGenghis Khan in 1210\nand are lost ever since."
+        "The legendary golden\nunderpants of Emperor\nZhangzong.",
+        "They where stolen by\nGenghis Khan in 1210\nand are lost ever since.",
+        "Grandpa was obsessed by them."
       ]
     },
     {
       "scene": 1,
       "object": "pictureFrame1",
       "copy": [
-        "Grandpa making friends\nin the Gobi desert."
+        "Grandpa visiting\nthe Mongolian steppe",
+        "Looking for the\ngolden underpants"
       ]
     },
     {
@@ -57,12 +59,20 @@
   ],
   "text": [
     {
-      "object": "intro",
+      "object": "intro_old",
       "copy": [
         "I like early mornings.",
         "Waking up with the birds.",
         "A cup of coffee at dawn.",
         "Watching the morning unfold."
+      ]
+    },
+    {
+      "object": "intro",
+      "copy": [
+        "bla bla.",
+        "blabla."
+
       ]
     },
     {
@@ -89,14 +99,13 @@
     {
       "object": "letsGoOutsideFirst",
       "copy": [
-        "Let's first go outside\nand get some\ninspiration.",
-        "and feed the fish."
+        "Let's feed the fish first."
       ]
     },
     {
       "object": "readMailDone",
       "copy": [
-        "Work can wait,\nlet's check outside."
+        "Work can wait,\nthe fish must be hungry."
       ]
     },
     {
@@ -198,7 +207,8 @@
     {
       "object": "millStart",
       "copy": [
-        "My old mill.\nIt can almost make\neverything."
+        "This machine\ncan almost make\neverything."
+
       ]
     },
     {
@@ -235,7 +245,6 @@
         "A letter from grandpa!",
         "UI letter:Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it",
         "So I will take it\nwith me to my grave.",
-        "wink wink ;)",
         "Grandpa"
       ]
     },
@@ -266,22 +275,21 @@
     {
       "object": "flowerPreBloom",
       "copy": [
-        "the blabla plant\nIt should flower any time now."
+        "the GLOWING FLOWER plant\nIt can bloom any time now."
       ]
     },
     {
       "object": "missingIngredient",
       "copy": [
-        "It took me a long time,\nbut almost ready",
-        "my own revolutionary underpants",
-        "I only need some flowers of\nthe blabla plant to make it work"
+        "Oh boy,\nits almost finished.",
+        "I only need some\nGLOWING FLOWER\nto make it work!"
       ]
     },
 
     {
       "object": "pickFlower",
       "copy": [
-        "Finaly, this will\nhelp me finish\nthe underpants",
+        "Finally, this will\nhelp me finish\nthe itching device",
         "I'll take it"
       ]
     },

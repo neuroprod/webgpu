@@ -15,13 +15,13 @@ export default class FindHunterPants extends Transition{
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
-            GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.2,this.animationComplete.bind(this))
-
+         //   GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.2,this.animationComplete.bind(this))
+            GameModel.characterHandler.setAnimationOnce("takeFood",0.5,this.animationComplete.bind(this))
 
         }
     }
     animationComplete(){
-        GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2);
+       // GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2);
         GameModel.renderer.modelByLabel["hunterPants"].visible =false;
         GameModel.renderer.modelByLabel["hunterPants"].enableHitTest =false;
         GameModel.pantsFound.push(Pants.hunter);
