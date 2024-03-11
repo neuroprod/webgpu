@@ -103,7 +103,7 @@
     {
       "object": "letsGoOutsideFirst",
       "copy": [
-        "But let's *feed the FISH* first."
+        "Let's *feed the FISH* first."
       ]
     },
     {
@@ -226,7 +226,7 @@
     {
       "object": "millRun",
       "copy": [
-        "So, lets make that key.",
+        "So, lets make that *KEY*.",
         "It's going to take a\nwhile before its finished.",
         "Let's do some other things\nin the meantime."
       ]

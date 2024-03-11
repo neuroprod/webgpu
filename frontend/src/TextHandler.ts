@@ -220,7 +220,7 @@ export default class TextHandler {
                     hitTextAlpha: 0, duration: 0.5, onComplete: () => {
                         this.fontMeshRenderer.removeText(this.currentHitText);
                         this.currentHitText.destroy()
-console.log( this.currentHitText,"??")
+
                         this.currentHitText = null;
 
                     }
@@ -228,7 +228,7 @@ console.log( this.currentHitText,"??")
             } else {
                 this.fontMeshRenderer.removeText(this.currentHitText);
                 this.currentHitText.destroy();
-                console.log( this.currentHitText,"??")
+
                 this.currentHitText = null;
             }
 

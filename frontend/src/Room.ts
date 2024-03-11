@@ -242,7 +242,7 @@ export default class Room extends Scene {
             let tl = gsap.timeline()
             tl.set(this,{sparkScale:0.0},0);
             tl.to(this,{sparkScale:0.17,duration:0.2},0);
-            tl.to(this,{sparkScale:0.0,duration:0.3},0.2);
+            tl.to(this,{sparkScale:0.0,duration:0.3},0.4);
         }
 
 

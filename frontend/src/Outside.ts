@@ -165,12 +165,12 @@ export default class Outside extends Scene {
         if(this.nextSparkTime<0 ){
 
 
-            this.nextSparkTime =2+Math.random()*2;
+            this.nextSparkTime =3+Math.random()*4;
             if(!this.setSpark())return;
             let tl = gsap.timeline()
             tl.set(this,{sparkScale:0.0},0);
             tl.to(this,{sparkScale:0.17,duration:0.2},0);
-            tl.to(this,{sparkScale:0.0,duration:0.3},0.2);
+            tl.to(this,{sparkScale:0.0,duration:0.3},0.4);
         }
 
 

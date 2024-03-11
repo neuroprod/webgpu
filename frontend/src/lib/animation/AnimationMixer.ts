@@ -10,7 +10,7 @@ export default class AnimationMixer{
     private extraAnime:Animation;
     private anime1:Animation;
     private anime2:Animation;
-    private currentAnimation: Animation;
+    public currentAnimation: Animation;
     constructor() {
 
     }
@@ -126,6 +126,7 @@ export default class AnimationMixer{
     }
 
     setAnimation(name: string,startTime =0) {
+
         this.anime1 =  this.anime2
        this.anime2 =this.animationsByName[name]
         this.anime2.setStartValue()

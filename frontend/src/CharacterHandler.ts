@@ -241,10 +241,13 @@ export default class CharacterHandler {
 
     setIdleAndTurn() {
 
-
-        this.setAnimation("idle", 0.5, 0.0);
+        if (this.animationMixer.currentAnimation.label == "idle" && this.animationMixer.mixValue == 1) {
+            this.setAnimation("idle", 0.5, 0.0);
+        }
+        if (!this.tl) this.tl = gsap.timeline();
         this.tl.call(this.rotateTo.bind(this), [0, 0.5], 0)
-        // this.tl.to(this, {"characterRot":0, duration: 0.5, ease: "power1.inOut"},0.0)
+
+
     }
 
     setMixAnimation(anime: string, value: number, time: number, animationComplete: () => any = () => {

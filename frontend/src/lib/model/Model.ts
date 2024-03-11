@@ -40,8 +40,7 @@ export default class Model extends Object3D {
         this.modelTransform = new ModelTransform(renderer, label + "_transform")
         this.buttonGroupSetting.color.setHex("#b32512")
         this.keepAlive =keepAlive;
-        if(keepAlive)
-        this.renderer.addModel(this);
+        if(keepAlive) this.renderer.addModel(this);
     }
 
     public update() {
@@ -97,7 +96,7 @@ try{
     }
 
     destroy() {
-        console.log(this.keepAlive)
+
         if(this.keepAlive) this.renderer.removeModel(this);
         if(this.mesh)this.mesh.destroy();
 
