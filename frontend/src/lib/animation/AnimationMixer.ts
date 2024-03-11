@@ -9,7 +9,7 @@ export default class AnimationMixer{
     public mixValue: number=1;
     private extraAnime:Animation;
     private anime1:Animation;
-    private anime2:Animation;
+   public anime2:Animation;
     public currentAnimation: Animation;
     constructor() {
 
@@ -129,6 +129,7 @@ export default class AnimationMixer{
 
         this.anime1 =  this.anime2
        this.anime2 =this.animationsByName[name]
+        this.currentAnimation =this.anime2
         this.anime2.setStartValue()
         this.anime2.time=0;
         this.mixValue =0;

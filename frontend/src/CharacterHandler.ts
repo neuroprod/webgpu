@@ -240,11 +240,10 @@ export default class CharacterHandler {
     }
 
     setIdleAndTurn() {
+        console.log("setIdleandturn", this.animationMixer.anime2.label, this.animationMixer.mixValue, this.targetRot)
+        if (this.animationMixer.anime2.label == "idle" && this.animationMixer.mixValue == 1 && this.targetRot == 0) return;
 
-        if (this.animationMixer.currentAnimation.label == "idle" && this.animationMixer.mixValue == 1) {
-            this.setAnimation("idle", 0.5, 0.0);
-        }
-        if (!this.tl) this.tl = gsap.timeline();
+        this.setAnimation("idle", 0.5, 0.0);
         this.tl.call(this.rotateTo.bind(this), [0, 0.5], 0)
 
 
@@ -270,7 +269,7 @@ export default class CharacterHandler {
 
     private rotateTo(angle: number, time: number) {
 
-
+this.targetRot =angle;
         this.rotateStart.from(this.characterRoot.getRotation());
         this.rotateTarget.identity();
         this.rotateTarget.rotateY(angle);

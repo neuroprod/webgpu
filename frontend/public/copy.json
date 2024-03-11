@@ -103,7 +103,7 @@
     {
       "object": "letsGoOutsideFirst",
       "copy": [
-        "Let's *feed the FISH* first."
+        "Let's *feed the FISH* first!"
       ]
     },
     {
@@ -198,7 +198,7 @@
     {
       "object": "findHunter",
       "copy": [
-        "Looks like some nice underpants",
+        "Looks like some\nnice underpants!",
         "A hunter must have lost it\nwhile roaming this woods.",
         "I'll take them!"
       ]
@@ -208,13 +208,13 @@
       "copy": [
         "Grandpa kept his notes\nin that bookcase",
         "But it's locked.",
-        "Maybe I should\n*make a key* for it."
+        "Maybe I should\n*make a KEY* for it."
       ]
     },
     {
       "object": "bookCaseLockedMillRunning",
       "copy": [
-        "It's still locked.\nThe key will be finished soon."
+        "It's still locked.\nThe *KEY* will be finished soon."
       ]
     },
     {
