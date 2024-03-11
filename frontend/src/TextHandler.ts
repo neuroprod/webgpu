@@ -13,6 +13,7 @@ import {BlendFactor, BlendOperation} from "./lib/WebGPUConstants";
 import {isArray, NumericArray, Vector3, Vector4} from "math.gl";
 import gsap from "gsap";
 import UI from "./lib/UI/UI";
+import Timer from "./lib/Timer";
 
 export default class TextHandler {
 
@@ -80,6 +81,7 @@ export default class TextHandler {
 
     public update() {
         if (this.currentHitText) {
+            this.currentHitText.material.uniforms.setUniform("time",Timer.time)
             this.currentHitText.setPositionV(this.hitTextTarget)
             this.currentHitText.material.uniforms.setUniform("alpha", this.hitTextAlpha)
             this.currentHitText.material.uniforms.setUniform("fontEdge", this.fontEdge)
@@ -135,6 +137,7 @@ export default class TextHandler {
 
             copy = "Missing copy for:\n" + objectLabel;
         }
+
         this.currentHitText = new Model(this.renderer, "text_" + objectLabel, false);
 
         this.currentHitText.material = new Material(this.renderer, "fontmaterial", new FontShader(this.renderer, "fontShader"))
@@ -194,7 +197,7 @@ export default class TextHandler {
 
         this.showChars = Math.min(10, this.numChars)
         if (this.numChars > 10) {
-Image
+
             gsap.to(this, {showChars: this.numChars, ease: "none", duration: (this.numChars - 10) / 90})
         }
         if (GameModel.screenHeight > 800) d *= 800 / GameModel.screenHeight;
@@ -217,7 +220,7 @@ Image
                     hitTextAlpha: 0, duration: 0.5, onComplete: () => {
                         this.fontMeshRenderer.removeText(this.currentHitText);
                         this.currentHitText.destroy()
-
+console.log( this.currentHitText,"??")
                         this.currentHitText = null;
 
                     }
@@ -225,6 +228,7 @@ Image
             } else {
                 this.fontMeshRenderer.removeText(this.currentHitText);
                 this.currentHitText.destroy();
+                console.log( this.currentHitText,"??")
                 this.currentHitText = null;
             }
 

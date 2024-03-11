@@ -253,7 +253,7 @@ class GameModel {
     private goldSelect: Array<SelectItem>;
     private floorLabels: string[];
     private triggers: Array<Trigger> = []
-    private currentTransition: Transition;
+    currentTransition: Transition;
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
     private girlSelect: Array<SelectItem>;

@@ -97,6 +97,7 @@ try{
     }
 
     destroy() {
+        console.log(this.keepAlive)
         if(this.keepAlive) this.renderer.removeModel(this);
         if(this.mesh)this.mesh.destroy();
 

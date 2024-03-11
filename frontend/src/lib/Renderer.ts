@@ -208,6 +208,7 @@ console.log(this.device)
 
 
     removeModel(model: Model) {
+        console.log(this.uniformGroups.length)
         let index = this.models.indexOf(model)
         if(index>=0)
             this.models= this.models.splice(index,1)

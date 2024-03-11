@@ -15,14 +15,17 @@ import Fish from "./extras/Fish";
 import FogPlanes from "./extras/FogPlanes";
 import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
-import GameModel from "./GameModel";
-import {Vector3} from "math.gl";
+import GameModel, {StateFasion, StateGrandpa, StateHunter} from "./GameModel";
+import {NumericArray, Vector3} from "math.gl";
 
 import GlassGlowShader from "./shaders/GlassGlowShader";
 
 import SkyShader from "./shaders/SkyShader";
 import RenderSettings from "./RenderSettings";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
+import SparkShader from "./extras/SparkShader";
+import Plane from "./lib/meshes/Plane";
+import gsap from "gsap";
 
 
 export default class Outside extends Scene {
@@ -45,6 +48,9 @@ export default class Outside extends Scene {
     private materialGlass: Material;
     private materialGlow: Material;
     private sky: Model;
+    private spark: Model;
+    public nextSparkTime =3;
+    private sparkScale: number =0;
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
@@ -96,6 +102,11 @@ export default class Outside extends Scene {
         gMat.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGirl_MRA.webp"])
         gMat.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGirl_Normal.webp"])
 
+
+        this.spark = new Model(this.renderer,"spark")
+        this.spark.material =new Material(this.renderer,"sparkMaterial", new SparkShader(this.renderer,"spark"))
+        this.spark.material.depthWrite =false;
+        this.spark.mesh = new Plane(this.renderer)
     }
 
     public update() {
@@ -130,6 +141,7 @@ export default class Outside extends Scene {
                 }
             }
         }
+        this.updateSparks();
     // this.lightGraveHolderPosMove.from(this.lightGraveHolderPos)
       // this.lightGraveHolderPosMove.y +=Math.sin(Timer.time*2)
 
@@ -137,6 +149,41 @@ export default class Outside extends Scene {
         //GameModel.dayNight
         // UI.LFloat('offset',0)
         //  this.glFTLoader.root.setPosition(this.renderer.ratio * 4 / 2 +UI.LFloat('offset',0), -1.5, 0)
+    }
+    setSpark()
+    {
+        if(GameModel.stateHunter==StateHunter.START   ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["hunterPants"].getWorldPos().add(new Vector3(-0.1,0.0,0.1) as NumericArray ));
+            return true;
+        }
+
+        return false;
+    }
+    updateSparks()
+    {
+        if(!GameModel.currentTransition) this.nextSparkTime-=Timer.delta;
+        if(this.nextSparkTime<0 ){
+
+
+            this.nextSparkTime =2+Math.random()*2;
+            if(!this.setSpark())return;
+            let tl = gsap.timeline()
+            tl.set(this,{sparkScale:0.0},0);
+            tl.to(this,{sparkScale:0.17,duration:0.2},0);
+            tl.to(this,{sparkScale:0.0,duration:0.3},0.2);
+        }
+
+
+        if(this.sparkScale<=0.001){
+            this.spark.visible =false;
+        }else{
+            this.spark.visible =true;
+        }
+        if(this.spark.visible) {
+
+            this.spark.setEuler(Math.PI / 2, 0, -Timer.time*5);
+            this.spark.setScale(this.sparkScale,this.sparkScale,this.sparkScale);
+        }
     }
 
     makeTransParent() {
@@ -146,7 +193,7 @@ export default class Outside extends Scene {
             this.modelRendererTrans.addModel(m)
 
         }
-
+        this.modelRendererTrans.addModel(this.spark)
         for (let m of this.glFTLoader.modelsGlass) {
             let needsDepth =true
             if (m.label == "waterTop_G") {

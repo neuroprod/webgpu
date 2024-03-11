@@ -15,11 +15,17 @@ import Clock from "./extras/Clock";
 import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
 import Machine from "./extras/Machine";
-import GameModel from "./GameModel";
+import GameModel, {StateFasion, StateGrandpa} from "./GameModel";
 
 
 import Model from "./lib/model/Model";
-
+import Material from "./lib/core/Material";
+import Plane from "./lib/meshes/Plane";
+import SparkShader from "./extras/SparkShader";
+import Timer from "./lib/Timer";
+import gsap from "gsap";
+import {NumericArray, Vector3} from "math.gl";
+import UI from "./lib/UI/UI";
 
 export default class Room extends Scene {
     leftHolder: Object3D;
@@ -51,6 +57,9 @@ export default class Room extends Scene {
     private plant: Model;
     private pot: Model;
     private posterLab: Model;
+    private spark: Model;
+    public nextSparkTime =3;
+    private sparkScale: number =0;
 
     constructor(renderer: Renderer, preloader: PreLoader) {
 
@@ -65,7 +74,7 @@ export default class Room extends Scene {
 
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
         new TextureLoader(this.renderer, preloader, "glowPantsProgress.png", {});
-
+        new TextureLoader(this.renderer, preloader, "spark.png", {});
     }
 
     init() {
@@ -142,6 +151,13 @@ export default class Room extends Scene {
         //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
         //  this.modelRenderer.addModel(this.windowOutside);
 
+        this.spark = new Model(this.renderer,"spark")
+        this.spark.material =new Material(this.renderer,"sparkMaterial", new SparkShader(this.renderer,"spark"))
+
+        this.spark.material.depthWrite =false;
+
+        this.spark.mesh = new Plane(this.renderer)
+
     }
 
     makeTransParent() {
@@ -154,6 +170,7 @@ export default class Room extends Scene {
             this.modelRendererTrans.addModel(m)
 
         }
+        this.modelRendererTrans.addModel(this.spark)
         this.modelRendererTrans.addModel(this.mill.sparkModel)
 
     }
@@ -200,6 +217,45 @@ export default class Room extends Scene {
         this.osc1Screen.update();
         this.mill.update();
         this.machine.update();
+        this.updateSparks()
+    }
+    setSpark()
+    {
+        if(GameModel.stateFashion==StateFasion.START || GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE  || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
+            this.spark.setPositionV(this.laptopScreen.getWorldPos(new Vector3(-0.55,0.1,-0.4)))
+            return true;
+        }
+        if(GameModel.stateGrandpa ==StateGrandpa.START  ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["fishFood"].getWorldPos().add(new Vector3(0,0.1,0.1) as NumericArray ));
+            return true;
+        }
+        return false;
+    }
+    updateSparks()
+    {
+        if(!GameModel.currentTransition) this.nextSparkTime-=Timer.delta;
+        if(this.nextSparkTime<0 ){
+
+
+            this.nextSparkTime =2+Math.random()*2;
+            if(!this.setSpark())return;
+            let tl = gsap.timeline()
+            tl.set(this,{sparkScale:0.0},0);
+            tl.to(this,{sparkScale:0.17,duration:0.2},0);
+            tl.to(this,{sparkScale:0.0,duration:0.3},0.2);
+        }
+
+
+        if(this.sparkScale<=0.001){
+            this.spark.visible =false;
+        }else{
+            this.spark.visible =true;
+        }
+        if(this.spark.visible) {
+
+            this.spark.setEuler(Math.PI / 2, 0, -Timer.time*5);
+            this.spark.setScale(this.sparkScale,this.sparkScale,this.sparkScale);
+        }
     }
 
 

@@ -41,9 +41,7 @@ export default class UIBitmapModel extends UIModel {
 
         if(!t){
             this.textureLoader = new TextureLoader(renderer,preLoader,url,{});
-          /*  this.textureLoader.onComplete =()=>{
-                this.makeMesh()
-            }*/
+
         }else{
             this.textureLoader =t as TextureLoader;
 

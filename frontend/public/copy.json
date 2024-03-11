@@ -8,12 +8,12 @@
     {
       "scene": 1,
       "object": "coffee",
-      "copy": ["An empty coffee mug."]
+      "copy": ["I finished my coffee."]
     },
     {
       "scene": 1,
       "object": "bookPicture1",
-      "copy": ["Grandpa","He died choking\non a plastic wrapper","Such a tragedy."]
+      "copy": ["Grandpa!","He died bla bla","Such a tragedy."]
     },
     {
       "scene": 1,
@@ -24,8 +24,8 @@
       "scene": 1,
       "object": "pictureFrame2",
       "copy": [
-        "The legendary golden\nunderpants of Emperor\nZhangzong.",
-        "They where stolen by\nGenghis Khan in 1210\nand are lost ever since.",
+        "The legendary\n*GOLDEN UNDERPANTS*\nof Emperor Zhangzong.",
+        "They where stolen by\nGenghis Khan\nand are lost ever since.",
         "Grandpa was obsessed by them."
       ]
     },
@@ -34,21 +34,24 @@
       "object": "pictureFrame1",
       "copy": [
         "Grandpa visiting\nthe Mongolian steppe",
-        "Looking for the\ngolden underpants"
+        "Looking for the\n*GOLDEN UNDERPANTS*"
       ]
     },
     {
       "scene": 1,
       "object": "painting2",
       "copy": [
-        "'The SeaLion'\nGrandpa used to travel\nthe world with this ship."
+        "Grandpa used to travel\nthe world with this ship.",
+        "looking for the\n*GOLDEN UNDERPANTS*"
       ]
     },
     {
       "scene": 1,
       "object": "painting",
       "copy": [
-        "Just a painting.","I like it!"
+        "Just a painting.",
+        "I like it!"
+
       ]
     },
     {
@@ -70,7 +73,7 @@
     {
       "object": "intro",
       "copy": [
-        "bla bla.",
+        "bla bla. *BLA*",
         "blabla."
 
       ]
@@ -79,39 +82,40 @@
       "object": "introMail",
       "copy": [
         "I think its going to\nbe a great day!",
-        "But let's read\nthat mail first."
+        "But let's read\nthat *MAIL* first."
       ]
     },
     {
       "object": "readMailFirst",
       "copy": [
-        "Maybe I should read\nthat mail first?"
+        "Maybe I should read\nthat *MAIL* first?"
       ]
     },
     {
       "object": "readMail",
       "copy": [
-        "An UNDERWEAR\nSIMULATOR...",
-        "The AD AGENCY wants\nme to make an\nunderwear simulator",
+        "An *UNDERWEAR SIMULATOR*",
+        "...",
+        "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
         "Oh well."
       ]
     },
     {
       "object": "letsGoOutsideFirst",
       "copy": [
-        "Let's feed the fish first."
+        "But let's *feed the FISH* first."
       ]
     },
     {
       "object": "readMailDone",
       "copy": [
-        "Work can wait,\nthe fish must be hungry."
+        "Work can wait,\nthe *FISH* must be hungry."
       ]
     },
     {
       "object": "makeTriangleFirst",
       "copy": [
-        "Let's get some work done first."
+        "Let's get some work done."
       ]
     },
 
@@ -120,7 +124,14 @@
       "copy": [
         "Lets start with\nrendering a triangle",
         "The building block of worlds",
-        "and underwear simulators"
+        "and *UNDERWEAR SIMULATORS*"
+      ]
+    },
+    {
+      "object": "makeTriangleDone",
+      "copy": [
+        "That's a nice start! I'll\nfinnish it up later"
+
       ]
     },
     {
@@ -132,7 +143,8 @@
     {
       "object": "makeWebsitesFirst",
       "copy": [
-        "Let's finnish the\nunderwear simulator"
+        "Let's finnish the\n*UNDERWEAR SIMULATOR*",
+        "The AD A"
       ]
     },
     {
@@ -152,14 +164,15 @@
       "object": "readMailAward",
       "copy": [
         "Lots of sales\nfor the client.",
-        "And the ad agency\nwon a lot of awards.",
-        "They also\nsend me a package!"
+        "And the Ad Agency\nwon a lot of *AWARDS*.",
+        "They seem to like that.",
+        "And they\nsend me a *PACKAGE*?"
       ]
     },
     {
       "object": "checkMailBox",
       "copy": [
-        "Let check the mailbox.\nMaybe it already arrived."
+        "Let's check the *MAILBOX*.\nMaybe it already arrived."
       ]
     },
     {
@@ -171,7 +184,7 @@
     {
       "object": "findFashionPants",
       "copy": [
-        "That must be the\npackage from\nthe agency.",
+        "That must be the\n*PACKAGE* from\nthe Ad Agency.",
         "I wonder what's inside."
       ]
     },
@@ -179,7 +192,7 @@
       "object": "readCross",
       "copy": [
         "Grandpa's grave.",
-        "He loved these woods."
+        "bla bla"
       ]
     },
     {
@@ -195,20 +208,19 @@
       "copy": [
         "Grandpa kept his notes\nin that bookcase",
         "But it's locked.",
-        "Maybe I should\nmake a key for it."
+        "Maybe I should\n*make a key* for it."
       ]
     },
     {
       "object": "bookCaseLockedMillRunning",
       "copy": [
-        "It's still locked.\nThe Key will be finished soon."
+        "It's still locked.\nThe key will be finished soon."
       ]
     },
     {
       "object": "millStart",
       "copy": [
         "This machine\ncan almost make\neverything."
-
       ]
     },
     {
@@ -230,13 +242,13 @@
     {
       "object": "bookCaseMillFinished",
       "copy": [
-        "I should check\non that key."
+        "I should check\non that *KEY*."
       ]
     },
     {
       "object": "takeKey",
       "copy": [
-        "Lets see if I can\nopen that bookcase now."
+        "Lets see if I can\nopen that *BOOKCASE* now."
       ]
     },
     {
@@ -275,14 +287,15 @@
     {
       "object": "flowerPreBloom",
       "copy": [
-        "the GLOWING FLOWER plant\nIt can bloom any time now."
+        "the *GLOWING FLOWER* plant\nIt can bloom any time now."
       ]
     },
     {
       "object": "missingIngredient",
       "copy": [
-        "Oh boy,\nits almost finished.",
-        "I only need some\nGLOWING FLOWER\nto make it work!"
+        "Oh boy,\nit's almost finished.",
+        "This will protected me from the ",
+        "I only need some\n*GLOWING FLOWER*\nto make it work!"
       ]
     },
 
@@ -302,35 +315,35 @@
     {
       "object": "hightechDoneSoon",
       "copy": [
-        "It just needs it\ntime to finnish up"
+        "It just needs some\ntime to finnish up."
       ]
     },
     {
       "object": "findGlowPants",
       "copy": [
-        "Looks like it worked",
-        "Let's take them."
+        "Looks like it worked!",
+        "Let's try them on."
       ]
     },
     {
       "object": "fishHungry",
       "copy": [
         "The fish seem hungry\nI should feed them.",
-        "I think I have some\nfish food inside."
+        "I think I have some\n*FISH FOOD* inside."
       ]
     },
     {
       "object": "takeFishFood",
       "copy": [
-        "FOOD FOR FISH tm",
-        "Made from fish, for fish.",
-        "I'm going to need that."
+        "*FOOD FOR FISH* tm",
+        "Made from fish,\nfor fish.",
+        "The favourite meal\nof my wet friends."
       ]
     },
     {
       "object": "feedFish",
       "copy": [
-        "Here you go Friends\nSome delicious food!"
+        "Here you go guys!\nSome delicious food!"
       ]
     },
     {
@@ -351,13 +364,13 @@
       "copy": [
         "The fish left me a gift",
         "It's the old underpants\nof grandpa!",
-        "I assumed he was\nburied with them?"
+        "I assumed he was\nburied in them?"
       ]
     },
     {
       "object": "birdHouseFine",
       "copy": [
-        "A family of robins\nlived there\nthis summer",
+        "A family of robins\nlived there\nthis summer.",
         "I hope they come\nback next year."
       ]
     },
@@ -365,14 +378,14 @@
       "object": "birdHouseFell",
       "copy": [
         "Oh, the wind must\nhave blown it crooked",
-        "I can't seem to reach it"
+        "I can't seem to reach it."
       ]
     },
     {
       "object": "takeStick",
       "copy": [
         "That's a nice stick!",
-        "I'll keep that"
+        "I'll keep that!"
       ]
     },
     {

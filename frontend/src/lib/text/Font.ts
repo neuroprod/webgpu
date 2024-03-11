@@ -74,19 +74,21 @@ export default class Font {
         }
 
         let vertices = new Float32Array(textLength * 4 * 3)
-        let uv = new Float32Array(textLength * 4 * 2)
+        let uv = new Float32Array(textLength * 4 * 4)
         let indices = new Uint16Array(textLength * 2 * 3)
         let verticesCount = 0;
         let uvCount = 0;
         let indicesCount = 0;
         let indicesPos =0;
         let yPos =0;
+        let isBold =0;
         for (let l of lines) {
             let lineLength = l.length;
             let lineSize=0
 
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
+                if(c==42){continue}
                 let char = this.charArray[c];
 
                 lineSize+=char.xadvance+spacing
@@ -96,9 +98,14 @@ export default class Font {
             let xPos =0;
             if(align==TEXT_ALIGN.CENTER) xPos=-lineSize/2 ;
             if(align==TEXT_ALIGN.RIGHT) xPos=-lineSize ;
+
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
-
+                if(c==42){
+                    isBold++;
+                    isBold%=2;
+                    continue
+                }
                 let char = this.charArray[c];
 
                 let offX = char.xOffset;
@@ -110,30 +117,32 @@ export default class Font {
 
                 uv[uvCount++] = char.uvPos.x;
                 uv[uvCount++] = char.uvPos.y;
-
+                uv[uvCount++] = isBold;
+                uv[uvCount++] =  xPos + offX;
                 vertices[verticesCount++] = char.w + xPos + offX;
                 vertices[verticesCount++] = -offY+yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x + char.uvSize.x;
                 uv[uvCount++] = char.uvPos.y;
-
-
+                uv[uvCount++] = isBold;
+                uv[uvCount++] =  xPos + offX;
                 vertices[verticesCount++] = xPos + offX;
                 vertices[verticesCount++] = -char.h - offY+yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x;
                 uv[uvCount++] = char.uvPos.y + char.uvSize.y;
-
+                uv[uvCount++] = isBold;
+                uv[uvCount++] =  xPos + offX;
                 vertices[verticesCount++] = char.w + xPos + offX;
                 vertices[verticesCount++] = -char.h - offY+yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x + char.uvSize.x;
                 uv[uvCount++] = char.uvPos.y + char.uvSize.y;
-
-
+                uv[uvCount++] = isBold;
+                uv[uvCount++] =  xPos + offX;
 
 
                 indices[indicesCount++] = indicesPos;
@@ -154,7 +163,7 @@ export default class Font {
         let m = new Mesh(this.renderer, "fontText");
 
 
-        m.setUV0(uv)
+        m.setTangents(uv)
         m.setVertices(vertices)
         m.setIndices(indices)
 
