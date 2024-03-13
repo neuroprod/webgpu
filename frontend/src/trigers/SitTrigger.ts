@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel from "../GameModel";
+import GameModel, {Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class SitTrigger extends HitTrigger{
@@ -15,8 +15,8 @@ export default class SitTrigger extends HitTrigger{
     }
     onCompleteWalk(){
 
-
-        GameModel.characterHandler.sit()
+        GameModel.setTransition(Transitions.SIT)
+       // GameModel.characterHandler.sit()
 
         // GameModel.setScene(Scenes.OUTSIDE)
         //let door = GameModel.renderer.modelByLabel["door"]

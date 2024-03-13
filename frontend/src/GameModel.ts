@@ -72,6 +72,7 @@ import LightOutsideRenderPass from "./renderPasses/LightOutsideRenderPass";
 import GrandpaFishTrigger from "./trigers/GrandpaFishTrigger";
 import AnimationMixer from "./lib/animation/AnimationMixer";
 import WearPants from "./transitions/WearPants";
+import Sit from "./transitions/Sit";
 
 export enum StateGold {
     START,
@@ -181,7 +182,8 @@ export const Transitions =
         TAKE_KEY:  new TakeKey(),
         OPEN_BOOKCASE: new OpenBookcase(),
         TAKE_SHOVEL :new TakeShovel(),
-        DIG_GRAVE:new DigGrave()
+        DIG_GRAVE:new DigGrave(),
+        SIT:new Sit(),
 
     }
 

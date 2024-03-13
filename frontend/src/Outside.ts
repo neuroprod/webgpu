@@ -156,6 +156,10 @@ export default class Outside extends Scene {
             this.spark.setPositionV(GameModel.renderer.modelByLabel["hunterPants"].getWorldPos().add(new Vector3(-0.1,0.0,0.1) as NumericArray ));
             return true;
         }
+        if(GameModel.renderer.modelByLabel["grandpaPants"].visible ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["grandpaPants"].getWorldPos().add(new Vector3(-0.1,0.0,0.1) as NumericArray ));
+            return true;
+        }
 
         return false;
     }

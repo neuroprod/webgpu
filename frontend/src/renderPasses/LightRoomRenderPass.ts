@@ -173,11 +173,11 @@ public setUniforms(){
     this.globalLightMaterial.uniforms.setUniform("midColorRight", this.midColorRight)
     this.globalLightMaterial.uniforms.setUniform("bottomColorRight", this.bottomColorRight)
     if(GameModel.roomCamOffset>0.9){
-        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[1,4,2,0] as MathArray)
+        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[1,8,2,0] as MathArray)
     }else if(GameModel.roomCamOffset<-0.9){
 
 
-        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[4,1,4,0] as MathArray)
+        this.globalLightMaterial.uniforms.setUniform("shadowSamples",[8,1,8,0] as MathArray)
     }else{
         this.globalLightMaterial.uniforms.setUniform("shadowSamples",[1,1,1,0] as MathArray)
     }

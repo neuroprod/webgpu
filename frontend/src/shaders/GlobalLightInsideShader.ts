@@ -71,7 +71,7 @@ export default class GlobalLightInsideShader extends Shader{
             );
             v.normalize();
 
-          v.scale(.002);
+          v.scale(.001);
 
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";

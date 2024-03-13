@@ -16,7 +16,7 @@ export default class FindHunterPants extends Transition{
         if(GameModel.textHandler.readNext()){
 
          //   GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.2,this.animationComplete.bind(this))
-            GameModel.characterHandler.setAnimationOnce("takeFood",0.5,this.animationComplete.bind(this))
+            GameModel.characterHandler.setAnimationOnce("takeHunter",0.5,this.animationComplete.bind(this))
 
         }
     }
@@ -29,6 +29,7 @@ export default class FindHunterPants extends Transition{
         GameModel.sound.playPickPants();
         GameModel.gameUI.cursor.hide()
         GameModel.stateHunter =StateHunter.HAVE_PANTS;
+        GameModel.characterHandler.setIdleAndTurn()
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.hunter)
     }
