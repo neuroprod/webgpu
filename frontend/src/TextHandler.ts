@@ -245,6 +245,7 @@ export default class TextHandler {
         }
         if (isArray(ht.copy)) {
 
+            console.log(ht.count)
             if (ht.random) {
                 this.hideHitTrigger();
                 return true;

@@ -18,7 +18,7 @@
     {
       "scene": 1,
       "object": "bookPicture2",
-      "copy": ["I don't know who they are."]
+      "copy": ["replace."]
     },
     {
       "scene": 1,
@@ -49,7 +49,7 @@
       "scene": 1,
       "object": "painting",
       "copy": [
-        "Just a painting.",
+        "A map of the ",
         "I like it!"
 
       ]
@@ -73,8 +73,10 @@
     {
       "object": "intro",
       "copy": [
-        "bla bla. *BLA*",
-        "blabla."
+        "Two years have passed since *GRANDPA* Died.",
+        "He never found the legendary *GOLDEN UNDERPANTS* of Genghis Khan",
+        "I should keep looking for it.",
+        "yet my time has been consumed by crafting websites"
 
       ]
     },
@@ -122,7 +124,7 @@
     {
       "object": "makeTriangle",
       "copy": [
-        "Lets start with\nrendering a triangle",
+        "First things first!\nLet's start with\nrendering a triangle",
         "The building block of worlds",
         "and *UNDERWEAR SIMULATORS*"
       ]
@@ -130,7 +132,7 @@
     {
       "object": "makeTriangleDone",
       "copy": [
-        "That's a nice start! I'll\nfinnish it up later"
+        "That's a nice start!\nI'll finnish it up later"
 
       ]
     },
@@ -151,7 +153,14 @@
       "object": "makeWebsite",
       "copy": [
         "bla bla bal",
-        "Lets send it to the agency\nI hope they like it"
+        "Let's send it to the agency\nI hope they like it"
+      ]
+    },
+
+    {
+      "object": "makeWebsiteDone",
+      "copy": [
+        "Let's see if they like it."
       ]
     },
     {
@@ -163,10 +172,10 @@
     {
       "object": "readMailAward",
       "copy": [
-        "Lots of sales\nfor the client.",
+        "The client liked\nthe simulator",
         "And the Ad Agency\nwon a lot of *AWARDS*.",
         "They seem to like that.",
-        "And they\nsend me a *PACKAGE*?"
+        "Ow, they\nsend me a *PACKAGE*?"
       ]
     },
     {
@@ -185,7 +194,7 @@
       "object": "findFashionPants",
       "copy": [
         "That must be the\n*PACKAGE* from\nthe Ad Agency.",
-        "I wonder what's inside."
+        "I wonder what's inside?"
       ]
     },
     {
@@ -226,7 +235,7 @@
     {
       "object": "millRun",
       "copy": [
-        "So, lets make that *KEY*.",
+        "So, let's make that *KEY*.",
         "It's going to take a\nwhile before its finished.",
         "Let's do some other things\nin the meantime."
       ]
@@ -248,16 +257,19 @@
     {
       "object": "takeKey",
       "copy": [
-        "Lets see if I can\nopen that *BOOKCASE* now."
+        "Let's see if I can\nopen that *BOOKCASE* now."
       ]
     },
     {
       "object": "findNote",
       "copy": [
-        "A letter from grandpa!",
-        "UI letter:Hi Grandson, I discover the secret of\nthe golden underpants,\nBut the world is not ready for it",
-        "So I will take it\nwith me to my grave.",
-        "Grandpa"
+        "A letter from grandpa!"
+      ]
+    },
+    {
+      "object": "findNoteEnd",
+      "copy": [
+        "Let's check that *GRAVE*!"
       ]
     },
     {
@@ -269,7 +281,7 @@
     {
       "object": "takeShovel",
       "copy": [
-        "That will do!"
+        "I will need that!"
       ]
     },
     {

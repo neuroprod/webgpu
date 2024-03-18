@@ -11,6 +11,7 @@ import Menu from "./Menu";
 import InventoryDetail from "./InventoryDetail";
 import EnterButton from "./EnterButton";
 import Cursor, {CURSOR} from "./Cursor";
+import Note from "./Note";
 
 
 export default class GameUI {
@@ -29,6 +30,7 @@ export default class GameUI {
     private inventoryDetail: InventoryDetail;
     private enterButton: EnterButton;
     private state: UIState = UIState.PRELOAD;
+    private note: Note;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
 
@@ -64,6 +66,9 @@ export default class GameUI {
         this.enterButton.visible = false;
 
         this.root.addChild(this.enterButton);
+
+        this.note = new Note(renderer, preLoader)
+        this.root.addChild(this.note)
         // this.test.setEuler(Math.PI,0,0)
 
         this.menuButton.hide()
@@ -154,11 +159,18 @@ export default class GameUI {
             this.inventory.show()
             this.menu.hide()
             this.inventoryDetail.hide()
+            this.note.hide();
         }
         if (state == UIState.INVENTORY_DETAIL) {
             this.menuButton.hide()
             this.inventory.hide()
             this.inventoryDetail.show(data)
+
+        }
+        if (state == UIState.SHOW_NOTE) {
+            this.menuButton.hide()
+            this.inventory.hide()
+            this.note.show()
 
         }
         this.state = state

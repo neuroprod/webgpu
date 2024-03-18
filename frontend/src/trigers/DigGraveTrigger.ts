@@ -10,10 +10,10 @@ export default class DigGraveTrigger extends HitTrigger{
         }else{
             let obj = GameModel.renderer.modelByLabel["cross"]
             let world = obj.getWorldPos()
-            world.z-=1.5;
-            world.x+=1;
+            world.z-=1.0;
+            world.x+=0.6;
             GameModel.hitObjectLabel=""
-            GameModel.characterHandler.walkTo(world,-0.5,this.onCompleteWalk)
+            GameModel.characterHandler.walkTo(world,-0.2,this.onCompleteWalk)
             GameModel.outlinePass.setModel(null);
         }
     }
