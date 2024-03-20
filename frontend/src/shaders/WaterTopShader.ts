@@ -4,7 +4,7 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
+import {fresnelSchlickRoughness, getWorldFromUVDepth, simplex3D, ssr} from "./ShaderChunks";
 import {Vector4} from "math.gl";
 import {AddressMode} from "../lib/WebGPUConstants";
 
@@ -61,6 +61,7 @@ ${this.getShaderUniforms(2)}
 ${getWorldFromUVDepth()}
 ${fresnelSchlickRoughness()}
 ${ssr()}
+${simplex3D()}
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -125,9 +126,10 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
 
 let foam = mix(vec3(1.0,1.0,0.8),vec3(0.05,0.05,0.1),uniforms.dayNight);
 
- var d =(abs((dist+(normalText1.y+normalText2.y)*0.4)*20.0-uniforms.time*20.0))%1.0;
-d =abs(d-0.5)*abs((normalText1.x+normalText2.x))*80.0*(1- smoothstep(0.0,0.2,dist));
-  result =mix(foam,result,clamp(1.0-(d+(1.0-smoothstep(0.0,0.05 ,dist))),0.0,1.0));
+var f = clamp(smoothstep(0.0,0.14 ,dist)-(1.0-smoothstep(0.1,0.2 ,uv0.x)),0.0,1.0);
+ f+=snoise3d(vec3f(uv0.xy*50.0,uniforms.time*10.0))*0.25 +0.25;
+f = smoothstep(0.1,1.0,f);
+  result =mix(foam,result,f);
   return vec4( result,1.0);
  
 }
