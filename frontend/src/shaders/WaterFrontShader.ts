@@ -6,6 +6,7 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
 import {Vector4} from "math.gl";
+import RenderSettings from "../RenderSettings";
 
 export default class WaterFrontShader extends Shader{
 
@@ -28,9 +29,9 @@ export default class WaterFrontShader extends Shader{
 
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
         this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
+        this.addTexture("noise",this.renderer.texturesByLabel["noiseTexture.png"],"float");
 
-
-        this.addSampler("mySampler",GPUShaderStage.FRAGMENT);
+        this.addSampler("mySampler",GPUShaderStage.FRAGMENT,"mirror-repeat");
 
         this.needsTransform =true;
         this.needsCamera=true;
@@ -81,7 +82,8 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     let textureSize =vec2<f32>( textureDimensions(gDepth));
     var uvScreen = (projPos.xy/projPos.w)*0.5+0.5;
     uvScreen.y =1.0-uvScreen.y;
-
+     let uv =uv0+vec2(uniforms.time*0.05,0.0)*3.0;
+  uvScreen +=(textureSample(noise,   mySampler, uv).xy-vec2(0.5))*0.007;
     let uvScreenI = vec2<i32>(floor(uvScreen  *textureSize));
     let worldS =getWorldFromUVDepth(uvScreen ,textureLoad(gDepth,  uvScreenI ,0).x); 
  
@@ -94,13 +96,13 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     var uvRef = (pPos.xy/pPos.w)*0.5+0.5;
     uvRef.y = 1.0-uvRef.y;
 
-    var refractColor = textureSampleLevel(reflectTexture,   mySampler, uvRef,dist*dist).xyz;
+    var refractColor = textureSampleLevel(reflectTexture,   mySampler,   uvScreen,dist*dist).xyz;
  let fog = mix(vec3(0.0,0.5,0.5),vec3(0.0),uniforms.dayNight);
  
- refractColor =mix(refractColor,fog,smoothstep(0.0,2.0,dist));
+ refractColor =mix(refractColor,fog,smoothstep(0.0,2.0,dist)+0.1);
    refractColor*=1.0-(uniforms.dayNight*0.5);
    let result = refractColor;
- 
+ //return vec4( textureSample(noise,   mySampler, uv).xyz*0.1,1.0);
   return vec4( result,1.0);
  
 }

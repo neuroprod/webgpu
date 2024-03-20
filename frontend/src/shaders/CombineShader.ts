@@ -21,6 +21,7 @@ export default class CombineShader extends Shader{
         this.addTexture("glassTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("refTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("lightTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+        this.addTexture("pantsTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         // this.addSampler("mySampler");
 
     }
@@ -75,7 +76,8 @@ fn mainFragment(@location(0)  uv0: vec2f) -> ColorOutput
     
     let glass  =textureLoad(glassTexture,  uvPos ,0);
     color =mix(color,glass.xyz,vec3(glass.w));
-    
+    let pants  =textureLoad(pantsTexture,  uvPos ,0);
+    color =mix(color,pants.xyz,vec3(pants.w));
     
     let brightness =min( max(color.r, max(color.g, color.b)),2.0);
  

@@ -27,6 +27,7 @@ export default class WaterTopShader extends Shader{
         this.addTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"], "unfilterable-float")
         this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
         this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
+        this.addTexture("noise",this.renderer.texturesByLabel["noiseTexture.png"],"float");
 
         this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer));
         this.addTexture("mraTexture",DefaultTextures.getWhite(this.renderer));

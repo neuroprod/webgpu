@@ -1,4 +1,15 @@
 class UIData {
+    get work(): boolean {
+        return this._work;
+    }
+
+    set work(value: boolean) {
+        if (this._work  != value) {
+            this._work  = value;
+            this.save()
+        }
+    }
+    private _work: boolean =false;
     get useTimestamp(): boolean {
         return this._useTimestamp;
     }

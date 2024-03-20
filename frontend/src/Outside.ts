@@ -116,7 +116,7 @@ export default class Outside extends Scene {
         this.leaves.update()
         //GameModel.dayNight
         this.waterTop.material.uniforms.setUniform("time", Timer.time * 0.05)
-
+        this.waterFront.material.uniforms.setUniform("time", Timer.time);
         this.waterFront.material.uniforms.setUniform("dayNight", GameModel.dayNight)
         this.waterTop.material.uniforms.setUniform("dayNight", GameModel.dayNight)
 

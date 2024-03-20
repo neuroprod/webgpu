@@ -15,7 +15,7 @@ export default class Mesh extends ObjectGPU {
     public hasIndices: boolean = false;
 
     public hitTestObject:HitTestObject;
-
+    public saveData:boolean =false;
 
     private buffers: Array<GPUBuffer> = [];
     private bufferMap: Map<string, GPUBuffer> = new Map<string, GPUBuffer>();
@@ -29,7 +29,9 @@ export default class Mesh extends ObjectGPU {
 
 
     }
-
+    setAttribute(name:string,data: Float32Array) {
+        this.createBuffer(data, name);
+    }
     setVertices(vertices: Float32Array) {
         this.numVertices = vertices.length;
         this.createBuffer(vertices, "aPos");

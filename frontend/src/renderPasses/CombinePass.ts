@@ -57,6 +57,7 @@ export default class CombinePass extends RenderPass{
         this.blitMaterial.uniforms.setTexture("glassTexture",this.renderer.texturesByLabel["GlassPass"])
         this.blitMaterial.uniforms.setTexture("refTexture",this.renderer.texturesByLabel["ReflectionPass"])
         this.blitMaterial.uniforms.setTexture("lightTexture",this.renderer.texturesByLabel["LightPass"])
+        this.blitMaterial.uniforms.setTexture("pantsTexture",this.renderer.texturesByLabel["PantsPass"])
         this.blit = new Blit(renderer, 'blitCombine', this.blitMaterial)
     }
     onSettingsChange() {

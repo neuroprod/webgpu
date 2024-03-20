@@ -73,6 +73,7 @@ import GrandpaFishTrigger from "./trigers/GrandpaFishTrigger";
 import AnimationMixer from "./lib/animation/AnimationMixer";
 import WearPants from "./transitions/WearPants";
 import Sit from "./transitions/Sit";
+import Pants3D from "./extras/Pants3D";
 
 export enum StateGold {
     START,
@@ -208,6 +209,7 @@ export enum Scenes {
 }
 
 class GameModel {
+    public compVisible =false
     public stateHunter = StateHunter.START
     public millState = MillState.OFF;
     public renderer: Renderer;
@@ -267,6 +269,7 @@ class GameModel {
     minRoomSize =4.5
     animationMixer: AnimationMixer;
     drawCount: number =0;
+    pants3D: Pants3D;
 
 
     constructor() {

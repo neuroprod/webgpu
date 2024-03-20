@@ -33,6 +33,7 @@ export default class TextHandler {
     private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.53);
     private numChars: number;
     private showChars = 10;
+    private keepRight: boolean =false;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
         this.jsonLoader = new JSONLoader("copy", preLoader)
@@ -94,8 +95,8 @@ export default class TextHandler {
         }
     }
 
-    showHitTrigger(objectLabel: string) {
-
+    showHitTrigger(objectLabel: string,keepRight:boolean=false) {
+this.keepRight = keepRight;
         if(GameModel.characterHandler.isWalking){
             GameModel.characterHandler.setIdleAndTurn()
         }
@@ -177,7 +178,7 @@ export default class TextHandler {
             d = 0.50 / (p.distance(p2 as NumericArray));
 
 
-            if (p.x > 0) {
+            if (p.x > 0 &&  !this.keepRight) {
                 align = TEXT_ALIGN.RIGHT;
                 offset = -0.5;
             }
@@ -261,7 +262,7 @@ export default class TextHandler {
             return true
         }
 
-        this.showHitTrigger(this.objectLabel)
+        this.showHitTrigger(this.objectLabel,this.keepRight)
 
         return false;
     }

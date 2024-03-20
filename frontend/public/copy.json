@@ -96,7 +96,7 @@
     {
       "object": "readMail",
       "copy": [
-        "An *UNDERWEAR SIMULATOR*",
+        "An\n*UNDERWEAR\nSIMULATOR*?",
         "...",
         "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
         "Oh well."
@@ -117,7 +117,8 @@
     {
       "object": "makeTriangleFirst",
       "copy": [
-        "Let's get some work done."
+        "I should should start\nworking on the\n*UNDERWEAR SIMULATOR*"
+
       ]
     },
 
@@ -125,14 +126,14 @@
       "object": "makeTriangle",
       "copy": [
         "First things first!\nLet's start with\nrendering a triangle",
-        "The building block of worlds",
-        "and *UNDERWEAR SIMULATORS*"
+        "The building block\nof worlds!",
+        "and\n*UNDERWEAR\nSIMULATORS!*"
       ]
     },
     {
       "object": "makeTriangleDone",
       "copy": [
-        "That's a nice start!\nI'll finnish it up later"
+        "That's a nice start!\nI'll finnish it up later."
 
       ]
     },
@@ -153,20 +154,20 @@
       "object": "makeWebsite",
       "copy": [
         "bla bla bal",
-        "Let's send it to the agency\nI hope they like it"
+        "And send it to the agency!"
       ]
     },
 
     {
       "object": "makeWebsiteDone",
       "copy": [
-        "Let's see if they like it."
+        "I hope they like it!"
       ]
     },
     {
       "object": "websiteDone",
       "copy": [
-        "I hope they like it"
+        "I hope they like it!"
       ]
     },
     {

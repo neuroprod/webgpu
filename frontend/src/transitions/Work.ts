@@ -1,24 +1,35 @@
 import Transition from "./Transition";
 import GameModel, {StateFasion, StateGirl, StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
+import {PantsState} from "../extras/Pants3D";
 
 export default class Work extends Transition{
 
 public state =0;
+public count =0;
+
     set(onComplete: () => void){
         super.set(onComplete)
         this.state =0;
+
+
+        this.count =0;
         GameModel.characterHandler.startTyping()
         if(GameModel.stateFashion ==StateFasion.CAN_MAKE_TRIANGLE){
-            GameModel.textHandler.showHitTrigger("makeTriangle")
+            GameModel.pants3D.setState(PantsState.StartPants)
+
+            GameModel.textHandler.showHitTrigger("makeTriangle",true)
             GameModel.stateFashion = StateFasion.MAKE_TRIANGLE
             GameModel.gameUI.cursor.show(CURSOR.NEXT)
             GameModel.stateHighTech =StateHighTech.GROW_FLOWER;
             GameModel.stateGirl =StateGirl.BIRD_HOUSE_FELL;
 
         }  if(GameModel.stateFashion ==StateFasion.CAN_FINISH_WEBSITE){
-            GameModel.textHandler.showHitTrigger("makeWebsite")
-            GameModel.stateFashion = StateFasion.FINISH_WEBSITE
+            GameModel.textHandler.showHitTrigger("makeWebsite",true)
+            GameModel.stateFashion = StateFasion.FINISH_WEBSITE;
+
+
+            GameModel.pants3D.setState(PantsState.StartPantsEnd);
         }
       //  GameModel.setLaptopState(LaptopState.TRIANGLE)
 
@@ -27,6 +38,17 @@ public state =0;
 
         if( this.state==1 )return;
         GameModel.gameUI.cursor.animate()
+        if(  this.state==0){
+            this.count++ ;
+            if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE) {
+                if (this.count == 1) GameModel.pants3D.setState(PantsState.AddTriangles)
+                if (this.count == 2) GameModel.pants3D.setState(PantsState.MakeShape)
+                if (this.count == 3) GameModel.pants3D.setState(PantsState.finishTriangle)
+            }else{
+                if (this.count == 1) GameModel.pants3D.setState(PantsState.EndPants)
+
+            }
+        }
 
         if( this.state==0 &&GameModel.textHandler.readNext()){
 
@@ -38,16 +60,16 @@ public state =0;
             world.x-=0.5;
 
             GameModel.characterHandler.walkTo(world,0,this.onEndWalkDone.bind(this))
-
+            if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE)
+            { GameModel.stateFashion =StateFasion.MAKE_TRIANGLE_DONE;}
+            if(GameModel.stateFashion ==StateFasion.FINISH_WEBSITE)
+            { GameModel.stateFashion =StateFasion.FINISH_WEBSITE_DONE}
 
         }
 
         if(this.state==2 && GameModel.textHandler.readNext() ){
             GameModel.gameUI.cursor.hide()
-            if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE)
-            { GameModel.stateFashion =StateFasion.MAKE_TRIANGLE_DONE;}
-            if(GameModel.stateFashion ==StateFasion.FINISH_WEBSITE)
-            { GameModel.stateFashion =StateFasion.FINISH_WEBSITE_DONE}
+
             this.onComplete()
         }
 
@@ -55,9 +77,9 @@ public state =0;
     onEndWalkDone(){
         this.state =2;
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
-        if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE)
+        if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE_DONE)
         { GameModel.textHandler.showHitTrigger("makeTriangleDone")}
-        if(GameModel.stateFashion ==StateFasion.FINISH_WEBSITE)
+        if(GameModel.stateFashion ==StateFasion.FINISH_WEBSITE_DONE)
         { GameModel.textHandler.showHitTrigger("makeWebsiteDone")}
 
     }

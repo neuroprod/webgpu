@@ -59,6 +59,7 @@ import UIData from "./UIData";
 import Drawing from "./drawing/Drawing";
 import Intro from "./Intro";
 import {NumericArray} from "math.gl";
+import Pants3D from "./extras/Pants3D";
 
 export default class Main {
     public mouseRay: Ray;
@@ -123,6 +124,7 @@ export default class Main {
     private roomCount: number =0;
     private outsideCount: number =0;
     private updateShadowOutside: boolean =false;
+    private pants3D: Pants3D;
 
 
     constructor(canvas: HTMLCanvasElement) {
@@ -182,7 +184,7 @@ export default class Main {
         this.timeStampQuery = new TimeStampQuery(this.renderer, this.numberOfQueries)
         this.glFTLoaderChar = new GLFTLoader(this.renderer, "character_animation2", this.preloader);
         this.intro = new Intro(this.renderer, this.preloader)
-
+        this.pants3D = new Pants3D(this.renderer, this.preloader)
 
         new TextureLoader(this.renderer, this.preloader, "brdf_lut.png", {});
         new TextureLoader(this.renderer, this.preloader, "BlueNoise.png", {});
@@ -234,7 +236,8 @@ export default class Main {
 
 
         this.gBufferPass = new GBufferRenderPass(this.renderer);
-
+        this.pants3D.init()
+        GameModel.pants3D =this.pants3D;
         this.aoPreCompDepth = new AOPreprocessDepth(this.renderer)
         this.gtaoPass = new GTAO(this.renderer);
         this.gtaoDenoise = new GTAOdenoise(this.renderer)
@@ -327,6 +330,9 @@ export default class Main {
 
 
         }
+
+
+      //  this.intro.modelRenderer.addModel(this.pants3D.pants)
 
 
         this.tick()
@@ -490,7 +496,7 @@ export default class Main {
             d.update()
         }
         GameModel.update()
-
+        this.pants3D.update();
         if (GameModel.currentScene == Scenes.PRELOAD) {
             this.intro.update();
             this.shadowPassCube1.setLightPos(this.introLight1.getWorldPos());
@@ -570,9 +576,11 @@ export default class Main {
         UIData.lightInside = UI.LBool("Light Inside", UIData.lightInside)
         UIData.lightOutside = UI.LBool("Light Outside", UIData.lightOutside)
         UIData.sceneObjects = UI.LBool("Scene Objects", UIData.sceneObjects)
+        UIData.work = UI.LBool("Work", UIData.work)
         UIData.face = UI.LBool("Face", UIData.face)
         UIData.animation = UI.LBool("Animations", UIData.animation)
         UIData.draw = UI.LBool("Draw", UIData.draw)
+
         UI.separator("Info");
         if (UI.LButton("Check on Github")) {
             window.open("https://github.com/neuroprod/webgpu", '_blank');
@@ -582,7 +590,7 @@ export default class Main {
 //
         if (UIData.face) this.characterHandler.face.onUI();
         //draw
-
+        if (UIData.work) this.pants3D.onUI()
         if (UIData.draw) this.drawer.onUI()
 
 //animation
@@ -711,7 +719,7 @@ export default class Main {
             this.outsideCount++;
 
         }
-
+        if(GameModel.compVisible) this.pants3D.pantsRenderPass.add();
         this.timeStampQuery.setStamp("ShadowPass");
         this.gBufferPass.add();
         this.timeStampQuery.setStamp("GBufferPass");
