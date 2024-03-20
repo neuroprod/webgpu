@@ -73,10 +73,10 @@
     {
       "object": "intro",
       "copy": [
-        "Two years have passed since *GRANDPA* Died.",
-        "He never found the legendary *GOLDEN UNDERPANTS* of Genghis Khan",
-        "I should keep looking for it.",
-        "yet my time has been consumed by crafting websites"
+        "Two years have passed\nsince *GRANDPA* Died.",
+        "He never found the legendary\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
+        "I should keep\nlooking for it."
+
 
       ]
     },
@@ -96,7 +96,7 @@
     {
       "object": "readMail",
       "copy": [
-        "An\n*UNDERWEAR\nSIMULATOR*?",
+        "An\n*UNDERWEAR\nSIMULATOR*",
         "...",
         "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
         "Oh well."
@@ -270,7 +270,7 @@
     {
       "object": "findNoteEnd",
       "copy": [
-        "Let's check that *GRAVE*!"
+        "Let's go check that *GRAVE*!"
       ]
     },
     {
@@ -306,7 +306,7 @@
     {
       "object": "missingIngredient",
       "copy": [
-        "Oh boy,\nit's almost finished.",
+        "bla bla ",
         "This will protected me from the ",
         "I only need some\n*GLOWING FLOWER*\nto make it work!"
       ]
@@ -418,7 +418,7 @@
     {
       "object": "samePants",
       "copy": [
-        "I'm already using them."
+        "I'm already using them?"
 
       ]
     },
@@ -428,6 +428,17 @@
       "copy": [
         "Looks great on me!","I like those!","A little bit tight.","So soft on my skin.","The support I need.","Fits like a glove."
 
+      ]
+    },   {
+      "object": "shouldFeedTheFish",
+      "copy": [
+        "The *FISH* must be hungry!"
+      ]
+    }, {
+      "random": true,
+      "object": "doStuffOutside",
+      "copy": [
+        "Let's keep exploring\nthe garden!", "I feel like I\nmissed something?"
       ]
     }
 

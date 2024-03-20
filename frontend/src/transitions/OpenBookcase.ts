@@ -38,6 +38,7 @@ export default class OpenBookcase extends Transition {
             GameModel.gameUI.setUIState(UIState.GAME_DEFAULT, null)
             GameModel.characterHandler.setAnimationOnce("crunchUp", 0.2, () => {
                 GameModel.textHandler.showHitTrigger("findNoteEnd")
+                GameModel.gameUI.cursor.show(CURSOR.NEXT)
                 GameModel.characterHandler.setIdleAndTurn()
                 this.state=4;
 
@@ -57,6 +58,7 @@ export default class OpenBookcase extends Transition {
         }
         else if (this.state == 4) {
             if (GameModel.textHandler.readNext()) {
+                GameModel.gameUI.cursor.hide();
                 this.onComplete();
             }
         }
