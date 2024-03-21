@@ -11,6 +11,11 @@ export default class DoorInsideTrigger extends HitTrigger{
             GameModel.setTransition(Transitions.TEXT_INFO,"readMailFirst")
             return;
         }
+        if(GameModel.stateFashion==StateFasion.CAN_READ_MAIL_MAILBOX && GameModel.roomCamOffset >0.1){
+
+            GameModel.setTransition(Transitions.TEXT_INFO,"readMailFirst")
+            return;
+        }
         if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE && GameModel.roomCamOffset>0){
 
             GameModel.setTransition(Transitions.TEXT_INFO,"makeTriangleFirst")

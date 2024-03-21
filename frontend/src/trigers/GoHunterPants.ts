@@ -1,11 +1,13 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, { Transitions} from "../GameModel";
+import GameModel, {StateGrandpa, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class GoHunterTrigger extends HitTrigger{
 
     protected click() {
-
+        if(GameModel.stateGrandpa==StateGrandpa.FEED_FISH){
+            GameModel.stateGrandpa =StateGrandpa.SHOW_GRANDPA_PANTS;
+        }
         let obj = GameModel.renderer.modelByLabel["hunterPants"]
         let world = obj.getWorldPos()
         world.z+=1.5;

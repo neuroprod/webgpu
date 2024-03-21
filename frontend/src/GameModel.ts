@@ -74,6 +74,7 @@ import AnimationMixer from "./lib/animation/AnimationMixer";
 import WearPants from "./transitions/WearPants";
 import Sit from "./transitions/Sit";
 import Pants3D from "./extras/Pants3D";
+import TextInfoLock from "./transitions/TextInfoLock";
 
 export enum StateGold {
     START,
@@ -155,7 +156,6 @@ export const Pants =
     }
 
 
-
 export const Transitions =
     {
         WEAR_PANTS: new WearPants(),
@@ -180,11 +180,13 @@ export const Transitions =
         FIND_GIRL_PANTS: new FindGirlpaPants(),
         TAKE_PACKAGE: new FindFasionPants(),
         FIND_GLOW_PANTS: new FindGlowPants(),
-        TAKE_KEY:  new TakeKey(),
+        TAKE_KEY: new TakeKey(),
         OPEN_BOOKCASE: new OpenBookcase(),
-        TAKE_SHOVEL :new TakeShovel(),
-        DIG_GRAVE:new DigGrave(),
-        SIT:new Sit(),
+        TAKE_SHOVEL: new TakeShovel(),
+        DIG_GRAVE: new DigGrave(),
+        SIT: new Sit(),
+        TEXT_INFO_LOCK: new TextInfoLock()
+
 
     }
 
@@ -209,7 +211,7 @@ export enum Scenes {
 }
 
 class GameModel {
-    public compVisible =false
+    public compVisible = false
     public stateHunter = StateHunter.START
     public millState = MillState.OFF;
     public renderer: Renderer;
@@ -250,27 +252,29 @@ class GameModel {
     //debugstuff
     devSpeed: boolean = false;
     debug: boolean = false;
-    startOutside: boolean =false;
+    startOutside: boolean = false;
     room: Room;
     outside: Outside;
     lastClickLabels: Array<string> = [];
     pointLightsByLabel: { [name: string]: PointLight } = {};
+    currentTransition: Transition;
+    lightOutsidePass: LightOutsideRenderPass;
+    introDraw: Drawing;
+    minRoomSize = 4.5
+    animationMixer: AnimationMixer;
+    drawCount: number = 0;
+    pants3D: Pants3D;
+    emptyValueCount = 0;
     private goldSelect: Array<SelectItem>;
     private floorLabels: string[];
     private triggers: Array<Trigger> = []
-    currentTransition: Transition;
     private millSelect: Array<SelectItem>;
     private highTechSelect: Array<SelectItem>;
     private girlSelect: Array<SelectItem>;
     private grandpaSelect: Array<SelectItem>;
     private fashionSelect: Array<SelectItem>;
-    lightOutsidePass: LightOutsideRenderPass;
-    introDraw: Drawing;
-    minRoomSize =4.5
-    animationMixer: AnimationMixer;
-    drawCount: number =0;
-    pants3D: Pants3D;
-
+    private prevTransition: Transition;
+    private stopCount: number = 0;
 
     constructor() {
 
@@ -286,7 +290,7 @@ class GameModel {
 
     set stateGold(value: StateGold) {
         if (value == StateGold.START) {
-            this.renderer.modelByLabel["shovel"].visible =true
+            this.renderer.modelByLabel["shovel"].visible = true
             this.renderer.modelByLabel["shovelHold"].visible = false;
         }
         if (value == StateGold.START_MILL) {
@@ -296,14 +300,14 @@ class GameModel {
 
             this.room.mill.setState(MillState.DONE)
         }
-        if(value==StateGold.FIND_NOTE || value==StateGold.GET_SHOVEL|| value==StateGold.GET_GOLD){
-            this.dayNight =1;
-            this.renderer.modelByLabel["grave"].enableHitTest =true
-            this.renderer.modelByLabel["cross"].enableHitTest =false
-        }else{
-            this.dayNight =0;
-            this.renderer.modelByLabel["grave"].enableHitTest =false
-            this.renderer.modelByLabel["cross"].enableHitTest =true
+        if (value == StateGold.FIND_NOTE || value == StateGold.GET_SHOVEL || value == StateGold.GET_GOLD) {
+            this.dayNight = 1;
+            this.renderer.modelByLabel["grave"].enableHitTest = true
+            this.renderer.modelByLabel["cross"].enableHitTest = false
+        } else {
+            this.dayNight = 0;
+            this.renderer.modelByLabel["grave"].enableHitTest = false
+            this.renderer.modelByLabel["cross"].enableHitTest = true
         }
         this._stateGold = value;
     }
@@ -403,9 +407,9 @@ class GameModel {
             this.renderer.modelByLabel["Bush3"].enableHitTest = false
         }
         if (value == StateHighTech.START_MACHINE) {
-            if(this.pantsFound.length>=5){
+            if (this.pantsFound.length >= 5) {
                 this.room.machine.start(true)
-            }else{
+            } else {
                 this.room.machine.start(true)
             }
 
@@ -429,18 +433,18 @@ class GameModel {
     get hitObjectLabel(): string {
         return this._hitObjectLabel;
     }
-    emptyValueCount =0;
+
     set hitObjectLabel(value: string) {
 
         if (value == this._hitObjectLabel) {
 
-            if(this.lastClickLabels.length){
-               if(! this.lastClickLabels.includes(value)) {
-                   this.emptyValueCount++;
-                   if (this.emptyValueCount > 5) {
-                       this.lastClickLabels = [];
-                   }
-               }
+            if (this.lastClickLabels.length) {
+                if (!this.lastClickLabels.includes(value)) {
+                    this.emptyValueCount++;
+                    if (this.emptyValueCount > 5) {
+                        this.lastClickLabels = [];
+                    }
+                }
 
             }
 
@@ -451,7 +455,7 @@ class GameModel {
 
             } else {
 
-                this.emptyValueCount =0;
+                this.emptyValueCount = 0;
                 return;
             }
 
@@ -521,6 +525,7 @@ class GameModel {
 
         this.mouseDownThisFrame = false
         this.catchMouseDown = false;
+        this.prevTransition = this.currentTransition;
         this.currentTransition = null;
         this.setUIState(UIState.GAME_DEFAULT)
     }
@@ -551,7 +556,7 @@ class GameModel {
         this.stateGirl = StateGirl.START;
         this.stateHighTech = StateHighTech.START;
         this.stateFashion = StateFasion.START;
-        this.stateGold =StateGold.START;
+        this.stateGold = StateGold.START;
     }
 
 
@@ -569,11 +574,11 @@ class GameModel {
     }
 
     usePants(id: number) {
-        if(this.currentPants==id){
-            this.setTransition(Transitions.WEAR_PANTS,"")
+        if (this.currentPants == id) {
+            this.setTransition(Transitions.WEAR_PANTS, "")
             return;
         }
-        this.setTransition(Transitions.WEAR_PANTS,id+"")
+        this.setTransition(Transitions.WEAR_PANTS, id + "")
         this.characterHandler.characterRot = 0;
         this.characterHandler.pullPants()
         this.currentPants = id;
@@ -605,7 +610,7 @@ class GameModel {
         this.triggers.push(new SitTrigger(Scenes.ROOM, "chair"));
         this.triggers.push(new GoWorkTrigger(Scenes.ROOM, "labtop"));
         this.triggers.push(new MillTrigger(Scenes.ROOM, ["mill", "millBed", "millControle", "millHead"]));
-        this.triggers.push(new BookCaseTrigger(Scenes.ROOM, ["bookCaseDoorRight","bookCaseDoorLeft"]));
+        this.triggers.push(new BookCaseTrigger(Scenes.ROOM, ["bookCaseDoorRight", "bookCaseDoorLeft"]));
         this.triggers.push(new FloorHitTrigger(Scenes.ROOM, ["_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]))
         this.triggers.push(new FloorHitTrigger(Scenes.OUTSIDE, ["_HitGround"]))
 
@@ -614,6 +619,39 @@ class GameModel {
         }
         this.floorLabels = ["_HitGround", "_HitRightRoom", "_HitLeftRoomCenter", "_HitLeftRoomRight", "_HitLeftRoomLeft"]
         this.stateHighTech = StateHighTech.START;
+    }
+
+    public stopWalking() {
+        if (this.characterHandler.isWalking) return
+        if (this.currentTransition != null) return
+        let s = this.prevTransition.name;
+        this.stopCount++
+        console.log(this.stopCount)
+// has outside pants and didnts start working && outside
+        if (this.pantsFound.length == 3 && this.stateFashion == StateFasion.READ_MAIL_DONE) {
+            if (this.stopCount % 3 == 0) {
+                this.setTransition(Transitions.TEXT_INFO_LOCK,"shouldDoWork")
+            }
+        }
+
+        if (s == "Inside") {
+
+            console.log("???????tip inside????????")
+        }
+        if (s == "Outside") {
+            if(this.stateGirl ==StateGirl.BIRD_HOUSE_FELL)
+            {
+                this.prevTransition =null;
+                this.setTransition(Transitions.TEXT_INFO_LOCK,"lookBirdHouse")
+            }else if(this.stateHighTech==StateHighTech.GROW_FLOWER){
+                this.prevTransition =null;
+                this.setTransition(Transitions.TEXT_INFO_LOCK,"lookFlower")
+            }else{
+                console.log("???????tip outside????????")
+            }
+
+        }
+
     }
 
     prepUI() {

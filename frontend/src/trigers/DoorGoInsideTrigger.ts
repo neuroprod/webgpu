@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGrandpa, StateHunter, Transitions} from "../GameModel";
+import GameModel, {StateGirl, StateGrandpa, StateHunter, Transitions} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 
@@ -25,6 +25,14 @@ export default class DoorGoInsideTrigger extends HitTrigger {
                 return;
             }
         }
+
+
+            if (GameModel.stateGirl == StateGirl.FIND_STICK || GameModel.stateGirl == StateGirl.BIRD_HOUSE_FELL) {
+
+                    GameModel.setTransition(Transitions.TEXT_INFO, "shouldFixBirdhouse");
+                return;
+            }
+
         let door = GameModel.renderer.modelByLabel["door"]
         let world = door.getWorldPos(new Vector3(0, 0, 1))
         GameModel.characterHandler.walkTo(world, 0, this.onCompleteWalk, true)

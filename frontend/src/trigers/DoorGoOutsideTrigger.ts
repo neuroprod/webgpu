@@ -1,12 +1,14 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, { Transitions} from "../GameModel";
+import GameModel, {StateGrandpa, Transitions} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 
 export default class DoorGoOutsideTrigger extends HitTrigger{
 
     protected click() {
-
+        if(GameModel.stateGrandpa==StateGrandpa.FEED_FISH){
+            GameModel.stateGrandpa =StateGrandpa.SHOW_GRANDPA_PANTS;
+        }
         let doorOutside = GameModel.renderer.modelByLabel["door_HO"]
         let world = doorOutside.getWorldPos(new Vector3(1,0,0))
         GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk,true)

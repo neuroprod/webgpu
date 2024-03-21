@@ -100,6 +100,7 @@ export default class CharacterHandler {
             onComplete: () => {
 
                 completeCall()
+                GameModel.stopWalking()
             }
         });
 
@@ -179,6 +180,7 @@ export default class CharacterHandler {
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
 
         this.tl.call(this.rotateTo.bind(this), [this.targetRot, 0.5], pos)
+
     }
 
     startTyping() {
@@ -227,6 +229,7 @@ export default class CharacterHandler {
         this.tl.to(this.animationMixer, {"mixValue": 1, duration: 0.5, ease: "none"}, pos)
 
         this.tl.call(this.rotateTo.bind(this), [this.targetRot, 0.5], pos)
+
     }
 
     pullPants() {
@@ -240,7 +243,7 @@ export default class CharacterHandler {
     }
 
     setIdleAndTurn() {
-        console.log("setIdleandturn", this.animationMixer.anime2.label, this.animationMixer.mixValue, this.targetRot)
+
         if (this.animationMixer.anime2.label == "idle" && this.animationMixer.mixValue == 1 && this.targetRot == 0) return;
 
         this.setAnimation("idle", 0.5, 0.0);

@@ -6,10 +6,8 @@ import RenderSettings from "../RenderSettings";
 
 export default class GoOutside extends Transition{
     set(onComplete: () => void){
+this.name="Outside"
 
-if(GameModel.stateGrandpa==StateGrandpa.FEED_FISH){
-    GameModel.stateGrandpa =StateGrandpa.SHOW_GRANDPA_PANTS;
-}
         let ts = Timeline.timeline({onComplete:onComplete})
 
 

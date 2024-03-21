@@ -8,6 +8,7 @@ export default class WearPants extends Transition {
 
     set(onComplete: () => void, data = "") {
         super.set(onComplete, data)
+
         this.lock=true;
         if (data == "") GameModel.characterHandler.setMixAnimation("lookdown",1,0.01)
         setTimeout(() => {

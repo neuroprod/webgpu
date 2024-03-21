@@ -7,7 +7,7 @@ import RenderSettings from "../RenderSettings";
 export default class GoInside extends Transition{
     set(onComplete: () => void){
 
-
+        this.name="Inside"
 
         let ts = Timeline.timeline({onComplete:onComplete})
 

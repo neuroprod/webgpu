@@ -74,9 +74,9 @@
       "object": "intro",
       "copy": [
         "Two years have passed\nsince *GRANDPA* Died.",
-        "He never found the legendary\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
-        "I should keep\nlooking for it."
-
+        "he always went\non adventures.",
+        "Looking for the\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
+        "Nothing ever seem\nto happen to me."
 
       ]
     },
@@ -125,9 +125,9 @@
     {
       "object": "makeTriangle",
       "copy": [
-        "First things first!\nLet's start with\nrendering a triangle",
+        "First things first!\nLet's start with\nrendering a triangle!",
         "The building block\nof worlds!",
-        "and\n*UNDERWEAR\nSIMULATORS!*"
+        "and\n*UNDERWEAR\nSIMULATORS*"
       ]
     },
     {
@@ -140,14 +140,13 @@
     {
       "object": "triangleDone",
       "copy": [
-       "First things first.\nThe underwear simulator\ncan wait."
+       "The underwear simulator\ncan wait."
       ]
     },
     {
       "object": "makeWebsitesFirst",
       "copy": [
-        "Let's finnish the\n*UNDERWEAR SIMULATOR*",
-        "The AD A"
+        "Let's finnish the\n*UNDERWEAR SIMULATOR*"
       ]
     },
     {
@@ -306,8 +305,8 @@
     {
       "object": "missingIngredient",
       "copy": [
-        "bla bla ",
-        "This will protected me from the ",
+        "My new *INVENTION*\nis almost ready!",
+
         "I only need some\n*GLOWING FLOWER*\nto make it work!"
       ]
     },
@@ -315,8 +314,8 @@
     {
       "object": "pickFlower",
       "copy": [
-        "Finally, this will\nhelp me finish\nthe itching device",
-        "I'll take it"
+        "Finally, this will\nhelp me finish\nmy *INVENTION*",
+        "I'll take it!"
       ]
     },
     {
@@ -335,7 +334,7 @@
       "object": "findGlowPants",
       "copy": [
         "Looks like it worked!",
-        "Let's try them on."
+        "Let's try them on!"
       ]
     },
     {
@@ -439,6 +438,31 @@
       "object": "doStuffOutside",
       "copy": [
         "Let's keep exploring\nthe garden!", "I feel like I\nmissed something?"
+      ]
+    },
+    {
+      "object": "shouldFixBirdhouse",
+      "copy": [
+        "I should try to fix\nthat *BIRDHOUSE*"
+      ]
+    },
+
+    {
+      "object": "shouldDoWork",
+      "copy": [
+        "I should start to\nwork on the\n*UNDERWEAR SIMULATOR*"
+      ]
+    },
+    {
+      "object": "lookBirdHouse",
+      "copy": [
+        "Looks like something's\nwrong with the *BIRDHOUSE*"
+      ]
+    },
+    {
+      "object": "lookFlower",
+      "copy": [
+        "Ow, seems like the\n*GLOWING FLOWER*\nis blooming!"
       ]
     }
 
