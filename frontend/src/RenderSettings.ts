@@ -112,8 +112,8 @@ class RenderSettings{
         this.onChange();
 
     }
-    fadeToBlack(duration=1){
-        gsap.to(this,{black:0.0,duration:duration,onUpdate:()=>{this.onChange()}});
+    fadeToBlack(duration=1,delay=0){
+        gsap.to(this,{black:0.0,duration:duration,delay:delay,onUpdate:()=>{this.onChange()}});
     }
     fadeToScreen(duration=1){
         gsap.to(this,{black:1,duration:duration,ease:"power2.in",onUpdate:()=>{this.onChange()}});

@@ -36,7 +36,7 @@ import ShadowPass from "./renderPasses/ShadowPass";
 import DOFPass from "./renderPasses/DOFPass";
 import PostRenderPass from "./renderPasses/PostRenderPass";
 import FXAARenderPass from "./renderPasses/FXAARenderPass";
-import GameModel, {Scenes, UIState} from "./GameModel";
+import GameModel, {Scenes, StateGold, UIState} from "./GameModel";
 import GameCamera from "./GameCamera";
 import Ray from "./lib/Ray";
 import Drawer from "./drawing/Drawer";
@@ -340,7 +340,36 @@ export default class Main {
     }
 
     setScene(scene: Scenes) {
+        if (scene == Scenes.PRELOAD) {
 
+
+            GameModel.roomCamOffset = 0;
+            GameModel.isLeftRoom = false;
+
+            // public floorHitIndicator: FloorHitIndicator;
+            GameModel.yMouseCenter = 1;
+            GameModel.yMouseScale = 1;
+            GameModel.sceneHeight = 2.5;
+
+
+            this.gBufferPass.modelRenderer = this.intro.modelRenderer
+            this.glassPass.modelRenderer = this.intro.modelRendererTrans;
+
+            this.shadowPassCube1.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube1.setLightPos(this.introLight1.getWorldPos())
+
+            this.shadowPassCube2.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube2.setLightPos(this.introLight2.getWorldPos())
+
+
+            this.shadowPassCube3.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube3.setLightPos(this.introLight3.getWorldPos())
+
+
+            this.shadowPassCube4.setModels(this.gBufferPass.modelRenderer.models);
+            this.shadowPassCube4.setLightPos(this.introLight4.getWorldPos())
+
+        }
         if (scene == Scenes.ROOM) {
             this.roomCount =0;
             GameModel.yMouseScale = 1
@@ -503,6 +532,7 @@ export default class Main {
             this.shadowPassCube2.setLightPos(this.introLight2.getWorldPos());
             this.shadowPassCube3.setLightPos(this.introLight3.getWorldPos());
             this.shadowPassCube4.setLightPos(this.introLight4.getWorldPos());
+
             GameModel.characterPos.set(-1, -1.2, -1);
             if(this.introDraw.progress>0.99){
                 this.loadingDraw.progress +=  (this.preloader.getProgress()-this.loadingDraw.progress    )   *0.05;
@@ -543,7 +573,7 @@ export default class Main {
     updateUI() {
 
         UI.pushWindow("Dev Settings")
-
+        UI.LFloatSlider(GameModel,"offsetY",-5,1)
         UI.LFloatSlider(GameModel,"sceneHeight",2,5)
         GameModel.textHandler.onUI()
         this.canvasRenderPass.onUI();
@@ -780,7 +810,7 @@ export default class Main {
     }
 
     private updateSceneHeight() {
-
+        if(GameModel.stateGold == StateGold.GET_GOLD) return;
         if (GameModel.currentScene == Scenes.ROOM) {
             let sw = this.renderer.ratio * 3;
 

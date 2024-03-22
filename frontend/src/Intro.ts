@@ -4,15 +4,13 @@ import GLFTLoader from "./GLFTLoader";
 import TextureLoader from "./lib/textures/TextureLoader";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Model from "./lib/model/Model";
-import GameModel from "./GameModel";
+import GameModel, {StateGold} from "./GameModel";
 import Plane from "./lib/meshes/Plane";
-import {render} from "react-dom";
 import Material from "./lib/core/Material";
 import SmokeShader from "./shaders/SmokeShader";
 import {CullMode} from "./lib/WebGPUConstants";
 import {NumericArray, Vector3} from "math.gl";
 import Timer from "./lib/Timer";
-import DefaultTextures from "./lib/textures/DefaultTextures";
 
 export default class Intro{
     private renderer: Renderer;
@@ -34,6 +32,8 @@ export default class Intro{
     private stick: Model;
     private shovel: Model;
     private fishFood: Model;
+    private skeleton: Model;
+    private skeletonPants: Model;
     constructor(renderer:Renderer,preloader:PreLoader) {
 
         this.renderer = renderer
@@ -74,6 +74,12 @@ export default class Intro{
         this.shovel.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/shovel_Color.webp"])
         this.shovel.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/shovel_MRA.webp"])
         this.shovel.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/shovel_Normal.webp"])
+
+
+            this.skeletonPants.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGold_Color.webp"])
+        this.skeletonPants.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGold_MRA.webp"])
+        this.skeletonPants.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsGold_Normal.webp"])
+
     }
     init(glFTLoaderChar:GLFTLoader)
     {
@@ -98,11 +104,16 @@ export default class Intro{
 
         this.stick = glFTLoaderChar.modelsByName["stickHold"]
         this.shovel = glFTLoaderChar.modelsByName["shovelHold"]
+
+        this.skeleton  = glFTLoaderChar.modelsByName["skeleton"]
+        this.skeletonPants = glFTLoaderChar.modelsByName["skeletonPants"]
+        this.skeletonPants.visible =false;
+        this.skeleton.visible =false;
         this.fishFood =      GameModel.renderer.modelByLabel["fishFoodHold"];
 
         this.fishFood.visible =false;
         this.modelsRoom.push(this.face,this.body,this.pants,this.fishFood)
-        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel, this.fishFood)
+        this.modelsOutside.push(this.face,this.body,this.pants,this.stick,this.shovel, this.fishFood, this.skeletonPants, this.skeleton)
 
         GameModel.characterHandler.rotate(0.1)
 
@@ -117,7 +128,11 @@ export default class Intro{
     }
     update(){
 
-
+if(GameModel.stateGold==StateGold.OUTRO){
+    this.smoke.visible =false;
+    this.coffee.visible =false;
+    return;
+}
 
         let pos = this.coffee.getWorldPos(this.coffeeOffset)
         if(this.smokePositions.length==0){

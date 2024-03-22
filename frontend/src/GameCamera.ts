@@ -1,7 +1,7 @@
 import Camera from "./lib/Camera";
 import {Vector2, Vector3} from "math.gl";
 import Renderer from "./lib/Renderer";
-import GameModel, {Scenes} from "./GameModel";
+import GameModel, {Scenes, StateGold} from "./GameModel";
 import Timer from "./lib/Timer";
 
 export default class GameCamera{
@@ -41,8 +41,9 @@ export default class GameCamera{
         let cameraPositionMap = new Vector3(-this.mouseTarget.x * 2.0, GameModel.yMouseCenter + this.mouseTarget.y, 10);
         this.camera.cameraWorld = cameraPositionMap.clone();
         this.camera.cameraWorld.x+=this.offsetX
+        this.camera.cameraWorld.y+=GameModel.offsetY
         //this.camera.cameraWorld.y-=1.5;
-        this.camera.cameraLookAt = new Vector3(cameraPositionMap.x+this.offsetX, cameraPositionMap.y, 0);
+        this.camera.cameraLookAt = new Vector3(cameraPositionMap.x+this.offsetX, cameraPositionMap.y+GameModel.offsetY, 0);
         let screenLocal = new Vector2(this.renderer.ratio * GameModel.sceneHeight,GameModel.sceneHeight)
 
         this.camera.fovy = Math.atan2(screenLocal.y / 2, cameraPositionMap.z) * 2;
@@ -55,7 +56,7 @@ export default class GameCamera{
 
     private getCameraOffsetX() {
 
-
+        if(GameModel.stateGold == StateGold.GET_GOLD) return -24.8;
         if(GameModel.currentScene ==Scenes.ROOM || GameModel.currentScene ==Scenes.PRELOAD){
 
             return GameModel.roomCamOffset*(this.renderer.ratio * GameModel.sceneHeight/2 +0.15);

@@ -4,7 +4,7 @@ import GBufferFaceShader from "../shaders/GbufferFaceShader";
 import UI from "../lib/UI/UI";
 import {Vector4} from "math.gl";
 import Timer from "../lib/Timer";
-
+import gsap from "gsap";
 export default class Face{
     private model: Model;
     private material: Material;
@@ -153,5 +153,10 @@ private nextEyeMove =2;
         this.setToBase()
         this.pupilLeft.y  =0.364;
         this.pupilRight.y  =0.38;
+    }
+
+    lookGold() {
+        gsap.to(this.pupilLeft,{y:0.3,x:0.371,delay:1})
+        gsap.to(this.pupilRight,{y:0.325,x:0.587,delay:1})
     }
 }

@@ -46,7 +46,7 @@ export default class StartGame extends Transition {
                 if (GameModel.startOutside) {
                     GameModel.setScene(Scenes.OUTSIDE)
 
-                    GameModel.characterPos.set(-5, 0, -1);
+                    GameModel.characterPos.set(-22, 0, -1);
                 } else {
                     GameModel.setScene(Scenes.ROOM)
                     GameModel.roomCamOffset = 1;

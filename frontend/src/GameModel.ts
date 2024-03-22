@@ -85,6 +85,7 @@ export enum StateGold {
     FIND_NOTE,
     GET_SHOVEL,
     GET_GOLD,
+    OUTRO,
 
 }
 
@@ -275,6 +276,7 @@ class GameModel {
     private fashionSelect: Array<SelectItem>;
     private prevTransition: Transition;
     private stopCount: number = 0;
+    offsetY: number =0;
 
     constructor() {
 
@@ -309,6 +311,18 @@ class GameModel {
             this.renderer.modelByLabel["grave"].enableHitTest = false
             this.renderer.modelByLabel["cross"].enableHitTest = true
         }
+        if(value == StateGold.GET_GOLD){
+           this.renderer.modelByLabel["cross"].setEuler(Math.PI/2,0.5,0)
+            this.renderer.modelByLabel["grave"].setPosition(-24.0,0,-1.3)
+            this.characterPos.set(-24.8,-1,-2)
+            this.offsetY =-0.5
+            this.sceneHeight =2.5;
+        }if(value == StateGold.OUTRO){
+            this.offsetY =-1.45;
+            this.sceneHeight =2.5;
+        }
+
+
         this._stateGold = value;
     }
 
@@ -630,7 +644,7 @@ class GameModel {
 // has outside pants and didnts start working && outside
         if (this.pantsFound.length == 3 && this.stateFashion == StateFasion.READ_MAIL_DONE) {
             if (this.stopCount % 3 == 0) {
-                this.setTransition(Transitions.TEXT_INFO_LOCK,"shouldDoWork")
+                this.setTransition(Transitions.TEXT_INFO_LOCK, "shouldDoWork")
             }
         }
 
@@ -639,14 +653,17 @@ class GameModel {
             console.log("???????tip inside????????")
         }
         if (s == "Outside") {
-            if(this.stateGirl ==StateGirl.BIRD_HOUSE_FELL)
-            {
-                this.prevTransition =null;
-                this.setTransition(Transitions.TEXT_INFO_LOCK,"lookBirdHouse")
-            }else if(this.stateHighTech==StateHighTech.GROW_FLOWER){
-                this.prevTransition =null;
-                this.setTransition(Transitions.TEXT_INFO_LOCK,"lookFlower")
-            }else{
+            if (this.stateGirl == StateGirl.BIRD_HOUSE_FELL) {
+                this.prevTransition = null;
+                this.setTransition(Transitions.TEXT_INFO_LOCK, "lookBirdHouse")
+            } else if (this.stateHighTech == StateHighTech.GROW_FLOWER) {
+                this.prevTransition = null;
+                this.setTransition(Transitions.TEXT_INFO_LOCK, "lookFlower")
+
+            } else if (this.stateFashion == StateFasion.GET_FASION_PANTS) {
+                this.prevTransition = null;
+                this.setTransition(Transitions.TEXT_INFO_LOCK, "checkMailForPackage")
+            } else {
                 console.log("???????tip outside????????")
             }
 

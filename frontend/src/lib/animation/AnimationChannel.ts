@@ -20,10 +20,13 @@ export default class AnimationChannel{
 
         this.name = type+target.label;
         this.type =type;
-        this.startTime =startTime;
-        this.stopTime=stopTime
+        this.startTime =startTime*2;
+        this.stopTime=stopTime*2
         this.interpolation =interpolation;
         this.timeData =timeData;
+        for(let i =1;i<this.timeData.length;i++){
+            this.timeData[i]*=2;
+        }
         this.target=target;
         if(this.timeData.length==2  ){
              this.hasAnime =false;

@@ -397,7 +397,7 @@
       "object": "takeStick",
       "copy": [
         "That's a nice stick!",
-        "I'll keep that!"
+        "I can use that!"
       ]
     },
     {
@@ -463,6 +463,12 @@
       "object": "lookFlower",
       "copy": [
         "Ow, seems like the\n*GLOWING FLOWER*\nis blooming!"
+      ]
+    },
+    {
+      "object": "checkMailForPackage",
+      "copy": [
+        "Let's check the\n*MAILBOX*"
       ]
     }
 
