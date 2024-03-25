@@ -16,8 +16,15 @@ export default class SoundHandler {
     private fxVolume: number = 1;
     private pickPants: Howl;
 private drip:Howl;
+    private fishFood: Howl;
+    private shovel: Howl;
+    private typing: Howl;
     constructor(preloader: PreLoader) {
 
+        this.fishFood =   new Howl({src: ['sound/fishfood.mp3']});
+        console.log(this.fishFood)
+        this.shovel =   new Howl({src: ['sound/shovel.mp3']});
+        this.typing =   new Howl({src: ['sound/typingLong.mp3'], loop: true});
         this.forest = new Howl({src: ['sound/forest.mp3'], loop: true, volume: 2});
         this.bg = new Howl({src: ['sound/Goldberg.mp3'], loop: true, volume: 0.5});
         this.door = new Howl({src: ['sound/door.mp3']});
@@ -99,6 +106,7 @@ private drip:Howl;
     }
 
     startMusic() {
+        this.bg.volume(0.5)
         this.bg.play();
     }
 
@@ -188,7 +196,23 @@ private drip:Howl;
     }
 
     playDrip() {
-        this.drip.volume(this.fxVolume)
+        this.drip.volume(this.fxVolume*0.5)
         this.drip.play()
+    }
+    playFishFood(){
+        this.fishFood.volume(this.fxVolume*0.2)
+        this.fishFood.play()
+    }
+    playShovel() {
+        this.shovel.volume(this.fxVolume*0.4)
+        this.shovel.play()
+    }
+    startTyping() {
+        this.typing.volume(this.fxVolume*0.2)
+        this.typing.play()
+    }
+    stopTyping() {
+
+        this.typing.stop()
     }
 }

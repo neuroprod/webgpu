@@ -24,7 +24,8 @@ export default class FeedFish extends Transition {
                 GameModel.characterHandler.setMixAnimation('lookdown',0,0.5,()=>{})
                 setTimeout(()=>{GameModel.renderer.modelByLabel["fishFoodHold"].visible = true},300);
                 GameModel.characterHandler.setAnimationOnce('feedFish', 0.2, this.feedComplete.bind(this))
-
+                setTimeout(()=>{GameModel.sound.playFishFood()},800)
+                setTimeout(()=>{GameModel.sound.playFishFood()},1200)
             }
         }
         if (this.clickState == 2) {

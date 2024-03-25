@@ -10,6 +10,7 @@ export default class DigGrave extends Transition{
       //  GameModel.textHandler.showHitTrigger("digGrave")
         GameModel.renderer.modelByLabel["shovelHold"].visible =true
         GameModel.characterHandler.setAnimation("digging",0.3);
+        setTimeout(()=>{GameModel.sound.playShovel()},700)
        // GameModel.gameUI.cursor.show(CURSOR.NEXT)
       RenderSettings.fadeToBlack(1,2)
         setTimeout(()=> {

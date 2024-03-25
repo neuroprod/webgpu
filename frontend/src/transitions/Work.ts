@@ -15,6 +15,8 @@ public count =0;
 
         this.count =0;
         GameModel.characterHandler.startTyping()
+        setTimeout(()=>{ GameModel.sound.startTyping()},300)
+
         if(GameModel.stateFashion ==StateFasion.CAN_MAKE_TRIANGLE){
             GameModel.pants3D.setState(PantsState.StartPants)
 
@@ -59,6 +61,7 @@ public count =0;
             world.z+=1.1;
             world.x-=0.5;
 
+            GameModel.sound.stopTyping()
             GameModel.characterHandler.walkTo(world,0,this.onEndWalkDone.bind(this))
             if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE)
             { GameModel.stateFashion =StateFasion.MAKE_TRIANGLE_DONE;}
