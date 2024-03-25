@@ -63,9 +63,15 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
 {
     var output : GBufferOutput;
     var  uv = uv0;
-    uv.y+=sin(uv.x*20.0-uniforms.time*2.0)*0.1+sin(uv.x*30.0+uniforms.time*3.0)*0.05;
+    uv.y+=sin(uv.x*20.0-uniforms.time*2.0)*0.2;
 var f =smoothstep(0.2,0.5,uv.y)*smoothstep(0.2,0.5,1.-uv.y);;
-   f = pow(f,100.0)+f*0.1;
+   f = pow(f,100.0)+f*0.2;
+   
+   
+   f+=smoothstep(0.8,1.0,fract(uv0.x*8.0))*0.3;
+   f+=smoothstep(0.8,1.0,fract(uv0.y*5.0))*0.3;
+   
+   
     output.color = vec4(vec3(0.0,0.1,f+0.2),1.0);
 
     output.normal =vec4(normalize(normal)*0.5+0.5,1.0);

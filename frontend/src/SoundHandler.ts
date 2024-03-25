@@ -22,7 +22,7 @@ private drip:Howl;
     constructor(preloader: PreLoader) {
 
         this.fishFood =   new Howl({src: ['sound/fishfood.mp3']});
-        console.log(this.fishFood)
+
         this.shovel =   new Howl({src: ['sound/shovel.mp3']});
         this.typing =   new Howl({src: ['sound/typingLong.mp3'], loop: true});
         this.forest = new Howl({src: ['sound/forest.mp3'], loop: true, volume: 2});
