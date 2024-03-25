@@ -7,6 +7,7 @@ export default class FlowerHitTrigger extends HitTrigger{
 
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         let pot = GameModel.renderer.modelByLabel["pot"]
         let world = pot.getWorldPos(new Vector3(-0.7,0,0.5))
         GameModel.characterHandler.walkTo(world,2,this.onCompleteWalk,false)

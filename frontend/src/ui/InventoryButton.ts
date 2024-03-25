@@ -48,8 +48,8 @@ private scale =0.45;
         super.onClick();
 GameModel.sound.playClick()
         GameModel.sound.playWoosh()
-        console.log(this.id)
-        GameModel.setUIState(UIState.INVENTORY_DETAIL,this.id);
+
+        GameModel.setUIState(UIState.INVENTORY_DETAIL,this.id,true);
     }
 
 

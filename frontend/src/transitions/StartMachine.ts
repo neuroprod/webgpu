@@ -1,28 +1,49 @@
 import Transition from "./Transition";
-import GameModel, {StateGold, StateHighTech} from "../GameModel";
+import GameModel, {StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
-export default class StartMachine extends Transition{
+export default class StartMachine extends Transition {
 
+    state = 0;
 
-    set(onComplete: () => void){
+    set(onComplete: () => void) {
         super.set(onComplete)
-        GameModel.characterHandler.startTyping()
+        this.state = 0;
+        GameModel.characterHandler.setAnimationOnce("typing", 0.5, () => {
+            GameModel.stateHighTech = StateHighTech.START_MACHINE;
+            GameModel.room.machine.start(true, this.machineDone.bind(this))
+            GameModel.characterHandler.setIdleAndTurn(Math.PI / 2 + 0.1)
+        })
+        GameModel.characterHandler.setMixAnimation("lookdown",1.0,0.5)
         GameModel.textHandler.showHitTrigger("startMachine")
 
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
     }
-    onMouseDown(){
+
+    machineDone() {
+        GameModel.textHandler.showHitTrigger("machineDone")
+        this.state = 2;
+
+    }
+
+    onMouseDown() {
+        if (this.state == 1) return;
         GameModel.gameUI.cursor.animate()
-        if(GameModel.textHandler.readNext()){
+        if (this.state == 0) {
+            if (GameModel.textHandler.readNext()) {
+                this.state = 1
+                GameModel.gameUI.cursor.hide()
+                // GameModel.characterHandler.setIdleAndTurn()
 
-            GameModel.gameUI.cursor.hide()
-            GameModel.characterHandler.setIdleAndTurn()
-            GameModel.stateHighTech=StateHighTech.START_MACHINE;
-
-
-
-            this.onComplete()
+            }
+        }
+        if (this.state == 2) {
+            if (GameModel.textHandler.readNext()) {
+                GameModel.characterHandler.setMixAnimation("lookdown",0.0,0.5)
+                GameModel.characterHandler.setIdleAndTurn()
+                GameModel.gameUI.cursor.hide()
+                this.onComplete()
+            }
         }
     }
 }

@@ -4,17 +4,20 @@ import {CURSOR} from "../ui/Cursor";
 
 export default class FindGlowPants extends Transition{
 
-
+lock =false;
     set(onComplete: () => void){
         super.set(onComplete)
+        this.lock =false;
         GameModel.textHandler.showHitTrigger("findGlowPants")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
-
+        GameModel.characterHandler.setMixAnimation("lookdown",1.0,0.5)
     }
     onMouseDown(){
+        if(this.lock) return;
         GameModel.gameUI.cursor.animate()
-        if(GameModel.textHandler.readNext()){
 
+        if(GameModel.textHandler.readNext()){
+            this.lock = true;
            GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.5,this.animationComplete.bind(this))
 
 
@@ -24,7 +27,7 @@ export default class FindGlowPants extends Transition{
     animationComplete(){
 
 
-
+        GameModel.characterHandler.setMixAnimation("lookdown",0.0,0.5)
 
         GameModel.pantsFound.push(Pants.glow);
         GameModel.gameUI.updateInventory();

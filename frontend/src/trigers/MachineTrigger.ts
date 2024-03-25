@@ -33,6 +33,7 @@ export default class MachineHitTrigger extends HitTrigger {
     }
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateHighTech == StateHighTech.STOP_MACHINE ||GameModel.stateHighTech == StateHighTech.TAKE_HIGHTECH_PANTS)return
         if (GameModel.stateHighTech == StateHighTech.START || GameModel.stateHighTech == StateHighTech.GROW_FLOWER) {
             GameModel.setTransition(Transitions.TEXT_INFO, "missingIngredient")

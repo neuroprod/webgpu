@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGirl, StateGrandpa, StateHunter, Transitions} from "../GameModel";
+import GameModel, {StateGirl, StateGold, StateGrandpa, StateHunter, Transitions} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 
@@ -14,6 +14,22 @@ export default class DoorGoInsideTrigger extends HitTrigger {
     }
 
     protected click() {
+
+
+
+
+
+
+        GameModel.sound.playClick(0.2)
+
+        if(GameModel.stateGold==StateGold.FIND_NOTE || GameModel.stateGold==StateGold.GET_SHOVEL){
+            GameModel.setTransition(Transitions.TEXT_INFO, "diggFirst");
+
+            return
+        }
+
+
+
         if (GameModel.stateGrandpa != StateGrandpa.START) {
             if (GameModel.stateGrandpa == StateGrandpa.SHOW_GRANDPA_PANTS || GameModel.stateGrandpa == StateGrandpa.FEED_FISH || GameModel.stateGrandpa == StateGrandpa.TAKE_FISH_FOOD|| GameModel.stateHunter == StateHunter.START) {
                 if(GameModel.stateGrandpa == StateGrandpa.TAKE_FISH_FOOD){

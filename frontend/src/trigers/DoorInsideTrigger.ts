@@ -5,7 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class DoorInsideTrigger extends HitTrigger{
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateFashion==StateFasion.START){
 
             GameModel.setTransition(Transitions.TEXT_INFO,"readMailFirst")

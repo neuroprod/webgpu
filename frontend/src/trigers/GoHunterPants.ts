@@ -5,6 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class GoHunterTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateGrandpa==StateGrandpa.FEED_FISH){
             GameModel.stateGrandpa =StateGrandpa.SHOW_GRANDPA_PANTS;
         }

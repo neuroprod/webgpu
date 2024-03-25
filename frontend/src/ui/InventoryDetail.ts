@@ -36,7 +36,7 @@ export default class InventoryDetail extends UIModel {
         this.useButton.setPosition(370, 320, 0);
         this.addChild(this.useButton)
         this.useButton.onClick = () => {
-            GameModel.sound.playPants()
+
             //GameModel.sound.playWoosh()
             GameModel.setUIState(UIState.GAME_DEFAULT);
             GameModel.usePants(this.id);
@@ -97,7 +97,7 @@ export default class InventoryDetail extends UIModel {
         })
     }
 
-    show(data: any) {
+    show(data: any,hasClose:boolean =false) {
         this.id = data as number
         for (let i = 0; i < this.items.length; i++) {
             let vis = false
@@ -106,7 +106,7 @@ export default class InventoryDetail extends UIModel {
 
 
         }
-
+        this.closeButton.visible =hasClose;
 
         gsap.killTweensOf(this);
         this.yOff = -50;

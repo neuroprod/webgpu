@@ -135,7 +135,7 @@ export default class GameUI {
 
     }
 
-    setUIState(state: UIState, data: any) {
+    setUIState(state: UIState, data: any,hasClose:boolean =false) {
         if (state == UIState.PRELOAD) {
 
 
@@ -164,7 +164,7 @@ export default class GameUI {
         if (state == UIState.INVENTORY_DETAIL) {
             this.menuButton.hide()
             this.inventory.hide()
-            this.inventoryDetail.show(data)
+            this.inventoryDetail.show(data,hasClose)
 
         }
         if (state == UIState.SHOW_NOTE) {

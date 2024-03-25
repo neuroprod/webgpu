@@ -242,12 +242,12 @@ export default class CharacterHandler {
 
     }
 
-    setIdleAndTurn() {
+    setIdleAndTurn(angle=0) {
 
         if (this.animationMixer.anime2.label == "idle" && this.animationMixer.mixValue == 1 && this.targetRot == 0) return;
 
         this.setAnimation("idle", 0.5, 0.0);
-        this.tl.call(this.rotateTo.bind(this), [0, 0.5], 0)
+        this.tl.call(this.rotateTo.bind(this), [angle, 0.5], 0)
 
 
     }

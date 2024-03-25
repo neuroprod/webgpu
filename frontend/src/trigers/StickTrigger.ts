@@ -5,7 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class StickTrigger extends HitTrigger{
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
         let obj = GameModel.renderer.modelByLabel["stick"]
         let world = obj.getWorldPos()
         world.z+=1.5;

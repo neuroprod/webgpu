@@ -5,6 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class SitTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         // if(GameModel.gameState!=GameState.START)return;
         let obj = GameModel.renderer.modelByLabel["chair"]
         let world = obj.getWorldPos()

@@ -5,6 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class GoWorkTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
        if(GameModel.stateFashion==StateFasion.READ_MAIL_DONE){
            GameModel.setTransition(Transitions.TEXT_INFO,"readMailDone")
            return;

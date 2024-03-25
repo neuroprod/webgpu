@@ -421,11 +421,11 @@ class GameModel {
             this.renderer.modelByLabel["Bush3"].enableHitTest = false
         }
         if (value == StateHighTech.START_MACHINE) {
-            if (this.pantsFound.length >= 5) {
-                this.room.machine.start(true)
-            } else {
-                this.room.machine.start(true)
-            }
+           // if (this.pantsFound.length >= 5) {
+               // this.room.machine.start(true)
+           // } else {
+             //   this.room.machine.start(false)
+           // }
 
 
         }
@@ -574,8 +574,8 @@ class GameModel {
     }
 
 
-    setUIState(state: UIState, data: any = null) {
-        this.gameUI.setUIState(state, data);
+    setUIState(state: UIState, data: any = null,hasClose:boolean=false) {
+        this.gameUI.setUIState(state, data,hasClose);
 
         if (state == UIState.OPEN_MENU || state == UIState.INVENTORY_DETAIL) {
             RenderSettings.openMenu()
@@ -592,6 +592,7 @@ class GameModel {
             this.setTransition(Transitions.WEAR_PANTS, "")
             return;
         }
+        this.sound.playPants();
         this.setTransition(Transitions.WEAR_PANTS, id + "")
         this.characterHandler.characterRot = 0;
         this.characterHandler.pullPants()
@@ -650,7 +651,7 @@ class GameModel {
 
         if (s == "Inside") {
 
-            console.log("???????tip inside????????")
+
         }
         if (s == "Outside") {
             if (this.stateGirl == StateGirl.BIRD_HOUSE_FELL) {
@@ -664,7 +665,7 @@ class GameModel {
                 this.prevTransition = null;
                 this.setTransition(Transitions.TEXT_INFO_LOCK, "checkMailForPackage")
             } else {
-                console.log("???????tip outside????????")
+
             }
 
         }

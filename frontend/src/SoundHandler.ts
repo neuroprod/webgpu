@@ -15,7 +15,7 @@ export default class SoundHandler {
     private pants: Howl;
     private fxVolume: number = 1;
     private pickPants: Howl;
-
+private drip:Howl;
     constructor(preloader: PreLoader) {
 
         this.forest = new Howl({src: ['sound/forest.mp3'], loop: true, volume: 2});
@@ -23,6 +23,7 @@ export default class SoundHandler {
         this.door = new Howl({src: ['sound/door.mp3']});
         this.pickPants = new Howl({src: ['sound/pickPants.mp3']})
         this.pants = new Howl({src: ['sound/pants.mp3']});
+        this.drip = new Howl({src: ['sound/drip.mp3']});
         this.clicks = new Howl({
             src: ['sound/clicks.mp3'],
             sprite: {
@@ -184,5 +185,10 @@ export default class SoundHandler {
     playPickPants() {
         this.pickPants.volume(this.fxVolume)
         this.pickPants.play()
+    }
+
+    playDrip() {
+        this.drip.volume(this.fxVolume)
+        this.drip.play()
     }
 }

@@ -6,6 +6,7 @@ import Material from "../lib/core/Material";
 import GBufferGlowPantsProgress from "../shaders/GBufferGlowPantsProgress";
 import Timer from "../lib/Timer";
 import GameModel, {StateHighTech} from "../GameModel";
+import SoundHandler from "../SoundHandler";
 
 export default class Machine
 {
@@ -42,7 +43,7 @@ export default class Machine
 
     }
 
-    start(finnish: boolean =false){
+    start(finnish: boolean =false,onComplete:()=>void =()=>{}){
 
 
         this.drop.visible =true;
@@ -58,10 +59,12 @@ export default class Machine
         this.dripTL.to(this,{dropScale2:3,duration:1},0.5)
         this.dripTL.to(this,{ dropOffset:-0.6,ease:"power2.in",duration:0.5},1.3)
         this.dripTL.call(()=>{
+            GameModel.sound.playDrip();
           if(finnish){
-              this.targetProgress+=0.2;
+              this.targetProgress+=0.3;
               if(this.targetProgress>0.99){
                   this.targetProgress=1;
+                  onComplete()
                   GameModel.stateHighTech =StateHighTech.STOP_MACHINE
               }
           }else{

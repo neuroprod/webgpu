@@ -5,7 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class GirlPantsTrigger extends HitTrigger{
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
         let obj = GameModel.renderer.modelByLabel["girlPants"]
         let world = obj.getWorldPos()
         world.x-=0.5;

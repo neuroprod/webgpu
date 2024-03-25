@@ -7,7 +7,7 @@ export default class FishFoodTrigger extends HitTrigger{
 
     protected click() {
 
-
+        GameModel.sound.playClick(0.2)
             let pot = GameModel.renderer.modelByLabel["fishFood"]
             let world = pot.getWorldPos(new Vector3(-0.15,0,-0.4))
             GameModel.characterHandler.walkTo(world,-Math.PI+0.3,this.onCompleteWalk,false)

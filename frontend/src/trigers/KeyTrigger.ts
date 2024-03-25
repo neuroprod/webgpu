@@ -6,7 +6,7 @@ import Transition from "../transitions/Transition";
 export default class KeyTrigger extends HitTrigger{
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
         let obj = GameModel.renderer.modelByLabel["key"]
         let world = obj.getWorldPos()
         world.z+=1.0;

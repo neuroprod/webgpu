@@ -7,7 +7,7 @@ export default class MailBoxTrigger extends HitTrigger{
 
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
             GameModel.setTransition(Transitions.TEXT_INFO,"noMail")
             return;
 

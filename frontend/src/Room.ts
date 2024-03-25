@@ -15,7 +15,7 @@ import Clock from "./extras/Clock";
 import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
 import Machine from "./extras/Machine";
-import GameModel, {StateFasion, StateGrandpa} from "./GameModel";
+import GameModel, {StateFasion, StateGold, StateGrandpa, StateHighTech} from "./GameModel";
 
 
 import Model from "./lib/model/Model";
@@ -60,7 +60,7 @@ export default class Room extends Scene {
     private spark: Model;
     public nextSparkTime =3;
     private sparkScale: number =0;
-
+testPos =new Vector3()
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "room")
@@ -176,7 +176,9 @@ export default class Room extends Scene {
     }
 
     update() {
-
+   /* UI.pushWindow("test")
+UI.LVector("pos",this.testPos)
+        UI.popWindow()*/
         let w = Math.max(this.renderer.ratio * 3, GameModel.minRoomSize);
 
 
@@ -221,12 +223,31 @@ export default class Room extends Scene {
     }
     setSpark()
     {
+       /* if( GameModel.stateHighTech ==StateHighTech.PICK_FLOWER){
+
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["coffeeMaker"].getWorldPos().add(this.testPos as NumericArray ));
+            return true;
+        }*/
         if(GameModel.stateFashion==StateFasion.START || GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE  || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
             this.spark.setPositionV(this.laptopScreen.getWorldPos(new Vector3(-0.55,0.1,-0.4)))
             return true;
         }
         if(GameModel.stateGrandpa ==StateGrandpa.START  ){
             this.spark.setPositionV(GameModel.renderer.modelByLabel["fishFood"].getWorldPos().add(new Vector3(0,0.1,0.1) as NumericArray ));
+            return true;
+        }
+        if( GameModel.stateHighTech ==StateHighTech.PICK_FLOWER){
+
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["coffeeMaker"].getWorldPos().add(new Vector3( 0.00,0.32,0.19) as NumericArray ));
+            return true;
+        }
+
+        if( GameModel.stateGold ==StateGold.FINISH_KEY){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["key"].getWorldPos().add(new Vector3(0.09,0.03,0.15) as NumericArray ));
+            return true;
+        }
+        if(GameModel.stateGold ==StateGold.HAS_KEY || GameModel.stateGold ==StateGold.START){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["bookCaseDoorLeft"].getWorldPos().add(new Vector3(0.60,0.07,0.12) as NumericArray ));
             return true;
         }
         return false;
@@ -237,7 +258,7 @@ export default class Room extends Scene {
         if(this.nextSparkTime<0 ){
 
 
-            this.nextSparkTime =2+Math.random()*2;
+            this.nextSparkTime =1;//2+Math.random()*2;
             if(!this.setSpark())return;
             let tl = gsap.timeline()
             tl.set(this,{sparkScale:0.0},0);

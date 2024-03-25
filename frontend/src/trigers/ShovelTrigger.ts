@@ -6,6 +6,7 @@ import {Vector3} from "math.gl";
 export default class ShovelTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateGold==StateGold.FIND_NOTE){
             let pot = GameModel.renderer.modelByLabel["shovel"]
             let world = pot.getWorldPos(new Vector3(-0.7,0,0.5))

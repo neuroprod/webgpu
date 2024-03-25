@@ -5,7 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class GrandpaPantsTrigger extends HitTrigger{
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
         let obj = GameModel.renderer.modelByLabel["grandpaPants"]
         let world = obj.getWorldPos()
         world.z-=0.7;

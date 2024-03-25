@@ -7,6 +7,7 @@ export default class PackageTrigger extends HitTrigger{
 
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         let pot = GameModel.renderer.modelByLabel["package"]
         let world = pot.getWorldPos(new Vector3(-1.5,0,0.5))
         GameModel.characterHandler.walkTo(world,2,this.onCompleteWalk,false)

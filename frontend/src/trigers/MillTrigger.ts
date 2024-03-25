@@ -5,6 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class MillTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateGold==StateGold.START){
             GameModel.setTransition(Transitions.TEXT_INFO,"millStart")
             return;

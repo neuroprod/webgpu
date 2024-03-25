@@ -5,6 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class FishTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateGrandpa==StateGrandpa.START ) {
             GameModel.setTransition(Transitions.TEXT_INFO, "fishHungry")
 

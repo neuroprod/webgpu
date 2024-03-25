@@ -8,6 +8,7 @@ export default class BookCaseTrigger extends HitTrigger{
 
 
     protected click() {
+        GameModel.sound.playClick(0.2)
       if(GameModel.stateGold<=StateGold.LOCKED_DOOR){
           GameModel.setTransition(Transitions.TEXT_INFO,"bookCaseLocked")
           GameModel.stateGold=StateGold.LOCKED_DOOR;

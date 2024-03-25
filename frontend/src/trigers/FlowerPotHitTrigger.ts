@@ -6,6 +6,7 @@ export default class FlowerPotHitTrigger extends HitTrigger{
 
 
 protected click() {
+    GameModel.sound.playClick(0.2)
 if(GameModel.stateHighTech==StateHighTech.START){
     GameModel.setTransition(Transitions.TEXT_INFO,"flowerPreBloom")
 

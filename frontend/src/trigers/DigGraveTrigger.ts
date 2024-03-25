@@ -5,6 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class DigGraveTrigger extends HitTrigger{
 
     protected click() {
+        GameModel.sound.playClick(0.2)
         if(GameModel.stateGold ==StateGold.FIND_NOTE){
             GameModel.setTransition(Transitions.TEXT_INFO,"diggHand")
         }else{

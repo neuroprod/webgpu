@@ -3,15 +3,17 @@ import GameModel, {Pants, StateGrandpa, UIState} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class FindGrandpaPants extends Transition{
+    private lock: boolean =false;
 
 
     set(onComplete: () => void){
         super.set(onComplete)
 
-
+this.lock =false,
         GameModel.textHandler.showHitTrigger("findGrandpaPants")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.characterHandler.setMixAnimation("lookdown",1,1)
+        GameModel.characterHandler.face.lookDown()
     }
     onCrunchDown(){
       GameModel.characterHandler.setIdleAndTurn()
@@ -22,14 +24,17 @@ export default class FindGrandpaPants extends Transition{
         GameModel.characterHandler.setMixAnimation("lookdown",0,0.2)
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2)
         GameModel.stateGrandpa =StateGrandpa.TAKE_GRANDPA_PANTS;
+        GameModel.characterHandler.face.setToBase()
         this.onComplete()
+
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.grandpa)
     }
     onMouseDown(){
+        if(this.lock)return;
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
-
+this.lock =true;
             GameModel.characterHandler.setAnimationOnce("crunchDown",0.2,this.onCrunchDown.bind(this))
 
             GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.5)

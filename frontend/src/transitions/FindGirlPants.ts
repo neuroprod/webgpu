@@ -10,7 +10,7 @@ export default class FindGirlpaPants extends Transition{
         GameModel.textHandler.showHitTrigger("findGirlPants")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.characterHandler.setMixAnimation("lookdown",1,0.5)
-
+        GameModel.characterHandler.face.lookDown()
     }
     onMouseDown(){
         GameModel.gameUI.cursor.animate()
@@ -32,6 +32,7 @@ export default class FindGirlpaPants extends Transition{
 
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.1)
         GameModel.characterHandler.setIdleAndTurn()
+        GameModel.characterHandler.face.setToBase()
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.girl)
     }

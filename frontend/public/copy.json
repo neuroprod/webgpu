@@ -325,11 +325,12 @@
       ]
     },
     {
-      "object": "hightechDoneSoon",
+      "object": "machineDone",
       "copy": [
-        "It just needs some\ntime to finnish up."
+        "I think its done!"
       ]
     },
+
     {
       "object": "findGlowPants",
       "copy": [
@@ -393,6 +394,13 @@
         "I can't seem to reach it."
       ]
     },
+    {
+      "object": " birdHouseFixLater",
+      "copy": [
+        "I'll fix it\nlater."
+      ]
+    },
+
     {
       "object": "takeStick",
       "copy": [
@@ -469,6 +477,24 @@
       "object": "checkMailForPackage",
       "copy": [
         "Let's check the\n*MAILBOX*"
+      ]
+    },
+    {
+      "object": "diggFirst",
+      "copy": [
+        "Let's check out\nthe *GRAVE*"
+      ]
+    },
+    {
+      "object": "checkKey",
+      "copy": [
+        "I should check\non that *KEY*"
+      ]
+    },
+    {
+      "object": "finishUpInside",
+      "copy": [
+        "I should finnish\nup here first."
       ]
     }
 

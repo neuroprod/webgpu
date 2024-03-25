@@ -5,7 +5,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class GoGraveTrigger extends HitTrigger{
 
     protected click() {
-
+        GameModel.sound.playClick(0.2)
         let obj = GameModel.renderer.modelByLabel["cross"]
         let world = obj.getWorldPos()
         world.z-=1.5;
