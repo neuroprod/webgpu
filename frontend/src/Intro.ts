@@ -75,6 +75,10 @@ export default class Intro{
         this.shovel.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/shovel_MRA.webp"])
         this.shovel.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/shovel_Normal.webp"])
 
+        this.stick.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/stick_Color.webp"]);
+        this.stick.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/stick_MRA.webp"]);
+        this.stick.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/stick_Normal.webp"]);
+        this.stick.material.uniforms.setTexture("opTexture",this.renderer.texturesByLabel["textures/stick_Op.webp"]);
 
             this.skeletonPants.material.uniforms.setTexture("colorTexture",this.renderer.texturesByLabel["textures/pantsGold_Color.webp"])
         this.skeletonPants.material.uniforms.setTexture("mraTexture",this.renderer.texturesByLabel["textures/pantsGold_MRA.webp"])
@@ -103,6 +107,7 @@ export default class Intro{
         this.modelRenderer.addModel(     this.coffee )
 
         this.stick = glFTLoaderChar.modelsByName["stickHold"]
+
         this.shovel = glFTLoaderChar.modelsByName["shovelHold"]
 
         this.skeleton  = glFTLoaderChar.modelsByName["skeleton"]

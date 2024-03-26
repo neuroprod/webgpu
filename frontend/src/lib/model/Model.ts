@@ -35,6 +35,7 @@ export default class Model extends Object3D {
     public windData:Vector4 =new Vector4(0,1,0.5,0.2)
     numInstances: number=1;
     hitLabel: string ="";
+    materialSolid: Material;
     constructor(renderer: Renderer, label: string,keepAlive:boolean=true) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer, label + "_transform")

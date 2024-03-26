@@ -3,6 +3,7 @@ import OutlinePrePass from "./OutlinePrePass";
 import Model from "../lib/model/Model";
 import OutlineBlurPass from "./OutlineBlurPass";
 import Timer from "../lib/Timer";
+import DefaultTextures from "../lib/textures/DefaultTextures";
 
 
 export default class OutlinePass {
@@ -32,6 +33,11 @@ export default class OutlinePass {
             this.setFrame =Timer.frame;
             this.outlinePrePass.models=[m]
             this.outlinePrePass.models = this.outlinePrePass.models.concat(m.hitFriends)
+            for(let m of this.outlinePrePass.models){
+
+                    m.materialSolid.uniforms.setTexture("gDepth",this.renderer.texturesByLabel['GDepth']);
+                }
+
             this.noHitCount =1000000000;
         }else{
             if(this.setFrame ==Timer.frame)return;

@@ -26,7 +26,7 @@ export default class Face{
     private blink: number =-1;
     private nextBlink: number =0;
 private nextEyeMove =2;
-   isRandom: boolean =false;
+   isRandom: boolean =true;
 
     constructor(renderer,faceModel:Model) {
 

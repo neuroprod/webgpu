@@ -676,6 +676,7 @@ export default class Main {
             if (UI.LButton("saveData")) {
                 let data = {}
                 for (let m of this.renderer.models) {
+
                     m.saveData(data)
                 }
                 saveToJsonFile(data, "materialData")

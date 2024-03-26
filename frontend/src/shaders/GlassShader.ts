@@ -104,7 +104,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
     uvRef.y = 1.0-uvRef.y;
 
     var refractColor = textureSample(reflectTexture,   mySampler, uvRef).xyz;
- refractColor =mix(albedo,refractColor,0.5);
+    refractColor =mix(albedo,refractColor,0.5);
     let NdotV =max(dot(N, V), 0.0);
     let F0 = mix(vec3(0.02), albedo, metallic);
     let F =fresnelSchlickRoughness(NdotV, F0,roughness);

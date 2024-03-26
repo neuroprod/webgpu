@@ -18,6 +18,8 @@ import {materialData} from "./PreloadData";
 
 import DepthSkinShader from "./shaders/DepthSkinShader";
 import DepthShader from "./shaders/DepthShader";
+import SolidShader from "./shaders/SolidShader";
+import SolidShaderAlpha from "./shaders/SolidShaderAlpha";
 
 
 type Accessor = {
@@ -59,6 +61,7 @@ export default class GLFTLoader {
     private skins: Array<Skin> = [];
     private skinShader: GBufferShaderSkin;
     private parent: GLFTLoader;
+    materialSolid: Material;
 
     constructor(renderer: Renderer, url: string, preLoader: PreLoader, parent: GLFTLoader = null) {
         this.renderer = renderer;
@@ -73,7 +76,7 @@ export default class GLFTLoader {
         this.loadURL(url).then(() => {
             preLoader.stopLoad();
         });
-
+        this.materialSolid = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
     }
 
     async loadURL(url: any) {
@@ -138,6 +141,7 @@ export default class GLFTLoader {
 
     private makeModels() {
         let data = materialData;
+
         for (let m of this.modelData) {
             m.model.mesh = this.meshes[m.meshID]
 
@@ -150,10 +154,37 @@ export default class GLFTLoader {
 
                 this.modelsHit.push(m.model);
             }
+
             let mData = materialData[m.model.mesh.label]
+
+
+
             if (mData) {
+                if(m.model.mesh.label =="stickHold") {
+
+                    mData.needsHitTest = false;
+                    mData.needsAlphaClip = true;
+                }
+                if(m.model.mesh.label =="stick") {
+
+                    mData.alphaClipValue =0.5;
+                }
                 m.model.needsHitTest = mData.needsHitTest
                 m.model.needsAlphaClip = mData.needsAlphaClip
+                if( m.model.needsAlphaClip ){
+                  let mat =  new Material(this.renderer, "solidshaderOutlineAlpha", new SolidShaderAlpha(this.renderer, "solidShaderAlpha"))
+
+                    let opTexture = this.getTexture(m.model.mesh.label + "_Op");
+                    if (opTexture) {
+                        mat.uniforms.setTexture("opTexture", opTexture)
+                        mat.uniforms.setUniform("alphaClipValue",mData.alphaClipValue)
+                    }
+
+                    m.model.materialSolid =mat;
+                }else{
+                    m.model.materialSolid =this.materialSolid;
+                }
+
                 m.model.alphaClipValue = mData.alphaClipValue
                 m.model.castShadow = mData.castShadow;
                 m.model.visible = mData.visible;
@@ -199,6 +230,7 @@ export default class GLFTLoader {
                     material.uniforms.setTexture("opTexture", opTexture)
 
                 }
+
             }
             return material;
 

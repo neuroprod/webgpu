@@ -16,14 +16,14 @@ export default class OutlinePrePass extends RenderPass {
     public colorTarget: RenderTexture;
     public models: Array<Model> = []
     private colorAttachment: ColorAttachment;
-    private material: Material;
+   // private material: Material;
     private depthTarget: RenderTexture;
 
     constructor(renderer: Renderer) {
 
         super(renderer, "OutlinePrePass");
         RenderSettings.registerPass(this);
-        this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
+       // this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
 
        // this.material.depthWrite =false;
 
@@ -62,17 +62,17 @@ export default class OutlinePrePass extends RenderPass {
         const passEncoder = this.passEncoder;
 
         passEncoder.setBindGroup(0, this.renderer.camera.bindGroup);
-        this.material.makePipeLine(this);
 
-        //passEncoder.setPipeline(this.material.pipeLine);
-        passEncoder.setPipeline(this.material.pipeLine);
         for (let model of this.models) {
 
+            model.materialSolid.makePipeLine(this);
 
+
+            passEncoder.setPipeline(model.materialSolid.pipeLine);
             passEncoder.setBindGroup(1, model.modelTransform.bindGroup);
-            passEncoder.setBindGroup(2,this.material.uniforms.bindGroup);
+            passEncoder.setBindGroup(2,model.materialSolid.uniforms.bindGroup);
 
-            for (let attribute of this.material.shader.attributes) {
+            for (let attribute of model.materialSolid.shader.attributes) {
                 passEncoder.setVertexBuffer(
                     attribute.slot,
                     model.mesh.getBufferByName(attribute.name)

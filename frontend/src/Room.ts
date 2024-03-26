@@ -130,6 +130,7 @@ testPos =new Vector3()
 
 
         this.laptopScreen = new LaptopScreen(this.renderer, this.glFTLoader.modelsByName["labtop"]);
+        this.laptopScreen.materialSolid = this.glFTLoader.materialSolid;
         this.modelRenderer.addModel(this.laptopScreen);
 
         this.fpsScreen = new FpsScreen(this.renderer, this.glFTLoader.objectsByName["powersup"]);
@@ -261,7 +262,7 @@ UI.LVector("pos",this.testPos)
         if(this.nextSparkTime<0 ){
 
 
-            this.nextSparkTime =1;//2+Math.random()*2;
+            this.nextSparkTime =2+Math.random()*2;
             if(!this.setSpark())return;
             let tl = gsap.timeline()
             tl.set(this,{sparkScale:0.0},0);
