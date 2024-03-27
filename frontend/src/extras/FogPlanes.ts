@@ -47,6 +47,7 @@ export default class FogPlanes{
             fog.mesh =new Plane(this.renderer,1,1,10,1,true)
             fog.material =new Material(this.renderer,"fogPlane"+i,new FogShader(this.renderer,"fog"))
             fog.material.depthWrite = false;
+            fog.material.blendModes=[l];
             let p = positions[i];
             fog.setPosition(p.x,p.y,p.z)
             fog.setScale(6*p.w,1*p.w,1*p.w)

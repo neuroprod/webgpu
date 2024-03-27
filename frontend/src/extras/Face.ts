@@ -158,5 +158,10 @@ private nextEyeMove =2;
     lookGold() {
         gsap.to(this.pupilLeft,{y:0.3,x:0.371,delay:1})
         gsap.to(this.pupilRight,{y:0.325,x:0.587,delay:1})
+        this.isRandom =false;
+        gsap.delayedCall(3,()=>{
+            this.setToIntro()
+            this.isRandom =true;
+        })
     }
 }

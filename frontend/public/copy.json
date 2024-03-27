@@ -74,16 +74,17 @@
       "object": "intro",
       "copy": [
         "Two years have passed\nsince *GRANDPA* Died.",
-        "he always went\non adventures.",
+        "He always went\non adventures.",
         "Looking for the\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
-        "Nothing ever seem\nto happen to me."
+        "Nothing ever seem\nto happen to me.",
+        "I spend my days\nmaking website."
 
       ]
     },
     {
       "object": "introMail",
       "copy": [
-        "I think its going to\nbe a great day!",
+        "But today feels somehow different.",
         "But let's read\nthat *MAIL* first."
       ]
     },
@@ -293,7 +294,7 @@
     {
       "object": "digGrave",
       "copy": [
-        "you won, end anime"
+        "Let's see what the\nold man had to hide!"
       ]
     },
     {

@@ -4,17 +4,20 @@ import {CURSOR} from "../ui/Cursor";
 
 export default class FindHunterPants extends Transition{
 
-
+lock =false;
     set(onComplete: () => void){
         super.set(onComplete)
+        this.lock =false
         GameModel.textHandler.showHitTrigger("findHunter")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
 
     }
     onMouseDown(){
+        if(this.lock)return;
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
+            this.lock=true;
          //   GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.2,this.animationComplete.bind(this))
             GameModel.characterHandler.setAnimationOnce("takeHunter",0.5,this.animationComplete.bind(this))
 

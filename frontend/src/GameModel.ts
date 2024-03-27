@@ -407,6 +407,7 @@ class GameModel {
             this.renderer.modelByLabel["Bush3"].enableHitTest = true
             this.renderer.modelByLabel["pantsGlow"].enableHitTest = false
             this.renderer.modelByLabel["pantsGlow"].visible = true
+
             this.renderer.modelByLabel["glowFlowerKnob"].visible = true
         } else if (value == StateHighTech.GROW_FLOWER) {
             this.renderer.modelByLabel["glowFlower"].visible = true

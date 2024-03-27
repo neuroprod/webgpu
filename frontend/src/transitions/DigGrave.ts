@@ -1,59 +1,66 @@
 import Transition from "./Transition";
-import GameModel, {Pants, Scenes, StateGold, UIState} from "../GameModel";
+import GameModel, {Scenes, StateGold} from "../GameModel";
 import RenderSettings from "../RenderSettings";
+import {CURSOR} from "../ui/Cursor";
 
-export default class DigGrave extends Transition{
+export default class DigGrave extends Transition {
 
+    state = 1;
 
-    set(onComplete: () => void){
+    set(onComplete: () => void) {
         super.set(onComplete)
-      //  GameModel.textHandler.showHitTrigger("digGrave")
-        GameModel.renderer.modelByLabel["shovelHold"].visible =true
-        GameModel.characterHandler.setAnimation("digging",0.3);
-        setTimeout(()=>{GameModel.sound.playShovel()},700)
-       // GameModel.gameUI.cursor.show(CURSOR.NEXT)
-      RenderSettings.fadeToBlack(1,2)
-        setTimeout(()=> {
-            GameModel.stateGold = StateGold.GET_GOLD
-            RenderSettings.fadeToScreen(1)
-            GameModel.renderer.modelByLabel["shovelHold"].visible = false
-            GameModel.renderer.modelByLabel["skeleton"].visible = true
-            GameModel.renderer.modelByLabel["skeletonPants"].visible = true
-            GameModel.characterHandler.face.lookGold();
-            GameModel.characterHandler.setAnimationOnce("goldPants", 0, () => {
-                RenderSettings.fadeToBlack(1, 4);
-                setTimeout(() => {
-                    GameModel.characterHandler.face.setToBase()
-                    GameModel.stateGold = StateGold.OUTRO;
-                    GameModel.characterHandler.setPants(6)
-                    GameModel.characterHandler.setIdleAndTurn()
-                    GameModel.renderer.modelByLabel["coffee"].visible =false;
-                    GameModel.setScene(Scenes.PRELOAD)
-                    RenderSettings.fadeToScreen(1)
-                }, 5000);
-            });
-        },4000);
+        this.state = 1;
+        GameModel.textHandler.showHitTrigger("digGrave")
+        GameModel.gameUI.cursor.show(CURSOR.NEXT)
+        GameModel.characterHandler.face.lookDown()
 
     }
-    onMouseDown(){
-        return;
-        GameModel.gameUI.cursor.animate()
-        if(GameModel.textHandler.readNext()){
 
-            GameModel.pantsFound.push(Pants.gold);
-            GameModel.gameUI.updateInventory();
-            GameModel.sound.playPickPants();
+    onMouseDown() {
+        if (this.state == 0) return
+        GameModel.gameUI.cursor.animate();
+        if (GameModel.textHandler.readNext()) {
+            this.state = 0;
             GameModel.gameUI.cursor.hide()
-            GameModel.stateGold =StateGold.GET_GOLD
-            GameModel.renderer.modelByLabel["shovelHold"].visible =false
-            GameModel.characterHandler.setIdleAndTurn()
-           // this.onComplete()
-            GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.gold)
-
-
-
-
-
+            this.shovelAnime();
         }
+    }
+
+    shovelAnime() {
+        GameModel.renderer.modelByLabel["shovelHold"].visible = true
+        GameModel.characterHandler.setAnimation("digging", 0.3);
+        setTimeout(() => {
+            GameModel.sound.playShovel()
+        }, 700)
+
+        RenderSettings.fadeToBlack(1, 2)
+        setTimeout(() => {
+            this.pantsAnime();
+        }, 5000);
+    }
+
+    pantsAnime() {
+        GameModel.stateGold = StateGold.GET_GOLD
+        RenderSettings.fadeToScreen(1)
+        GameModel.renderer.modelByLabel["shovelHold"].visible = false
+        GameModel.renderer.modelByLabel["skeleton"].visible = true
+        GameModel.renderer.modelByLabel["skeletonPants"].visible = true
+        GameModel.characterHandler.face.lookGold();
+        GameModel.characterHandler.setAnimationOnce("goldPants", 0, () => {
+            RenderSettings.fadeToBlack(1, 4);
+            setTimeout(() => {
+                this.outroAnime()
+            }, 8000);
+        });
+    }
+
+    outroAnime() {
+        GameModel.characterHandler.face.setToBase()
+        GameModel.stateGold = StateGold.OUTRO;
+        GameModel.characterHandler.setPants(6)
+        GameModel.characterHandler.setIdleAndTurn()
+        GameModel.renderer.modelByLabel["coffee"].visible = false;
+        GameModel.setScene(Scenes.PRELOAD)
+        RenderSettings.fadeToScreen(1)
     }
 }

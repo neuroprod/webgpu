@@ -15,7 +15,7 @@ import Fish from "./extras/Fish";
 import FogPlanes from "./extras/FogPlanes";
 import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
-import GameModel, {StateFasion, StateGrandpa, StateHunter} from "./GameModel";
+import GameModel, {StateFasion, StateGirl, StateGold, StateHunter} from "./GameModel";
 import {NumericArray, Vector3} from "math.gl";
 
 import GlassGlowShader from "./shaders/GlassGlowShader";
@@ -26,6 +26,9 @@ import MathArray from "@math.gl/core/src/classes/base/math-array";
 import SparkShader from "./extras/SparkShader";
 import Plane from "./lib/meshes/Plane";
 import gsap from "gsap";
+import UI from "./lib/UI/UI";
+import {BlendFactor, BlendOperation} from "./lib/WebGPUConstants";
+import GlassGlowGlassShader from "./shaders/GlassGlowGlassShader";
 
 
 export default class Outside extends Scene {
@@ -51,6 +54,8 @@ export default class Outside extends Scene {
     private spark: Model;
     public nextSparkTime =3;
     private sparkScale: number =0;
+
+    testPos =new Vector3()
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
@@ -72,12 +77,30 @@ export default class Outside extends Scene {
         this.lightGrave = new Object3D(this.renderer)
         this.lightGrave.setPosition(0,-0.2,0.0)
         this.lightGraveHolder.addChild(this.lightGrave)
+        let l: GPUBlendState = {
+
+            color: {
+                srcFactor: BlendFactor.One,
+                dstFactor: BlendFactor.OneMinusSrcAlpha,
+                operation: BlendOperation.Add,
+            },
+            alpha: {
+                srcFactor: BlendFactor.One,
+                dstFactor: BlendFactor.OneMinusSrcAlpha,
+                operation: BlendOperation.Add,
+            }
+        }
+
         //this.glFTLoader.modelsByName["sky"].material.depthWrite =false;
         this.fish = new Fish(this.renderer, this.glFTLoader.modelsByName["fish1"], this.glFTLoader.modelsByName["fish2"]);
         this.glassGrave = this.glFTLoader.modelsByName["lightGrave_G"]
 
-        this.glassGrave.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["WaterNormal.jpg"]);
-        this.materialGlass = this.glassGrave.material;
+            // this.glassGrave.material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["WaterNormal.jpg"]);
+        this.materialGlass = new Material(this.renderer,"glassGlowGlass",new GlassGlowGlassShader(this.renderer,'glassGlowGlass'));;
+        this.materialGlass.depthWrite = false;
+        this.materialGlass.blendModes=[l];
+
+        this.glassGrave.material =this.materialGlass
         this.materialGlow = new Material(this.renderer,"glassGlow",new GlassGlowShader(this.renderer,'glassGlow'));
         this.materialGlow.depthWrite = false;
         for (let m of this.glFTLoader.models) {
@@ -106,11 +129,15 @@ export default class Outside extends Scene {
         this.spark = new Model(this.renderer,"spark")
         this.spark.material =new Material(this.renderer,"sparkMaterial", new SparkShader(this.renderer,"spark"))
         this.spark.material.depthWrite =false;
+
+        this.spark.material.blendModes=[l];
         this.spark.mesh = new Plane(this.renderer)
     }
 
     public update() {
-
+        //UI.pushWindow("test")
+        //UI.LVector("pos",this.testPos)
+        //UI.popWindow()
         this.fogPlanes.update()
         this.fish.update();
         this.leaves.update()
@@ -152,6 +179,28 @@ export default class Outside extends Scene {
     }
     setSpark()
     {
+
+        if(GameModel.stateGirl==StateGirl.FIND_STICK ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["birdHouse"].getWorldPos().add(new Vector3(-0.20,-0.01,0.13) as NumericArray ));
+            return true;
+        }
+        if(GameModel.stateGirl==StateGirl.BIRD_HOUSE_FELL ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["stick"].getWorldPos().add(new Vector3( 0.00,0.03,0.07) as NumericArray ));
+            return true;
+        }
+        if(GameModel.stateFashion==StateFasion.GET_FASION_PANTS  ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["package"].getWorldPos().add(new Vector3(-0.14,0.00,0.14) as NumericArray ));
+            return true;
+        }
+        if(GameModel.stateGold==StateGold.GET_SHOVEL   ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["grave"].getWorldPos().add(new Vector3(-0.01,0.15,0.81) as NumericArray ));
+            return true;
+        }
+        if(GameModel.stateGold==StateGold.FIND_NOTE   ){
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["shovel"].getWorldPos().add(new Vector3(-0.03,-0.86,0.35) as NumericArray ));
+            return true;
+        }
+
         if(GameModel.stateHunter==StateHunter.START   ){
             this.spark.setPositionV(GameModel.renderer.modelByLabel["hunterPants"].getWorldPos().add(new Vector3(-0.1,0.0,0.1) as NumericArray ));
             return true;
@@ -169,7 +218,7 @@ export default class Outside extends Scene {
         if(this.nextSparkTime<0 ){
 
 
-            this.nextSparkTime =6+Math.random()*6;
+            this.nextSparkTime =4+Math.random()*4;
             if(!this.setSpark())return;
             let tl = gsap.timeline()
             tl.set(this,{sparkScale:0.0},0);
@@ -191,13 +240,13 @@ export default class Outside extends Scene {
     }
 
     makeTransParent() {
-
+        this.modelRendererTrans.addModel(this.spark)
         this.fogPlanes = new FogPlanes(this.renderer, this.glFTLoader.root)
         for (let m of this.fogPlanes.models) {
             this.modelRendererTrans.addModel(m)
 
         }
-        this.modelRendererTrans.addModel(this.spark)
+
         for (let m of this.glFTLoader.modelsGlass) {
             let needsDepth =true
             if (m.label == "waterTop_G") {
@@ -216,7 +265,9 @@ export default class Outside extends Scene {
                 this.sky = m;
                 needsDepth =false;
             }
+            if(m.material.label=="glassGlowGlass") needsDepth =false;
             if(needsDepth) {
+                console.log(m)
                 m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
                 m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["BlurLightPass"])
             }

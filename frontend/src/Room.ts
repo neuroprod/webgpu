@@ -80,7 +80,9 @@ testPos =new Vector3()
     init() {
 
 
-        this.glFTLoader.modelsByName["pantsGlow"].material.uniforms.setTexture("normalTexture",this.renderer.texturesByLabel["textures/pantsFasion_Normal.webp"])
+
+
+
         this.modelRenderer = new ModelRenderer(this.renderer, "room");
         this.modelRendererTrans = new ModelRenderer(this.renderer, "roomTrans");
 

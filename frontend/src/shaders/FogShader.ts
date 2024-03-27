@@ -123,9 +123,9 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
 
      let an  =1.0/pow( distToLight,1.0);
    
-alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.15;
+alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.1;
 
-  return vec4(vec3(uniforms.pointlightColor.xyz*uniforms.pointlightColor.w*0.5*an *shadowColorP*alpha),alpha);
+  return vec4(vec3(uniforms.pointlightColor.xyz*uniforms.pointlightColor.w*0.5*an *shadowColorP)*alpha,alpha);
  
 }
 ///////////////////////////////////////////////////////////
