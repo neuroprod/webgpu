@@ -20,6 +20,7 @@ import DepthSkinShader from "./shaders/DepthSkinShader";
 import DepthShader from "./shaders/DepthShader";
 import SolidShader from "./shaders/SolidShader";
 import SolidShaderAlpha from "./shaders/SolidShaderAlpha";
+import {CullMode} from "./lib/WebGPUConstants";
 
 
 type Accessor = {
@@ -178,6 +179,7 @@ export default class GLFTLoader {
                     if (opTexture) {
                         mat.uniforms.setTexture("opTexture", opTexture)
                         mat.uniforms.setUniform("alphaClipValue",mData.alphaClipValue)
+                        mat.cullMode=CullMode.None
                     }
 
                     m.model.materialSolid =mat;

@@ -3,22 +3,32 @@
     {
       "scene": 1,
       "object": "teapot",
-      "copy":[ "It's a teapot."]
+      "copy": [
+        "It's a teapot."
+      ]
     },
     {
       "scene": 1,
       "object": "coffee",
-      "copy": ["I finished my coffee."]
+      "copy": [
+        "I finished my coffee."
+      ]
     },
     {
       "scene": 1,
       "object": "bookPicture1",
-      "copy": ["Grandpa!","He died bla bla","Such a tragedy."]
+      "copy": [
+        "Grandpa!",
+        "He died.",
+        "Such a tragedy."
+      ]
     },
     {
       "scene": 1,
       "object": "bookPicture2",
-      "copy": ["replace."]
+      "copy": [
+        "Grandpa used to travel\nthe world with this ship."
+      ]
     },
     {
       "scene": 1,
@@ -41,35 +51,26 @@
       "scene": 1,
       "object": "painting2",
       "copy": [
-        "Grandpa used to travel\nthe world with this ship.",
-        "looking for the\n*GOLDEN UNDERPANTS*"
+        "The Mongolian Empire.",
+        "With notes from Grandpa on it!"
       ]
     },
     {
       "scene": 1,
       "object": "painting",
       "copy": [
-        "A map of the ",
-        "I like it!"
-
+        "Genghis Khan riding\non his horse!"
       ]
     },
     {
       "scene": 1,
       "object": "clock",
-      "copy": ["It's a clock"]
+      "copy": [
+        "It's a clock"
+      ]
     }
   ],
   "text": [
-    {
-      "object": "intro_old",
-      "copy": [
-        "I like early mornings.",
-        "Waking up with the birds.",
-        "A cup of coffee at dawn.",
-        "Watching the morning unfold."
-      ]
-    },
     {
       "object": "intro",
       "copy": [
@@ -78,14 +79,13 @@
         "Looking for the\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
         "Nothing ever seem\nto happen to me.",
         "I spend my days\nmaking website."
-
       ]
     },
     {
       "object": "introMail",
       "copy": [
-        "But today feels somehow different.",
-        "But let's read\nthat *MAIL* first."
+        "But today feels\nsomehow different.",
+        "Let's read\nthat *MAIL* first."
       ]
     },
     {
@@ -119,10 +119,8 @@
       "object": "makeTriangleFirst",
       "copy": [
         "I should should start\nworking on the\n*UNDERWEAR SIMULATOR*"
-
       ]
     },
-
     {
       "object": "makeTriangle",
       "copy": [
@@ -135,13 +133,12 @@
       "object": "makeTriangleDone",
       "copy": [
         "That's a nice start!\nI'll finnish it up later."
-
       ]
     },
     {
       "object": "triangleDone",
       "copy": [
-       "The underwear simulator\ncan wait."
+        "The underwear simulator\ncan wait."
       ]
     },
     {
@@ -157,7 +154,6 @@
         "And send it to the agency!"
       ]
     },
-
     {
       "object": "makeWebsiteDone",
       "copy": [
@@ -307,11 +303,9 @@
       "object": "missingIngredient",
       "copy": [
         "My new *INVENTION*\nis almost ready!",
-
         "I only need some\n*GLOWING FLOWER*\nto make it work!"
       ]
     },
-
     {
       "object": "pickFlower",
       "copy": [
@@ -331,7 +325,6 @@
         "I think its done!"
       ]
     },
-
     {
       "object": "findGlowPants",
       "copy": [
@@ -401,7 +394,6 @@
         "I'll fix it\nlater."
       ]
     },
-
     {
       "object": "takeStick",
       "copy": [
@@ -421,32 +413,37 @@
         "The birds must have\nused that to make a nest.",
         "I can use that."
       ]
-    }
-  ,
+    },
     {
       "object": "samePants",
       "copy": [
         "I'm already using them?"
-
       ]
     },
     {
       "random": true,
       "object": "newPants",
       "copy": [
-        "Looks great on me!","I like those!","A little bit tight.","So soft on my skin.","The support I need.","Fits like a glove."
-
+        "Looks great on me!",
+        "I like those!",
+        "A little bit tight.",
+        "So soft on my skin.",
+        "The support I need.",
+        "Fits like a glove."
       ]
-    },   {
+    },
+    {
       "object": "shouldFeedTheFish",
       "copy": [
         "The *FISH* must be hungry!"
       ]
-    }, {
+    },
+    {
       "random": true,
       "object": "doStuffOutside",
       "copy": [
-        "Let's keep exploring\nthe garden!", "I feel like I\nmissed something?"
+        "Let's keep exploring\nthe garden!",
+        "I feel like I\nmissed something?"
       ]
     },
     {
@@ -455,7 +452,6 @@
         "I should try to fix\nthat *BIRDHOUSE*"
       ]
     },
-
     {
       "object": "shouldDoWork",
       "copy": [
@@ -497,8 +493,12 @@
       "copy": [
         "I should finnish\nup here first."
       ]
+    },
+    {
+      "object": "sitDown",
+      "copy": [
+        "I don't feel I have\ntime to rest."
+      ]
     }
-
-
   ]
 }

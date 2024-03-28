@@ -38,6 +38,9 @@ export const preloadImages = [
   "LightComp_Color",
   "LightComp_MRA",
   "LightComp_Normal",
+  "RightMess_Color",
+  "RightMess_MRA",
+  "RightMess_Normal",
   "SmallTreeBTrunk_Color",
   "SmallTreeBTrunk_MRA",
   "SmallTreeBTrunk_Normal",
@@ -353,6 +356,9 @@ export const preloadImages = [
   "painting_Color",
   "painting_MRA",
   "painting_Normal",
+  "pan_Color",
+  "pan_MRA",
+  "pan_Normal",
   "pant3L_Color",
   "pant3L_MRA",
   "pant3L_Normal",
@@ -525,7 +531,10 @@ export const preloadImages = [
   "waveGenerator_Normal",
   "wire_Color",
   "wire_MRA",
-  "wire_Normal"
+  "wire_Normal",
+  "wires_Color",
+  "wires_MRA",
+  "wires_Normal"
 ]
 export const preloadDrawings = [
   "intro_world",

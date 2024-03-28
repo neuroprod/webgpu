@@ -75,6 +75,7 @@ import WearPants from "./transitions/WearPants";
 import Sit from "./transitions/Sit";
 import Pants3D from "./extras/Pants3D";
 import TextInfoLock from "./transitions/TextInfoLock";
+import Clock from "./extras/Clock";
 
 export enum StateGold {
     START,
@@ -277,6 +278,7 @@ class GameModel {
     private prevTransition: Transition;
     private stopCount: number = 0;
     offsetY: number =0;
+    clock: Clock;
 
     constructor() {
 
@@ -620,7 +622,7 @@ class GameModel {
         this.triggers.push(new FishFoodTrigger(Scenes.ROOM, ["fishFood"]));
         this.triggers.push(new MachineHitTrigger(Scenes.ROOM, ["coffeeMaker", "coffeeControler", "flask_G"]));
         this.triggers.push(new FlowerHitTrigger(Scenes.OUTSIDE, ["glowFlower"]));
-        this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3"]));
+        this.triggers.push(new FlowerPotHitTrigger(Scenes.OUTSIDE, ["pot", "Bush3","glowFlowerKnob"]));
         this.triggers.push(new GoHunterTrigger(Scenes.OUTSIDE, "hunterPants"));
         this.triggers.push(new GoGraveTrigger(Scenes.OUTSIDE, "cross"));
         this.triggers.push(new DoorGoOutsideTrigger(Scenes.ROOM, "door_HO"));

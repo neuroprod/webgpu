@@ -34,6 +34,7 @@ lock =false;
         GameModel.sound.playPickPants();
         GameModel.gameUI.cursor.hide()
         GameModel.stateHighTech =StateHighTech.TAKE_HIGHTECH_PANTS;
+        GameModel.clock.addTime()
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.glow)
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2,null)

@@ -145,6 +145,7 @@ testPos =new Vector3()
         this.modelRenderer.addModel(this.osc1Screen);
 
         this.clock = new Clock(this.glFTLoader.modelsByName["hour"], this.glFTLoader.modelsByName["minutes"])
+        GameModel.clock = this.clock
         this.machine = new Machine(this.renderer);
 
 
@@ -229,12 +230,8 @@ UI.LVector("pos",this.testPos)
     }
     setSpark()
     {
-       /* if( GameModel.stateHighTech ==StateHighTech.PICK_FLOWER){
 
-            this.spark.setPositionV(GameModel.renderer.modelByLabel["coffeeMaker"].getWorldPos().add(this.testPos as NumericArray ));
-            return true;
-        }*/
-        if(GameModel.stateFashion==StateFasion.START || GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE  || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
+        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE  || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
             this.spark.setPositionV(this.laptopScreen.getWorldPos(new Vector3(-0.55,0.1,-0.4)))
             return true;
         }
@@ -264,12 +261,12 @@ UI.LVector("pos",this.testPos)
         if(this.nextSparkTime<0 ){
 
 
-            this.nextSparkTime =2+Math.random()*2;
+            this.nextSparkTime =4+Math.random()*4;
             if(!this.setSpark())return;
             let tl = gsap.timeline()
             tl.set(this,{sparkScale:0.0},0);
-            tl.to(this,{sparkScale:0.17,duration:0.2},0);
-            tl.to(this,{sparkScale:0.0,duration:0.3},0.4);
+            tl.to(this,{sparkScale:0.17,duration:0.15},0);
+            tl.to(this,{sparkScale:0.0,duration:0.2},0.4);
         }
 
 

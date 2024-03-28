@@ -29,6 +29,7 @@ export default class FindFasionPants extends Transition{
         GameModel.sound.playPickPants();
         GameModel.gameUI.cursor.hide()
         GameModel.stateFashion=StateFasion.TAKE_FASION_PANTS;
+        GameModel.clock.addTime()
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.fashion)
     }

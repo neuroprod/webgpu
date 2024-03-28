@@ -72,7 +72,8 @@ public count =0;
 
         if(this.state==2 && GameModel.textHandler.readNext() ){
             GameModel.gameUI.cursor.hide()
-
+            GameModel.clock.addTime()
+            GameModel.clock.addTime()
             this.onComplete()
         }
 

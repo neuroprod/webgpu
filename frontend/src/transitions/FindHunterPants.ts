@@ -33,6 +33,7 @@ lock =false;
         GameModel.gameUI.cursor.hide()
         GameModel.stateHunter =StateHunter.HAVE_PANTS;
         GameModel.characterHandler.setIdleAndTurn()
+        GameModel.clock.addTime()
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.hunter)
     }

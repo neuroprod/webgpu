@@ -24,6 +24,7 @@ this.lock =false,
         GameModel.characterHandler.setMixAnimation("lookdown",0,0.2)
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.2)
         GameModel.stateGrandpa =StateGrandpa.TAKE_GRANDPA_PANTS;
+        GameModel.clock.addTime()
         GameModel.characterHandler.face.setToBase()
         this.onComplete()
 

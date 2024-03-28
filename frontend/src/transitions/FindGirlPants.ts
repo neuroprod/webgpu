@@ -33,6 +33,7 @@ export default class FindGirlpaPants extends Transition{
         GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.1)
         GameModel.characterHandler.setIdleAndTurn()
         GameModel.characterHandler.face.setToBase()
+        GameModel.clock.addTime()
         this.onComplete()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.girl)
     }

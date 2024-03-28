@@ -49,5 +49,6 @@ export default class FeedFish extends Transition {
         GameModel.characterHandler.face.setToBase()
         GameModel.characterHandler.face.isRandom =true;
 
+
     }
 }
