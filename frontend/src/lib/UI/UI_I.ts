@@ -59,6 +59,8 @@ export default class UI_I {
 static setSize(width,height){
   this.screenSize.set(width,height);
   this.canvasSize.set(width,height)
+
+
 }
   static init(canvas) {
 

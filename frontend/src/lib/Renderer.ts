@@ -181,12 +181,13 @@ console.log(this.device)
                     t.resize(this.width/this.pixelRatio, this.height/this.pixelRatio);
                 }
             }
-        }
-        this.notifyResizables()
-        for (let t of this.scaleToCanvasTextures) {
-            t.make()
+            this.notifyResizables()
+            for (let t of this.scaleToCanvasTextures) {
+                t.make()
 
+            }
         }
+
     }
 
     private updateUniformGroups() {

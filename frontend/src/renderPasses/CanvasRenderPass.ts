@@ -70,7 +70,8 @@ DefaultTextures.getMagicNoise(renderer)
        // this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 1}));
 
         this.passSelect.push(new SelectItem("Final", {texture: "FXAAPass", type: 0}));
-        this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 0}));
+        this.passSelect.push(new SelectItem("PantsPass", {texture: "PantsPass", type: 0}));
+        ///this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 0}));
         this.passSelect.push(new SelectItem("SSAO", {texture: "GTAO", type: 1}));
         this.passSelect.push(new SelectItem("SSAOdenoise", {texture: "GTAOdenoise", type: 1}));
 

@@ -400,7 +400,7 @@ export default class Main {
 
 //1,5,6 living
             //2,3,4 work
-            RenderSettings.exposure = 1.8;
+            RenderSettings.exposure = 1.6;
             RenderSettings.onChange()
 
         } else if (scene == Scenes.OUTSIDE) {
@@ -464,7 +464,8 @@ export default class Main {
 
         }
         this.loadingDraw.hideLoad();
-        GameModel.setUIState(UIState.PRELOAD_DONE)
+
+       GameModel.setUIState(UIState.PRELOAD_DONE)
 
     }
 

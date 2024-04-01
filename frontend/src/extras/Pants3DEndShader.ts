@@ -68,7 +68,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     output.position =camera.viewProjectionMatrix*world;
      output.color =aColor;
    output.uv0 =aUV0;
-output.world = world.xyz;
+    output.world = world.xyz;
     output.normal =model.normalMatrix*aNormal;
     output.tangent =model.normalMatrix*aTangent.xyz;
      output.biTangent =model.normalMatrix* (normalize(cross( normalize(aTangent.xyz), normalize(aNormal)))*aTangent.w);
@@ -84,8 +84,8 @@ fn  edgeFactor(color: vec3f)->f32 {
 fn mainFragment(@location(0) color: vec3f,@location(1) uv0: vec2f,@location(2) normal: vec3f,@location(3) tangent: vec3f,@location(4) biTangent: vec3f,@location(5) world: vec3f) -> @location(0) vec4f
 {
     let N = mat3x3f(normalize(tangent),normalize(biTangent),normalize(normal))*vec3(0.0,0.0,1.0);
-    let outColor =clamp( normalize(normal)*0.5 +vec3(0.5),vec3(0.0),vec3(1.0));
-  
+    let outColor = clamp(vec3(0.0),vec3(1.0), normalize(N)*0.2);
+
   
    let edge = 1.0-edgeFactor(color);
 
