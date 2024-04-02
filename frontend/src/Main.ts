@@ -351,7 +351,7 @@ export default class Main {
             GameModel.yMouseScale = 1;
             GameModel.sceneHeight = 2.5;
 
-
+        this.lightIntroRenderPass.setDirty();
             this.gBufferPass.modelRenderer = this.intro.modelRenderer
             this.glassPass.modelRenderer = this.intro.modelRendererTrans;
 

@@ -4,18 +4,20 @@ import {CURSOR} from "../ui/Cursor";
 
 export default class FindGirlpaPants extends Transition{
 
-
+lock =false;
     set(onComplete: () => void){
         super.set(onComplete)
         GameModel.textHandler.showHitTrigger("findGirlPants")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.characterHandler.setMixAnimation("lookdown",1,0.5)
         GameModel.characterHandler.face.lookDown()
+        this.lock =false;
     }
     onMouseDown(){
+        if(this.lock)return;
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
-
+            this.lock =true;
             GameModel.gameUI.cursor.hide()
             GameModel.characterHandler.setMixAnimation("lookdown",0,0.5)
             GameModel.characterHandler.setAnimationOnce("crunchDown",0.2,this.onCrunchDown.bind(this))
