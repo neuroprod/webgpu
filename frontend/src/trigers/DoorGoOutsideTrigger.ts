@@ -10,14 +10,15 @@ export default class DoorGoOutsideTrigger extends HitTrigger{
             GameModel.setTransition(Transitions.TEXT_INFO, "checkKey");
             return
         }
-        if(GameModel.stateHighTech ==StateHighTech.TAKE_HIGHTECH_PANTS && GameModel.pantsFound.length>4 ){
-            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInside");
+       // console.log( GameModel.pantsFound)
+       /* if(GameModel.stateHighTech ==StateHighTech.TAKE_HIGHTECH_PANTS && GameModel.pantsFound.length>5 ){
+            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInside1");
             return
         }
         if(GameModel.stateGold !=StateGold.FIND_NOTE && GameModel.pantsFound.length>5 ){
-            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInside");
+            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInside2");
             return
-        }
+        }*/
 
 
         GameModel.sound.playClick(0.2)
