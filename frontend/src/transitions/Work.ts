@@ -26,15 +26,7 @@ public count =0;
             GameModel.stateHighTech =StateHighTech.GROW_FLOWER;
             GameModel.stateGirl =StateGirl.BIRD_HOUSE_FELL;
 
-        }/*  if(GameModel.stateFashion ==StateFasion.CAN_FINISH_WEBSITE){
-            GameModel.textHandler.showHitTrigger("makeWebsite",true)
-            GameModel.stateFashion = StateFasion.FINISH_WEBSITE;
-
-
-            GameModel.pants3D.setState(PantsState.StartPantsEnd);
-        }*/
-      //  GameModel.setLaptopState(LaptopState.TRIANGLE)
-
+        }
     }
     onMouseDown(){
 

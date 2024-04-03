@@ -8,9 +8,7 @@ export default class GoRightRoom extends Transition{
         if(GameModel.stateFashion ==StateFasion.READ_MAIL_DONE && GameModel.pantsFound.length>=2){
             GameModel.stateFashion =StateFasion.CAN_MAKE_TRIANGLE
         }
-        if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE_DONE && GameModel.pantsFound.length>=4){
-            GameModel.stateFashion =StateFasion.CAN_FINISH_WEBSITE
-        }
+
         if(GameModel.stateFashion==StateFasion.FINISH_WEBSITE_DONE){
             GameModel.stateFashion=StateFasion.CAN_READ_MAIL_MAILBOX
         }
