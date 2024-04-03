@@ -72,15 +72,11 @@ export class LaptopScreen extends Model{
             this.material = this.imageMaterial;
             this.imageMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_readMail2.png"])
 
-        } else if(state ==StateFasion.CAN_MAKE_TRIANGLE || state ==StateFasion.CAN_FINISH_WEBSITE ){
+        } else if(state ==StateFasion.CAN_MAKE_TRIANGLE  ){
             this.material = this.canMakeMaterial;
 
 
-        } else if(state ==StateFasion.MAKE_TRIANGLE_DONE){
-            this.material = this.triangleMaterial
-
-
-        }else if(state ==StateFasion.MAKE_TRIANGLE|| state ==StateFasion.FINISH_WEBSITE  ){
+        } else if(state ==StateFasion.MAKE_TRIANGLE  ){
             this.material =  this.programMaterial;
         }
         else if(state ==StateFasion.FINISH_WEBSITE_DONE){
