@@ -2382,7 +2382,7 @@ export const materialData = {
     "hunterPants": {
         "needsHitTest": true,
         "needsAlphaClip": false,
-        "visible": false,
+        "visible": true,
         "needsWind": false,
         "windData": [0, 1, 0.5, 0.2],
         "castShadow": true,
