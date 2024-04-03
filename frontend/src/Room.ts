@@ -231,7 +231,7 @@ UI.LVector("pos",this.testPos)
     setSpark()
     {
 
-        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE  || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
+        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE   ){
             this.spark.setPositionV(this.laptopScreen.getWorldPos(new Vector3(-0.55,0.1,-0.4)))
             return true;
         }
