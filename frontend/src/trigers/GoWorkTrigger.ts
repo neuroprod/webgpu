@@ -10,10 +10,7 @@ export default class GoWorkTrigger extends HitTrigger{
            GameModel.setTransition(Transitions.TEXT_INFO,"readMailDone")
            return;
        }
-        if(GameModel.stateFashion==StateFasion.MAKE_TRIANGLE_DONE){
-            GameModel.setTransition(Transitions.TEXT_INFO,"triangleDone")
-            return;
-        }
+
         if(GameModel.stateFashion==StateFasion.FINISH_WEBSITE_DONE){
             GameModel.setTransition(Transitions.TEXT_INFO,"websiteDone")
             return;
@@ -28,7 +25,7 @@ GameModel.hitObjectLabel=""
     }
     onCompleteWalk(){
 
-        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE || GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE ){
+        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE  ){
             GameModel.setTransition(Transitions.WORK)
         }else if(GameModel.stateFashion==StateFasion.START || GameModel.stateFashion==StateFasion.CAN_READ_MAIL_MAILBOX){
             GameModel.setTransition(Transitions.READ_MAIL)
