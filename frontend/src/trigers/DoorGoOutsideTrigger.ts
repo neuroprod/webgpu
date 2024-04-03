@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGold, StateHighTech, Transitions} from "../GameModel";
+import GameModel, {Pants, StateGold, StateHighTech, Transitions} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 
@@ -11,15 +11,14 @@ export default class DoorGoOutsideTrigger extends HitTrigger{
             return
         }
        // console.log( GameModel.pantsFound)
-       /* if(GameModel.stateHighTech ==StateHighTech.TAKE_HIGHTECH_PANTS && GameModel.pantsFound.length>5 ){
-            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInside1");
+        if(GameModel.stateGold !=StateGold.FIND_NOTE && GameModel.pantsFound.length==6 ){
+            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInsideLate");
             return
         }
-        if(GameModel.stateGold !=StateGold.FIND_NOTE && GameModel.pantsFound.length>5 ){
-            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInside2");
+        if(!GameModel.pantsFound.includes(Pants.glow) && GameModel.pantsFound.length==5 ){
+            GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInsideLate");
             return
-        }*/
-
+        }
 
         GameModel.sound.playClick(0.2)
 

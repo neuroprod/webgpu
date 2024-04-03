@@ -67,9 +67,6 @@ export default class InventoryDetail extends UIModel {
         this.addChild(item6)
         this.items.push(item6)
 
-        let item7 = new UIBitmapModel(renderer, preLoader, "item7", "UI/info7.webp")
-        this.addChild(item7)
-        this.items.push(item7)
 
 
     }

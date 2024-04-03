@@ -129,31 +129,7 @@
         "and\n*UNDERWEAR\nSIMULATORS*"
       ]
     },
-    {
-      "object": "makeTriangleDone",
-      "copy": [
-        "That's a nice start!\nI'll finnish it up later."
-      ]
-    },
-    {
-      "object": "triangleDone",
-      "copy": [
-        "The underwear simulator\ncan wait."
-      ]
-    },
-    {
-      "object": "makeWebsitesFirst",
-      "copy": [
-        "Let's finnish the\n*UNDERWEAR SIMULATOR*"
-      ]
-    },
-    {
-      "object": "makeWebsite",
-      "copy": [
-        "bla bla bal",
-        "And send it to the agency!"
-      ]
-    },
+
     {
       "object": "makeWebsiteDone",
       "copy": [
@@ -384,8 +360,8 @@
     {
       "object": "birdHouseFell",
       "copy": [
-        "Oh, the wind must\nhave blown it crooked",
-        "I can't seem to reach it."
+        "The wind must have\nblown it crooked",
+        "But I can't seem to reach it."
       ]
     },
     {
@@ -489,16 +465,29 @@
       ]
     },
     {
-      "object": "finishUpInside",
+      "object": "finishUpInsideLate",
       "copy": [
-        "I should finnish\nup here first."
+        "It's getting late.\nLet's stay inside."
       ]
     },
     {
       "object": "sitDown",
       "copy": [
-        "I don't feel I have\ntime to rest."
+        "I don't feel I have\ntime to sit down."
+      ]
+    },
+    {
+      "object": "takeKeyDone",
+      "copy": [
+        "That should open the *BOOKCASE*"
+      ]
+    },
+    {
+      "object": "checkGirlPants",
+      "copy": [
+        "Looks like something\nfell out of the *BIRDHOUSE*"
       ]
     }
+
   ]
 }

@@ -1,5 +1,13 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGirl, StateGold, StateGrandpa, StateHunter, Transitions} from "../GameModel";
+import GameModel, {
+    StateFasion,
+    StateGirl,
+    StateGold,
+    StateGrandpa,
+    StateHighTech,
+    StateHunter,
+    Transitions
+} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 
@@ -28,8 +36,21 @@ export default class DoorGoInsideTrigger extends HitTrigger {
             return
         }
 
+        if(GameModel.stateGirl==StateGirl.PUSH_BIRDHOUSE ){
+            GameModel.setTransition(Transitions.TEXT_INFO, "checkGirlPants");
 
+            return
+        }
+        if(GameModel.stateHighTech==StateHighTech.GROW_FLOWER ){
+            GameModel.setTransition(Transitions.TEXT_INFO, "lookFlower");
 
+            return
+        }
+        if(GameModel.stateFashion==StateFasion.GET_FASION_PANTS ){
+            GameModel.setTransition(Transitions.TEXT_INFO, "checkMailForPackage");
+
+            return
+        }
         if (GameModel.stateGrandpa != StateGrandpa.START) {
             if (GameModel.stateGrandpa == StateGrandpa.SHOW_GRANDPA_PANTS || GameModel.stateGrandpa == StateGrandpa.FEED_FISH || GameModel.stateGrandpa == StateGrandpa.TAKE_FISH_FOOD|| GameModel.stateHunter == StateHunter.START) {
                 if(GameModel.stateGrandpa == StateGrandpa.TAKE_FISH_FOOD){

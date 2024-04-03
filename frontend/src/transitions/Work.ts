@@ -26,13 +26,13 @@ public count =0;
             GameModel.stateHighTech =StateHighTech.GROW_FLOWER;
             GameModel.stateGirl =StateGirl.BIRD_HOUSE_FELL;
 
-        }  if(GameModel.stateFashion ==StateFasion.CAN_FINISH_WEBSITE){
+        }/*  if(GameModel.stateFashion ==StateFasion.CAN_FINISH_WEBSITE){
             GameModel.textHandler.showHitTrigger("makeWebsite",true)
             GameModel.stateFashion = StateFasion.FINISH_WEBSITE;
 
 
             GameModel.pants3D.setState(PantsState.StartPantsEnd);
-        }
+        }*/
       //  GameModel.setLaptopState(LaptopState.TRIANGLE)
 
     }
@@ -64,9 +64,8 @@ public count =0;
             GameModel.sound.stopTyping()
             GameModel.characterHandler.walkTo(world,0,this.onEndWalkDone.bind(this))
             if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE)
-            { GameModel.stateFashion =StateFasion.MAKE_TRIANGLE_DONE;}
-            if(GameModel.stateFashion ==StateFasion.FINISH_WEBSITE)
             { GameModel.stateFashion =StateFasion.FINISH_WEBSITE_DONE}
+
 
         }
 
@@ -81,8 +80,7 @@ public count =0;
     onEndWalkDone(){
         this.state =2;
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
-        if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE_DONE)
-        { GameModel.textHandler.showHitTrigger("makeTriangleDone")}
+
         if(GameModel.stateFashion ==StateFasion.FINISH_WEBSITE_DONE)
         { GameModel.textHandler.showHitTrigger("makeWebsiteDone")}
 

@@ -16,16 +16,14 @@ export default class DoorInsideTrigger extends HitTrigger{
             GameModel.setTransition(Transitions.TEXT_INFO,"readMailFirst")
             return;
         }
+
         if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE && GameModel.roomCamOffset>0){
 
             GameModel.setTransition(Transitions.TEXT_INFO,"makeTriangleFirst")
             return;
         }
-        if(GameModel.stateFashion==StateFasion.CAN_FINISH_WEBSITE && GameModel.roomCamOffset>0){
 
-            GameModel.setTransition(Transitions.TEXT_INFO,"makeWebsitesFirst")
-            return;
-        }
+
         let door = GameModel.renderer.modelByLabel["_HitCenterDoor"]
         let world = door.getWorldPos()
         GameModel.gameUI.cursor.hide()
