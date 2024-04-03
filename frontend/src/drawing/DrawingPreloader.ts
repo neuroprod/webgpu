@@ -19,7 +19,7 @@ export default class DrawingPreloader{
         for(let file of drawings){
 
             let name = "drawings/"+file+".bin";
-
+console.log(name)
             let drawing =     new DrawingLoader(renderer,preloader,name);
             GameModel.drawingByLabel[file] =drawing;
             this.drawings.push(drawing)

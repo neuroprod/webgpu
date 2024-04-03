@@ -549,6 +549,7 @@ class GameModel {
 
 
     getDrawingByLabel(label: string) {
+        console.log( this.drawingByLabel)
         return this.drawingByLabel[label];
     }
 
