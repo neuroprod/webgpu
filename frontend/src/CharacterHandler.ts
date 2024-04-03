@@ -73,9 +73,11 @@ export default class CharacterHandler {
         this.animationMixer.update();
         if (GameModel.currentScene == Scenes.ROOM) {
             this.charScale = 1.05;
+
         } else {
             this.charScale = 1.00;
         }
+        this.walkingSpeed =0.6 /this.charScale
         //  this.head.setEuler(Timer.time*7,0,0);
 
 
