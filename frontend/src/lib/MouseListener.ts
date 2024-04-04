@@ -43,7 +43,7 @@ export default class MouseListener {
 
     this.element.addEventListener(
       "mousecancel",
-      this.endListener.bind(this),
+      this.cancelListener.bind(this),
       false
     );
     this.element.addEventListener(
@@ -60,7 +60,16 @@ export default class MouseListener {
     this.element.addEventListener("wheel", (event) => {
       this.wheelDelta = event.deltaY;
     });
+    document.addEventListener("mouseleave", (event)=>{
 
+      if(event.clientY <= 0 || event.clientX <= 0 || (event.clientX >= window.innerWidth || event.clientY >= window.innerHeight))
+      {
+
+
+        this.mousePos.set(-1,-1);
+
+      }
+    });
     this.mousePos = new Vector2(-1, -1);
     this.mousePosDown = new Vector2(-1, -1);
   }
@@ -91,12 +100,18 @@ export default class MouseListener {
   }
 
   mouseMoveListener(e: MouseEvent) {
+
     this.setMousePosition(e);
     if (this.preventDefault) {
       e.preventDefault();
     }
   }
-
+  cancelListener() {
+    console.log("cancels")
+    this.isDown = false;
+    this.isDownThisFrame = false;
+    this.isDirty = 1;
+  }
   endListener() {
     this.isDown = false;
     this.isDownThisFrame = false;

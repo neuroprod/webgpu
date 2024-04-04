@@ -98,9 +98,12 @@ export default class Cursor extends  UIModel{
             offY =0
         }
         this.target.set(mousePos.x+offX,mousePos.y+offY,0)
-
+        if(mousePos.x<0 ){
+            this.target.y =-1000;
+        }
     }
     update() {
+
         if(!this.visible)return;
         super.update();
         this.pos.lerp(this.target,1);

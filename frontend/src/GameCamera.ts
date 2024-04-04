@@ -20,6 +20,12 @@ export default class GameCamera{
     }
     public update(){
         let mp = GameModel.mousePos.clone()
+        if(mp.x<0){
+            mp.x = window.innerWidth/2
+            mp.y =  window.innerHeight/2
+        }
+
+
         mp.scale(new Vector2(1 / (this.renderer.width / this.renderer.pixelRatio), 1 / (this.renderer.height / this.renderer.pixelRatio)))
 
         mp.x -= 0.5

@@ -28,25 +28,25 @@ export default class MailBox {
             this.flag.setEuler(0, 0, 0);
             this.door.setEuler(0,0,0)
             this.package.visible = false;
-            this.mailBox.needsHitTest =true
-            this.package.needsHitTest =false;
+            this.mailBox.enableHitTest =true
+            this.package.enableHitTest =false;
         }
        else if(state==1){
             this.flag.setEuler(0, 0, Math.PI/2);
             this.door.setEuler(0,0,Math.PI*0.95)
             this.package.visible = true;
-            this.mailBox.needsHitTest =false
-            this.flag.needsHitTest =false
-            this.door.needsHitTest =false
-            this.package.needsHitTest =true;
-            console.log( this.package.enableHitTest,"package??")
+            this.mailBox.enableHitTest =false
+            this.flag.enableHitTest =false
+            this.door.enableHitTest =false
+            this.package.enableHitTest =true;
+
 
         } else  if(state==2){
             this.flag.setEuler(0, 0 , Math.PI/2);
             this.door.setEuler(0,0,Math.PI*0.95)
             this.package.visible = false;
-            this.mailBox.needsHitTest =false
-            this.package.needsHitTest =false;
+            this.mailBox.enableHitTest =false
+            this.package.enableHitTest =false;
         }
     }
 
