@@ -230,7 +230,7 @@
     {
       "object": "takeKey",
       "copy": [
-        "Let's see if I can\nopen that *BOOKCASE* now."
+        "Looks like it's done."
       ]
     },
     {
@@ -479,7 +479,7 @@
     {
       "object": "takeKeyDone",
       "copy": [
-        "That should open the *BOOKCASE*"
+        "Let's see if I can\nopen that *BOOKCASE* now."
       ]
     },
     {

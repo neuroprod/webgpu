@@ -834,7 +834,7 @@
   "fishFood": {
     "needsHitTest": true,
     "needsAlphaClip": false,
-    "visible": false,
+    "visible": true,
     "needsWind": false,
     "windData": [
       0,
@@ -1856,7 +1856,7 @@
     "needCulling": true
   },
   "glowFlowerKnob": {
-    "needsHitTest": false,
+    "needsHitTest": true,
     "needsAlphaClip": false,
     "visible": false,
     "needsWind": false,

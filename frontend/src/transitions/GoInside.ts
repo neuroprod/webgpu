@@ -31,6 +31,7 @@ export default class GoInside extends Transition{
             GameModel.characterPos.y=0;
             let target = door.getWorldPos(new Vector3(2,0,0))
             GameModel.characterHandler.walkTo(target)
+            GameModel.getDrawingByLabel("chapter2_world").visible =false;
             RenderSettings.fadeToScreen(0.5)
         },[],1.5)
 

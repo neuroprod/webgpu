@@ -104,7 +104,7 @@ export default class Drawing extends Model {
         this.isShowing =true;
         this.start = 0;
         this.progress = 0;
-        this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 1.0}, 0);
+        this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 2.0}, 0);
         this.tl.set(this,{isShowing:false},1.0)
     }
     showIntro() {

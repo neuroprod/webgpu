@@ -36,6 +36,7 @@ this.state=0
         GameModel.renderer.modelByLabel["key"].enableHitTest = false;
         GameModel.stateGold = StateGold.HAS_KEY;
         GameModel.sound.playPickPants();
+        this.state = 2;
         GameModel.textHandler.showHitTrigger("takeKeyDone")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
         GameModel.characterHandler.setIdleAndTurn()

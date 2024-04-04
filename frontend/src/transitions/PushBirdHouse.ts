@@ -23,7 +23,7 @@ export default class PushBirdHouse extends Transition {
         GameModel.renderer.modelByLabel["girlPants"].visible = true;
         GameModel.renderer.modelByLabel["girlPants"].enableHitTest = true;
         GameModel.stateGirl = StateGirl.PUSH_BIRDHOUSE
-        GameModel.sound.playPickPants();
+       // GameModel.sound.playPickPants();
         setTimeout(() => {
             GameModel.characterHandler.setAnimationOnce("birdHouse2", 0.1, () => {
             })
