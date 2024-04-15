@@ -66,8 +66,8 @@ export default class PointLight extends Object3D {
                 this.sizeMesh = data.sizeMesh;
                 this.showLightMesh = data.showLightMesh;
         }
-
-        lightParents[this.parentIndex].addChild(this)
+        if(this.parentIndex>=0)
+            lightParents[this.parentIndex].addChild(this)
 
 
         this.mesh = new Sphere(renderer, 1, 16, 8);

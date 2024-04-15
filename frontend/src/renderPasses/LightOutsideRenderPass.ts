@@ -24,6 +24,8 @@ import GlobalLightOutsideShader from "../shaders/GlobalLightOutsideShader";
 import RenderSettings from "../RenderSettings";
 import GameModel from "../GameModel";
 import Object3D from "../lib/core/Object3D";
+import ModelRenderer from "../lib/model/ModelRenderer";
+import PointLight from "./PointLight";
 
 export default class LightOutsideRenderPass extends RenderPass {
 
@@ -61,7 +63,8 @@ export default class LightOutsideRenderPass extends RenderPass {
     public sunDir = new Vector3(-0.172996, -0.694981, -0.697907);
     public lightGrave: Object3D;
     public lightPos: Vector3 =new Vector3();
-
+    private modelRenderer: ModelRenderer;
+    private pointLight: PointLight;
 
     constructor(renderer: Renderer, target: RenderTexture) {
 
@@ -78,13 +81,38 @@ export default class LightOutsideRenderPass extends RenderPass {
             depthReadOnly: true
         });
 
-
+        this.modelRenderer = new ModelRenderer(this.renderer, "lightModels")
     }
 
     init() {
 
 
         this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightOutsideShader(this.renderer, "globalLightOutside"))
+
+        let data ={
+            "label": "millLight",
+            "position": [
+              0,
+                0,
+                0
+            ],
+            "size": 3.0,
+            "color": [
+                0.13043975830078125,
+                1.0,
+                0.114453125,
+                1
+            ],
+            "strength": 1,
+            "castShadow": false,
+            "numShadowSamples": 1,
+            "shadowScale": 1,
+            "sizeMesh": 0.05,
+            "showLightMesh": false,
+            "parentIndex": -1
+        }
+
+        this.pointLight = new PointLight(this.renderer,"p",this.modelRenderer,data,[])
 
 
         this.globalLightMaterial.blendModes = [
@@ -107,6 +135,13 @@ export default class LightOutsideRenderPass extends RenderPass {
 
     }
     setUniforms2(matrix2: Matrix4) {
+        if(GameModel.currentPants==4 && GameModel.dayNight==1) {
+            let pos = GameModel.characterPos.clone()
+            pos.y -= 0.5;
+            pos.z += 0.3;
+            this.pointLight.setPositionV(pos)
+            this.pointLight.update()
+        }
         this.globalLightMaterial.uniforms.setUniform("shadowMatrix2", matrix2);
     }
     setUniforms(matrix: Matrix4) {
@@ -193,8 +228,9 @@ export default class LightOutsideRenderPass extends RenderPass {
     draw() {
 
         this.blitGlobalLight.draw(this);
-
-
+        if(GameModel.currentPants==4 && GameModel.dayNight==1) {
+        this.modelRenderer.draw(this);
+        }
     }
 
 

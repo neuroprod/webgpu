@@ -29,6 +29,7 @@ import gsap from "gsap";
 import UI from "./lib/UI/UI";
 import {BlendFactor, BlendOperation} from "./lib/WebGPUConstants";
 import GlassGlowGlassShader from "./shaders/GlassGlowGlassShader";
+import ParticlesGold from "./extras/ParticlesGold";
 
 
 export default class Outside extends Scene {
@@ -56,6 +57,7 @@ export default class Outside extends Scene {
     private sparkScale: number =0;
 
     testPos =new Vector3()
+    particlesGold: ParticlesGold;
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "outside")
@@ -65,6 +67,8 @@ export default class Outside extends Scene {
     }
 
     init() {
+
+        this.particlesGold =new ParticlesGold(this.renderer);
 
         GameModel.animationMixer.addAnimations(    this.glFTLoader.animations)
         this.modelRenderer = new ModelRenderer(this.renderer, "outside");
@@ -138,6 +142,7 @@ export default class Outside extends Scene {
         //UI.pushWindow("test")
         //UI.LVector("pos",this.testPos)
         //UI.popWindow()
+        this.particlesGold.update();
         this.fogPlanes.update()
         this.fish.update();
         this.leaves.update()
@@ -241,6 +246,7 @@ export default class Outside extends Scene {
 
     makeTransParent() {
         this.modelRendererTrans.addModel(this.spark)
+        this.modelRendererTrans.addModel(this.particlesGold.model)
         this.fogPlanes = new FogPlanes(this.renderer, this.glFTLoader.root)
         for (let m of this.fogPlanes.models) {
             this.modelRendererTrans.addModel(m)

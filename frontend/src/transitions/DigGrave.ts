@@ -47,6 +47,7 @@ export default class DigGrave extends Transition {
         GameModel.renderer.modelByLabel["skeletonPants"].visible = true
         GameModel.characterHandler.face.lookGold();
         GameModel.characterHandler.setAnimationOnce("goldPants", 0, () => {
+            GameModel.outside.particlesGold.show(1);
             RenderSettings.fadeToBlack(1, 4);
             setTimeout(() => {
                 this.outroAnime()
