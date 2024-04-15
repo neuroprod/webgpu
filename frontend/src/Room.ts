@@ -64,6 +64,7 @@ testPos =new Vector3()
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "room")
+        new TextureLoader(this.renderer, preloader, "GCode.png", {});
         new TextureLoader(this.renderer, preloader, "LT_email.png", {});
         new TextureLoader(this.renderer, preloader, "LT_triangle.png", {});
         new TextureLoader(this.renderer, preloader, "LT_readMail1.png", {});
@@ -169,7 +170,7 @@ testPos =new Vector3()
 
     makeTransParent() {
 
-
+this.modelRenderer.addModel(this.mill.millControlePanel)
         for (let m of this.glFTLoader.modelsGlass) {
 
             m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])

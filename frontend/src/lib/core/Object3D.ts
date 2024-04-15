@@ -57,7 +57,9 @@ export default class Object3D extends ObjectGPU {
         this._position.set(x, y, z)
         this.setDirty();
     }
-
+    public setScaler(val: number) {
+       this.setScale(val,val,val);
+    }
     public setScale(x: number, y: number, z: number) {
        if(this._scale.equals([x,y,z]))return
         this._scale.set(x, y, z)

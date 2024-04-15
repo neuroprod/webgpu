@@ -276,7 +276,8 @@ class GameModel {
     private stopCount: number = 0;
     offsetY: number =0;
     clock: Clock;
-
+    temp1 =new Vector3()
+    temp2 =new Vector3()
     constructor() {
 
 

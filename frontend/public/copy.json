@@ -85,7 +85,7 @@
       "object": "introMail",
       "copy": [
         "But today feels\nsomehow different.",
-        "Let's read\nthat *MAIL* first."
+        "Let me read\nthat *MAIL* first."
       ]
     },
     {
@@ -473,7 +473,7 @@
     {
       "object": "sitDown",
       "copy": [
-        "I don't feel I have\ntime to sit down."
+        "I'm just too busy to\ntake a break right now."
       ]
     },
     {

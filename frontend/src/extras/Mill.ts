@@ -6,6 +6,8 @@ import Renderer from "../lib/Renderer";
 import Material from "../lib/core/Material";
 import MillSparkShader from "./MillSparkShader";
 import Timer from "../lib/Timer";
+import Plane from "../lib/meshes/Plane";
+import MillPanelShader from "./MillPanelShader";
 
 
 export default class Mill{
@@ -18,7 +20,8 @@ export default class Mill{
     public sparkModel: Model;
     private renderer: Renderer;
     private mill: Model;
-
+     millControlePanel: Model;
+private millCount =0;
 
     constructor(mill: Model, renderer: Renderer) {
         this.renderer = renderer;
@@ -43,6 +46,16 @@ export default class Mill{
         //this.sparkModel.addBuffer("pos")
       mill.addChild(this.sparkModel);
 
+
+        this.millControlePanel =new Model(renderer,"millControlePanel");
+        this.millControlePanel.mesh =new Plane(renderer);
+        this.millControlePanel.material =new Material(renderer,"millControlePanel",new MillPanelShader(renderer,"MillPanelShader"))
+        this.millControlePanel.setScaler(0.18)
+        this.millControlePanel.setPosition(0.06,-0.02,-0.05)
+        this.millControlePanel.material.uniforms.setUniform("time",this.millCount)
+        this.millControlePanel.setEuler(0,0,0);
+        this.millControlePanel.visible =false
+        this.millControle.addChild( this.millControlePanel)
 
         this.setState(0)
         return;
@@ -80,7 +93,8 @@ export default class Mill{
     }
 
     update(){
-
+        //this.millControlePanel.setPositionV(GameModel.temp1)
+        //this.millControlePanel.setScaler(GameModel.temp2.x)
         this.millHead.setPosition(0,this.headPos,0)
         this.millBed.setPosition(0,0,this.bedZ)
     }
@@ -99,7 +113,7 @@ export default class Mill{
             GameModel.renderer.modelByLabel["key"].enableHitTest =false;
             if(  GameModel.pointLightsByLabel[ "millLight"]) GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
             this.sparkModel.visible =false
-
+            this.millControlePanel.visible =false
 
         }else if(state==MillState.ON){
             GameModel.renderer.modelByLabel["keyStock"].visible =true;
@@ -111,10 +125,15 @@ export default class Mill{
             this.tl = gsap.timeline({repeat: -1, repeatDelay: 1,});
             this.tl.timeScale(3);
 
+            this.tl.call(()=>{this.updateText()},[])
             this.tl.to(this,{"headPos":0.03,ease: "sine.inOut"})
+            this.tl.call(()=>{this.updateText()},[])
             this.tl.to(this,{"bedZ":0.2,duration:4,ease: "sine.inOut",onUpdate:()=>{this.millCut()}},">")
+            this.tl.call(()=>{this.updateText()},[])
             this.tl.to(this,{"headPos":0.1,ease: "sine.inOut"},">")
+            this.tl.call(()=>{this.updateText()},[])
             this.tl.to(this,{"bedZ":-0.2,duration:2,ease: "sine.inOut"},"<")
+            this.millControlePanel.visible =true
 
         }
         else if(state==MillState.DONE){
@@ -138,9 +157,15 @@ export default class Mill{
             GameModel.renderer.modelByLabel["key"].enableHitTest =true;
             GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
             this.sparkModel.visible =false
+            this.millControlePanel.visible =true
         }
     }
+    updateText(){
+        this.millCount++;
+        this.millControlePanel.material.uniforms.setUniform("time",this.millCount)
+    }
     public millCut(){
+
         if(this.bedZ<0.15 && this.bedZ>-0.17){
             if(Timer.frame%2==0){
                 GameModel.pointLightsByLabel[ "millLight"].setStrength(0)
