@@ -421,6 +421,7 @@ class GameModel {
             this.renderer.modelByLabel["glowFlower"].enableHitTest = false
             this.renderer.modelByLabel["glowFlowerStem"].visible = true
             this.renderer.modelByLabel["glowFlowerKnob"].visible = false
+            this.renderer.modelByLabel["glowFlowerKnob"].enableHitTest = false
             this.renderer.modelByLabel["pot"].enableHitTest = false
             this.renderer.modelByLabel["Bush3"].enableHitTest = false
         }

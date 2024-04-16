@@ -18,13 +18,13 @@ public lock =false;
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
-            GameModel.characterHandler.setMixAnimation("grabGlowPants",1,1,this.animationComplete.bind(this))
+            GameModel.characterHandler.setMixAnimation("grabHigh",0.73,0.54,this.animationComplete.bind(this))
             GameModel.gameUI.cursor.hide()
             this.lock =true;
         }
     }
     animationComplete(){
-        GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.5,this.onDone.bind(this));
+        GameModel.characterHandler.setMixAnimation("grabHigh",0,0.5,this.onDone.bind(this));
         GameModel.stateHighTech =StateHighTech.PICK_FLOWER
         GameModel.sound.playPickPants();
 

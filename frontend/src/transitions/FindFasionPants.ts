@@ -16,12 +16,12 @@ export default class FindFasionPants extends Transition{
         GameModel.gameUI.cursor.animate()
         if(GameModel.textHandler.readNext()){
 
-            GameModel.characterHandler.setMixAnimation("grabGlowPants",1,0.5,this.animationComplete.bind(this))
+            GameModel.characterHandler.setMixAnimation("grabHigh",0.73,0.57,this.animationComplete.bind(this))
 
         }
     }
     animationComplete(){
-        GameModel.characterHandler.setMixAnimation("grabGlowPants",0,0.5);
+        GameModel.characterHandler.setMixAnimation("grabHigh",0,0.5);
         GameModel.outside.mailBox.setState(2);
         GameModel.characterHandler.setMixAnimation("lookdown", 0.0, 0.5);
         GameModel.pantsFound.push(Pants.fashion);

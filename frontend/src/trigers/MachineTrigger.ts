@@ -47,7 +47,7 @@ export default class MachineHitTrigger extends HitTrigger {
         }
         if (GameModel.stateHighTech == StateHighTech.PICK_FLOWER) {
             let pot = GameModel.renderer.modelByLabel["table"]
-            let world = pot.getWorldPos(new Vector3(-0.5, 0, 0))
+            let world = pot.getWorldPos(new Vector3(-0.7, 0, 0))
             GameModel.characterHandler.walkTo(world, Math.PI/2, this.onCompleteWalk, false)
             GameModel.hitObjectLabel=""
         }

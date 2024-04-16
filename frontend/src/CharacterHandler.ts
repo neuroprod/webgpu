@@ -151,7 +151,7 @@ export default class CharacterHandler {
         let dist = GameModel.characterPos.distance(this.targetPos);
         let dir = this.targetPos.clone().subtract(GameModel.characterPos)
         let angle = Math.atan2(dir.x, dir.z);
-
+console.log(dist,angle,"??")
 
         this.tl.call(() => {
             this.animationMixer.setAnimation("walking", 0)  , this.isWalking = true

@@ -1,7 +1,7 @@
 import Transition from "./Transition";
 import GameModel, {StateGirl} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
-import {lock} from "next/dist/client/components/react-dev-overlay/internal/components/Overlay/body-locker";
+
 
 export default class TakeStick extends Transition{
 
