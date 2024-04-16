@@ -25,7 +25,7 @@ export default class Endscreen extends UIBitmapModel {
         } else {
             this.uiScale = GameModel.screenHeight / 1000;
         }
-        
+
         this.setScale(this.uiScale, this.uiScale, this.uiScale)
     }
 

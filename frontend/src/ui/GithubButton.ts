@@ -22,7 +22,7 @@ export default class GithubButton extends UIBitmapModel{
         super.onOver();
         GameModel.sound.playClick(0.2);
         gsap.killTweensOf(this)
-        gsap.to(this,{scale:1.01,duration:0.15,ease:"back.out"})
+        gsap.to(this,{scale:1.07,duration:0.15,ease:"back.out"})
 
     }
     onOut() {
