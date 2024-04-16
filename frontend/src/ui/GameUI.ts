@@ -12,6 +12,7 @@ import InventoryDetail from "./InventoryDetail";
 import EnterButton from "./EnterButton";
 import Cursor, {CURSOR} from "./Cursor";
 import Note from "./Note";
+import Endscreen from "./Endscreen";
 
 
 export default class GameUI {
@@ -31,6 +32,7 @@ export default class GameUI {
     private enterButton: EnterButton;
     private state: UIState = UIState.PRELOAD;
     private note: Note;
+    private endscreen: Endscreen;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
 
@@ -69,6 +71,9 @@ export default class GameUI {
 
         this.note = new Note(renderer, preLoader)
         this.root.addChild(this.note)
+
+        this.endscreen =new Endscreen(renderer,preLoader)
+        this.root.addChild(this.endscreen)
         // this.test.setEuler(Math.PI,0,0)
 
         this.menuButton.hide()

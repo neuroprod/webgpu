@@ -2,6 +2,7 @@ import Model from "../lib/model/Model";
 import RenderPass from "../lib/core/RenderPass";
 import Renderer from "../lib/Renderer";
 import Camera from "../lib/Camera";
+import GameModel from "../GameModel";
 
 export default class UIModelRenderer{
 
@@ -20,7 +21,7 @@ export default class UIModelRenderer{
         const passEncoder =pass.passEncoder;
 
         passEncoder.setBindGroup(0,this.camera.bindGroup);
-
+      //  passEncoder.setBindGroup(0,this.renderer.bindGroup);
         for (let model of this.models) {
             if(!model.visible)continue;
             if(!model.mesh)continue;

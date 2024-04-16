@@ -6,6 +6,8 @@ import gsap from "gsap";
 import CloseButton from "./CloseButton";
 import DraggButton from "./DraggButton";
 import CheckButton from "./CheckButton";
+import KrisButton from "./KrisButton";
+import GithubButton from "./GithubButton";
 
 export default class Menu extends UIBitmapModel {
     private yPos: number = 133 / 2 - 20;
@@ -15,6 +17,8 @@ export default class Menu extends UIBitmapModel {
     private draggMusicButton: DraggButton;
     private draggFxButton: DraggButton;
      checkBtn: CheckButton;
+    private krisButton: KrisButton;
+    private githubButton: GithubButton;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
         super(renderer, preLoader, "menu", "UI/mainMenu.webp");
@@ -46,6 +50,25 @@ export default class Menu extends UIBitmapModel {
         this.checkBtn = new CheckButton(renderer, preLoader, "checkBtn");
         this.checkBtn.setPosition(-150, 33, 0);
         this.addChild(this.checkBtn)
+
+
+        this.krisButton = new KrisButton(renderer, preLoader, "krisMenu")
+        this.krisButton .setPosition(-20, 305, 0);
+        this.addChild( this.krisButton )
+        this.krisButton .onClick = () => {
+
+            GameModel.sound.playClick()
+            window.open("http://neuroproductions.be/", "_blank");
+        }
+
+        this.githubButton = new GithubButton(renderer, preLoader, "gitMenu")
+        this.githubButton .setPosition(270, 245, 0);
+        this.addChild( this.githubButton )
+        this.githubButton .onClick = () => {
+
+            GameModel.sound.playClick()
+            window.open("https://github.com/neuroprod/webgpu", "_blank");
+        }
 
 
     }
