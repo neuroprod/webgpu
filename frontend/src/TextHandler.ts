@@ -65,7 +65,7 @@ export default class TextHandler {
             }
             d.readAll = false;
         }
-        console.log("num words" ,this.words);
+      //  console.log("num words" ,this.words);
     }
 
     public wordCount(s: string) {

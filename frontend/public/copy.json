@@ -19,8 +19,7 @@
       "object": "bookPicture1",
       "copy": [
         "Grandpa!",
-        "He died.",
-        "Such a tragedy."
+        "In the prime of his life!"
       ]
     },
     {
@@ -175,8 +174,8 @@
     {
       "object": "readCross",
       "copy": [
-        "Here lies Grandpa."
-
+        "Here lies Grandpa.",
+        "He died in mysterious\ncircumstances."
       ]
     },
     {
@@ -433,7 +432,7 @@
     {
       "object": "shouldDoWork",
       "copy": [
-        "It’s time for me to\nget started on that\n*UNDERWEAR SIMULATOR*"
+        "It's time for me to\nget started on that\n*UNDERWEAR SIMULATOR*"
       ]
     },
     {
