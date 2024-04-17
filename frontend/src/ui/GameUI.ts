@@ -178,6 +178,10 @@ export default class GameUI {
             this.note.show()
 
         }
+        if (state == UIState.END_SCREEN) {
+            this.endscreen.show();
+
+        }
         this.state = state
     }
 

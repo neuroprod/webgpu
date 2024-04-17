@@ -246,7 +246,7 @@ export default class Outside extends Scene {
 
     makeTransParent() {
         this.modelRendererTrans.addModel(this.spark)
-        this.modelRendererTrans.addModel(this.particlesGold.model)
+        this.modelRenderer.addModel(this.particlesGold.model)
         this.fogPlanes = new FogPlanes(this.renderer, this.glFTLoader.root)
         for (let m of this.fogPlanes.models) {
             this.modelRendererTrans.addModel(m)

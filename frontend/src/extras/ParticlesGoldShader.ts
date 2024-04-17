@@ -33,7 +33,12 @@ struct VertexOutput
     @builtin(position) position : vec4f
   
 }
-
+struct GBufferOutput {
+  @location(0) color : vec4f,
+  @location(1) normal : vec4f,
+    @location(2) mra : vec4f,
+   
+}
 
 ${Camera.getShaderText(0)}
 ${ModelTransform.getShaderText(1)}
@@ -65,11 +70,11 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
     var pos = aPos;
-    pos.x *=0.005;
+    pos.x *=0.002;
     pos.z*=0.2;
     let off = (instanceData.x +uniforms.time*instanceData.z)%1.0;
     pos.z +=off;
-   output.al =vec2(1.0-off);
+   output.al =vec2(1.0-off,instanceData.w);
      pos =rotation3dY(instanceData.y)*pos;
      
     // pos.y +=-instanceData.x*0.1-aPos.y*0.5;
@@ -81,11 +86,27 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 
 
 @fragment
-fn mainFragment(@location(0) uv0: vec2f,@location(1) al: vec2f) -> @location(0) vec4f
+fn mainFragment(@location(0) uv0: vec2f,@location(1) al: vec2f) -> GBufferOutput
 {
+   var output : GBufferOutput;
+   var a  =step(0.5+al.y,al.x);
    
- let a  =smoothstep(0.2,0.3,al.x);
-  return vec4(mix(vec3(2.0,2.0,2.0),vec3(1.0,1.0,1.0),uv0.y)*a,a);
+    if(a<0.9) {
+    discard;
+    }
+    a*=0.001;
+   output.color =vec4(a,a,a,a);
+ 
+  
+ 
+    output.normal =vec4(0.0,0.0,1.0,1.0);
+    
+  
+   
+    output.mra =vec4(0.0,1.0,1.0,0.0);
+   
+
+  return output;
  
 }
 ///////////////////////////////////////////////////////////

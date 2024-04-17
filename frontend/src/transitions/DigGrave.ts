@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Scenes, StateGold} from "../GameModel";
+import GameModel, {Scenes, StateGold, UIState} from "../GameModel";
 import RenderSettings from "../RenderSettings";
 import {CURSOR} from "../ui/Cursor";
 
@@ -63,5 +63,6 @@ export default class DigGrave extends Transition {
         GameModel.renderer.modelByLabel["coffee"].visible = false;
         GameModel.setScene(Scenes.PRELOAD)
         RenderSettings.fadeToScreen(1)
+        GameModel.setUIState(UIState.END_SCREEN);
     }
 }

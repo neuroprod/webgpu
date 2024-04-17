@@ -15,8 +15,8 @@ export default class ParticlesGold{
         this.model =new Model(renderer,"particlesGold")
         this.model.mesh = new Plane(this.renderer)
         this.model.material  =new Material(renderer,"partGoldMat",new ParticlesGoldShader(renderer,"partGoldShader"))
-        this.model.material.depthWrite =false;
-        this.model.numInstances =100;
+        this.model.material.depthWrite =true
+        this.model.numInstances =300;
         this.model.setEuler(Math.PI/2,0,0)
         this.model.visible =false;
         let data =new Float32Array( this.model.numInstances*4)
@@ -28,7 +28,7 @@ export default class ParticlesGold{
             data[index++]=Math.random();
             data[index++]=Math.random()*Math.PI*2;
             data[index++]=Math.random()+0.5*3.0;
-            data[index++]=Math.random()+0.5*8.0;
+            data[index++]=Math.random()*0.2;
 
         }
 
@@ -67,7 +67,7 @@ export default class ParticlesGold{
     update(){
         if(!this.model.visible)return;
         this.model.material.uniforms.setUniform("time",Timer.time)
-this.model.setPosition(-25.17,-0.12,-2.05)
+        this.model.setPosition(-25.17,-0.12,-2.05)
       //  this.model.setEuler(Math.random()*6,Math.random()*6,Math.random()*6)
     }
 
