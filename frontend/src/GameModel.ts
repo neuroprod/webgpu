@@ -647,7 +647,7 @@ class GameModel {
         if (this.currentTransition != null) return
         let s = this.prevTransition.name;
         this.stopCount++
-        console.log(this.stopCount)
+
 // has outside pants and didnts start working && outside
         if (this.pantsFound.length == 3 && this.stateFashion == StateFasion.READ_MAIL_DONE) {
             if (this.stopCount % 3 == 0) {

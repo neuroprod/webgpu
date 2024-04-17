@@ -658,7 +658,7 @@ export default class GLFTLoader {
                     let tangentData = this.getSlize(tangentAccessor);
                     mesh.setTangents(new Float32Array(tangentData));
                 } else {
-                    console.warn("no tangent for mesh", m.name)
+                  //  console.warn("no tangent for mesh", m.name)
                 }
                 if (primitive.attributes.COLOR_0 && md && md.needsWind) {
 

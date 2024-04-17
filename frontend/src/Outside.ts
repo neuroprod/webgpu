@@ -273,7 +273,7 @@ export default class Outside extends Scene {
             }
             if(m.material.label=="glassGlowGlass") needsDepth =false;
             if(needsDepth) {
-                console.log(m)
+
                 m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
                 m.material.uniforms.setTexture("reflectTexture", this.renderer.texturesByLabel["BlurLightPass"])
             }

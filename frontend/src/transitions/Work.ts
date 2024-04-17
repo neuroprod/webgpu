@@ -65,6 +65,8 @@ public count =0;
             GameModel.gameUI.cursor.hide()
             GameModel.clock.addTime()
             GameModel.clock.addTime()
+            GameModel.clock.addTime()
+            GameModel.clock.addTime()
             this.onComplete()
         }
 

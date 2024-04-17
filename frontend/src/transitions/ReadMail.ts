@@ -37,7 +37,7 @@ export default class ReadMail extends Transition {
 
                 GameModel.characterHandler.setIdleAndTurn()
                 if (GameModel.stateFashion == StateFasion.READ_MAIL) {
-                   console.log("setReadMail")
+
                     GameModel.textHandler.showHitTrigger("letsGoOutsideFirst");
                 }
                 if (GameModel.stateFashion == StateFasion.READ_MAIL_MAILBOX) {
@@ -61,7 +61,7 @@ export default class ReadMail extends Transition {
 
                 }
 
-                console.log("done")
+
 
                 this.onComplete()
 

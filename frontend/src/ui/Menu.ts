@@ -53,7 +53,7 @@ export default class Menu extends UIBitmapModel {
 
 
         this.krisButton = new KrisButton(renderer, preLoader, "krisMenu")
-        this.krisButton .setPosition(-20, 305, 0);
+        this.krisButton .setPosition(-20, 375, 0);
         this.addChild( this.krisButton )
         this.krisButton .onClick = () => {
 
@@ -62,7 +62,7 @@ export default class Menu extends UIBitmapModel {
         }
 
         this.githubButton = new GithubButton(renderer, preLoader, "gitMenu")
-        this.githubButton .setPosition(270, 245, 0);
+        this.githubButton .setPosition(130, 255, 0);
         this.addChild( this.githubButton )
         this.githubButton .onClick = () => {
 

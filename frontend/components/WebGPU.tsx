@@ -28,6 +28,7 @@ export default class WebGPU extends React.Component {
                 <meta property="og:url" content="https://foodforfish.org"/>
                 <meta property="og:title" content="Food for Fish" />
                 <meta property="og:description" content="WebGPU Game" />
+                <link rel="icon" type="image/png" href="https://foodforfish.org/icon.png"/>
             </Head>
 
 

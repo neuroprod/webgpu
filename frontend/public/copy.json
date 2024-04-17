@@ -66,7 +66,7 @@
       "scene": 1,
       "object": "clock",
       "copy": [
-        "It's a clock"
+        "Time flies!"
       ]
     }
   ],
@@ -77,15 +77,15 @@
         "Two years have passed\nsince *GRANDPA* Died.",
         "He always went\non adventures.",
         "Looking for the\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
-        "Nothing ever seems\nto happen to me.",
-        "I spend my days\nmaking websites."
+        "I just spend my days\nmaking websites.",
+        "very little ever\nhappens to me."
       ]
     },
     {
       "object": "introMail",
       "copy": [
-        "But today feels\nsomehow different.",
-        "Let me read\nthat *MAIL* first."
+        "Maybe today will\nbe different.",
+        "But let me read\nthat *MAIL* first."
       ]
     },
     {
@@ -97,7 +97,7 @@
     {
       "object": "readMail",
       "copy": [
-        "An\n*UNDERWEAR\nSIMULATOR*",
+        "An\n*UNDERWEAR\nSIMULATOR*\n?",
         "...",
         "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
         "Oh well."
@@ -126,7 +126,9 @@
       "copy": [
         "First things first!\nLet's start with\nrendering a triangle!",
         "The building block\nof worlds!",
-        "and\n*UNDERWEAR\nSIMULATORS*"
+        "and\n*UNDERWEAR\nSIMULATORS*",
+        "Now add some shading",
+        "and its done!"
       ]
     },
 
@@ -173,8 +175,8 @@
     {
       "object": "readCross",
       "copy": [
-        "Grandpa's grave.",
-        "bla bla"
+        "Here lies Grandpa."
+
       ]
     },
     {
@@ -188,9 +190,9 @@
     {
       "object": "bookCaseLocked",
       "copy": [
-        "Grandpa kept his notes\nin that bookcase",
+        "Grandpa kept his notes\nin that bookcase.",
         "But it's locked.",
-        "Maybe I should\n*make a KEY* for it."
+        "Maybe I should\n*make a KEY* for it!"
       ]
     },
     {
@@ -319,7 +321,7 @@
       "object": "takeFishFood",
       "copy": [
         "*FOOD FOR FISH* tm",
-        "Made from fish,\nfor fish.",
+        "Made from fish, for fish.",
         "The favourite meal\nof my wet friends."
       ]
     },
@@ -345,7 +347,7 @@
     {
       "object": "findGrandpaPants",
       "copy": [
-        "The fish left me a gift",
+        "The fish left me a gift!",
         "It's the old underpants\nof grandpa!",
         "I assumed he was\nburied in them?"
       ]
@@ -360,7 +362,7 @@
     {
       "object": "birdHouseFell",
       "copy": [
-        "The wind must have\nblown it crooked",
+        "The wind must have\nblown it crooked.",
         "But I can't seem to reach it."
       ]
     },
@@ -431,7 +433,7 @@
     {
       "object": "shouldDoWork",
       "copy": [
-        "I should start to\nwork on the\n*UNDERWEAR SIMULATOR*"
+        "It’s time for me to\nget started on that\n*UNDERWEAR SIMULATOR*"
       ]
     },
     {
