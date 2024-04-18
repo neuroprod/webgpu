@@ -25,7 +25,7 @@ export default class Menu extends UIBitmapModel {
         this.visible = false;
 
         this.closeButton = new CloseButton(renderer, preLoader, "closeMenu")
-        this.closeButton.setPosition(450, -360, 0);
+        this.closeButton.setPosition(430, -360, 0);
         this.addChild(this.closeButton)
         this.closeButton.onClick = () => {
             GameModel.setUIState(UIState.GAME_DEFAULT);

@@ -5,13 +5,42 @@ import PreLoader from "../lib/PreLoader";
 import GameModel from "../GameModel";
 import gsap from "gsap";
 
+
+import KrisEndButton from "./KrisEndButton";
+import MusicEndButton from "./MusicEndButton";
+
 export default class Endscreen extends UIBitmapModel {
     private uiScale: number;
     public alpha=0;
+    private musicButton: MusicEndButton;
+    private krisButton: KrisEndButton;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
-        super(renderer, preLoader, "endscreen", "UI/endscreen.webp");
+        super(renderer, preLoader, "endscreen", "UI/endscreen.png");
         this.visible =false;
+
+        this.mouseEnabled =true;
+        this.krisButton = new KrisEndButton(renderer, preLoader, "krisMenuEnd")
+        this.krisButton .setPosition(100, 50, 0);
+        this.addChild( this.krisButton )
+        this.krisButton .onClick = () => {
+
+            GameModel.sound.playClick()
+            window.open("http://neuroproductions.be/", "_blank");
+        }
+
+        this.musicButton = new MusicEndButton(renderer, preLoader, "musicMenu")
+        this.musicButton .setPosition(-30, 300, 0);
+        this.addChild( this.musicButton )
+        this.musicButton .onClick = () => {
+
+            GameModel.sound.playClick()
+            window.open("https://musopen.org/music/4107-goldberg-variations-bwv-988/", "_blank");
+        }
+
+
+
+
     }
     update() {
         if (!this.visible) return;
@@ -23,6 +52,8 @@ export default class Endscreen extends UIBitmapModel {
             this.uiScale = GameModel.screenHeight / 1000 *0.7;
         }
         this.material.uniforms.setUniform("alpha",this.alpha);
+        this.musicButton.material.uniforms.setUniform("alpha",this.alpha);
+        this.krisButton.material.uniforms.setUniform("alpha",this.alpha);
         this.setScale(this.uiScale, this.uiScale, this.uiScale)
     }
     public show(){

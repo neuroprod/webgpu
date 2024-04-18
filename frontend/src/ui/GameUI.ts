@@ -43,6 +43,9 @@ export default class GameUI {
 
         this.root = new UIModel(renderer, "uiRoot");
 
+        this.endscreen =new Endscreen(renderer,preLoader)
+        this.root.addChild(this.endscreen)
+
         this.cursor = new Cursor(renderer, preLoader)
         this.root.addChild(this.cursor);
 
@@ -72,8 +75,6 @@ export default class GameUI {
         this.note = new Note(renderer, preLoader)
         this.root.addChild(this.note)
 
-        this.endscreen =new Endscreen(renderer,preLoader)
-        this.root.addChild(this.endscreen)
         // this.test.setEuler(Math.PI,0,0)
 
         this.menuButton.hide()

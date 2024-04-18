@@ -107,7 +107,7 @@ export default class Intro{
         this.modelRenderer.addModel(     this.coffee )
 
         this.stick = glFTLoaderChar.modelsByName["stickHold"]
-
+        this.stick.material.cullMode ="none"
         this.shovel = glFTLoaderChar.modelsByName["shovelHold"]
 
         this.skeleton  = glFTLoaderChar.modelsByName["skeleton"]

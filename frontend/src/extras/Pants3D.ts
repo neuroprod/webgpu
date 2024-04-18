@@ -125,6 +125,7 @@ export default class Pants3D{
 
         }if(state ==PantsState.EndPants)
         {
+            console.log("endpants");
             this.pants.material = this.pantsMaterial;
             gsap.to(this,{pantsScale :0})
             gsap.delayedCall(1.5,()=>{GameModel.compVisible=false})

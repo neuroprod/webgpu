@@ -24,6 +24,8 @@ export default class Machine
     private targetProgress: number = 0;
     private arrow: Model;
     private finnish: boolean;
+    private onComplete: () => void;
+    private lock: boolean =false;
     constructor(renderer:Renderer) {
         this.renderer =renderer;
         this.drop =this.renderer.modelByLabel["drip"]
@@ -45,7 +47,7 @@ export default class Machine
 
     start(finnish: boolean =false,onComplete:()=>void =()=>{}){
 
-
+this.onComplete = onComplete;
         this.drop.visible =true;
         this.finnish =finnish;
         if(this.dripTL)this.dripTL.clear()
@@ -61,11 +63,11 @@ export default class Machine
         this.dripTL.call(()=>{
             GameModel.sound.playDrip();
           if(finnish){
-              this.targetProgress+=0.3;
+              this.targetProgress+=0.4;
               if(this.targetProgress>0.99){
                   this.targetProgress=1;
-                  onComplete()
-                  GameModel.stateHighTech =StateHighTech.STOP_MACHINE
+
+
               }
           }else{
               this.targetProgress+=0.02;
@@ -76,14 +78,26 @@ export default class Machine
         this.dripTL.set(this,{ dropScale:0,dropScale2:0.0},1.8)
     }.1
     update(){
+if(this.lock )return
+
         if(this.drop.visible){
             this.dropPos.y =this.dropStartPos.y+this.dropOffset;
            this.drop.setPositionV(this.dropPos)
             this.drop.setScale(this.dropScale-this.dropScale2*0.2,this.dropScale+this.dropScale2,this.dropScale-this.dropScale2*0.2)
-            this.glowProgress+=(this.targetProgress-this.glowProgress)*0.01;
-           if(this.glowProgress>0) this.pants.material.uniforms.setUniform("progress",this.glowProgress+0.03)
+            this.glowProgress+=(this.targetProgress-this.glowProgress)*0.02;
+
+
+
+           if(this.glowProgress>0) this.pants.material.uniforms.setUniform("progress",this.glowProgress*this.glowProgress+0.03)
             GameModel.pointLightsByLabel[ "glowPantsLight"].setStrength(Math.sin(Timer.time*0.66)*0.2+0.8);
         this.arrow.setEuler(0,0,Math.sin(Timer.time)*0.2+Math.sin(Timer.time*3.0)*0.2+2)
+        }
+
+        if(this.glowProgress>0.98){
+            GameModel.stateHighTech =StateHighTech.STOP_MACHINE
+            this.onComplete();
+            this.lock = true;
+
         }
     }
 

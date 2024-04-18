@@ -37,9 +37,10 @@ public count =0;
             if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE) {
                 if (this.count == 1) GameModel.pants3D.setState(PantsState.AddTriangles)
                 if (this.count == 2) GameModel.pants3D.setState(PantsState.MakeShape)
-                if (this.count == 3) GameModel.pants3D.setState(PantsState.finishTriangle)
+                if (this.count == 3) GameModel.pants3D.setState(PantsState.StartPantsEnd)
+
             }else{
-                if (this.count == 1) GameModel.pants3D.setState(PantsState.EndPants)
+             //   if (this.count == 1) GameModel.pants3D.setState(PantsState.StartPantsEnd)
 
             }
         }
@@ -53,6 +54,7 @@ public count =0;
             world.z+=1.1;
             world.x-=0.5;
 
+            GameModel.pants3D.setState(PantsState.EndPants)
             GameModel.sound.stopTyping()
             GameModel.characterHandler.walkTo(world,0,this.onEndWalkDone.bind(this))
             if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE)
@@ -67,6 +69,7 @@ public count =0;
             GameModel.clock.addTime()
             GameModel.clock.addTime()
             GameModel.clock.addTime()
+
             this.onComplete()
         }
 
