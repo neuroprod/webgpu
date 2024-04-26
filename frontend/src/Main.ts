@@ -816,7 +816,9 @@ export default class Main {
     }
 
     private updateSceneHeight() {
-        if(GameModel.stateGold == StateGold.GET_GOLD) return;
+        if(GameModel.stateGold == StateGold.GET_GOLD){
+            GameModel.sceneHeight = 2.5;
+        }
         if (GameModel.currentScene == Scenes.ROOM) {
             let sw = this.renderer.ratio * 3;
 

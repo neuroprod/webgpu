@@ -36,7 +36,9 @@ export default class GameCamera{
         if(GameModel.currentScene ==Scenes.PRELOAD){
          mp.scale(0.7);
         }
-
+        if(GameModel.stateGold==StateGold.OUTRO){
+            mp.scale(0.2);
+        }
        this.offsetX = this.getCameraOffsetX();
 
 

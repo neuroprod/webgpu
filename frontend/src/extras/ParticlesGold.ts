@@ -18,7 +18,7 @@ export default class ParticlesGold{
         this.model.mesh = new Plane(this.renderer)
         this.model.material  =new Material(renderer,"partGoldMat",new ParticlesGoldShader(renderer,"partGoldShader"))
         this.model.material.depthWrite =true
-        this.model.numInstances =100;
+        this.model.numInstances =200;
         this.model.setEuler(Math.PI/2,0,0)
         this.model.visible =false;
         let data =new Float32Array( this.model.numInstances*4)

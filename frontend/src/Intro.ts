@@ -11,6 +11,7 @@ import SmokeShader from "./shaders/SmokeShader";
 import {CullMode} from "./lib/WebGPUConstants";
 import {NumericArray, Vector3} from "math.gl";
 import Timer from "./lib/Timer";
+import Object3D from "./lib/core/Object3D";
 
 export default class Intro{
     private renderer: Renderer;
@@ -34,6 +35,7 @@ export default class Intro{
     private fishFood: Model;
     private skeleton: Model;
     private skeletonPants: Model;
+    private root: Object3D;
     constructor(renderer:Renderer,preloader:PreLoader) {
 
         this.renderer = renderer
@@ -87,6 +89,7 @@ export default class Intro{
     }
     init(glFTLoaderChar:GLFTLoader)
     {
+        this.root = glFTLoaderChar.root;
         this.modelRenderer = new ModelRenderer(this.renderer, "introModels")
         this.modelRendererTrans= new ModelRenderer(this.renderer, "introModelsTrans")
         this.face = glFTLoaderChar.modelsByName["face"]
@@ -136,6 +139,8 @@ export default class Intro{
 if(GameModel.stateGold==StateGold.OUTRO){
     this.smoke.visible =false;
     this.coffee.visible =false;
+    this.root.setPosition(-0.93,0.31,-1.28);
+
     return;
 }
 

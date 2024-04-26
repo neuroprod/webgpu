@@ -317,11 +317,11 @@ class GameModel {
            this.renderer.modelByLabel["cross"].setEuler(Math.PI/2,0.5,0)
             this.renderer.modelByLabel["grave"].setPosition(-24.0,0,-1.3)
             this.characterPos.set(-24.8,-1,-2)
-            this.offsetY =-0.5
-            this.sceneHeight =2.5;
+           this.offsetY =-0.5
+            //this.sceneHeight =2.5;
         }if(value == StateGold.OUTRO){
-            this.offsetY =-1.45;
-            this.sceneHeight =2.5;
+            this.offsetY =0;
+            //this.sceneHeight =2.5;
         }
 
 
