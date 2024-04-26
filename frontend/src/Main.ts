@@ -77,7 +77,7 @@ export default class Main {
     private reflectionPass: ReflectionRenderPass;
     private glassPass: GlassRenderPass;
     private blurLightPass: BlurLight;
-    private combinePass: CombinePass;
+  combinePass: CombinePass;
     private numberOfQueries: number = 11;
     private blurBloomPass: BlurBloom;
     private shadowPassCube1: ShadowCube;
@@ -753,7 +753,9 @@ export default class Main {
             this.outsideCount++;
 
         }
-        if(GameModel.compVisible) this.pants3D.pantsRenderPass.add();
+        if(GameModel.compVisible){
+            this.pants3D.pantsRenderPass.add();
+        }
         this.timeStampQuery.setStamp("ShadowPass");
         this.gBufferPass.add();
         this.timeStampQuery.setStamp("GBufferPass");

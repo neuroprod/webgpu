@@ -15,7 +15,7 @@ export default class CombinePass extends RenderPass{
     private target: RenderTexture;
     public bloomAttachment: ColorAttachment;
     private bloomTarget: RenderTexture;
-    private blitMaterial: Material;
+    public blitMaterial: Material;
     private blit: Blit;
 
 

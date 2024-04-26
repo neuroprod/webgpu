@@ -55,7 +55,7 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":759,
+			"count":758,
 			"max":[
 				0.1736937314271927,
 				0.06651568412780762,
@@ -71,19 +71,19 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":759,
+			"count":758,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":759,
+			"count":758,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":759,
+			"count":758,
 			"type":"VEC4"
 		},
 		{
@@ -96,38 +96,38 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":9108,
+			"byteLength":9096,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":9108,
-			"byteOffset":9108,
+			"byteLength":9096,
+			"byteOffset":9096,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6072,
-			"byteOffset":18216,
+			"byteLength":6064,
+			"byteOffset":18192,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":12144,
-			"byteOffset":24288,
+			"byteLength":12128,
+			"byteOffset":24256,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":7392,
-			"byteOffset":36432,
+			"byteOffset":36384,
 			"target":34963
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":43824,
+			"byteLength":43776,
 			"uri":"pants.bin"
 		}
 	]

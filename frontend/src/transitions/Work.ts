@@ -37,8 +37,9 @@ public count =0;
             if(GameModel.stateFashion ==StateFasion.MAKE_TRIANGLE) {
                 if (this.count == 1) GameModel.pants3D.setState(PantsState.AddTriangles)
                 if (this.count == 2) GameModel.pants3D.setState(PantsState.MakeShape)
-                if (this.count == 3) GameModel.pants3D.setState(PantsState.StartPantsEnd)
-
+                if (this.count == 3) GameModel.pants3D.setState(PantsState.Textures)
+                if (this.count == 4) GameModel.pants3D.setState(PantsState.Shading)
+                if (this.count == 5) GameModel.pants3D.setState(PantsState.Post)
             }else{
              //   if (this.count == 1) GameModel.pants3D.setState(PantsState.StartPantsEnd)
 
@@ -52,7 +53,7 @@ public count =0;
             let obj = GameModel.renderer.modelByLabel["labtop"]
             let world = obj.getWorldPos()
             world.z+=1.1;
-            world.x-=0.5;
+            world.x+=0.5;
 
             GameModel.pants3D.setState(PantsState.EndPants)
             GameModel.sound.stopTyping()

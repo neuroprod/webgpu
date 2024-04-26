@@ -9,6 +9,8 @@ import LaptopMailShader from "./LaptopMailShader";
 import LaptopProgrammingShader from "./LaptopProgrammingShader";
 import {StateFasion} from "../GameModel";
 import LaptopCanMakeShader from "./LaptopCanMakeShader";
+import LaptopDistordShader from "./LaptopDistordShader";
+import Noise1D from "./Noise1D";
 
 export class LaptopScreen extends Model{
     private triangleMaterial: Material;
@@ -17,6 +19,9 @@ export class LaptopScreen extends Model{
     private imageMaterial: Material;
     private programMaterial: Material;
     private canMakeMaterial: Material;
+    private imageDistordMaterial: Material;
+    private state: StateFasion;
+    private noise1D  =new Noise1D()
 
     constructor(renderer,parent:Model) {
         super(renderer,"laptopScreen");
@@ -30,6 +35,10 @@ export class LaptopScreen extends Model{
 
         this.imageMaterial  =new Material(this.renderer,"imgLaptopMaterial", new LaptopShader(this.renderer,"laptopShader"))
         this.imageMaterial.uniforms.setUniform("ratio",8/5);
+
+
+        this.imageDistordMaterial  =new Material(this.renderer,"imgLaptopMaterial", new LaptopDistordShader(this.renderer,"laptopDistordShader"))
+        this.imageDistordMaterial.uniforms.setUniform("ratio",8/5);
 
 
         this.canMakeMaterial  =new Material(this.renderer,"canMakeMaterial", new LaptopCanMakeShader(this.renderer,"laptopShadercanmake"))
@@ -56,10 +65,18 @@ export class LaptopScreen extends Model{
     }
     update() {
         this.material.uniforms.setUniform("time",Timer.time);
+
+        if(this.state ==StateFasion.FINISH_WEBSITE_DONE){
+            let n =this.noise1D.noise1d(Timer.time*2)+1;
+         n*=0.4;
+            this.imageDistordMaterial.uniforms.setUniform("offset",n)
+        }
+
         super.update();
     }
 
     setState(state: StateFasion) {
+        this.state = state;
         if(state ==StateFasion.START || state ==StateFasion.CAN_READ_MAIL_MAILBOX){
             this.material = this.emailMaterialLaptop;
 
@@ -80,8 +97,8 @@ export class LaptopScreen extends Model{
             this.material =  this.programMaterial;
         }
         else if(state ==StateFasion.FINISH_WEBSITE_DONE){
-            this.material = this.imageMaterial;
-            this.imageMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_pantsTemp.png"])
+            this.material = this.imageDistordMaterial;
+            this.imageDistordMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_pantsTemp.png"])
         }
 
 

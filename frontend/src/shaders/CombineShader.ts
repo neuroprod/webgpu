@@ -16,7 +16,7 @@ export default class CombineShader extends Shader{
         }
         this.addUniform( "threshold",1);
         this.addUniform( "softThreshold",0.1);
-
+        this.addUniform("pantsOffset",-1);
 
         this.addTexture("glassTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
         this.addTexture("refTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
@@ -76,9 +76,17 @@ fn mainFragment(@location(0)  uv0: vec2f) -> ColorOutput
     
     let glass  =textureLoad(glassTexture,  uvPos ,0);
     color =mix(color,glass.xyz,vec3(glass.w));
-    let pants  =textureLoad(pantsTexture,  uvPos ,0);
-    color =mix(color,pants.xyz,vec3(pants.w));
     
+    
+     if(uniforms.pantsOffset>-0.5){
+    var pants  =textureLoad(pantsTexture,  uvPos ,0);
+    if(uniforms.pantsOffset>0.5){
+    pants.x = textureLoad(pantsTexture,  uvPos+vec2i( i32(uniforms.pantsOffset),0) ,0).x;
+     pants.y = textureLoad(pantsTexture,  uvPos+vec2i(- i32(uniforms.pantsOffset),0) ,0).y;
+     }
+    
+    color =mix(color,pants.xyz,vec3(pants.w));
+     }
     let brightness =min( max(color.r, max(color.g, color.b)),2.0);
  
     let knee = uniforms.threshold * uniforms.softThreshold;

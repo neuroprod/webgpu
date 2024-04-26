@@ -21,6 +21,9 @@ export enum PantsState {
     finishTriangle,
     StartPantsEnd,
     EndPants,
+    Textures,
+    Shading,
+    Post,
 }
 export default class Pants3D{
     private renderer: Renderer;
@@ -41,12 +44,17 @@ export default class Pants3D{
     private pantsScale= 3;
     private triangleMaterial: Material;
     private pantsMaterial: Material;
+    private shading: number =0;
+private textures=0;
+    private distortValue: number =0;
     constructor(renderer:Renderer,preloader:PreLoader) {
 
         this.renderer = renderer
 
         this.glFTLoader = new GLFTLoader(this.renderer, "pants", preloader);
         this.glFTLoader.barycentric =true;
+
+
 
         this.modelRendererTrans =new ModelRenderer(renderer)
         this.rotation =new Quaternion();
@@ -93,7 +101,8 @@ export default class Pants3D{
             this.outScale =5;
             this.lineThickness =5;
             this.pantsScale=0;
-
+            this.textures =0
+            this.shading =0;
             gsap.to(this,{pantsScale :3})
         }
         if(state ==PantsState.AddTriangles)
@@ -115,20 +124,39 @@ export default class Pants3D{
             this.pants.material = this.triangleMaterial;
             gsap.to(this,{pantsScale :0})
             gsap.delayedCall(1.5,()=>{GameModel.compVisible=false})
-        } if(state ==PantsState.StartPantsEnd)
+        } if(state ==PantsState.Textures)
         {
+            console.log("texture")
             GameModel.compVisible=true
             this.lineThickness =1;
+            this.shading =0;
             this.pants.material = this.pantsMaterial;
-            gsap.to(this,{lineThickness :0,duration:1.5,delay:1.0,ease:"power3.out"})
-            gsap.to(this,{pantsScale :3})
+            gsap.to(this,{textures :3.0,delay:1})
+            gsap.to(this,{lineThickness :0,duration:1.0,delay:0.5,ease:"power3.out"})
+            gsap.to(this,{pantsScale :3.0})
 
-        }if(state ==PantsState.EndPants)
+        } if(state ==PantsState.Shading)
         {
-            console.log("endpants");
+            console.log("shading")
+            GameModel.compVisible=true
+            this.lineThickness =0;
             this.pants.material = this.pantsMaterial;
-            gsap.to(this,{pantsScale :0})
-            gsap.delayedCall(1.5,()=>{GameModel.compVisible=false})
+            gsap.to(this,{shading :1,duration:1.0,ease:"power3.out"})
+            gsap.to(this,{pantsScale :3.0})
+
+        }if(state ==PantsState.Post)
+        {
+            gsap.to(this,{distortValue :2,ease:"back.out"})
+               gsap.to(this,{pantsScale :3.4,ease:"back.out"})
+
+        }
+
+        if(state ==PantsState.EndPants)
+        {
+            gsap.to(this,{distortValue :-2,delay:0.4,duration:0.5})
+            this.pants.material = this.pantsMaterial;
+            gsap.to(this,{pantsScale :0,delay:0.4,ease:"back.in"})
+            gsap.delayedCall(2.5,()=>{GameModel.compVisible=false})
 
         }
 
@@ -148,6 +176,8 @@ export default class Pants3D{
             this.rotation.slerp(this.target as NumericArray,0.03)
 
             this.pantsMaterial.uniforms.setUniform("lineThickness",this.lineThickness)
+            this.pantsMaterial.uniforms.setUniform("shading",this.shading)
+            this.pantsMaterial.uniforms.setUniform("text",Math.floor(Timer.time*3)%3)
             this.triangleMaterial.uniforms.setUniform("baseTriangle",this.baseTriangle)
             this.triangleMaterial.uniforms.setUniform("lineThickness",this.lineThickness)
             this.triangleMaterial.uniforms.setUniform("time",Timer.time*0.3)
@@ -155,6 +185,9 @@ export default class Pants3D{
             this.triangleMaterial.uniforms.setUniform("outScale",this.outScale)
             this.pants.setRotationQ(this.rotation)
             this.pants.setScale(this.pantsScale,this.pantsScale,this.pantsScale)
+
+
+            GameModel.main.combinePass.blitMaterial.uniforms.setUniform("pantsOffset",Math.round(this.distortValue))
         }
 
     }

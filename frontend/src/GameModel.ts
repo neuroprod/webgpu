@@ -279,6 +279,7 @@ class GameModel {
     clock: Clock;
     temp1 =new Vector3(-21,0,0)
     temp2 =new Vector3()
+
     constructor() {
 
 

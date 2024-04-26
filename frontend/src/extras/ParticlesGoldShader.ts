@@ -70,7 +70,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
     var pos = aPos;
-    pos.x *=0.002;
+    pos.x *=0.01;
     pos.z*=0.2;
     let off = (instanceData.x +uniforms.time*instanceData.z)%1.0;
     pos.z +=off;
@@ -94,7 +94,7 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) al: vec2f) -> GBufferOutput
     if(a<0.9) {
     discard;
     }
-    a*=0.001;
+    a*=1.0;
    output.color =vec4(a,a,a,a);
  
   
