@@ -137,7 +137,7 @@ private textures=0;
 
         } if(state ==PantsState.Shading)
         {
-            console.log("shading")
+
             GameModel.compVisible=true
             this.lineThickness =0;
             this.pants.material = this.pantsMaterial;
@@ -153,7 +153,7 @@ private textures=0;
 
         if(state ==PantsState.EndPants)
         {
-            gsap.to(this,{distortValue :-2,delay:0.4,duration:0.5})
+            gsap.to(this,{distortValue :-2,delay:2.5,duration:0.5})
             this.pants.material = this.pantsMaterial;
             gsap.to(this,{pantsScale :0,delay:0.4,ease:"back.in"})
             gsap.delayedCall(2.5,()=>{GameModel.compVisible=false})

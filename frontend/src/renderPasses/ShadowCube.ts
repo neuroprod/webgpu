@@ -18,7 +18,7 @@ export default class ShadowCube {
     private colorTarget: RenderTexture;
     private offsets = [new Vector3(-1, 0, 0), new Vector3(1, 0, 0), new Vector3(0, -1, 0), new Vector3(0, 1, 0), new Vector3(0, 0, -1), new Vector3(0, 0, 1)]
     private drawAll: boolean = true;
-private frame =0;
+public frame =0;
     constructor(renderer: Renderer, depthTarget: RenderTexture, name: string) {
 
         let tSize = 512;
@@ -73,7 +73,7 @@ private frame =0;
     }
 
     setModels(models: Array<Model>) {
-
+        this.frame =0;
         for (let i = 0; i < 6; i++) {
             this.passes[i].models = models;
         }

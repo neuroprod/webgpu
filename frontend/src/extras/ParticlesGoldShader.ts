@@ -17,7 +17,7 @@ export default class ParticlesGoldShader extends Shader{
             this.addAttribute("instanceData", ShaderType.vec4,1,"instance");
         }
         this.addUniform("time", 0);
-
+        this.addUniform("fade", 0);
 
         this.needsTransform =true;
         this.needsCamera=true;
@@ -70,7 +70,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
     var pos = aPos;
-    pos.x *=0.01;
+    pos.x *=0.005;
     pos.z*=0.2;
     let off = (instanceData.x +uniforms.time*instanceData.z)%1.0;
     pos.z +=off;
@@ -89,12 +89,12 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(@location(0) uv0: vec2f,@location(1) al: vec2f) -> GBufferOutput
 {
    var output : GBufferOutput;
-   var a  =step(0.5+al.y,al.x);
+   var a  =step((0.5+al.y)+(uniforms.fade),al.x);
    
     if(a<0.9) {
     discard;
     }
-    a*=1.0;
+    a*=0.9;
    output.color =vec4(a,a,a,a);
  
   

@@ -19,10 +19,22 @@ export default class DigGrave extends Transition {
     onMouseDown() {
         if (this.state == 0) return
         GameModel.gameUI.cursor.animate();
+        if(this.state==1){
         if (GameModel.textHandler.readNext()) {
             this.state = 0;
             GameModel.gameUI.cursor.hide()
             this.shovelAnime();
+        }
+        }
+        if(this.state==2){
+            if (GameModel.textHandler.readNext()) {
+                this.state = 0;
+                GameModel.gameUI.cursor.hide()
+                RenderSettings.fadeToBlack(1, 0);
+                setTimeout(() => {
+                    this.outroAnime()
+                }, 1000);
+            }
         }
     }
 
@@ -47,11 +59,11 @@ export default class DigGrave extends Transition {
         GameModel.renderer.modelByLabel["skeletonPants"].visible = true
         GameModel.characterHandler.face.lookGold();
         GameModel.characterHandler.setAnimationOnce("goldPants", 0, () => {
-            GameModel.outside.particlesGold.show(1);
-            RenderSettings.fadeToBlack(1, 4);
-            setTimeout(() => {
-                this.outroAnime()
-            }, 8000);
+            GameModel.outside.particlesGold.show(0.5);
+            GameModel.textHandler.showHitTrigger("digGraveDone",true,-1)
+            GameModel.gameUI.cursor.show(CURSOR.NEXT)
+            this.state=2
+           /* */
         });
     }
 

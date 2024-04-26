@@ -47,9 +47,9 @@ export default class Endscreen extends UIBitmapModel {
         super.update();
         this.setPosition(GameModel.screenWidth / 2+100, GameModel.screenHeight / 2 , -1)
         if (GameModel.screenHeight > 1000) {
-            this.uiScale = 0.7;
+            this.uiScale = 1;
         } else {
-            this.uiScale = GameModel.screenHeight / 1000 *0.7;
+            this.uiScale = GameModel.screenHeight / 1000 *1;
         }
         this.material.uniforms.setUniform("alpha",this.alpha);
         this.musicButton.material.uniforms.setUniform("alpha",this.alpha);

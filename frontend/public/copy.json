@@ -489,6 +489,13 @@
       "copy": [
         "Looks like something\nfell out of the *BIRDHOUSE*"
       ]
+    },
+    {
+      "object": "digGraveDone",
+      "copy": [
+        "Got it!",
+        "blabla"
+      ]
     }
 
   ]
