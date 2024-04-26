@@ -16,7 +16,7 @@ export default class Endscreen extends UIBitmapModel {
     private krisButton: KrisEndButton;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
-        super(renderer, preLoader, "endscreen", "UI/endscreen.png");
+        super(renderer, preLoader, "endscreen", "UI/endscreen.webp");
         this.visible =false;
 
         this.mouseEnabled =true;

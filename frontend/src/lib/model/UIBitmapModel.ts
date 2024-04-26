@@ -37,7 +37,7 @@ export default class UIBitmapModel extends UIModel {
             }
         }
 
-        this.material.blendModes = [l];
+      this.material.blendModes = [l];
 
         if(!t){
             this.textureLoader = new TextureLoader(renderer,preLoader,url,{});

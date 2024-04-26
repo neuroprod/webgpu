@@ -75,9 +75,9 @@ export default class ParticlesGold{
     }
 
     show(delay: number) {
-        setTimeout(()=>{
+       // setTimeout(()=>{
             this.model.visible =true
-            gsap.to(this,{fade:0,duration:2,delay:0.1});
-        },delay*1000)
+            gsap.to(this,{fade:0,duration:1,delay:0.0});
+        //},delay*1000)
     }
 }

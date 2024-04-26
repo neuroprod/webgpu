@@ -59,7 +59,7 @@ export default class DigGrave extends Transition {
         GameModel.renderer.modelByLabel["skeletonPants"].visible = true
         GameModel.characterHandler.face.lookGold();
         GameModel.characterHandler.setAnimationOnce("goldPants", 0, () => {
-            GameModel.outside.particlesGold.show(0.5);
+            GameModel.outside.particlesGold.show(0.0);
             GameModel.textHandler.showHitTrigger("digGraveDone",true,-1)
             GameModel.gameUI.cursor.show(CURSOR.NEXT)
             this.state=2
