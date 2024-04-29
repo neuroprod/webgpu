@@ -48,7 +48,7 @@ export default class Menu extends UIBitmapModel {
         this.addChild(this.draggFxButton)
 
         this.checkBtn = new CheckButton(renderer, preLoader, "checkBtn");
-        this.checkBtn.setPosition(-150, 33, 0);
+        this.checkBtn.setPosition(-159, 33+5, 0);
         this.addChild(this.checkBtn)
 
 

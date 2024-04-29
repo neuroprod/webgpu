@@ -96,10 +96,10 @@
     {
       "object": "readMail",
       "copy": [
-        "An\n*UNDERWEAR\nSIMULATOR*\n?",
+        "An\n*AI UNDERWEAR SIMULATOR*\n?",
         "...",
-        "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
-        "Oh well."
+        "The AD AGENCY wants\nme to make an\n*AI UNDERWEAR SIMULATOR*",
+        "Oh well..."
       ]
     },
     {
@@ -147,10 +147,10 @@
     {
       "object": "readMailAward",
       "copy": [
-        "The client liked\nthe simulator",
+        "They liked\nthe simulator!",
         "And the Ad Agency\nwon a lot of *AWARDS*.",
         "They seem to like that.",
-        "Ow, they\nsend me a *PACKAGE*?"
+        "Ow,\nthey send me a *PACKAGE*?"
       ]
     },
     {
@@ -176,7 +176,9 @@
       "object": "readCross",
       "copy": [
         "Here lies Grandpa.",
-        "He died in mysterious\ncircumstances."
+        "He died the\nway he lived.",
+        "...",
+        "... ?"
       ]
     },
     {

@@ -63,7 +63,7 @@ export class LaptopScreen extends Model{
         parent.hitFriends.push(this);
     }
     update() {
-        this.material.uniforms.setUniform("time",Timer.time);
+        this.material.uniforms.setUniform("time",Timer.time/2);
 
         if(this.state ==StateFasion.FINISH_WEBSITE_DONE){
             let n =this.noise1D.noise1d(Timer.time*2)+1;
