@@ -2,7 +2,7 @@ import RenderPass from "./lib/core/RenderPass";
 import UI from "./lib/UI/UI";
 import {Vector4} from "math.gl";
 import gsap from "gsap";
-import GameModel from "./GameModel";
+import GameModel from "../public/GameModel";
 import GTAO from "./ComputePasses/GTAO";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 import ColorV from "./lib/ColorV";

@@ -1,4 +1,4 @@
-import GameModel, {Scenes} from "../GameModel";
+import GameModel, {Scenes} from "../../public/GameModel";
 
 export default class Trigger{
     private scene: Scenes;

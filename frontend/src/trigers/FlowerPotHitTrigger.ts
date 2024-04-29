@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGold, StateHighTech, Transitions} from "../GameModel";
+import GameModel, {StateGold, StateHighTech, Transitions} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class FlowerPotHitTrigger extends HitTrigger{

@@ -1,5 +1,5 @@
 
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 import HitTrigger from "./HitTrigger";
 

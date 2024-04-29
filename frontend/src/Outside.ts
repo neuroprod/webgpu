@@ -15,7 +15,7 @@ import Fish from "./extras/Fish";
 import FogPlanes from "./extras/FogPlanes";
 import Leaves from "./extras/Leaves";
 import TextureLoader from "./lib/textures/TextureLoader";
-import GameModel, {StateFasion, StateGirl, StateGold, StateHunter} from "./GameModel";
+import GameModel, {StateFasion, StateGirl, StateGold, StateHunter} from "../public/GameModel";
 import {NumericArray, Vector3} from "math.gl";
 
 import GlassGlowShader from "./shaders/GlassGlowShader";

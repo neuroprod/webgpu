@@ -12,7 +12,7 @@ import DepthSkinShader from "../shaders/DepthSkinShader";
 import Camera from "../lib/Camera";
 import {Vector3} from "math.gl";
 import UI from "../lib/UI/UI";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 
 
 

@@ -2,7 +2,7 @@ import UIBitmapModel from "../lib/model/UIBitmapModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import gsap from "gsap";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 
 
 export default class CloseButton extends UIBitmapModel{

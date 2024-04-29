@@ -2,7 +2,7 @@ import Model from "../lib/model/Model";
 import RenderPass from "../lib/core/RenderPass";
 import Renderer from "../lib/Renderer";
 import Camera from "../lib/Camera";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 
 export default class UIModelRenderer{
 

@@ -17,7 +17,7 @@ import ColorV from "../lib/ColorV";
 import {saveToJsonFile} from "../lib/SaveUtils";
 import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import RenderSettings from "../RenderSettings";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 

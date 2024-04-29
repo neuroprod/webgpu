@@ -11,7 +11,7 @@ import Timer from "../lib/Timer";
 import gsap from "gsap";
 import {NumericArray, Quaternion, Vector3} from "math.gl";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import Pants3DEndShader from "./Pants3DEndShader";
 
 export enum PantsState {

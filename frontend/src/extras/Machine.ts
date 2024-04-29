@@ -5,7 +5,7 @@ import {Vector3} from "math.gl";
 import Material from "../lib/core/Material";
 import GBufferGlowPantsProgress from "../shaders/GBufferGlowPantsProgress";
 import Timer from "../lib/Timer";
-import GameModel, {StateHighTech} from "../GameModel";
+import GameModel, {StateHighTech} from "../../public/GameModel";
 import SoundHandler from "../SoundHandler";
 
 export default class Machine

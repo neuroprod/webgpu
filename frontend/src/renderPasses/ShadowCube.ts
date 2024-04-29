@@ -7,7 +7,7 @@ import {Vector3} from "math.gl";
 
 import Model from "../lib/model/Model";
 import Timer from "../lib/Timer";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 
 
 export default class ShadowCube {

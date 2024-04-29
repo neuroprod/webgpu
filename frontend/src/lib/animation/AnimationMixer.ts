@@ -1,6 +1,6 @@
 import Animation from "./Animation";
 import UI from "../UI/UI";
-import GameModel from "../../GameModel";
+import GameModel from "../../../public/GameModel";
 
 export default class AnimationMixer {
     public animationsByName: { [name: string]: Animation } = {};

@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Pants, StateGrandpa, UIState} from "../GameModel";
+import GameModel, {Pants, StateGrandpa, UIState} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class FindGrandpaPants extends Transition{

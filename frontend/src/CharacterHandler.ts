@@ -8,7 +8,7 @@ import Object3D from "./lib/core/Object3D";
 import gsap from "gsap";
 import Timeline from "gsap";
 
-import GameModel, {Scenes} from "./GameModel";
+import GameModel, {Scenes} from "../public/GameModel";
 import GLFTLoader from "./GLFTLoader";
 
 

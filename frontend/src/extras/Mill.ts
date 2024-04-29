@@ -1,6 +1,6 @@
 import gsap from "gsap"
 import Model from "../lib/model/Model";
-import GameModel, {MillState} from "../GameModel";
+import GameModel, {MillState} from "../../public/GameModel";
 import Renderer from "../lib/Renderer";
 
 import Material from "../lib/core/Material";

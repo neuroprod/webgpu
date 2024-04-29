@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateFasion, StateGold, StateHighTech} from "../GameModel";
+import GameModel, {StateFasion, StateGold, StateHighTech} from "../../public/GameModel";
 import gsap from "gsap";
 
 export default class GoRightRoom extends Transition{

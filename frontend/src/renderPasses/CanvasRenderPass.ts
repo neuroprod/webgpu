@@ -14,7 +14,7 @@ import RenderSettings from "../RenderSettings";
 import DrawingRenderer from "../drawing/DrawingRenderer";
 
 import FontMeshRenderer from "../lib/text/FontMeshRenderer";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 
 

@@ -7,7 +7,7 @@ import ParticlesGoldShader from "./ParticlesGoldShader";
 import {BlendFactor, BlendOperation} from "../lib/WebGPUConstants";
 import Timer from "../lib/Timer";
 import gsap from "gsap";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 export default class ParticlesGold{
     private renderer: Renderer;
     public model:Model

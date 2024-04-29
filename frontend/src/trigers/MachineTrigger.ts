@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateHighTech, Transitions} from "../GameModel";
+import GameModel, {StateHighTech, Transitions} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 import {Vector3} from "math.gl";
 

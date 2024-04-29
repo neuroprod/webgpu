@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateGirl} from "../GameModel";
+import GameModel, {StateGirl} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 import gsap from "gsap"
 

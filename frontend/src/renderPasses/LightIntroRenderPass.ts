@@ -17,7 +17,7 @@ import ColorV from "../lib/ColorV";
 
 import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 
 import GlobalLightIntroShader from "../shaders/GlobalLightIntroShader";
 import {Vector3} from "math.gl";

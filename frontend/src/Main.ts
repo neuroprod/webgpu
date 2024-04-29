@@ -36,7 +36,7 @@ import ShadowPass from "./renderPasses/ShadowPass";
 import DOFPass from "./renderPasses/DOFPass";
 import PostRenderPass from "./renderPasses/PostRenderPass";
 import FXAARenderPass from "./renderPasses/FXAARenderPass";
-import GameModel, {Scenes, StateGold, UIState} from "./GameModel";
+import GameModel, {Scenes, StateGold, UIState} from "../public/GameModel";
 import GameCamera from "./GameCamera";
 import Ray from "./lib/Ray";
 import Drawer from "./drawing/Drawer";

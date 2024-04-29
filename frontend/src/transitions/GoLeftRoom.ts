@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import gsap from "gsap";
 
 export default class GoLeftRoom extends Transition{

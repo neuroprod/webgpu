@@ -1,7 +1,7 @@
 import PreLoader from "./lib/PreLoader";
 import {Howl} from 'howler';
 
-import GameModel, {Scenes} from "./GameModel";
+import GameModel, {Scenes} from "../public/GameModel";
 
 export default class SoundHandler {
     private stepInside: Howl;

@@ -1,7 +1,7 @@
 import UIBitmapModel from "../lib/model/UIBitmapModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
-import GameModel, {UIState} from "../GameModel";
+import GameModel, {UIState} from "../../public/GameModel";
 import gsap from "gsap";
 
 export default class MenuButton extends UIBitmapModel{

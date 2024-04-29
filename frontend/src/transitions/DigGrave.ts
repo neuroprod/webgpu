@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Scenes, StateGold, UIState} from "../GameModel";
+import GameModel, {Scenes, StateGold, UIState} from "../../public/GameModel";
 import RenderSettings from "../RenderSettings";
 import {CURSOR} from "../ui/Cursor";
 

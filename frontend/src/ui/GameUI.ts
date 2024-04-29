@@ -1,7 +1,7 @@
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import Camera from "../lib/Camera";
-import GameModel, {StateGold, Transitions, UIState} from "../GameModel";
+import GameModel, {StateGold, Transitions, UIState} from "../../public/GameModel";
 import UIModelRenderer from "./UIModelRenderer";
 import {Vector2} from "math.gl";
 import UIModel from "../lib/model/UIModel";

@@ -1,5 +1,5 @@
 import Trigger from "./Trigger";
-import GameModel, {Scenes} from "../GameModel";
+import GameModel, {Scenes} from "../../public/GameModel";
 import {isArray} from "math.gl";
 
 

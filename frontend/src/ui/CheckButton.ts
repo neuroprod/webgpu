@@ -1,7 +1,7 @@
 import UIBitmapModel from "../lib/model/UIBitmapModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import gsap from "gsap";
 import UIData from "../UIData";
 

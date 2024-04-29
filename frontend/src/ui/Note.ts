@@ -2,7 +2,7 @@ import UIModel from "../lib/model/UIModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import UIBitmapModel from "../lib/model/UIBitmapModel";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import gsap from "gsap";
 
 export default class Note extends UIBitmapModel {

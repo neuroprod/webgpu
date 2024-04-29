@@ -540,10 +540,6 @@ export const preloadImages = [
   "wires_Normal"
 ]
 export const preloadDrawings = [
-  "chapter1_world",
-  "chapter2_world",
-  "chapter5_world",
-  "intest_world",
   "intro_world",
   "loading_world"
 ]

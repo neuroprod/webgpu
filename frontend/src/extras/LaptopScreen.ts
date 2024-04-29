@@ -7,7 +7,7 @@ import LaptopShader from "./LaptopShader";
 
 import LaptopMailShader from "./LaptopMailShader";
 import LaptopProgrammingShader from "./LaptopProgrammingShader";
-import {StateFasion} from "../GameModel";
+import {StateFasion} from "../../public/GameModel";
 import LaptopCanMakeShader from "./LaptopCanMakeShader";
 import LaptopDistordShader from "./LaptopDistordShader";
 import Noise1D from "./Noise1D";

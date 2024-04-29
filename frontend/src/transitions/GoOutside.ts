@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Scenes, StateGrandpa} from "../GameModel";
+import GameModel, {Scenes, StateGrandpa} from "../../public/GameModel";
 import {Vector3} from "math.gl";
 import Timeline from "gsap";
 import RenderSettings from "../RenderSettings";

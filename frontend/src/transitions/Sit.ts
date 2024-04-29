@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel from "../GameModel";
+import GameModel from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class Sit extends Transition {

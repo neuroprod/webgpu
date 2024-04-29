@@ -4,7 +4,7 @@ import GLFTLoader from "./GLFTLoader";
 import TextureLoader from "./lib/textures/TextureLoader";
 import ModelRenderer from "./lib/model/ModelRenderer";
 import Model from "./lib/model/Model";
-import GameModel, {StateGold} from "./GameModel";
+import GameModel, {StateGold} from "../public/GameModel";
 import Plane from "./lib/meshes/Plane";
 import Material from "./lib/core/Material";
 import SmokeShader from "./shaders/SmokeShader";

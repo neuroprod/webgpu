@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGrandpa, Transitions} from "../GameModel";
+import GameModel, {StateGrandpa, Transitions} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class FishTrigger extends HitTrigger{
