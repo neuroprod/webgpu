@@ -54,7 +54,7 @@ export default class ReadMail extends Transition {
 
                 if (GameModel.stateFashion == StateFasion.READ_MAIL) {
                     GameModel.stateFashion = StateFasion.READ_MAIL_DONE;
-                    GameModel.getDrawingByLabel("chapter1_world").show();
+                   // GameModel.getDrawingByLabel("chapter1_world").show();
                 }
                 if (GameModel.stateFashion == StateFasion.READ_MAIL_MAILBOX) {
                     GameModel.stateFashion = StateFasion.GET_FASION_PANTS;

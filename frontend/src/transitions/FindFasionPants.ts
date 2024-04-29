@@ -25,7 +25,7 @@ export default class FindFasionPants extends Transition{
         GameModel.outside.mailBox.setState(2);
         GameModel.characterHandler.setMixAnimation("lookdown", 0.0, 0.5);
         GameModel.pantsFound.push(Pants.fashion);
-        if(GameModel.pantsFound.length==3)   GameModel.getDrawingByLabel("chapter2_world").show()
+        //if(GameModel.pantsFound.length==3)   GameModel.getDrawingByLabel("chapter2_world").show()
         GameModel.gameUI.updateInventory();
         GameModel.sound.playPickPants();
         GameModel.gameUI.cursor.hide()

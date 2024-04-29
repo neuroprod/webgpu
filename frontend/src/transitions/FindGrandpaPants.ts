@@ -27,7 +27,7 @@ this.lock =false,
         GameModel.clock.addTime()
         GameModel.characterHandler.face.setToBase()
         this.onComplete()
-        if(GameModel.pantsFound.length==3)   GameModel.getDrawingByLabel("chapter2_world").show()
+       // if(GameModel.pantsFound.length==3)   GameModel.getDrawingByLabel("chapter2_world").show()
         GameModel.setUIState(UIState.INVENTORY_DETAIL,Pants.grandpa)
     }
     onMouseDown(){

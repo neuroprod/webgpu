@@ -6,7 +6,7 @@ import {CURSOR} from "../ui/Cursor";
 export default class DoorGoOutsideTrigger extends HitTrigger{
 
     protected click() {
-        GameModel.getDrawingByLabel("chapter1_world").visible =false
+        //GameModel.getDrawingByLabel("chapter1_world").visible =false
         if(GameModel.stateGold==StateGold.FINISH_KEY){
             GameModel.setTransition(Transitions.TEXT_INFO, "checkKey");
             return
