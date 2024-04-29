@@ -66,13 +66,13 @@ testPos =new Vector3()
         super(renderer, preloader, "room")
         new TextureLoader(this.renderer, preloader, "GCode.png", {});
         new TextureLoader(this.renderer, preloader, "LT_email.png", {});
-        new TextureLoader(this.renderer, preloader, "LT_triangle.png", {});
+
         new TextureLoader(this.renderer, preloader, "LT_readMail1.png", {});
         new TextureLoader(this.renderer, preloader, "LT_wait.png", {});
         new TextureLoader(this.renderer, preloader, "LT_programming.png", {});
         new TextureLoader(this.renderer, preloader, "LT_readMail2.png", {});
         new TextureLoader(this.renderer, preloader, "LT_pantsTemp.png", {});
-
+        new TextureLoader(this.renderer, preloader, "LT_buy.png", {});
         new TextureLoader(this.renderer, preloader, "7dig.png", {});
         new TextureLoader(this.renderer, preloader, "glowPantsProgress.png", {});
         new TextureLoader(this.renderer, preloader, "spark.png", {});

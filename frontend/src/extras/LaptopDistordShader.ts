@@ -4,6 +4,7 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
+import {Vector2} from "math.gl";
 
 export default class LaptopDistordShader extends Shader{
 
@@ -16,11 +17,12 @@ export default class LaptopDistordShader extends Shader{
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
+        this.addUniform("offsetBuy",new Vector2());
         this.addUniform("time",0);
         this.addUniform("ratio",0);
         this.addUniform("offset",0);
         this.addTexture("image",DefaultTextures.getWhite(this.renderer))
-
+        this.addTexture("buy",this.renderer.texturesByLabel["LT_buy.png"])
         this.addSampler("mySampler")
 
         this.needsTransform =true;
@@ -69,8 +71,12 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
    
    
     output.color = textureSample(image, mySampler,uv );
-    output.color.z = textureSample(image, mySampler,uv+vec2(uniforms.offset*-0.1,0.0) ).z;
-   output.color.x = textureSample(image, mySampler,uv+vec2(uniforms.offset*0.1,0.0) ).x;
+    output.color.z = textureSample(image, mySampler,uv+vec2(uniforms.offset*-0.05,0.0) ).z;
+   output.color.x = textureSample(image, mySampler,uv+vec2(uniforms.offset*0.05,0.0) ).x;
+    
+    let b = textureSample(buy, mySampler,uv+uniforms.offsetBuy );
+     output.color =mix( output.color,b,b.w);
+    
     output.normal =vec4(normalize(normal)*0.5+0.5,1.0);
     output.mra =vec4(0.5,0.3,0.5,0.5);
  

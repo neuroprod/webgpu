@@ -1,7 +1,7 @@
 import Model from "../lib/model/Model";
 import Material from "../lib/core/Material";
 import Plane from "../lib/meshes/Plane";
-import LaptopTrianagleShader from "./LaptopTrianagleShader";
+
 import Timer from "../lib/Timer";
 import LaptopShader from "./LaptopShader";
 
@@ -12,8 +12,10 @@ import LaptopCanMakeShader from "./LaptopCanMakeShader";
 import LaptopDistordShader from "./LaptopDistordShader";
 import Noise1D from "./Noise1D";
 
+import {Vector2} from "math.gl";
+
 export class LaptopScreen extends Model{
-    private triangleMaterial: Material;
+
 
     private emailMaterialLaptop: Material;
     private imageMaterial: Material;
@@ -45,9 +47,6 @@ export class LaptopScreen extends Model{
         this.canMakeMaterial.uniforms.setUniform("ratio",8/5);
         this.canMakeMaterial.uniforms.setTexture("image",this.renderer.texturesByLabel["LT_wait.png"])
 
-        this.triangleMaterial  =    new Material(this.renderer,this.label,new LaptopTrianagleShader(this.renderer,this.label));
-        this.triangleMaterial.uniforms.setUniform("ratio",8/5);
-        this.triangleMaterial.uniforms.setTexture("triangle",renderer.texturesByLabel["LT_triangle.png"])
 
 
         this.programMaterial  =new Material(this.renderer,"laptopPrgMaterial", new LaptopProgrammingShader(this.renderer,"laptopProgShader"))
@@ -70,6 +69,7 @@ export class LaptopScreen extends Model{
             let n =this.noise1D.noise1d(Timer.time*2)+1;
          n*=0.4;
             this.imageDistordMaterial.uniforms.setUniform("offset",n)
+            this.imageDistordMaterial.uniforms.setUniform("offsetBuy",new Vector2(Math.random()*2 -0.5,Math.random()*2-0.5))
         }
 
         super.update();
