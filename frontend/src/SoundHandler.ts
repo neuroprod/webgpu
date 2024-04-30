@@ -11,7 +11,7 @@ export default class SoundHandler {
     private forest: Howl;
     private clicks: Howl;
     private wooshes: Howl;
-
+    private knock: Howl;
     private pants: Howl;
     private fxVolume: number = 1;
     private pickPants: Howl;
@@ -31,6 +31,7 @@ private drip:Howl;
         this.pickPants = new Howl({src: ['sound/pickPants.mp3']})
         this.pants = new Howl({src: ['sound/pants.mp3']});
         this.drip = new Howl({src: ['sound/drip.mp3']});
+        this.knock = new Howl({src: ['sound/knock.mp3']});
         this.clicks = new Howl({
             src: ['sound/clicks.mp3'],
             sprite: {
@@ -206,6 +207,11 @@ private drip:Howl;
     playShovel() {
         this.shovel.volume(this.fxVolume*0.4)
         this.shovel.play()
+    }
+
+    playKnock() {
+        this.knock.volume(this.fxVolume*0.4)
+        this.knock.play()
     }
     startTyping() {
         this.typing.volume(this.fxVolume*0.2)

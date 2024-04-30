@@ -96,9 +96,9 @@
     {
       "object": "readMail",
       "copy": [
-        "An\n*AI UNDERWEAR SIMULATOR*\n?",
+        "An\n*UNDERWEAR SIMULATOR*\n?",
         "...",
-        "The AD AGENCY wants\nme to make an\n*AI UNDERWEAR SIMULATOR*",
+        "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
         "Oh well..."
       ]
     },
@@ -496,7 +496,7 @@
       "object": "digGraveDone",
       "copy": [
         "Got it!",
-        "blabla"
+        "..."
       ]
     }
 

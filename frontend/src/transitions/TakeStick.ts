@@ -20,7 +20,7 @@ lock =false;
 
             this.lock =true;
             GameModel.gameUI.cursor.hide()
-            GameModel.characterHandler.setAnimationOnce("takeHunter",0.5,this.animationComplete.bind(this))
+            GameModel.characterHandler.setAnimationOnce("takeStick",0.5,this.animationComplete.bind(this))
 
 
         }
