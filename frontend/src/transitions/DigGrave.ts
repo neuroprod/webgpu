@@ -47,6 +47,8 @@ export default class DigGrave extends Transition {
 
         RenderSettings.fadeToBlack(1, 2)
         setTimeout(() => {
+            RenderSettings.dof_Settings.z =1;
+            RenderSettings.onChange()
             this.pantsAnime();
         }, 5000);
     }
@@ -59,11 +61,11 @@ export default class DigGrave extends Transition {
         GameModel.renderer.modelByLabel["skeletonPants"].visible = true
         GameModel.characterHandler.face.lookGold();
         GameModel.characterHandler.setAnimationOnce("goldPants", 0, () => {
-            GameModel.outside.particlesGold.show(0.0);
-            GameModel.textHandler.showHitTrigger("digGraveDone",true,-1)
+        GameModel.outside.particlesGold.show(0.0);
+           GameModel.textHandler.showHitTrigger("digGraveDone",true,-1)
             GameModel.gameUI.cursor.show(CURSOR.NEXT)
             this.state=2
-           /* */
+
         });
     }
 

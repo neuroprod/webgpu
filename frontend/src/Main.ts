@@ -577,8 +577,7 @@ export default class Main {
        // UI.LFloatSlider(GameModel,"offsetY",-5,1)
         //UI.LFloatSlider(GameModel,"sceneHeight",2,5)
         //GameModel.textHandler.onUI()
-        UI.LVector("temp1",GameModel.temp1)
-        UI.LVector("temp2",GameModel.temp2)
+
         this.canvasRenderPass.onUI();
         let speed = UI.LBool("Go fast", GameModel.devSpeed);
         if (speed != GameModel.devSpeed) {
@@ -601,6 +600,9 @@ export default class Main {
             localStorage.removeItem("devData");
             UI.clearLocalData();
         }
+        UI.LVector("temp1",GameModel.temp1);
+        UI.LVector("temp2",GameModel.temp2);
+        UI.LColor("tempC",GameModel.tempC);
         UI.separator("Windows");
 
         UIData.performance = (UI.LBool("Preformance", UIData.performance));

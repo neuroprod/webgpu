@@ -76,6 +76,7 @@ import Sit from "../src/transitions/Sit";
 import Pants3D from "../src/extras/Pants3D";
 import TextInfoLock from "../src/transitions/TextInfoLock";
 import Clock from "../src/extras/Clock";
+import ColorV from "../src/lib/ColorV";
 
 export enum StateGold {
     START,
@@ -277,8 +278,9 @@ class GameModel {
     private stopCount: number = 0;
     offsetY: number =0;
     clock: Clock;
-    temp1 =new Vector3(-21,0,0)
+    temp1 =new Vector3(0,0,0)
     temp2 =new Vector3()
+    tempC: ColorV =new ColorV(1,0,0,1);
 
     constructor() {
 

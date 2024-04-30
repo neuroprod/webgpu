@@ -8,6 +8,7 @@ import {BlendFactor, BlendOperation} from "../lib/WebGPUConstants";
 import Timer from "../lib/Timer";
 import gsap from "gsap";
 import GameModel from "../../public/GameModel";
+import renderSettings from "../RenderSettings";
 export default class ParticlesGold{
     private renderer: Renderer;
     public model:Model
@@ -18,7 +19,7 @@ export default class ParticlesGold{
         this.model.mesh = new Plane(this.renderer)
         this.model.material  =new Material(renderer,"partGoldMat",new ParticlesGoldShader(renderer,"partGoldShader"))
         this.model.material.depthWrite =true
-        this.model.numInstances =200;
+        this.model.numInstances =100;
         this.model.setEuler(Math.PI/2,0,0)
         this.model.visible =false;
         let data =new Float32Array( this.model.numInstances*4)
@@ -54,7 +55,7 @@ export default class ParticlesGold{
 
             color: {
                 srcFactor: BlendFactor.One,
-                dstFactor: BlendFactor.One,
+                dstFactor: BlendFactor.OneMinusSrcAlpha,
                 operation: BlendOperation.Add,
             },
             alpha: {
@@ -70,6 +71,8 @@ export default class ParticlesGold{
         if(!this.model.visible)return;
         this.model.material.uniforms.setUniform("time",Timer.time)
         this.model.material.uniforms.setUniform("fade",this.fade);
+      //  this.model.material.uniforms.setUniform("color",GameModel.tempC);
+        //this.model.material.uniforms.setUniform("sett",GameModel.temp1);
         this.model.setPosition(-25.10,-0.125,-2.05)
       //  this.model.setEuler(Math.random()*6,Math.random()*6,Math.random()*6)
     }
