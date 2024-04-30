@@ -1,13 +1,8 @@
 import Shader from "../lib/core/Shader";
-
-import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import Renderer from "../lib/Renderer";
 import {TextureDimension} from "../lib/WebGPUConstants";
-import {Vector4} from "math.gl";
-import TextureLoader from "../lib/textures/TextureLoader";
 
 export default class DustShader extends Shader {
 
@@ -17,23 +12,18 @@ export default class DustShader extends Shader {
         if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
-            this.addAttribute("instancePos", ShaderType.vec4,1,"instance");
+            this.addAttribute("instancePos", ShaderType.vec4, 1, "instance");
 
         }
 
         this.addUniform("time", 0);
 
-        this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
-
-
-
-
+        this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"], "float", TextureDimension.TwoD, GPUShaderStage.VERTEX)
 
 
         this.needsTransform = true;
         this.needsCamera = true;
     }
-
 
 
     getShaderCode(): string {
@@ -119,10 +109,6 @@ fn mainFragment()  -> @location(0) vec4f
         
         `
     }
-
-
-
-
 
 
 }

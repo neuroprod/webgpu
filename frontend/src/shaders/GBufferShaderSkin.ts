@@ -5,31 +5,32 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
-export default class GBufferShaderSkin extends Shader{
+export default class GBufferShaderSkin extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
-            this.addAttribute("aTangent",ShaderType.vec4);
+            this.addAttribute("aTangent", ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
             this.addAttribute("aWeights", ShaderType.vec4);
             this.addAttribute("aJoints", ShaderType.vec4i);
         }
-       // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
-    //    this.addUniform("skinMatrices",0);
-        this.addTexture("opTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("mraTexture",DefaultTextures.getMRE(this.renderer))
-        this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
+        // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
+        //    this.addUniform("skinMatrices",0);
+        this.addTexture("opTexture", DefaultTextures.getWhite(this.renderer))
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
+        this.addTexture("mraTexture", DefaultTextures.getMRE(this.renderer))
+        this.addTexture("normalTexture", DefaultTextures.getNormal(this.renderer))
         this.addSampler("mySampler")
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -118,7 +119,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
         
         `
     }
-
 
 
 }

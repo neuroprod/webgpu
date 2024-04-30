@@ -1,22 +1,19 @@
 import HitTrigger from "./HitTrigger";
 import GameModel, {StateHighTech, Transitions} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
-import {Vector3} from "math.gl";
 
 export default class HighTechPantsTrigger extends HitTrigger {
 
 
-
-
     public over() {
-        if(GameModel.stateHighTech != StateHighTech.STOP_MACHINE )return
+        if (GameModel.stateHighTech != StateHighTech.STOP_MACHINE) return
         GameModel.outlinePass.setModel(GameModel.renderer.modelByLabel["pantsGlow"]);
         GameModel.gameUI.cursor.show(CURSOR.LOOK)
 
     }
 
     public out() {
-        if(GameModel.stateHighTech != StateHighTech.STOP_MACHINE )return
+        if (GameModel.stateHighTech != StateHighTech.STOP_MACHINE) return
         GameModel.outlinePass.setModel(null);
         GameModel.gameUI.cursor.hide()
 
@@ -26,12 +23,13 @@ export default class HighTechPantsTrigger extends HitTrigger {
         GameModel.sound.playClick(0.2)
         let obj = GameModel.renderer.modelByLabel["pantsGlow"]
         let world = obj.getWorldPos()
-        world.x-=0.7;
-        GameModel.characterHandler.walkTo(world,Math.PI/2,this.onCompleteWalk)
-        GameModel.hitObjectLabel=""
+        world.x -= 0.7;
+        GameModel.characterHandler.walkTo(world, Math.PI / 2, this.onCompleteWalk)
+        GameModel.hitObjectLabel = ""
         return;
     }
-    onCompleteWalk(){
+
+    onCompleteWalk() {
 
         GameModel.setTransition(Transitions.FIND_GLOW_PANTS)
     }

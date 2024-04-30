@@ -24,8 +24,8 @@ export default class RenderPass extends ObjectGPU {
 
     add() {
 
-            this.updateDescriptor()
-       this.passEncoder = this.renderer.commandEncoder.beginRenderPass(
+        this.updateDescriptor()
+        this.passEncoder = this.renderer.commandEncoder.beginRenderPass(
             this.renderPassDescriptor
         );
         this.draw()

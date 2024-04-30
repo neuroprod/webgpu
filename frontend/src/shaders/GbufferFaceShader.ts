@@ -1,4 +1,3 @@
-
 import Shader from "../lib/core/Shader";
 
 
@@ -11,29 +10,29 @@ import {Vector4} from "math.gl";
 export default class GBufferFaceShader extends Shader {
 
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
-            this.addAttribute("aTangent",ShaderType.vec4);
+            this.addAttribute("aTangent", ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
             this.addAttribute("aWeights", ShaderType.vec4);
             this.addAttribute("aJoints", ShaderType.vec4i);
         }
         // this.addUniform("skinMatrices",0,GPUShaderStage.FRAGMENT,ShaderType.mat4,64);
         //    this.addUniform("skinMatrices",0);
-        this.addUniform("eyeLeft",new Vector4(0.3,0.5,0.1));
-        this.addUniform("eyeRight",new Vector4(0.7,0.5,0.1));
-        this.addUniform("pupilLeft",new Vector4(0.3,0.5,0.02));
-        this.addUniform("pupilRight",new Vector4(0.7,0.5,0.02));
-        this.addUniform("mouthLeft",new Vector4(0.3,0.7,0.02));
-        this.addUniform("mouthRight",new Vector4(0.7,0.7,0.02));
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.addUniform("eyeLeft", new Vector4(0.3, 0.5, 0.1));
+        this.addUniform("eyeRight", new Vector4(0.7, 0.5, 0.1));
+        this.addUniform("pupilLeft", new Vector4(0.3, 0.5, 0.02));
+        this.addUniform("pupilRight", new Vector4(0.7, 0.5, 0.02));
+        this.addUniform("mouthLeft", new Vector4(0.3, 0.7, 0.02));
+        this.addUniform("mouthRight", new Vector4(0.7, 0.7, 0.02));
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -139,7 +138,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
         
         `
     }
-
 
 
 }

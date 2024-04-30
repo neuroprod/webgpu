@@ -6,8 +6,6 @@ import Blit from "../lib/Blit";
 import Renderer from "../lib/Renderer";
 import RenderSettings from "../RenderSettings";
 import {TextureFormat} from "../lib/WebGPUConstants";
-
-import PostShader from "../shaders/PostShader";
 import FXAAShader from "../shaders/FXAAShader";
 
 export default class FXAARenderPass extends RenderPass {
@@ -19,7 +17,6 @@ export default class FXAARenderPass extends RenderPass {
     private blitFinal: Blit;
 
 
-
     constructor(renderer: Renderer) {
 
         super(renderer, "FXAARenderPass");
@@ -29,7 +26,7 @@ export default class FXAARenderPass extends RenderPass {
             format: TextureFormat.RGBA8Unorm,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
-            sizeMultiplier:1.0,
+            sizeMultiplier: 1.0,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
 
@@ -37,14 +34,13 @@ export default class FXAARenderPass extends RenderPass {
         this.colorAttachments = [this.colorAttachment];
 
         this.blitMaterial = new Material(this.renderer, "blitFXAA", new FXAAShader(this.renderer, "fxaa"))
-        this.blitMaterial.uniforms.setTexture("screenTexture",this.renderer.texturesByLabel["PostPass"])
-
-
+        this.blitMaterial.uniforms.setTexture("screenTexture", this.renderer.texturesByLabel["PostPass"])
 
 
         this.blitFinal = new Blit(renderer, 'blitPost', this.blitMaterial)
 
     }
+
     onSettingsChange() {
         super.onSettingsChange();
 

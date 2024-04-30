@@ -4,13 +4,9 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import Renderer from "../lib/Renderer";
-import {TextureDimension} from "../lib/WebGPUConstants";
-import {Vector4} from "math.gl";
 import {simplex3D} from "../shaders/ShaderChunks";
 
 export default class Pants3DShader extends Shader {
-
 
 
     init() {
@@ -19,9 +15,9 @@ export default class Pants3DShader extends Shader {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aColor", ShaderType.vec3);
             this.addAttribute("aCenter", ShaderType.vec3);
-         //   this.addAttribute("aNormal", ShaderType.vec3);
-          //  this.addAttribute("aTangent", ShaderType.vec4);
-           // this.addAttribute("aUV0", ShaderType.vec2);
+            //   this.addAttribute("aNormal", ShaderType.vec3);
+            //  this.addAttribute("aTangent", ShaderType.vec4);
+            // this.addAttribute("aUV0", ShaderType.vec2);
 
         }
 
@@ -39,7 +35,6 @@ export default class Pants3DShader extends Shader {
         this.needsTransform = true;
         this.needsCamera = true;
     }
-
 
 
     getShaderCode(): string {
@@ -134,7 +129,6 @@ fn mainFragment(@location(0) color: vec3f) -> @location(0) vec4f
         
         `
     }
-
 
 
 }

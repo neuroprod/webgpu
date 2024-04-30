@@ -11,7 +11,6 @@ import DebugTextureShader from "../shaders/DebugTextureShader";
 import SelectItem from "../lib/UI/math/SelectItem";
 
 import RenderSettings from "../RenderSettings";
-import DrawingRenderer from "../drawing/DrawingRenderer";
 
 import FontMeshRenderer from "../lib/text/FontMeshRenderer";
 import GameModel from "../../public/GameModel";
@@ -65,9 +64,9 @@ export default class CanvasRenderPass extends RenderPass {
 
         this.blitTestMaterial = new Material(this.renderer, "blit", new DebugTextureShader(this.renderer, "blit"))
 
-DefaultTextures.getMagicNoise(renderer)
+        DefaultTextures.getMagicNoise(renderer)
         this.blitTest = new Blit(renderer, 'blit', this.blitTestMaterial)
-       // this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 1}));
+        // this.passSelect.push(new SelectItem("Magic", {texture: "magicNoise", type: 1}));
 
         this.passSelect.push(new SelectItem("Final", {texture: "FXAAPass", type: 0}));
         this.passSelect.push(new SelectItem("PantsPass", {texture: "PantsPass", type: 0}));
@@ -148,7 +147,7 @@ DefaultTextures.getMagicNoise(renderer)
         this.blitTest.draw(this);
 
         this.fontMeshRenderer.draw(this);
-      GameModel.gameUI.modelRenderer.draw(this);
+        GameModel.gameUI.modelRenderer.draw(this);
         UI.drawGPU(this.passEncoder, true)
     }
 

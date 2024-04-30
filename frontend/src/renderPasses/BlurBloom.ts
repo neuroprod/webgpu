@@ -6,7 +6,7 @@ import RenderPass from "../lib/core/RenderPass";
 
 export default class BlurBloom {
     private renderer: Renderer;
-    private numLevels =6;
+    private numLevels = 6;
     private result: RenderTexture;
     private targetTextures: Array<RenderTexture> = []
     private passes: Array<RenderPass> = []
@@ -25,9 +25,9 @@ export default class BlurBloom {
         this.targetTextures.push(start);
         for (let i = 0; i < this.numLevels; i++) {
             scale *= 0.5;
-            let label= "BlurBloomLevel" + i;
-            if(i==0){
-                label ="BlurBloom";
+            let label = "BlurBloomLevel" + i;
+            if (i == 0) {
+                label = "BlurBloom";
             }
             let t = new RenderTexture(renderer, label,
                 {
@@ -41,11 +41,11 @@ export default class BlurBloom {
             this.passes.push(kawasePass);
         }
 
-        for (let i = this.numLevels-1;i>0; i--) {
+        for (let i = this.numLevels - 1; i > 0; i--) {
 
 
-           let kawasePass = new KawasePass(renderer, this.targetTextures[i], this.targetTextures[i+1],false,true);
-          this.passes.push(kawasePass);
+            let kawasePass = new KawasePass(renderer, this.targetTextures[i], this.targetTextures[i + 1], false, true);
+            this.passes.push(kawasePass);
         }
 
     }
@@ -55,7 +55,6 @@ export default class BlurBloom {
             pass.add();
 
         }
-
 
 
     }

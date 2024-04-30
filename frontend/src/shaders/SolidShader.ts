@@ -7,21 +7,22 @@ import ModelTransform from "../lib/model/ModelTransform";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 
 
-export default class SolidShader extends Shader{
+export default class SolidShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
 
 
         }
         //this.renderer.texturesByLabel["GDepth"]
-        this.addTexture("gDepth",DefaultTextures.getDepth(this.renderer),"unfilterable-float")
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.addTexture("gDepth", DefaultTextures.getDepth(this.renderer), "unfilterable-float")
+        this.needsTransform = true;
+        this.needsCamera = true;
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -76,7 +77,6 @@ fn mainFragment(@location(0) projPos: vec4f) ->   @location(0) vec4f
         
         `
     }
-
 
 
 }

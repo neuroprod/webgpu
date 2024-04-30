@@ -37,7 +37,7 @@ export default class CheckButton extends UIBitmapModel {
             this.checkAlpha = 0;
         }
         GameModel.debug = this.selected;
-        UIData.debug =this.selected;
+        UIData.debug = this.selected;
     }
 
     onOver() {
@@ -69,7 +69,7 @@ export default class CheckButton extends UIBitmapModel {
 
 
     select(b: boolean) {
-        this.selected =b;
+        this.selected = b;
         if (this.selected) {
             this.checkAlpha = 1;
 

@@ -115,8 +115,9 @@ export default class Camera extends UniformGroup {
         UI.LFloat(this, 'near')
         UI.LFloat(this, 'far')
     }
-    public modelInFrustum(model:Model): boolean {
-        if(!GameModel.frustumCull)return true;
+
+    public modelInFrustum(model: Model): boolean {
+        if (!GameModel.frustumCull) return true;
         for (let i: number = 0; i < 6; i++) {
             if (this.dot(this.fplanes[i], model.center.x, model.center.y, model.center.z) < -model.radius) {
 
@@ -125,9 +126,11 @@ export default class Camera extends UniformGroup {
         }
         return true;
     }
+
     private dot(plane: Vector4, x: number, y: number, z: number) {
         return plane.x * x + plane.y * y + plane.z * z + plane.w;
     }
+
     protected updateData() {
 
         if (this.perspective) {

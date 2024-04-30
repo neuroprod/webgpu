@@ -5,33 +5,34 @@ import Renderer from "../lib/Renderer";
 import {Vector4} from "math.gl";
 
 
-
-export default class DofShader extends Shader{
+export default class DofShader extends Shader {
     private horizontal: boolean;
 
-    constructor(renderer: Renderer, label = "",horizontal:boolean) {
+    constructor(renderer: Renderer, label = "", horizontal: boolean) {
         super(renderer, label);
-        this.horizontal =horizontal;
+        this.horizontal = horizontal;
     }
-    getDir():string
-    {
-        if(this.horizontal)return "1.5,0.0";
+
+    getDir(): string {
+        if (this.horizontal) return "1.5,0.0";
         return "0.0,1.5"
     }
-    init(){
 
-        if(this.attributes.length==0) {
+    init() {
+
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform( "settings",new Vector4(0,0,0,0));
+        this.addUniform("settings", new Vector4(0, 0, 0, 0));
 
-        this.addTexture("inputTexture",DefaultTextures.getWhite(this.renderer),"float")
+        this.addTexture("inputTexture", DefaultTextures.getWhite(this.renderer), "float")
 
         this.addSampler("mySampler")
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -108,7 +109,6 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 ///////////////////////////////////////////////////////////
         `
     }
-
 
 
 }

@@ -152,11 +152,11 @@ export default class DefaultTextures {
         return this.grid;
     }
 
-    static getMagicNoise(render: Renderer):Texture {
+    static getMagicNoise(render: Renderer): Texture {
         if (this.magicNoise) return this.magicNoise;
 
 
-        let size =3
+        let size = 3
         this.magicNoise = new Texture(render, "magicNoise", {
             width: size,
             height: size,
@@ -164,23 +164,23 @@ export default class DefaultTextures {
             usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
         })
         this.magicNoise.make();
-        const magicSquare = this.generateMagicSquare( size );
+        const magicSquare = this.generateMagicSquare(size);
         const noiseSquareSize = magicSquare.length;
-        const data = new Uint8Array( noiseSquareSize * 4 );
+        const data = new Uint8Array(noiseSquareSize * 4);
 
-        for ( let inx = 0; inx < noiseSquareSize; ++ inx ) {
+        for (let inx = 0; inx < noiseSquareSize; ++inx) {
 
-            const iAng = magicSquare[ inx ];
-            const angle = ( 2 * Math.PI * iAng ) / noiseSquareSize;
+            const iAng = magicSquare[inx];
+            const angle = (2 * Math.PI * iAng) / noiseSquareSize;
             const randomVec = new Vector3(
-                Math.cos( angle ),
-                Math.sin( angle ),
+                Math.cos(angle),
+                Math.sin(angle),
                 0
             ).normalize();
-            data[ inx * 4 ] = ( randomVec.x * 0.5 + 0.5 ) * 255;
-            data[ inx * 4 + 1 ] = ( randomVec.y * 0.5 + 0.5 ) * 255;
-            data[ inx * 4 + 2 ] = 127;
-            data[ inx * 4 + 3 ] = 255;
+            data[inx * 4] = (randomVec.x * 0.5 + 0.5) * 255;
+            data[inx * 4 + 1] = (randomVec.y * 0.5 + 0.5) * 255;
+            data[inx * 4 + 2] = 127;
+            data[inx * 4 + 3] = 255;
 
         }
         this.magicNoise.writeTexture(data, size, size, 4 * size);
@@ -188,7 +188,7 @@ export default class DefaultTextures {
 
     }
 
-    static generateMagicSquare(size =5) {
+    static generateMagicSquare(size = 5) {
 
         const noiseSize = Math.floor(size) % 2 === 0 ? Math.floor(size) + 1 : Math.floor(size);
         const noiseSquareSize = noiseSize * noiseSize;

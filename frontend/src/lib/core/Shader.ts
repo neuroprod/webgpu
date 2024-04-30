@@ -33,32 +33,34 @@ export default class Shader extends ObjectGPU {
     public addUniform(name: string, value: MathArray | number, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
 
-        this.tempMaterial.uniforms.addUniform(name, value,usage,format,arraySize)
+        this.tempMaterial.uniforms.addUniform(name, value, usage, format, arraySize)
 
     }
 
-    public addTexture(name: string, value: Texture,sampleType:GPUTextureSampleType="float", dimension: GPUTextureViewDimension = TextureDimension.TwoD, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT) {
+    public addTexture(name: string, value: Texture, sampleType: GPUTextureSampleType = "float", dimension: GPUTextureViewDimension = TextureDimension.TwoD, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
-        this.tempMaterial.uniforms.addTexture(name, value,sampleType, dimension, usage);
+        this.tempMaterial.uniforms.addTexture(name, value, sampleType, dimension, usage);
 
     }
 
-    public addSampler(name: string, usage= GPUShaderStage.FRAGMENT,addressMode=AddressMode.ClampToEdge,filterMode=FilterMode.Linear) {
+    public addSampler(name: string, usage = GPUShaderStage.FRAGMENT, addressMode = AddressMode.ClampToEdge, filterMode = FilterMode.Linear) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
-        this.tempMaterial.uniforms.addSampler(name,usage,filterMode,addressMode);
+        this.tempMaterial.uniforms.addSampler(name, usage, filterMode, addressMode);
 
     }
+
     public addSamplerComparison(name: string) {
         if (!this.tempMaterial.uniforms) this.tempMaterial.uniforms = new UniformGroup(this.renderer, this.label, "uniforms")
         this.tempMaterial.uniforms.addSamplerComparison(name);
 
     }
+
     public addVertexOutput(name: string, length: number) {
 
     }
 
-    public addAttribute(name: string, type: string, arrayLength = 1,stepMode:GPUVertexStepMode="vertex") {
-        let at = new Attribute(name, type, arrayLength,stepMode);
+    public addAttribute(name: string, type: string, arrayLength = 1, stepMode: GPUVertexStepMode = "vertex") {
+        let at = new Attribute(name, type, arrayLength, stepMode);
         at.slot = this.attributes.length;
         this.attributes.push(at);
     }
@@ -109,8 +111,8 @@ export default class Shader extends ObjectGPU {
             }
 
             bufferLayout.push({
-                arrayStride: atr.size*4,
-                stepMode:atr.stepMode,
+                arrayStride: atr.size * 4,
+                stepMode: atr.stepMode,
                 attributes: [
                     vertexAtr,
                 ],
@@ -124,18 +126,17 @@ export default class Shader extends ObjectGPU {
     }
 
     private logShader() {
-        console.log("vvvv",this.label,"vvvvvvvvvvvvvvvvvvvvvvvvvvvv")
-        let s =this.getShaderCode();
+        console.log("vvvv", this.label, "vvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+        let s = this.getShaderCode();
         let a = s.split("\n");
-        let count =1;
+        let count = 1;
         let r = ""
-        for(let l of a)
-        {
-            r+=count+": "+l+"\n";
+        for (let l of a) {
+            r += count + ": " + l + "\n";
             count++;
         }
         console.log(r);
-        console.log("^^^^",this.label,"^^^^^^^^^^^^^^^^^^^^^^^^")
+        console.log("^^^^", this.label, "^^^^^^^^^^^^^^^^^^^^^^^^")
 
     }
 }

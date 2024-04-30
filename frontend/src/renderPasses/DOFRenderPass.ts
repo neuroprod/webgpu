@@ -9,8 +9,7 @@ import DofShader from "../shaders/DofShader";
 import RenderSettings from "../RenderSettings";
 
 
-
-export default class DOFRenderPass extends RenderPass{
+export default class DOFRenderPass extends RenderPass {
     public colorAttachment: ColorAttachment;
     private target: RenderTexture;
     public bloomAttachment: ColorAttachment;
@@ -19,8 +18,7 @@ export default class DOFRenderPass extends RenderPass{
     private blit: Blit;
 
 
-
-    constructor(renderer: Renderer,targetName:string) {
+    constructor(renderer: Renderer, targetName: string) {
 
         super(renderer, "DofPass");
 
@@ -29,35 +27,31 @@ export default class DOFRenderPass extends RenderPass{
             format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
-            sizeMultiplier:1,
+            sizeMultiplier: 1,
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
-        this.colorAttachment= new ColorAttachment(this.target);
-
+        this.colorAttachment = new ColorAttachment(this.target);
 
 
         this.colorAttachments = [this.colorAttachment];
 
 
-
-
-
-
-
     }
-    init(horizontal:boolean,inputTexture:string){
 
-        let dofShader= new DofShader(this.renderer, "dofPass",horizontal)
+    init(horizontal: boolean, inputTexture: string) {
+
+        let dofShader = new DofShader(this.renderer, "dofPass", horizontal)
         this.blitMaterial = new Material(this.renderer, "blitDof", dofShader)
-        this.blitMaterial.uniforms.setTexture("inputTexture",this.renderer.texturesByLabel[inputTexture])
+        this.blitMaterial.uniforms.setTexture("inputTexture", this.renderer.texturesByLabel[inputTexture])
 
         this.blit = new Blit(this.renderer, 'blitDof', this.blitMaterial)
-}
+    }
+
     onSettingsChange() {
         super.onSettingsChange();
 
-       this.blitMaterial.uniforms.setUniform("settings", RenderSettings.dof_Settings);
+        this.blitMaterial.uniforms.setUniform("settings", RenderSettings.dof_Settings);
 
     }
 

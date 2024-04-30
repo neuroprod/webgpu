@@ -29,7 +29,7 @@ export default class extends RenderPass {
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
         this.colorAttachment = new ColorAttachment(this.colorTarget, {clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 0.0}});
-        this.colorAttachments =[this.colorAttachment]
+        this.colorAttachments = [this.colorAttachment]
 
         this.depthStencilAttachment = new DepthStencilAttachment(this.renderer.texturesByLabel["GDepth"] as RenderTexture, {
             depthLoadOp: LoadOp.Load,
@@ -39,15 +39,17 @@ export default class extends RenderPass {
 
 
     }
+
     onSettingsChange() {
         super.onSettingsChange();
-        for(let m of  this.modelRenderer.models){
-           if(m.material.label.includes("_G")){
-           m.material.uniforms.setUniform("refSettings1",RenderSettings.ref_settings1)
-            m.material.uniforms.setUniform("refSettings2",RenderSettings.ref_settings2)
-           }
+        for (let m of this.modelRenderer.models) {
+            if (m.material.label.includes("_G")) {
+                m.material.uniforms.setUniform("refSettings1", RenderSettings.ref_settings1)
+                m.material.uniforms.setUniform("refSettings2", RenderSettings.ref_settings2)
+            }
         }
     }
+
     draw() {
 
         this.modelRenderer.draw(this);

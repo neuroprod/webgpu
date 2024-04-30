@@ -7,34 +7,35 @@ import ModelTransform from "../lib/model/ModelTransform";
 import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
 import {Vector4} from "math.gl";
 
-export default class GlassShader extends Shader{
+export default class GlassShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
-            this.addAttribute("aTangent",ShaderType.vec4);
+            this.addAttribute("aTangent", ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
 
-        this.addUniform("refSettings1",  new Vector4(1,0,0.01,1.4));
-        this.addUniform("refSettings2", new Vector4(20,10,1,0));
+        this.addUniform("refSettings1", new Vector4(1, 0, 0.01, 1.4));
+        this.addUniform("refSettings2", new Vector4(20, 10, 1, 0));
         this.addTexture("lut", this.renderer.texturesByLabel["brdf_lut.png"], "unfilterable-float")
-        this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
-        this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
+        this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float");
+        this.addTexture("reflectTexture", DefaultTextures.getWhite(this.renderer), "float");
 
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer));
-        this.addTexture("mraTexture",DefaultTextures.getWhite(this.renderer));
-        this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer));
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer));
+        this.addTexture("mraTexture", DefaultTextures.getWhite(this.renderer));
+        this.addTexture("normalTexture", DefaultTextures.getNormal(this.renderer));
         this.addSampler("mySampler");
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -123,7 +124,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
               
         `
     }
-
 
 
 }

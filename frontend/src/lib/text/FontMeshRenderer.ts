@@ -1,56 +1,50 @@
-
 import Renderer from "../Renderer";
 import RenderPass from "../core/RenderPass";
 import Model from "../model/Model";
-import Material from "../core/Material";
-import FontShader from "./FontShader";
-import {BlendFactor, BlendOperation} from "../WebGPUConstants";
 
-export default class FontMeshRenderer{
+export default class FontMeshRenderer {
 
 
-    public models: Array<Model>=[];
+    public models: Array<Model> = [];
     private renderer: Renderer;
     private label: string;
 
 
-    constructor(renderer:Renderer,label ="")
-    {
+    constructor(renderer: Renderer, label = "") {
         this.label = label;
-        this.renderer =renderer;
+        this.renderer = renderer;
 
     }
-    draw(pass:RenderPass)
-    {
-        if(this.models.length==0)return;
-        const passEncoder =pass.passEncoder;
 
-        passEncoder.setBindGroup(0,this.renderer.camera.bindGroup);
+    draw(pass: RenderPass) {
+        if (this.models.length == 0) return;
+        const passEncoder = pass.passEncoder;
+
+        passEncoder.setBindGroup(0, this.renderer.camera.bindGroup);
 
         for (let model of this.models) {
 
-            if(!model.visible)continue
+            if (!model.visible) continue
 
             model.material.makePipeLine(pass);
             passEncoder.setPipeline(model.material.pipeLine);
 
-            passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
-            passEncoder.setBindGroup(2,model.material.uniforms.bindGroup);
-
+            passEncoder.setBindGroup(1, model.modelTransform.bindGroup);
+            passEncoder.setBindGroup(2, model.material.uniforms.bindGroup);
 
 
             for (let attribute of model.material.shader.attributes) {
 
-                let buffer  = model.mesh.getBufferByName(attribute.name);
+                let buffer = model.mesh.getBufferByName(attribute.name);
 
-                if(buffer){
+                if (buffer) {
                     passEncoder.setVertexBuffer(
                         attribute.slot,
                         buffer,
                     );
-                }else{
+                } else {
 
-                    console.log("buffer not found" ,attribute.name)
+                    console.log("buffer not found", attribute.name)
                 }
             }
 
@@ -68,6 +62,7 @@ export default class FontMeshRenderer{
 
         }
     }
+
     public addText(textModel: Model) {
 
         this.models.push(textModel);
@@ -75,7 +70,7 @@ export default class FontMeshRenderer{
 
 
     removeText(currentHitText: Model) {
-       this.models=[]
+        this.models = []
 
 
     }

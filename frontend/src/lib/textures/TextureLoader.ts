@@ -3,25 +3,27 @@ import Renderer from "../Renderer";
 import {TextureFormat} from "../WebGPUConstants";
 
 export default class TextureLoader extends Texture {
-    public loaded: boolean=false;
+    public loaded: boolean = false;
 
-    onComplete=()=>{}
-    constructor(renderer: Renderer, preLoader, url: string = "", options: Partial<TextureOptions>,delay=0) {
+    onComplete = () => {
+    }
+
+    constructor(renderer: Renderer, preLoader, url: string = "", options: Partial<TextureOptions>, delay = 0) {
         super(renderer, url, options)
         preLoader.startLoad();
         this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT;
-       if(url.includes("_Op."))
-       this.options.format = TextureFormat.R8Unorm
+        if (url.includes("_Op."))
+            this.options.format = TextureFormat.R8Unorm
 
         this.make();
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
-    this.loadURL(url).then(() => {
-        preLoader.stopLoad();
-        this.onComplete();
-    });
-},delay)
+            this.loadURL(url).then(() => {
+                preLoader.stopLoad();
+                this.onComplete();
+            });
+        }, delay)
 
     }
 
@@ -48,7 +50,7 @@ export default class TextureLoader extends Texture {
         );
 
         this.renderer.mipmapQueue.addTexture(this)
-        this.loaded=true;
+        this.loaded = true;
     }
 
 }

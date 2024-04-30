@@ -1,26 +1,21 @@
 import Shader from "../lib/core/Shader";
-
-import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import {cubeShadow, fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
-import {Vector3, Vector4} from "math.gl";
-import {AddressMode, TextureViewDimension} from "../lib/WebGPUConstants";
 
-export default class GlassGlowShader extends Shader{
+export default class GlassGlowShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
 
 
         }
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
 
@@ -63,7 +58,6 @@ fn mainFragment() -> @location(0) vec4f
               
         `
     }
-
 
 
 }

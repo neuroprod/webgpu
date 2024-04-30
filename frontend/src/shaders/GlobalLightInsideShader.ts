@@ -7,71 +7,71 @@ import Camera from "../lib/Camera";
 import {TextureViewDimension} from "../lib/WebGPUConstants";
 
 
+export default class GlobalLightInsideShader extends Shader {
 
-export default class GlobalLightInsideShader extends Shader{
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
 
-        this.addUniform("lightPos1",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor1",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightPos2",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor2",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightPos3",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor3",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightPos4",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor4",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightPos1", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor1", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightPos2", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor2", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightPos3", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor3", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightPos4", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor4", new Vector4(1, 0.7, 0.7, 0.1))
 
-        this.addUniform("lightPos5",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor5",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightPos5", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor5", new Vector4(1, 0.7, 0.7, 0.1))
 
-        this.addUniform("lightPos6",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor6",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("lightPos6", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor6", new Vector4(1, 0.7, 0.7, 0.1))
 
-        this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("midColor",new Vector4(1,1,1,0.05))
-        this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
-        this.addUniform("topColorRight",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("midColorRight",new Vector4(1,1,1,0.05))
-        this.addUniform("bottomColorRight",new Vector4(1,1,1,0.02))
-        this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
-        this.addUniform("shadowSamples",new Vector4(4.0,4.0,2.0,0.0))
-        this.addTexture("shadowCube1",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadowCube2",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadowCube3",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadowCube4",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadowCube5",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadowCube6",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-       // this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
-        this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gMRA",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("aoTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+        this.addUniform("topColor", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("midColor", new Vector4(1, 1, 1, 0.05))
+        this.addUniform("bottomColor", new Vector4(1, 1, 1, 0.02))
+        this.addUniform("topColorRight", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("midColorRight", new Vector4(1, 1, 1, 0.05))
+        this.addUniform("bottomColorRight", new Vector4(1, 1, 1, 0.02))
+        this.addUniform("dof", new Vector4(0.5, 0.6, 0.0, 0.0))
+        this.addUniform("shadowSamples", new Vector4(4.0, 4.0, 2.0, 0.0))
+        this.addTexture("shadowCube1", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        this.addTexture("shadowCube2", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        this.addTexture("shadowCube3", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        this.addTexture("shadowCube4", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        this.addTexture("shadowCube5", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        this.addTexture("shadowCube6", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        // this.addTexture("shadowCube",DefaultTextures.getCube(this.renderer),"depth",TextureViewDimension.Cube)
+        this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gColor", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gMRA", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("aoTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addSamplerComparison("mySamplerComp");
         this.addSampler("mySampler");
-        this.needsCamera =true;
+        this.needsCamera = true;
 //this.logShaderCode=true;
 
     }
+
     getKernel() {
-        let numSamples =16;
+        let numSamples = 16;
         let s = "const kernel = array<vec3f, " + numSamples + ">(";
         for (let i = 0; i < numSamples; i++) {
             let v = new Vector3(
                 Math.random() * 2.0 - 1.0,
                 Math.random() * 2.0 - 1.0,
-                Math.random()* 2.0 - 1.0
+                Math.random() * 2.0 - 1.0
             );
             v.normalize();
 
-          v.scale(.001);
+            v.scale(.001);
 
 
             s += "vec3(" + v.x + ", " + v.y + "," + v.z + "),";
@@ -234,7 +234,6 @@ let sSamples =uniforms.shadowSamples;
 ///////////////////////////////////////////////////////////
         `
     }
-
 
 
 }

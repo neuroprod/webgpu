@@ -19,26 +19,24 @@ export default class AOPreprocessDepth {
         this.uniformGroup = new UniformGroup(this.renderer, "AOPreprocessDepth", "test")
 
 
-
-
         this.texture = new RenderTexture(renderer, "AOPreprocessedDepth", {
-        usage: GPUTextureUsage.COPY_DST |
+            usage: GPUTextureUsage.COPY_DST |
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
-                scaleToCanvas :true,
-                width:1,
-                height:1,
-                sizeMultiplier:1,
-                mipLevelCount:4,
-            format:TextureFormat.R32Float,
+            scaleToCanvas: true,
+            width: 1,
+            height: 1,
+            sizeMultiplier: 1,
+            mipLevelCount: 4,
+            format: TextureFormat.R32Float,
         })
 
-        this.uniformGroup.addTexture("input_depth",this.renderer.texturesByLabel["GDepth"],"depth", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-        this.uniformGroup.addStorageTexture("preprocessed_depth_mip0", this.texture, TextureFormat.R32Float,0);
-        this.uniformGroup.addStorageTexture("preprocessed_depth_mip1", this.texture, TextureFormat.R32Float,1);
-        this.uniformGroup.addStorageTexture("preprocessed_depth_mip2", this.texture, TextureFormat.R32Float,2);
-        this.uniformGroup.addStorageTexture("preprocessed_depth_mip3", this.texture, TextureFormat.R32Float,3);
-        this.uniformGroup.addSampler("point_clamp_sampler",GPUShaderStage.COMPUTE,FilterMode.Linear)
+        this.uniformGroup.addTexture("input_depth", this.renderer.texturesByLabel["GDepth"], "depth", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addStorageTexture("preprocessed_depth_mip0", this.texture, TextureFormat.R32Float, 0);
+        this.uniformGroup.addStorageTexture("preprocessed_depth_mip1", this.texture, TextureFormat.R32Float, 1);
+        this.uniformGroup.addStorageTexture("preprocessed_depth_mip2", this.texture, TextureFormat.R32Float, 2);
+        this.uniformGroup.addStorageTexture("preprocessed_depth_mip3", this.texture, TextureFormat.R32Float, 3);
+        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Linear)
 
     }
 
@@ -57,7 +55,7 @@ export default class AOPreprocessDepth {
     }
 
     getPipeLine() {
-        if(this.computePipeline)return this.computePipeline
+        if (this.computePipeline) return this.computePipeline
         this.pipeLineLayout = this.renderer.device.createPipelineLayout({
             label: "Compute_pipelineLayout_",
             bindGroupLayouts: [this.uniformGroup.bindGroupLayout],

@@ -77,7 +77,7 @@ export default class Main {
     private reflectionPass: ReflectionRenderPass;
     private glassPass: GlassRenderPass;
     private blurLightPass: BlurLight;
-  combinePass: CombinePass;
+    combinePass: CombinePass;
     private numberOfQueries: number = 11;
     private blurBloomPass: BlurBloom;
     private shadowPassCube1: ShadowCube;
@@ -121,9 +121,9 @@ export default class Main {
     private ctx: CanvasRenderingContext2D;
     private img: HTMLImageElement;
     private intro: Intro;
-    private roomCount: number =0;
-    private outsideCount: number =0;
-    private updateShadowOutside: boolean =false;
+    private roomCount: number = 0;
+    private outsideCount: number = 0;
+    private updateShadowOutside: boolean = false;
     private pants3D: Pants3D;
 
 
@@ -237,7 +237,7 @@ export default class Main {
 
         this.gBufferPass = new GBufferRenderPass(this.renderer);
         this.pants3D.init()
-        GameModel.pants3D =this.pants3D;
+        GameModel.pants3D = this.pants3D;
         this.aoPreCompDepth = new AOPreprocessDepth(this.renderer)
         this.gtaoPass = new GTAO(this.renderer);
         this.gtaoDenoise = new GTAOdenoise(this.renderer)
@@ -326,13 +326,13 @@ export default class Main {
                 GameModel.introDraw = d;
             }
 
-                this.loadingDraw = d;
+            this.loadingDraw = d;
 
 
         }
 
 
-      //  this.intro.modelRenderer.addModel(this.pants3D.pants)
+        //  this.intro.modelRenderer.addModel(this.pants3D.pants)
 
 
         this.tick()
@@ -351,7 +351,7 @@ export default class Main {
             GameModel.yMouseScale = 1;
             GameModel.sceneHeight = 2.5;
 
-        this.lightIntroRenderPass.setDirty();
+            this.lightIntroRenderPass.setDirty();
             this.gBufferPass.modelRenderer = this.intro.modelRenderer
             this.glassPass.modelRenderer = this.intro.modelRendererTrans;
 
@@ -371,7 +371,7 @@ export default class Main {
 
         }
         if (scene == Scenes.ROOM) {
-            this.roomCount =0;
+            this.roomCount = 0;
             GameModel.yMouseScale = 1
             GameModel.yMouseCenter = 1
             GameModel.sceneHeight = 3
@@ -404,7 +404,7 @@ export default class Main {
             RenderSettings.onChange()
 
         } else if (scene == Scenes.OUTSIDE) {
-            this.outsideCount =0;
+            this.outsideCount = 0;
             GameModel.yMouseScale = 1.5
             GameModel.yMouseCenter = 0
             GameModel.sceneHeight = 2.5
@@ -465,7 +465,7 @@ export default class Main {
         }
         this.loadingDraw.hideLoad();
 
-       GameModel.setUIState(UIState.PRELOAD_DONE)
+        GameModel.setUIState(UIState.PRELOAD_DONE)
 
     }
 
@@ -535,8 +535,8 @@ export default class Main {
             this.shadowPassCube4.setLightPos(this.introLight4.getWorldPos());
 
             GameModel.characterPos.set(-1, -1.2, -1);
-            if(this.introDraw.progress>0.99){
-                this.loadingDraw.progress +=  (this.preloader.getProgress()-this.loadingDraw.progress    )   *0.05;
+            if (this.introDraw.progress > 0.99) {
+                this.loadingDraw.progress += (this.preloader.getProgress() - this.loadingDraw.progress) * 0.05;
             }
 
         } else if (GameModel.currentScene == Scenes.ROOM) {
@@ -553,12 +553,12 @@ export default class Main {
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
             this.outside.update()
             this.shadowPass1.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
-            if(this.outsideCount%2==0) {
+            if (this.outsideCount % 2 == 0) {
                 this.shadowPass2.update(this.lightOutsidePass.sunDir, this.gameCamera.posSmooth)
-            this.updateShadowOutside =true
-                this.lightOutsidePass.setUniforms2( this.shadowPass2.camera.viewProjection);
+                this.updateShadowOutside = true
+                this.lightOutsidePass.setUniforms2(this.shadowPass2.camera.viewProjection);
             }
-                if (checkHit) this.outside.checkMouseHit(this.mouseRay);
+            if (checkHit) this.outside.checkMouseHit(this.mouseRay);
             this.shadowPassCube1.setLightPos(this.outside.lightGrave.getWorldPos());
 
             this.lightOutsidePass.setUniforms(this.shadowPass1.camera.viewProjection)
@@ -574,7 +574,7 @@ export default class Main {
     updateUI() {
 
         UI.pushWindow("Dev Settings")
-       // UI.LFloatSlider(GameModel,"offsetY",-5,1)
+        // UI.LFloatSlider(GameModel,"offsetY",-5,1)
         //UI.LFloatSlider(GameModel,"sceneHeight",2,5)
         //GameModel.textHandler.onUI()
 
@@ -600,9 +600,9 @@ export default class Main {
             localStorage.removeItem("devData");
             UI.clearLocalData();
         }
-        UI.LVector("temp1",GameModel.temp1);
-        UI.LVector("temp2",GameModel.temp2);
-        UI.LColor("tempC",GameModel.tempC);
+        UI.LVector("temp1", GameModel.temp1);
+        UI.LVector("temp2", GameModel.temp2);
+        UI.LColor("tempC", GameModel.tempC);
         UI.separator("Windows");
 
         UIData.performance = (UI.LBool("Preformance", UIData.performance));
@@ -635,9 +635,9 @@ export default class Main {
             UI.pushWindow("Performance")
             UI.LText(Timer.fps + "", "FPS")
             UI.LText(GameModel.screenWidth + " " + GameModel.screenHeight, "Render Size");
-            UI.LText(GameModel.drawCount+"","Num Models")
+            UI.LText(GameModel.drawCount + "", "Num Models")
             if (!this.renderer.useTimeStampQuery) UI.LText("Enable by running Chrome with: --enable-dawn-features=allow_unsafe_apis and check the box below, and refresh", "GPU Time stamps", true)
-            if (!this.renderer.useTimeStampQuery) UI.LText("Warning! it will crash the site if you refresh when you not enabled it in Chrome. Clear local storage to fix it","Don't touch", true)
+            if (!this.renderer.useTimeStampQuery) UI.LText("Warning! it will crash the site if you refresh when you not enabled it in Chrome. Clear local storage to fix it", "Don't touch", true)
 
             UIData.useTimestamp = UI.LBool("Use Timestamp", UIData.useTimestamp)
 
@@ -709,7 +709,7 @@ export default class Main {
 
     onDraw() {
 
-        GameModel.drawCount =0;
+        GameModel.drawCount = 0;
 
         this.timeStampQuery.start();
         if (GameModel.currentScene == Scenes.PRELOAD) {
@@ -727,12 +727,12 @@ export default class Main {
             this.roomCount++;
             this.shadowPassCube1.add();
 
-           if(GameModel.roomCamOffset<0.99 || this.roomCount<6) {
+            if (GameModel.roomCamOffset < 0.99 || this.roomCount < 6) {
 
-               this.shadowPassCube5.add();
-               this.shadowPassCube6.add();
-           }
-            if(GameModel.roomCamOffset>-0.99 || this.roomCount<6) {
+                this.shadowPassCube5.add();
+                this.shadowPassCube6.add();
+            }
+            if (GameModel.roomCamOffset > -0.99 || this.roomCount < 6) {
                 this.shadowPassCube2.add();
                 this.shadowPassCube3.add();
                 this.shadowPassCube4.add();
@@ -742,20 +742,20 @@ export default class Main {
         } else if (GameModel.currentScene == Scenes.OUTSIDE) {
 
             this.shadowPass1.add();
-            if(GameModel.dayNight==0){
+            if (GameModel.dayNight == 0) {
                 this.shadowPass1.add();
-              if(  this.updateShadowOutside ==true)  {
-                  this.shadowPass2.add();
-                  this.updateShadowOutside =false;
-              }
-            }else{
+                if (this.updateShadowOutside == true) {
+                    this.shadowPass2.add();
+                    this.updateShadowOutside = false;
+                }
+            } else {
                 this.shadowPass1.add();
                 this.shadowPassCube1.add();
             }
             this.outsideCount++;
 
         }
-        if(GameModel.compVisible){
+        if (GameModel.compVisible) {
             this.pants3D.pantsRenderPass.add();
         }
         this.timeStampQuery.setStamp("ShadowPass");
@@ -818,7 +818,7 @@ export default class Main {
     }
 
     private updateSceneHeight() {
-        if(GameModel.stateGold == StateGold.GET_GOLD){
+        if (GameModel.stateGold == StateGold.GET_GOLD) {
             GameModel.sceneHeight = 2.5;
         }
         if (GameModel.currentScene == Scenes.ROOM) {
@@ -830,12 +830,12 @@ export default class Main {
                 GameModel.sceneHeight = 3;
             }
 
-        }else if(  GameModel.currentScene == Scenes.OUTSIDE){
+        } else if (GameModel.currentScene == Scenes.OUTSIDE) {
 
 
-            let dist =Math.min( Math.max((Math.abs(GameModel.characterPos.x+12)-2)/10,0),1)*0.7;
+            let dist = Math.min(Math.max((Math.abs(GameModel.characterPos.x + 12) - 2) / 10, 0), 1) * 0.7;
 
-            GameModel.sceneHeight  += (4.1-dist-GameModel.sceneHeight )/50;
+            GameModel.sceneHeight += (4.1 - dist - GameModel.sceneHeight) / 50;
 
         }
     }

@@ -43,7 +43,7 @@ export default class GameUI {
 
         this.root = new UIModel(renderer, "uiRoot");
 
-        this.endscreen =new Endscreen(renderer,preLoader)
+        this.endscreen = new Endscreen(renderer, preLoader)
         this.root.addChild(this.endscreen)
 
         this.cursor = new Cursor(renderer, preLoader)
@@ -141,7 +141,7 @@ export default class GameUI {
 
     }
 
-    setUIState(state: UIState, data: any,hasClose:boolean =false) {
+    setUIState(state: UIState, data: any, hasClose: boolean = false) {
         if (state == UIState.PRELOAD) {
 
 
@@ -170,7 +170,7 @@ export default class GameUI {
         if (state == UIState.INVENTORY_DETAIL) {
             this.menuButton.hide()
             this.inventory.hide()
-            this.inventoryDetail.show(data,hasClose)
+            this.inventoryDetail.show(data, hasClose)
 
         }
         if (state == UIState.SHOW_NOTE) {
@@ -187,8 +187,8 @@ export default class GameUI {
     }
 
     updateInventory() {
-        if(GameModel.pantsFound.length>=6 && GameModel.stateGold==StateGold.START_MILL){
-            GameModel.stateGold=StateGold.FINISH_KEY;
+        if (GameModel.pantsFound.length >= 6 && GameModel.stateGold == StateGold.START_MILL) {
+            GameModel.stateGold = StateGold.FINISH_KEY;
         }
         this.inventory.updateInventory()
 

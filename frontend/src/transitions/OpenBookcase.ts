@@ -10,8 +10,8 @@ export default class OpenBookcase extends Transition {
     set(onComplete: () => void) {
         super.set(onComplete)
         GameModel.characterHandler.setAnimationOnce("crunchDown", 0.2, this.onCrunchDown.bind(this))
-        GameModel.renderer.modelByLabel["bookCaseDoorRight"].needsHitTest =false
-        GameModel.renderer.modelByLabel["bookCaseDoorLeft"].needsHitTest =false
+        GameModel.renderer.modelByLabel["bookCaseDoorRight"].needsHitTest = false
+        GameModel.renderer.modelByLabel["bookCaseDoorLeft"].needsHitTest = false
         this.state = 0;
     }
 
@@ -32,7 +32,7 @@ export default class OpenBookcase extends Transition {
         GameModel.gameUI.cursor.animate()
 
         if (this.state == 2) {
-            this.state=0;
+            this.state = 0;
             RenderSettings.closeMenu();
             GameModel.gameUI.cursor.hide();
             GameModel.gameUI.setUIState(UIState.GAME_DEFAULT, null)
@@ -40,12 +40,11 @@ export default class OpenBookcase extends Transition {
                 GameModel.textHandler.showHitTrigger("findNoteEnd")
                 GameModel.gameUI.cursor.show(CURSOR.NEXT)
                 GameModel.characterHandler.setIdleAndTurn()
-                this.state=4;
+                this.state = 4;
 
 
             })
-        }
-        else if (this.state == 1) {
+        } else if (this.state == 1) {
             if (GameModel.textHandler.readNext()) {
 
                 this.state = 2;
@@ -55,8 +54,7 @@ export default class OpenBookcase extends Transition {
 
 
             }
-        }
-        else if (this.state == 4) {
+        } else if (this.state == 4) {
             if (GameModel.textHandler.readNext()) {
                 GameModel.gameUI.cursor.hide();
                 this.onComplete();

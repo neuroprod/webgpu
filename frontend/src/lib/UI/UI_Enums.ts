@@ -1,16 +1,16 @@
 export enum NumberType {
-  FLOAT,
-  INT,
+    FLOAT,
+    INT,
 }
 
 export enum HAlign {
-  LEFT,
-  CENTER,
-  RIGHT,
+    LEFT,
+    CENTER,
+    RIGHT,
 }
 
 export enum VectorType {
-  VEC2,
-  VEC3,
-  VEC4,
+    VEC2,
+    VEC3,
+    VEC4,
 }

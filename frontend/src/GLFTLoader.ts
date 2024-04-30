@@ -159,32 +159,31 @@ export default class GLFTLoader {
             let mData = materialData[m.model.mesh.label]
 
 
-
             if (mData) {
-                if(m.model.mesh.label =="stickHold") {
+                if (m.model.mesh.label == "stickHold") {
 
                     mData.needsHitTest = false;
                     mData.needsAlphaClip = true;
                 }
-                if(m.model.mesh.label =="stick") {
+                if (m.model.mesh.label == "stick") {
 
-                    mData.alphaClipValue =0.5;
+                    mData.alphaClipValue = 0.5;
                 }
                 m.model.needsHitTest = mData.needsHitTest
                 m.model.needsAlphaClip = mData.needsAlphaClip
-                if( m.model.needsAlphaClip ){
-                  let mat =  new Material(this.renderer, "solidshaderOutlineAlpha", new SolidShaderAlpha(this.renderer, "solidShaderAlpha"))
+                if (m.model.needsAlphaClip) {
+                    let mat = new Material(this.renderer, "solidshaderOutlineAlpha", new SolidShaderAlpha(this.renderer, "solidShaderAlpha"))
 
                     let opTexture = this.getTexture(m.model.mesh.label + "_Op");
                     if (opTexture) {
                         mat.uniforms.setTexture("opTexture", opTexture)
-                        mat.uniforms.setUniform("alphaClipValue",mData.alphaClipValue)
-                        mat.cullMode=CullMode.None
+                        mat.uniforms.setUniform("alphaClipValue", mData.alphaClipValue)
+                        mat.cullMode = CullMode.None
                     }
 
-                    m.model.materialSolid =mat;
-                }else{
-                    m.model.materialSolid =this.materialSolid;
+                    m.model.materialSolid = mat;
+                } else {
+                    m.model.materialSolid = this.materialSolid;
                 }
 
                 m.model.alphaClipValue = mData.alphaClipValue
@@ -479,115 +478,114 @@ export default class GLFTLoader {
                 let indicesData = new Uint16Array(indexData);
 
                 let posAccessor = this.accessors[primitive.attributes.POSITION];
-                let positionData =new Float32Array( this.getSlize(posAccessor));
+                let positionData = new Float32Array(this.getSlize(posAccessor));
 
 
                 let normalAccessor = this.accessors[primitive.attributes.NORMAL];
-                let normalData =new Float32Array( this.getSlize(normalAccessor));
+                let normalData = new Float32Array(this.getSlize(normalAccessor));
 
 
                 let uv0Accessor = this.accessors[primitive.attributes.TEXCOORD_0];
                 let uv0Data = new Float32Array(this.getSlize(uv0Accessor));
 
                 let tangentAccessor = this.accessors[primitive.attributes.TANGENT];
-                let tangentData =new Float32Array( this.getSlize(tangentAccessor));
+                let tangentData = new Float32Array(this.getSlize(tangentAccessor));
 
 
                 let indices = new Uint16Array(indicesData.length);
-                let positions = new Float32Array(indicesData.length*3)
-                let normals = new Float32Array(indicesData.length*3)
-                let tangents = new Float32Array(indicesData.length*4)
-                let uvs = new Float32Array(indicesData.length*2)
-                let center = new Float32Array(indicesData.length*3)
-                let colors = new Float32Array(indicesData.length*3)
-                for (let i=0;i<indicesData.length;i+=3){
-                    indices[i] =i;
-                    indices[i+1] =i+1;
-                    indices[i+2] =i+2;
+                let positions = new Float32Array(indicesData.length * 3)
+                let normals = new Float32Array(indicesData.length * 3)
+                let tangents = new Float32Array(indicesData.length * 4)
+                let uvs = new Float32Array(indicesData.length * 2)
+                let center = new Float32Array(indicesData.length * 3)
+                let colors = new Float32Array(indicesData.length * 3)
+                for (let i = 0; i < indicesData.length; i += 3) {
+                    indices[i] = i;
+                    indices[i + 1] = i + 1;
+                    indices[i + 2] = i + 2;
 
-                    positions[i*3 ] = positionData[indicesData[i]*3];
-                    positions[i*3+1 ] = positionData[indicesData[i]*3+1];
-                    positions[i*3 +2] = positionData[indicesData[i]*3+2];
+                    positions[i * 3] = positionData[indicesData[i] * 3];
+                    positions[i * 3 + 1] = positionData[indicesData[i] * 3 + 1];
+                    positions[i * 3 + 2] = positionData[indicesData[i] * 3 + 2];
 
-                    positions[(i+1)*3 ] = positionData[indicesData[i+1]*3];
-                    positions[(i+1)*3+1 ] = positionData[indicesData[i+1]*3+1];
-                    positions[(i+1)*3 +2] = positionData[indicesData[i+1]*3+2];
+                    positions[(i + 1) * 3] = positionData[indicesData[i + 1] * 3];
+                    positions[(i + 1) * 3 + 1] = positionData[indicesData[i + 1] * 3 + 1];
+                    positions[(i + 1) * 3 + 2] = positionData[indicesData[i + 1] * 3 + 2];
 
-                    positions[(i+2)*3 ] = positionData[indicesData[i+2]*3];
-                    positions[(i+2)*3+1 ] = positionData[indicesData[i+2]*3+1];
-                    positions[(i+2)*3 +2] = positionData[indicesData[i+2]*3+2];
-
-
-                    normals[i*3 ] = normalData[indicesData[i]*3];
-                    normals[i*3+1 ] = normalData[indicesData[i]*3+1];
-                    normals[i*3 +2] = normalData[indicesData[i]*3+2];
-
-                    normals[(i+1)*3 ] = normalData[indicesData[i+1]*3];
-                    normals[(i+1)*3+1 ] = normalData[indicesData[i+1]*3+1];
-                    normals[(i+1)*3 +2] = normalData[indicesData[i+1]*3+2];
-
-                    normals[(i+2)*3 ] = normalData[indicesData[i+2]*3];
-                    normals[(i+2)*3+1 ] = normalData[indicesData[i+2]*3+1];
-                    normals[(i+2)*3 +2] = normalData[indicesData[i+2]*3+2];
+                    positions[(i + 2) * 3] = positionData[indicesData[i + 2] * 3];
+                    positions[(i + 2) * 3 + 1] = positionData[indicesData[i + 2] * 3 + 1];
+                    positions[(i + 2) * 3 + 2] = positionData[indicesData[i + 2] * 3 + 2];
 
 
-                    tangents[i*4 ] = tangentData[indicesData[i]*4];
-                    tangents[i*4+1 ] = tangentData[indicesData[i]*4+1];
-                    tangents[i*4 +2] = tangentData[indicesData[i]*4+2];
-                    tangents[i*4 +3] = tangentData[indicesData[i]*4+3];
+                    normals[i * 3] = normalData[indicesData[i] * 3];
+                    normals[i * 3 + 1] = normalData[indicesData[i] * 3 + 1];
+                    normals[i * 3 + 2] = normalData[indicesData[i] * 3 + 2];
+
+                    normals[(i + 1) * 3] = normalData[indicesData[i + 1] * 3];
+                    normals[(i + 1) * 3 + 1] = normalData[indicesData[i + 1] * 3 + 1];
+                    normals[(i + 1) * 3 + 2] = normalData[indicesData[i + 1] * 3 + 2];
+
+                    normals[(i + 2) * 3] = normalData[indicesData[i + 2] * 3];
+                    normals[(i + 2) * 3 + 1] = normalData[indicesData[i + 2] * 3 + 1];
+                    normals[(i + 2) * 3 + 2] = normalData[indicesData[i + 2] * 3 + 2];
 
 
-                    tangents[(i+1)*4 ] = tangentData[indicesData[i+1]*4];
-                    tangents[(i+1)*4+1 ] = tangentData[indicesData[i+1]*4+1];
-                    tangents[(i+1)*4 +2] = tangentData[indicesData[i+1]*4+2];
-                    tangents[(i+1)*4 +3] = tangentData[indicesData[i+1]*4+3];
+                    tangents[i * 4] = tangentData[indicesData[i] * 4];
+                    tangents[i * 4 + 1] = tangentData[indicesData[i] * 4 + 1];
+                    tangents[i * 4 + 2] = tangentData[indicesData[i] * 4 + 2];
+                    tangents[i * 4 + 3] = tangentData[indicesData[i] * 4 + 3];
 
 
-                    tangents[(i+2)*4 ] = tangentData[indicesData[i+2]*4];
-                    tangents[(i+2)*4+1 ] = tangentData[indicesData[i+2]*4+1];
-                    tangents[(i+2)*4 +2] = tangentData[indicesData[i+2]*4+2];
-                    tangents[(i+2)*4 +3] = tangentData[indicesData[i+2]*4+3];
+                    tangents[(i + 1) * 4] = tangentData[indicesData[i + 1] * 4];
+                    tangents[(i + 1) * 4 + 1] = tangentData[indicesData[i + 1] * 4 + 1];
+                    tangents[(i + 1) * 4 + 2] = tangentData[indicesData[i + 1] * 4 + 2];
+                    tangents[(i + 1) * 4 + 3] = tangentData[indicesData[i + 1] * 4 + 3];
 
-                    uvs[i*2 ] = uv0Data[indicesData[i]*2];
-                    uvs[i*2+1 ] = uv0Data[indicesData[i]*2+1];
 
-                    uvs[(i+1)*2 ] = uv0Data[indicesData[i+1]*2];
-                    uvs[(i+1)*2+1 ] = uv0Data[indicesData[i+1]*2+1];
+                    tangents[(i + 2) * 4] = tangentData[indicesData[i + 2] * 4];
+                    tangents[(i + 2) * 4 + 1] = tangentData[indicesData[i + 2] * 4 + 1];
+                    tangents[(i + 2) * 4 + 2] = tangentData[indicesData[i + 2] * 4 + 2];
+                    tangents[(i + 2) * 4 + 3] = tangentData[indicesData[i + 2] * 4 + 3];
 
-                    uvs[(i+2)*2 ] = uv0Data[indicesData[i+2]*2];
-                    uvs[(i+2)*2+1 ] = uv0Data[indicesData[i+2]*2+1];
+                    uvs[i * 2] = uv0Data[indicesData[i] * 2];
+                    uvs[i * 2 + 1] = uv0Data[indicesData[i] * 2 + 1];
+
+                    uvs[(i + 1) * 2] = uv0Data[indicesData[i + 1] * 2];
+                    uvs[(i + 1) * 2 + 1] = uv0Data[indicesData[i + 1] * 2 + 1];
+
+                    uvs[(i + 2) * 2] = uv0Data[indicesData[i + 2] * 2];
+                    uvs[(i + 2) * 2 + 1] = uv0Data[indicesData[i + 2] * 2 + 1];
 
 
 //
 
-                    let centerX =  positions[i*3 ]+  positions[(i+1)*3 ]+    positions[(i+2)*3 ]
-                    let centerY =  positions[i*3+1 ]+  positions[(i+1)*3 +1]+    positions[(i+2)*3+1]
-                    let centerZ =  positions[i*3 +2]+  positions[(i+1)*3+2 ]+    positions[(i+2)*3+2 ]
-                    center[i*3 ] = centerX
-                    center[i*3+1 ] = centerY;
-                    center[i*3 +2] = centerZ;
+                    let centerX = positions[i * 3] + positions[(i + 1) * 3] + positions[(i + 2) * 3]
+                    let centerY = positions[i * 3 + 1] + positions[(i + 1) * 3 + 1] + positions[(i + 2) * 3 + 1]
+                    let centerZ = positions[i * 3 + 2] + positions[(i + 1) * 3 + 2] + positions[(i + 2) * 3 + 2]
+                    center[i * 3] = centerX
+                    center[i * 3 + 1] = centerY;
+                    center[i * 3 + 2] = centerZ;
 
-                    center[(i+1)*3 ] = centerX;
-                    center[(i+1)*3+1 ] = centerY;
-                    center[(i+1)*3 +2] = centerZ;
+                    center[(i + 1) * 3] = centerX;
+                    center[(i + 1) * 3 + 1] = centerY;
+                    center[(i + 1) * 3 + 2] = centerZ;
 
-                    center[(i+2)*3 ] = centerX;
-                    center[(i+2)*3+1 ] = centerY;
-                    center[(i+2)*3 +2] = centerZ;
+                    center[(i + 2) * 3] = centerX;
+                    center[(i + 2) * 3 + 1] = centerY;
+                    center[(i + 2) * 3 + 2] = centerZ;
 
 
+                    colors[i * 3] = 1;
+                    colors[i * 3 + 1] = 0;
+                    colors[i * 3 + 2] = 0;
 
-                    colors[i*3 ] = 1;
-                    colors[i*3+1 ] = 0;
-                    colors[i*3 +2] = 0;
+                    colors[(i + 1) * 3] = 0;
+                    colors[(i + 1) * 3 + 1] = 1;
+                    colors[(i + 1) * 3 + 2] = 0;
 
-                    colors[(i+1)*3 ] = 0;
-                    colors[(i+1)*3+1 ] = 1;
-                    colors[(i+1)*3 +2] = 0;
-
-                    colors[(i+2)*3 ] = 0;
-                    colors[(i+2)*3+1 ] = 0;
-                    colors[(i+2)*3 +2] = 1;
+                    colors[(i + 2) * 3] = 0;
+                    colors[(i + 2) * 3 + 1] = 0;
+                    colors[(i + 2) * 3 + 2] = 1;
 
                 }
 
@@ -658,13 +656,13 @@ export default class GLFTLoader {
                     let tangentData = this.getSlize(tangentAccessor);
                     mesh.setTangents(new Float32Array(tangentData));
                 } else {
-                  //  console.warn("no tangent for mesh", m.name)
+                    //  console.warn("no tangent for mesh", m.name)
                 }
                 if (primitive.attributes.COLOR_0 && md && md.needsWind) {
 
                     //let colorAccessor = this.accessors[primitive.attributes.COLOR_0];
-                   // let colorData = this.getSlize(colorAccessor);
-                   // mesh.setColor0(new Float32Array(colorData));
+                    // let colorData = this.getSlize(colorAccessor);
+                    // mesh.setColor0(new Float32Array(colorData));
                 }
 
                 if (primitive.attributes.WEIGHTS_0) {

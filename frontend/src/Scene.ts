@@ -22,21 +22,19 @@ export default class Scene {
         for (let m of this.glFTLoader.modelsHit) {
 
             if (!m.needsHitTest) continue;
-            if(GameModel.currentScene ==Scenes.ROOM ){
-                if(GameModel.roomCamOffset>0)
-                {
-                    if(m.getWorldPos(Vector3.ZERO).x<-0.1){
+            if (GameModel.currentScene == Scenes.ROOM) {
+                if (GameModel.roomCamOffset > 0) {
+                    if (m.getWorldPos(Vector3.ZERO).x < -0.1) {
                         continue
                     }
-                }else{
-                    if(m.getWorldPos(Vector3.ZERO).x>0.1){
+                } else {
+                    if (m.getWorldPos(Vector3.ZERO).x > 0.1) {
                         continue
                     }
                 }
             }
 
             if (m.checkHit(mouseRay)) {
-
 
 
                 label = m.label
@@ -47,9 +45,10 @@ export default class Scene {
 
             }
         }
-        if(label!="") {GameModel.hitObjectLabel = this.renderer.modelByLabel[label].hitLabel}
-        else{
-            GameModel.hitObjectLabel ="";
+        if (label != "") {
+            GameModel.hitObjectLabel = this.renderer.modelByLabel[label].hitLabel
+        } else {
+            GameModel.hitObjectLabel = "";
         }
         return hit;
     }

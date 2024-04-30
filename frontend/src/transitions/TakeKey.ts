@@ -4,25 +4,26 @@ import {CURSOR} from "../ui/Cursor";
 
 export default class TakeKey extends Transition {
 
-state=0;
+    state = 0;
+
     set(onComplete: () => void) {
         super.set(onComplete)
         GameModel.textHandler.showHitTrigger("takeKey")
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
-this.state=0
+        this.state = 0
     }
 
     onMouseDown() {
-        if(this.state==1 )return
+        if (this.state == 1) return
         GameModel.gameUI.cursor.animate()
-        if(this.state==0) {
+        if (this.state == 0) {
             if (GameModel.textHandler.readNext()) {
                 GameModel.characterHandler.setMixAnimation("grabGlowPants", 1, 0.2, this.animationComplete.bind(this))
                 this.state = 1;
                 GameModel.gameUI.cursor.hide()
             }
         }
-        if(this.state==2) {
+        if (this.state == 2) {
             if (GameModel.textHandler.readNext()) {
                 GameModel.gameUI.cursor.hide()
                 this.onComplete()

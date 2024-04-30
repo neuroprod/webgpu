@@ -8,51 +8,51 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector4} from "math.gl";
 import {TextureDimension} from "../lib/WebGPUConstants";
 
-export default class DepthShader extends Shader{
-    private alphaClipValue: number=0;
-    private needsAlphaClip: boolean =false;
-    private needsWind: boolean=false;
-    private windData: Vector4 =new Vector4(0,1,0.5,0.2)
+export default class DepthShader extends Shader {
+    private alphaClipValue: number = 0;
+    private needsAlphaClip: boolean = false;
+    private needsWind: boolean = false;
+    private windData: Vector4 = new Vector4(0, 1, 0.5, 0.2)
 
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
         if (this.needsWind) {
-            this.addUniform("windData",this.windData)
+            this.addUniform("windData", this.windData)
             this.addUniform("time", 0);
 
-            this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
+            this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"], "float", TextureDimension.TwoD, GPUShaderStage.VERTEX)
 
         }
-        if(this.needsAlphaClip) {
-            this.addUniform("alphaClipValue",this.alphaClipValue);
+        if (this.needsAlphaClip) {
+            this.addUniform("alphaClipValue", this.alphaClipValue);
             this.addTexture("opTexture", DefaultTextures.getWhite(this.renderer))
-            this.addSampler("mySampler",GPUShaderStage.FRAGMENT,"repeat")
+            this.addSampler("mySampler", GPUShaderStage.FRAGMENT, "repeat")
         }
 
 
-
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     setMaterialData(md: any) {
-        if(md.needsAlphaClip){
-            this.needsAlphaClip =true;
-            this.alphaClipValue =md.alphaClipValue;
+        if (md.needsAlphaClip) {
+            this.needsAlphaClip = true;
+            this.alphaClipValue = md.alphaClipValue;
 
         }
-        if(md.needsWind){
-            this.needsWind =true;
-            this.windData =new Vector4( md.windData[0],md.windData[1],md.windData[2],md.windData[3])
+        if (md.needsWind) {
+            this.needsWind = true;
+            this.windData = new Vector4(md.windData[0], md.windData[1], md.windData[2], md.windData[3])
         }
     }
+
     private getWindChunk() {
         if (!this.needsWind) return "";
         return `
@@ -66,12 +66,14 @@ export default class DepthShader extends Shader{
         world=world+vec4(t*noiseVal*uniforms.windData.z,0.0);
         `
     }
-    private getAlphaClipChunk() {
-        if(!this.needsAlphaClip)return"";
 
-        return  `let a= textureSample(opTexture, mySampler,  uv0).x;
+    private getAlphaClipChunk() {
+        if (!this.needsAlphaClip) return "";
+
+        return `let a= textureSample(opTexture, mySampler,  uv0).x;
         if(a<uniforms.alphaClipValue){discard;}`
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -125,7 +127,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) model: vec3f)  -> @location
         
         `
     }
-
 
 
 }

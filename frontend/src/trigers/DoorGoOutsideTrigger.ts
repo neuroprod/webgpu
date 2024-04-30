@@ -1,22 +1,22 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {Pants, StateGold, StateHighTech, Transitions} from "../../public/GameModel";
+import GameModel, {Pants, StateGold, Transitions} from "../../public/GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 
-export default class DoorGoOutsideTrigger extends HitTrigger{
+export default class DoorGoOutsideTrigger extends HitTrigger {
 
     protected click() {
         //GameModel.getDrawingByLabel("chapter1_world").visible =false
-        if(GameModel.stateGold==StateGold.FINISH_KEY){
+        if (GameModel.stateGold == StateGold.FINISH_KEY) {
             GameModel.setTransition(Transitions.TEXT_INFO, "checkKey");
             return
         }
-       // console.log( GameModel.pantsFound)
-        if(GameModel.stateGold !=StateGold.FIND_NOTE && GameModel.pantsFound.length==6 ){
+        // console.log( GameModel.pantsFound)
+        if (GameModel.stateGold != StateGold.FIND_NOTE && GameModel.pantsFound.length == 6) {
             GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInsideLate");
             return
         }
-        if(!GameModel.pantsFound.includes(Pants.glow) && GameModel.pantsFound.length==5 ){
+        if (!GameModel.pantsFound.includes(Pants.glow) && GameModel.pantsFound.length == 5) {
             GameModel.setTransition(Transitions.TEXT_INFO, "finishUpInsideLate");
             return
         }
@@ -24,16 +24,19 @@ export default class DoorGoOutsideTrigger extends HitTrigger{
         GameModel.sound.playClick(0.2)
 
         let doorOutside = GameModel.renderer.modelByLabel["door_HO"]
-        let world = doorOutside.getWorldPos(new Vector3(1,0,0))
-        GameModel.characterHandler.walkTo(world,0,this.onCompleteWalk,true)
-        GameModel.hitObjectLabel=""
+        let world = doorOutside.getWorldPos(new Vector3(1, 0, 0))
+        GameModel.characterHandler.walkTo(world, 0, this.onCompleteWalk, true)
+        GameModel.hitObjectLabel = ""
     }
-    onCompleteWalk(){
+
+    onCompleteWalk() {
         GameModel.setTransition(Transitions.GO_OUTSIDE);
         let doorOutside = GameModel.renderer.modelByLabel["door_HO"]
-        let world = doorOutside.getWorldPos(new Vector3(0.5,0,0))
-        GameModel.characterHandler.walkTo(world,0,()=>{},false)
+        let world = doorOutside.getWorldPos(new Vector3(0.5, 0, 0))
+        GameModel.characterHandler.walkTo(world, 0, () => {
+        }, false)
     }
+
     protected over() {
         //UI.logEvent("Over", this.objectLabel);
 

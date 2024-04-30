@@ -6,19 +6,19 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
 
-export default class GlassGlowGlassShader extends Shader{
+export default class GlassGlowGlassShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
 
         }
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
 
@@ -61,7 +61,6 @@ fn mainFragment() -> @location(0) vec4f
               
         `
     }
-
 
 
 }

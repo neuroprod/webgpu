@@ -97,19 +97,19 @@ export const TextureFormat = {
 
     // 32-bit formats
 
-    R32Uint: 'r32uint'as GPUTextureFormat,
-    R32Sint: 'r32sint'as GPUTextureFormat,
+    R32Uint: 'r32uint' as GPUTextureFormat,
+    R32Sint: 'r32sint' as GPUTextureFormat,
     R32Float: 'r32float' as GPUTextureFormat,
-    RG16Uint: 'rg16uint'as GPUTextureFormat,
-    RG16Sint: 'rg16sint'as GPUTextureFormat,
-    RG16Float: 'rg16float'as GPUTextureFormat,
+    RG16Uint: 'rg16uint' as GPUTextureFormat,
+    RG16Sint: 'rg16sint' as GPUTextureFormat,
+    RG16Float: 'rg16float' as GPUTextureFormat,
     RGBA8Unorm: 'rgba8unorm' as GPUTextureFormat,
     RGBA8UnormSRGB: 'rgba8unorm-srgb' as GPUTextureFormat,
     RGBA8Snorm: 'rgba8snorm' as GPUTextureFormat,
-    RGBA8Uint: 'rgba8uint'as GPUTextureFormat,
-    RGBA8Sint: 'rgba8sint'as GPUTextureFormat,
-    BGRA8Unorm: 'bgra8unorm'as GPUTextureFormat,
-    BGRA8UnormSRGB: 'bgra8unorm-srgb'as GPUTextureFormat,
+    RGBA8Uint: 'rgba8uint' as GPUTextureFormat,
+    RGBA8Sint: 'rgba8sint' as GPUTextureFormat,
+    BGRA8Unorm: 'bgra8unorm' as GPUTextureFormat,
+    BGRA8UnormSRGB: 'bgra8unorm-srgb' as GPUTextureFormat,
 
     // Packed 32-bit formats
     RGB9E5UFloat: 'rgb9e5ufloat' as GPUTextureFormat,//hdr
@@ -118,18 +118,18 @@ export const TextureFormat = {
 
     // 64-bit formats
 
-    RG32Uint: 'rg32uint'as GPUTextureFormat,
-    RG32Sint: 'rg32sint'as GPUTextureFormat,
-    RG32Float: 'rg32float'as GPUTextureFormat,
-    RGBA16Uint: 'rgba16uint'as GPUTextureFormat,
-    RGBA16Sint: 'rgba16sint'as GPUTextureFormat,
+    RG32Uint: 'rg32uint' as GPUTextureFormat,
+    RG32Sint: 'rg32sint' as GPUTextureFormat,
+    RG32Float: 'rg32float' as GPUTextureFormat,
+    RGBA16Uint: 'rgba16uint' as GPUTextureFormat,
+    RGBA16Sint: 'rgba16sint' as GPUTextureFormat,
     RGBA16Float: 'rgba16float' as GPUTextureFormat,
 
     // 128-bit formats
 
-    RGBA32Uint: 'rgba32uint'as GPUTextureFormat,
-    RGBA32Sint: 'rgba32sint'as GPUTextureFormat,
-    RGBA32Float: 'rgba32float'as GPUTextureFormat,
+    RGBA32Uint: 'rgba32uint' as GPUTextureFormat,
+    RGBA32Sint: 'rgba32sint' as GPUTextureFormat,
+    RGBA32Float: 'rgba32float' as GPUTextureFormat,
 
     // Depth and stencil formats
 
@@ -141,7 +141,7 @@ export const TextureFormat = {
 
     // 'depth32float-stencil8' extension
 
-    Depth32FloatStencil8: 'depth32float-stencil8'as GPUTextureFormat,
+    Depth32FloatStencil8: 'depth32float-stencil8' as GPUTextureFormat,
 
     // BC compressed formats usable if 'texture-compression-bc' is both
     // supported by the device/user agent and enabled in requestDevice.
@@ -218,36 +218,36 @@ export const AddressMode = {
 export const SamplerBindingType = {
     Filtering: 'filtering' as GPUSamplerBindingType,
     NonFiltering: 'non-filtering' as GPUSamplerBindingType,
-    Comparison: 'comparison'as GPUSamplerBindingType
+    Comparison: 'comparison' as GPUSamplerBindingType
 };
 
 export const FilterMode = {
     Linear: 'linear' as GPUFilterMode,
-    Nearest: 'nearest'as GPUFilterMode
+    Nearest: 'nearest' as GPUFilterMode
 };
 
 export const BlendFactor = {
     Zero: 'zero' as GPUBlendFactor,
-    One: 'one'as GPUBlendFactor,
-    SrcColor: 'src-color'as GPUBlendFactor,
-    OneMinusSrcColor: 'one-minus-src-color'as GPUBlendFactor,
-    SrcAlpha: 'src-alpha'as GPUBlendFactor,
-    OneMinusSrcAlpha: 'one-minus-src-alpha'as GPUBlendFactor,
-    DstColor: 'dst-color'as GPUBlendFactor,
-    OneMinusDstColor: 'one-minus-dst-color'as GPUBlendFactor,
-    DstAlpha: 'dst-alpha'as GPUBlendFactor,
-    OneMinusDstAlpha: 'one-minus-dst-alpha'as GPUBlendFactor,
-    SrcAlphaSaturated: 'src-alpha-saturated'as GPUBlendFactor,
-    BlendColor: 'blend-color'as GPUBlendFactor,
-    OneMinusBlendColor: 'one-minus-blend-color'as GPUBlendFactor
+    One: 'one' as GPUBlendFactor,
+    SrcColor: 'src-color' as GPUBlendFactor,
+    OneMinusSrcColor: 'one-minus-src-color' as GPUBlendFactor,
+    SrcAlpha: 'src-alpha' as GPUBlendFactor,
+    OneMinusSrcAlpha: 'one-minus-src-alpha' as GPUBlendFactor,
+    DstColor: 'dst-color' as GPUBlendFactor,
+    OneMinusDstColor: 'one-minus-dst-color' as GPUBlendFactor,
+    DstAlpha: 'dst-alpha' as GPUBlendFactor,
+    OneMinusDstAlpha: 'one-minus-dst-alpha' as GPUBlendFactor,
+    SrcAlphaSaturated: 'src-alpha-saturated' as GPUBlendFactor,
+    BlendColor: 'blend-color' as GPUBlendFactor,
+    OneMinusBlendColor: 'one-minus-blend-color' as GPUBlendFactor
 };
 
 export const BlendOperation = {
     Add: 'add' as GPUBlendOperation,
-    Subtract: 'subtract'as GPUBlendOperation,
-    ReverseSubtract: 'reverse-subtract'as GPUBlendOperation,
-    Min: 'min'as GPUBlendOperation,
-    Max: 'max'as GPUBlendOperation,
+    Subtract: 'subtract' as GPUBlendOperation,
+    ReverseSubtract: 'reverse-subtract' as GPUBlendOperation,
+    Min: 'min' as GPUBlendOperation,
+    Max: 'max' as GPUBlendOperation,
 };
 
 export const ColorWriteFlags = {

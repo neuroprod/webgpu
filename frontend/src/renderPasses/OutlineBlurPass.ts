@@ -1,5 +1,4 @@
 import RenderPass from "../lib/core/RenderPass";
-import ModelRenderer from "../lib/model/ModelRenderer";
 import RenderTexture from "../lib/textures/RenderTexture";
 import ColorAttachment from "../lib/textures/ColorAttachment";
 import Renderer from "../lib/Renderer";
@@ -21,11 +20,10 @@ export default class OutlineBlurPass extends RenderPass {
     private blit: Blit;
     private blitMaterial: Material;
 
-    constructor(renderer: Renderer,targetTextureLabel:string) {
+    constructor(renderer: Renderer, targetTextureLabel: string) {
 
         super(renderer, "OutlineBlurPass");
         RenderSettings.registerPass(this);
-
 
 
         this.colorTarget = new RenderTexture(renderer, targetTextureLabel, {
@@ -39,20 +37,20 @@ export default class OutlineBlurPass extends RenderPass {
         this.colorAttachments = [this.colorAttachment]
 
 
-
     }
-    init(horizontal:boolean,inputTexture:string){
 
-        let outlineBlurShader= new OutlineBlurShader(this.renderer, "OutlineBlurShader",horizontal)
+    init(horizontal: boolean, inputTexture: string) {
+
+        let outlineBlurShader = new OutlineBlurShader(this.renderer, "OutlineBlurShader", horizontal)
         this.blitMaterial = new Material(this.renderer, "blitOutlineBlur", outlineBlurShader)
-        this.blitMaterial.uniforms.setTexture("inputTexture",this.renderer.texturesByLabel[inputTexture])
+        this.blitMaterial.uniforms.setTexture("inputTexture", this.renderer.texturesByLabel[inputTexture])
 
         this.blit = new Blit(this.renderer, 'blitOutlineBlur', this.blitMaterial)
     }
+
     draw() {
 
-       this.blit.draw(this)
-
+        this.blit.draw(this)
 
 
     }

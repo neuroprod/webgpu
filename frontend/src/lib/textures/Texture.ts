@@ -31,7 +31,8 @@ export default class Texture extends ObjectGPU {
     public options: TextureOptions;
     public isDirty: boolean = true;
     private view: GPUTextureView;
-public useCount =0;
+    public useCount = 0;
+
     constructor(renderer: Renderer, label: string = "", options: Partial<TextureOptions>) {
         super(renderer, label);
 

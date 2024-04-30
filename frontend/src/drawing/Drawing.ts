@@ -13,9 +13,9 @@ import gsap from "gsap";
 export default class Drawing extends Model {
     public drawData: DrawData;
 
-    public numDrawInstances: number =1;
+    public numDrawInstances: number = 1;
     public numDrawInstancesMax: number;
-    public firstDrawInstances: number=0;
+    public firstDrawInstances: number = 0;
     worldParent: Object3D;
     progress: number = 0
     start: number = 0;
@@ -25,7 +25,7 @@ export default class Drawing extends Model {
     protected color: ColorV = new ColorV(1, 1, 1, 1)
     private buffer: GPUBuffer;
     private tl: gsap.core.Timeline;
-    private isShowing: boolean=false;
+    private isShowing: boolean = false;
 
     constructor(renderer: Renderer, label: string, numInstances: number = 0) {
         super(renderer, label);
@@ -48,7 +48,7 @@ export default class Drawing extends Model {
             let target = this.offset.clone();
 
             if (this.worldParent) {
-                target.add(this.worldParent.getWorldPos()as NumericArray)
+                target.add(this.worldParent.getWorldPos() as NumericArray)
 
             }
             this.position.lerp(target as NumericArray, 0.5)
@@ -95,34 +95,36 @@ export default class Drawing extends Model {
     }
 
     show() {
-        if(this.isShowing)return;
+        if (this.isShowing) return;
         if (this.tl) this.tl.clear();
         this.tl = gsap.timeline();
         if (this.start == 0 && this.progress == 1) {
             return;
         }
-        this.isShowing =true;
+        this.isShowing = true;
         this.start = 0;
         this.progress = 0;
         this.tl.to(this, {progress: 1, ease: "power2.inOut", duration: 2.0}, 0);
-        this.tl.set(this,{isShowing:false},1.0)
+        this.tl.set(this, {isShowing: false}, 1.0)
     }
+
     showIntro() {
-        if(this.isShowing)return;
+        if (this.isShowing) return;
         if (this.tl) this.tl.clear();
         this.tl = gsap.timeline();
         if (this.start == 0 && this.progress == 1) {
             return;
         }
-        this.isShowing =true;
+        this.isShowing = true;
         this.start = 0;
         this.progress = 0;
         this.tl.to(this, {progress: 1, ease: "power1.inOut", duration: 3.0}, 2);
-        this.tl.set(this,{isShowing:false},4.0)
+        this.tl.set(this, {isShowing: false}, 4.0)
     }
+
     hideDelay(delay: number) {
 
-        if (!this.tl)return;
+        if (!this.tl) return;
         if (this.tl && this.tl.isActive()) {
             delay += this.tl.duration() - this.tl.time();
 
@@ -134,22 +136,23 @@ export default class Drawing extends Model {
         this.tl.to(this, {start: 0.5, progress: 0.5, ease: "power2.in", duration: 0.1}, delay);
 
     }
-hideLoad(){
-    if (this.tl) this.tl.clear();
-    this.tl = gsap.timeline( {});
 
-
-
-    this.tl.to(this, {start: 1, ease: "power2.Out", duration: 0.5}, 0);
-}
-    showLoad() {
-        if(this.isShowing)return;
+    hideLoad() {
         if (this.tl) this.tl.clear();
-        this.tl = gsap.timeline( {repeat:-1,delay:4});
+        this.tl = gsap.timeline({});
+
+
+        this.tl.to(this, {start: 1, ease: "power2.Out", duration: 0.5}, 0);
+    }
+
+    showLoad() {
+        if (this.isShowing) return;
+        if (this.tl) this.tl.clear();
+        this.tl = gsap.timeline({repeat: -1, delay: 4});
         if (this.start == 0 && this.progress == 1) {
             return;
         }
-        this.isShowing =true;
+        this.isShowing = true;
         this.start = 0;
         this.progress = 0;
         this.tl.to(this, {progress: 1, ease: "power2.Out", duration: 0.8}, 0);

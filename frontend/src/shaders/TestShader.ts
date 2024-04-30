@@ -5,28 +5,29 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
-export default class TestShader extends Shader{
+export default class TestShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
-            this.addAttribute("aTangent",ShaderType.vec4);
+            this.addAttribute("aTangent", ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("scale",1);
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("mraTexture",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("normalTexture",DefaultTextures.getNormal(this.renderer))
+        this.addUniform("scale", 1);
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
+        this.addTexture("mraTexture", DefaultTextures.getWhite(this.renderer))
+        this.addTexture("normalTexture", DefaultTextures.getNormal(this.renderer))
         this.addSampler("mySampler")
-      // this.addVertexOutput("normal",3);
-       // this.addVertexOutput("uv0",2);
-        this.needsTransform =true;
-        this.needsCamera=true;
+        // this.addVertexOutput("normal",3);
+        // this.addVertexOutput("uv0",2);
+        this.needsTransform = true;
+        this.needsCamera = true;
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -185,7 +186,6 @@ fn mainFragment(@location(0) normal: vec3f,@location(1) uv0: vec2f,@location(2) 
         
         `
     }
-
 
 
 }

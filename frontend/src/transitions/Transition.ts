@@ -1,15 +1,17 @@
-export default class Transition{
+export default class Transition {
     public onComplete: () => void;
 
-    public name="";
+    public name = "";
+
     constructor() {
     }
-    set(onComplete: () => void,data=""){
-        this.onComplete =onComplete;
+
+    set(onComplete: () => void, data = "") {
+        this.onComplete = onComplete;
 
     }
 
-    onMouseDown(){
+    onMouseDown() {
 
     }
 }

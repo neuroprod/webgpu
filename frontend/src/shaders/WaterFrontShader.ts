@@ -6,17 +6,16 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
 import {Vector4} from "math.gl";
-import RenderSettings from "../RenderSettings";
 
-export default class WaterFrontShader extends Shader{
+export default class WaterFrontShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
-            this.addAttribute("aTangent",ShaderType.vec4);
+            this.addAttribute("aTangent", ShaderType.vec4);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
@@ -27,16 +26,17 @@ export default class WaterFrontShader extends Shader{
         this.addUniform("time", 0);
         this.addUniform("dayNight", 0);
 
-        this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float");
-        this.addTexture("reflectTexture",DefaultTextures.getWhite(this.renderer),"float");
-        this.addTexture("noise",this.renderer.texturesByLabel["noiseTexture.png"],"float");
+        this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float");
+        this.addTexture("reflectTexture", DefaultTextures.getWhite(this.renderer), "float");
+        this.addTexture("noise", this.renderer.texturesByLabel["noiseTexture.png"], "float");
 
-        this.addSampler("mySampler",GPUShaderStage.FRAGMENT,"mirror-repeat");
+        this.addSampler("mySampler", GPUShaderStage.FRAGMENT, "mirror-repeat");
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -110,7 +110,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f,@location(2) 
               
         `
     }
-
 
 
 }

@@ -5,7 +5,6 @@ import ColorAttachment from "../lib/textures/ColorAttachment";
 import Renderer from "../lib/Renderer";
 import {LoadOp, StoreOp, TextureFormat} from "../lib/WebGPUConstants";
 import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
-import RenderSettings from "../RenderSettings";
 
 export default class extends RenderPass {
 
@@ -29,7 +28,7 @@ export default class extends RenderPass {
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
         this.colorAttachment = new ColorAttachment(this.colorTarget, {clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 0.0}});
-        this.colorAttachments =[this.colorAttachment]
+        this.colorAttachments = [this.colorAttachment]
 
         this.depthStencilAttachment = new DepthStencilAttachment(this.renderer.texturesByLabel["GDepth"] as RenderTexture, {
             depthLoadOp: LoadOp.Load,
@@ -39,10 +38,12 @@ export default class extends RenderPass {
 
 
     }
+
     onSettingsChange() {
         super.onSettingsChange();
 
     }
+
     draw() {
 
         this.modelRenderer.draw(this);

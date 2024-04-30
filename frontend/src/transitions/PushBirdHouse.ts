@@ -54,15 +54,15 @@ export default class PushBirdHouse extends Transition {
             GameModel.characterHandler.setAnimationOnce("birdhouse", 0.3, this.onCompleteAnimation.bind(this))
             setTimeout(() => {
                 let birhouse = GameModel.renderer.modelByLabel["birdHouse"]
-                let  birdHouseBottom = GameModel.renderer.modelByLabel["birdHouseBottom"]
+                let birdHouseBottom = GameModel.renderer.modelByLabel["birdHouseBottom"]
                 gsap.to(this, {
                     angle: 0.3, duration: 0.3, ease: "back.out", onUpdate: () => {
                         birhouse.setEuler(0, 0, this.angle)
                     }
                 })
                 gsap.to(this, {
-                    angleBottom: 3.14/2, duration: 1.5, ease: "elastic.out", onUpdate: () => {
-                        birdHouseBottom.setEuler(0, 0 ,-this.angleBottom)
+                    angleBottom: 3.14 / 2, duration: 1.5, ease: "elastic.out", onUpdate: () => {
+                        birdHouseBottom.setEuler(0, 0, -this.angleBottom)
                     }
                 })
 

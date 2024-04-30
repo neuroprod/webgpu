@@ -77,7 +77,7 @@ export default class CharacterHandler {
         } else {
             this.charScale = 1.00;
         }
-        this.walkingSpeed =0.6 /this.charScale
+        this.walkingSpeed = 0.6 / this.charScale
         //  this.head.setEuler(Timer.time*7,0,0);
 
 
@@ -244,7 +244,7 @@ export default class CharacterHandler {
 
     }
 
-    setIdleAndTurn(angle=0) {
+    setIdleAndTurn(angle = 0) {
 
         if (this.animationMixer.anime2.label == "idle" && this.animationMixer.mixValue == 1 && this.targetRot == 0) return;
 
@@ -274,7 +274,7 @@ export default class CharacterHandler {
 
     private rotateTo(angle: number, time: number) {
 
-this.targetRot =angle;
+        this.targetRot = angle;
         this.rotateStart.from(this.characterRoot.getRotation());
         this.rotateTarget.identity();
         this.rotateTarget.rotateY(angle);

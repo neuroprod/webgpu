@@ -6,24 +6,24 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
 
-export default class Osc2Shader extends Shader{
+export default class Osc2Shader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("time",0);
+        this.addUniform("time", 0);
 
 
-
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -95,7 +95,6 @@ var f =smoothstep(0.2,0.5,uv.y)*smoothstep(0.2,0.5,1.-uv.y);;
         
         `
     }
-
 
 
 }

@@ -3,7 +3,6 @@ import UniformGroup from "../lib/core/UniformGroup";
 import Texture from "../lib/textures/Texture";
 import {FilterMode, TextureDimension, TextureFormat} from "../lib/WebGPUConstants";
 import RenderTexture from "../lib/textures/RenderTexture";
-import Camera from "../lib/Camera";
 
 export default class GTAOdenoise {
     private renderer: Renderer;
@@ -21,25 +20,23 @@ export default class GTAOdenoise {
         this.uniformGroup = new UniformGroup(this.renderer, "GTAOdenoise", "test")
 
 
-
-
         this.texture = new RenderTexture(renderer, "GTAOdenoise", {
             usage: GPUTextureUsage.COPY_DST |
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
-            scaleToCanvas :true,
-            sizeMultiplier:1,
+            scaleToCanvas: true,
+            sizeMultiplier: 1,
 
-            format:TextureFormat.R32Float,
+            format: TextureFormat.R32Float,
         })
 
 
-            this.uniformGroup.addTexture("ambient_occlusion_noisy", this.renderer.texturesByLabel["GTAO"], "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addTexture("ambient_occlusion_noisy", this.renderer.texturesByLabel["GTAO"], "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
 
-            this.uniformGroup.addTexture("depth_differences",this.renderer.texturesByLabel["GTAODepth"],"uint", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addTexture("depth_differences", this.renderer.texturesByLabel["GTAODepth"], "uint", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addStorageTexture("ambient_occlusion", this.texture, TextureFormat.R32Float);
 
-        this.uniformGroup.addSampler("point_clamp_sampler",GPUShaderStage.COMPUTE,FilterMode.Linear)
+        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Linear)
 
     }
 
@@ -59,7 +56,7 @@ export default class GTAOdenoise {
     }
 
     getPipeLine() {
-        if(this.computePipeline)return this.computePipeline
+        if (this.computePipeline) return this.computePipeline
         this.pipeLineLayout = this.renderer.device.createPipelineLayout({
             label: "Compute_pipelineLayout_",
             bindGroupLayouts: [this.uniformGroup.bindGroupLayout],

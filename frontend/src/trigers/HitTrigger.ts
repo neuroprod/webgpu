@@ -3,41 +3,44 @@ import GameModel, {Scenes} from "../../public/GameModel";
 import {isArray} from "math.gl";
 
 
-export default class HitTrigger extends Trigger{
+export default class HitTrigger extends Trigger {
 
-    protected objectLabels: Array<string>=[];
-    constructor(scene:Scenes,objectLabel:string|Array<string>) {
+    protected objectLabels: Array<string> = [];
+
+    constructor(scene: Scenes, objectLabel: string | Array<string>) {
         super(scene);
-        if(isArray(objectLabel)){
-            this.objectLabels =objectLabel as Array<string>;
+        if (isArray(objectLabel)) {
+            this.objectLabels = objectLabel as Array<string>;
 
-        }else{
+        } else {
             this.objectLabels.push(objectLabel as string);
 
         }
 
 
     }
-    init(){
+
+    init() {
         let firstObject = this.objectLabels[0]
-        let mF =GameModel.renderer.modelByLabel[firstObject]
-        for(let label of this.objectLabels){
-            let obj =GameModel.renderer.modelByLabel[label]
-            if(obj.hitTestObject){
+        let mF = GameModel.renderer.modelByLabel[firstObject]
+        for (let label of this.objectLabels) {
+            let obj = GameModel.renderer.modelByLabel[label]
+            if (obj.hitTestObject) {
                 obj.hitLabel = mF.label;
-                if(mF!=obj){
+                if (mF != obj) {
                     mF.hitFriends.push(obj);
                 }
             }
 
         }
     }
-    check() {
-        if(!super.check())return false;
 
-        if(GameModel.mouseDownThisFrame){
-            if(this.objectLabels.includes(GameModel.hitObjectLabel)){
-                GameModel.lastClickLabels =this.objectLabels;
+    check() {
+        if (!super.check()) return false;
+
+        if (GameModel.mouseDownThisFrame) {
+            if (this.objectLabels.includes(GameModel.hitObjectLabel)) {
+                GameModel.lastClickLabels = this.objectLabels;
                 this.click()
 
             }
@@ -45,17 +48,15 @@ export default class HitTrigger extends Trigger{
         }
 
 
-        if(!GameModel.hitStateChange)return
-        if(this.objectLabels.includes(GameModel.hitObjectLabel)) {
-           this.over()
+        if (!GameModel.hitStateChange) return
+        if (this.objectLabels.includes(GameModel.hitObjectLabel)) {
+            this.over()
             return true;
         }
-        if(this.objectLabels.includes(GameModel.hitObjectLabelPrev )) {
+        if (this.objectLabels.includes(GameModel.hitObjectLabelPrev)) {
             this.out()
             return true;
         }
-
-
 
 
     }
@@ -65,7 +66,7 @@ export default class HitTrigger extends Trigger{
     }
 
     protected out() {
-      //  UI.logEvent("Out", this.objectLabel);
+        //  UI.logEvent("Out", this.objectLabel);
     }
 
     protected click() {

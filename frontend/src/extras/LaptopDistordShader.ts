@@ -6,28 +6,29 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {Vector2} from "math.gl";
 
-export default class LaptopDistordShader extends Shader{
+export default class LaptopDistordShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("offsetBuy",new Vector2());
-        this.addUniform("time",0);
-        this.addUniform("ratio",0);
-        this.addUniform("offset",0);
-        this.addTexture("image",DefaultTextures.getWhite(this.renderer))
-        this.addTexture("buy",this.renderer.texturesByLabel["LT_buy.png"])
+        this.addUniform("offsetBuy", new Vector2());
+        this.addUniform("time", 0);
+        this.addUniform("ratio", 0);
+        this.addUniform("offset", 0);
+        this.addTexture("image", DefaultTextures.getWhite(this.renderer))
+        this.addTexture("buy", this.renderer.texturesByLabel["LT_buy.png"])
         this.addSampler("mySampler")
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -95,7 +96,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
         
         `
     }
-
 
 
 }

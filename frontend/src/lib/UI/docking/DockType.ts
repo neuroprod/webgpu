@@ -1,18 +1,19 @@
 export enum DockType {
-  Top,
-  Bottom,
-  Left,
-  Right,
+    Top,
+    Bottom,
+    Left,
+    Right,
 
-  Center,
+    Center,
 
-  TopCenter,
-  BottomCenter,
-  LeftCenter,
-  RightCenter,
+    TopCenter,
+    BottomCenter,
+    LeftCenter,
+    RightCenter,
 }
+
 export enum DockSplit {
-  Horizontal,
-  Vertical,
-  Center,
+    Horizontal,
+    Vertical,
+    Center,
 }

@@ -1,8 +1,6 @@
-import Model from "./Model";
 import Renderer from "../Renderer";
 import TextureLoader from "../textures/TextureLoader";
 import PreLoader from "../PreLoader";
-import Quad from "../meshes/Quad";
 import Material from "../core/Material";
 
 import {BlendFactor, BlendOperation} from "../WebGPUConstants";
@@ -11,15 +9,14 @@ import Plane from "../meshes/Plane";
 import UIModel from "./UIModel";
 
 
-
 export default class UIBitmapModel extends UIModel {
     private textureLoader: TextureLoader;
-    public textureHeight: number=0;
-    public textureWidth: number =0;
+    public textureHeight: number = 0;
+    public textureWidth: number = 0;
 
-    constructor(renderer: Renderer,preLoader:PreLoader,label:string, url: string) {
-        super(renderer, label,true);
-        this.mouseEnabled =true;
+    constructor(renderer: Renderer, preLoader: PreLoader, label: string, url: string) {
+        super(renderer, label, true);
+        this.mouseEnabled = true;
         let t = this.renderer.texturesByLabel[url];
         this.material = new Material(this.renderer, "bitmapMaterial", new BitmapShader(this.renderer, "bitmapShader"))
         this.material.depthWrite = false;
@@ -37,13 +34,13 @@ export default class UIBitmapModel extends UIModel {
             }
         }
 
-      this.material.blendModes = [l];
+        this.material.blendModes = [l];
 
-        if(!t){
-            this.textureLoader = new TextureLoader(renderer,preLoader,url,{});
+        if (!t) {
+            this.textureLoader = new TextureLoader(renderer, preLoader, url, {});
 
-        }else{
-            this.textureLoader =t as TextureLoader;
+        } else {
+            this.textureLoader = t as TextureLoader;
 
         }
 
@@ -51,8 +48,8 @@ export default class UIBitmapModel extends UIModel {
     }
 
     public update() {
-        if(!this.visible)return;
-        if(!this.mesh && this.textureLoader.loaded){
+        if (!this.visible) return;
+        if (!this.mesh && this.textureLoader.loaded) {
             this.makeMesh()
         }
         super.update()
@@ -60,15 +57,13 @@ export default class UIBitmapModel extends UIModel {
     }
 
     private makeMesh() {
-        this.textureWidth =this.textureLoader.options.width;
-        this.textureHeight =this.textureLoader.options.height;
+        this.textureWidth = this.textureLoader.options.width;
+        this.textureHeight = this.textureLoader.options.height;
 
 
-
-
-        this.material.uniforms.setTexture("colorTexture",this.textureLoader)
-        this.mesh =new Plane(this.renderer, this.textureWidth, this.textureHeight,1,1,false)
-        this.mesh.min.set(-this.textureWidth/2,-this.textureHeight/2,0)
-        this.mesh.max.set(this.textureWidth/2,this.textureHeight/2,0)
+        this.material.uniforms.setTexture("colorTexture", this.textureLoader)
+        this.mesh = new Plane(this.renderer, this.textureWidth, this.textureHeight, 1, 1, false)
+        this.mesh.min.set(-this.textureWidth / 2, -this.textureHeight / 2, 0)
+        this.mesh.max.set(this.textureWidth / 2, this.textureHeight / 2, 0)
     }
 }

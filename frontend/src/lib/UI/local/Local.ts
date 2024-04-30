@@ -1,88 +1,90 @@
 import UI_I from "../UI_I";
 
 export default class Local {
-  static dockData: any = null;
-  static itemData = {};
-  static uiData = {};
-  private static isDirty: boolean;
+    static dockData: any = null;
+    static itemData = {};
+    static uiData = {};
+    private static isDirty: boolean;
 
-  static init() {
+    static init() {
 
-    // @ts-ignore
-    if (!this.uiData["itemData"]) {
-      // @ts-ignore
-      this.uiData["itemData"] = this.itemData;
-      // @ts-ignore
-      this.uiData["dockData"] = this.dockData;
+        // @ts-ignore
+        if (!this.uiData["itemData"]) {
+            // @ts-ignore
+            this.uiData["itemData"] = this.itemData;
+            // @ts-ignore
+            this.uiData["dockData"] = this.dockData;
+        }
+
+        let data = localStorage.getItem("uiData");
+
+        if (data) {
+            this.uiData = JSON.parse(data);
+            // @ts-ignore
+            this.itemData = this.uiData["itemData"];
+            // @ts-ignore
+            this.dockData = this.uiData["dockData"];
+        } else {
+        }
     }
-  
-    let data = localStorage.getItem("uiData");
 
-    if (data) {
-      this.uiData = JSON.parse(data);
-      // @ts-ignore
-      this.itemData = this.uiData["itemData"];
-      // @ts-ignore
-      this.dockData = this.uiData["dockData"];
-    } else {
+    static setItem(id: number, data: any) {
+        // @ts-ignore
+        this.uiData["itemData"][id] = data;
+        this.isDirty = true;
     }
-  }
 
-  static setItem(id: number, data: any) {
-    // @ts-ignore
-    this.uiData["itemData"][id] = data;
-    this.isDirty = true;
-  }
+    static getItem(id: number): any {
+        // @ts-ignore
+        return this.uiData["itemData"][id];
+    }
 
-  static getItem(id: number): any {
-    // @ts-ignore
-    return this.uiData["itemData"][id];
-  }
-  static getAndDeletItem(id:number) {
-    // @ts-ignore
-    let r = this.uiData["itemData"][id];
-    // @ts-ignore
-    delete this.uiData["itemData"][id];
-    return r;
-  }
-  static setDockData(data: any) {
-    // @ts-ignore
-    this.uiData["dockData"] = data;
-    this.isDirty = true;
-  }
+    static getAndDeletItem(id: number) {
+        // @ts-ignore
+        let r = this.uiData["itemData"][id];
+        // @ts-ignore
+        delete this.uiData["itemData"][id];
+        return r;
+    }
 
-  static saveData() {
-    if (!this.isDirty) return;
+    static setDockData(data: any) {
+        // @ts-ignore
+        this.uiData["dockData"] = data;
+        this.isDirty = true;
+    }
 
-    if (UI_I.crashed) return;
-    let s = JSON.stringify(this.uiData);
-    localStorage.setItem("uiData", s);
+    static saveData() {
+        if (!this.isDirty) return;
 
-    this.isDirty = false;
-  }
+        if (UI_I.crashed) return;
+        let s = JSON.stringify(this.uiData);
+        localStorage.setItem("uiData", s);
 
-  static clearLocalData() {
-    localStorage.removeItem("uiData");
-  }
+        this.isDirty = false;
+    }
 
-  static saveToJson() {
-    let data = JSON.stringify(this.uiData);
-    this.download(data, "uiSettings.json", "text/plain");
-  }
+    static clearLocalData() {
+        localStorage.removeItem("uiData");
+    }
 
-  static download(content:string, fileName:string, contentType:string) {
-    var a = document.createElement("a");
-    var file = new Blob([content], { type: contentType });
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.click();
-  }
+    static saveToJson() {
+        let data = JSON.stringify(this.uiData);
+        this.download(data, "uiSettings.json", "text/plain");
+    }
 
-  static setSettings(settings: any) {
-    this.uiData = settings;
-    // @ts-ignore
-    this.dockData = this.uiData["dockData"];
-    // @ts-ignore
-    this.itemData = this.uiData["itemData"];
-  }
+    static download(content: string, fileName: string, contentType: string) {
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+    }
+
+    static setSettings(settings: any) {
+        this.uiData = settings;
+        // @ts-ignore
+        this.dockData = this.uiData["dockData"];
+        // @ts-ignore
+        this.itemData = this.uiData["itemData"];
+    }
 }

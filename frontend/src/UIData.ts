@@ -4,37 +4,42 @@ class UIData {
     }
 
     set work(value: boolean) {
-        if (this._work  != value) {
-            this._work  = value;
+        if (this._work != value) {
+            this._work = value;
             this.save()
         }
     }
-    private _work: boolean =false;
+
+    private _work: boolean = false;
+
     get useTimestamp(): boolean {
         return this._useTimestamp;
     }
 
     set useTimestamp(value: boolean) {
-        if (this._useTimestamp  != value) {
-            this._useTimestamp  = value;
+        if (this._useTimestamp != value) {
+            this._useTimestamp = value;
             this.save()
         }
 
     }
 
-    private _useTimestamp:boolean =false;
+    private _useTimestamp: boolean = false;
+
     get face(): boolean {
         return this._face;
     }
 
     set face(value: boolean) {
 
-        if (this._face  != value) {
-            this._face  = value;
+        if (this._face != value) {
+            this._face = value;
             this.save()
         }
     }
-    private _face: boolean =false;
+
+    private _face: boolean = false;
+
     get draw(): boolean {
         return this._draw;
     }
@@ -46,12 +51,13 @@ class UIData {
         }
 
     }
-    private _draw: boolean =false;
+
+    private _draw: boolean = false;
 
     constructor() {
     }
 
-    private _animation:boolean =false;
+    private _animation: boolean = false;
     get animation(): boolean {
         return this._animation;
     }
@@ -63,7 +69,8 @@ class UIData {
             this.save()
         }
     }
-    private _lightOutside: boolean =false;
+
+    private _lightOutside: boolean = false;
 
     get lightOutside(): boolean {
         return this._lightOutside;
@@ -77,7 +84,7 @@ class UIData {
 
     }
 
-    private _lightInside: boolean =false;
+    private _lightInside: boolean = false;
 
     get lightInside(): boolean {
         return this._lightInside;
@@ -91,7 +98,7 @@ class UIData {
 
     }
 
-    private _devSpeed: boolean =false;
+    private _devSpeed: boolean = false;
 
     get devSpeed(): boolean {
         return this._devSpeed;
@@ -175,8 +182,8 @@ class UIData {
         let data = JSON.parse(dataS)
         if (data) {
             for (let value of Object.keys(data)) {
-                if(data[value]!=undefined)
-               this[value] = data[value];
+                if (data[value] != undefined)
+                    this[value] = data[value];
             }
         }
     }

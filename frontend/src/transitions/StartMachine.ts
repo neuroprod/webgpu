@@ -14,7 +14,7 @@ export default class StartMachine extends Transition {
             GameModel.room.machine.start(true, this.machineDone.bind(this))
             GameModel.characterHandler.setIdleAndTurn(Math.PI / 2 + 0.1)
         })
-        GameModel.characterHandler.setMixAnimation("lookdown",1.0,0.5)
+        GameModel.characterHandler.setMixAnimation("lookdown", 1.0, 0.5)
         GameModel.textHandler.showHitTrigger("startMachine")
 
         GameModel.gameUI.cursor.show(CURSOR.NEXT)
@@ -39,7 +39,7 @@ export default class StartMachine extends Transition {
         }
         if (this.state == 2) {
             if (GameModel.textHandler.readNext()) {
-                GameModel.characterHandler.setMixAnimation("lookdown",0.0,0.5)
+                GameModel.characterHandler.setMixAnimation("lookdown", 0.0, 0.5)
                 GameModel.characterHandler.setIdleAndTurn()
                 GameModel.gameUI.cursor.hide()
                 this.onComplete()

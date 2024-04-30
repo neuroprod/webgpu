@@ -3,49 +3,48 @@ import Renderer from "../lib/Renderer";
 import RenderPass from "../lib/core/RenderPass";
 
 
-export default class DrawingRenderer{
+export default class DrawingRenderer {
 
-    public drawings: Array<Drawing>=[];
+    public drawings: Array<Drawing> = [];
     private renderer: Renderer;
     private label: string;
-    public currentScene =0;
-    constructor(renderer:Renderer,label ="")
-    {
+    public currentScene = 0;
+
+    constructor(renderer: Renderer, label = "") {
         this.label = label;
-        this.renderer =renderer;
+        this.renderer = renderer;
 
     }
-    draw(pass:RenderPass)
-    {
-        const passEncoder =pass.passEncoder;
 
-        passEncoder.setBindGroup(0,this.renderer.camera.bindGroup);
+    draw(pass: RenderPass) {
+        const passEncoder = pass.passEncoder;
+
+        passEncoder.setBindGroup(0, this.renderer.camera.bindGroup);
 
         for (let model of this.drawings) {
 
-            if(!model.visible)continue
-          ///  if(model.sceneID>=0 && model.sceneID!=this.currentScene )continue;
-            if( model.numDrawInstances<=0)continue;
+            if (!model.visible) continue
+            ///  if(model.sceneID>=0 && model.sceneID!=this.currentScene )continue;
+            if (model.numDrawInstances <= 0) continue;
             model.material.makePipeLine(pass);
 
             passEncoder.setPipeline(model.material.pipeLine);
-            passEncoder.setBindGroup(1,model.modelTransform.bindGroup);
-            passEncoder.setBindGroup(2,model.material.uniforms.bindGroup);
-
+            passEncoder.setBindGroup(1, model.modelTransform.bindGroup);
+            passEncoder.setBindGroup(2, model.material.uniforms.bindGroup);
 
 
             for (let attribute of model.material.shader.attributes) {
 
-                let buffer  = model.mesh.getBufferByName(attribute.name);
-                if(!buffer) buffer = model.getBufferByName(attribute.name);
-                if(buffer){
+                let buffer = model.mesh.getBufferByName(attribute.name);
+                if (!buffer) buffer = model.getBufferByName(attribute.name);
+                if (buffer) {
                     passEncoder.setVertexBuffer(
                         attribute.slot,
                         buffer,
                     );
-                }else{
+                } else {
 
-                    console.log("buffer not found" ,attribute.name)
+                    console.log("buffer not found", attribute.name)
                 }
             }
 
@@ -63,6 +62,7 @@ export default class DrawingRenderer{
 
         }
     }
+
     public addDrawing(drawing: Drawing) {
 
         this.drawings.push(drawing);

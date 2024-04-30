@@ -4,11 +4,9 @@ import RenderTexture from "../lib/textures/RenderTexture";
 import ColorAttachment from "../lib/textures/ColorAttachment";
 import Renderer from "../lib/Renderer";
 import RenderSettings from "../RenderSettings";
-import {CompareFunction, LoadOp, StoreOp, TextureFormat} from "../lib/WebGPUConstants";
+import {LoadOp, StoreOp, TextureFormat} from "../lib/WebGPUConstants";
 import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 import Model from "../lib/model/Model";
-import Material from "../lib/core/Material";
-import SolidShader from "../shaders/SolidShader";
 
 export default class OutlinePrePass extends RenderPass {
 
@@ -16,16 +14,16 @@ export default class OutlinePrePass extends RenderPass {
     public colorTarget: RenderTexture;
     public models: Array<Model> = []
     private colorAttachment: ColorAttachment;
-   // private material: Material;
+    // private material: Material;
     private depthTarget: RenderTexture;
 
     constructor(renderer: Renderer) {
 
         super(renderer, "OutlinePrePass");
         RenderSettings.registerPass(this);
-       // this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
+        // this.material = new Material(this.renderer, "solidshaderOutline", new SolidShader(this.renderer, "solidShader"))
 
-       // this.material.depthWrite =false;
+        // this.material.depthWrite =false;
 
         this.modelRenderer = new ModelRenderer(renderer)
 
@@ -70,7 +68,7 @@ export default class OutlinePrePass extends RenderPass {
 
             passEncoder.setPipeline(model.materialSolid.pipeLine);
             passEncoder.setBindGroup(1, model.modelTransform.bindGroup);
-            passEncoder.setBindGroup(2,model.materialSolid.uniforms.bindGroup);
+            passEncoder.setBindGroup(2, model.materialSolid.uniforms.bindGroup);
 
             for (let attribute of model.materialSolid.shader.attributes) {
                 passEncoder.setVertexBuffer(

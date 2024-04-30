@@ -12,8 +12,6 @@ import Material from "../lib/core/Material";
 import Blit from "../lib/Blit";
 
 import ReflectShader from "../shaders/ReflectShader";
-import {Vector4} from "math.gl";
-import UI from "../lib/UI/UI";
 import RenderSettings from "../RenderSettings";
 
 
@@ -35,7 +33,7 @@ export default class ReflectionRenderPass extends RenderPass {
             format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
-            sizeMultiplier:1.0,
+            sizeMultiplier: 1.0,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
 
@@ -57,10 +55,11 @@ export default class ReflectionRenderPass extends RenderPass {
         this.blitReflect = new Blit(renderer, 'reflectBlit', this.reflectMaterial)
 
     }
+
     onSettingsChange() {
         super.onSettingsChange();
-        this.reflectMaterial.uniforms.setUniform("refSettings1",RenderSettings.ref_settings1)
-        this.reflectMaterial.uniforms.setUniform("refSettings2",RenderSettings.ref_settings2)
+        this.reflectMaterial.uniforms.setUniform("refSettings1", RenderSettings.ref_settings1)
+        this.reflectMaterial.uniforms.setUniform("refSettings2", RenderSettings.ref_settings2)
     }
 
     onUI() {

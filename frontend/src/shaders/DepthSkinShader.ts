@@ -5,13 +5,12 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
-export default class DepthSkinShader extends Shader{
+export default class DepthSkinShader extends Shader {
 
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aWeights", ShaderType.vec4);
             this.addAttribute("aJoints", ShaderType.vec4i);
@@ -19,10 +18,11 @@ export default class DepthSkinShader extends Shader{
         }
 
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -79,7 +79,6 @@ fn mainFragment(@location(0) model: vec3f)  -> @location(0) vec4f
         
         `
     }
-
 
 
 }

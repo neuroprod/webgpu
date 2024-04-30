@@ -16,8 +16,6 @@ import Blit from "../lib/Blit";
 import ColorV from "../lib/ColorV";
 
 import MainLight from "../MainLight";
-import Object3D from "../lib/core/Object3D";
-import GameModel from "../../public/GameModel";
 
 import GlobalLightIntroShader from "../shaders/GlobalLightIntroShader";
 import {Vector3} from "math.gl";
@@ -40,10 +38,10 @@ export default class LightIntroRenderPass extends RenderPass {
     private bottomColor: ColorV = new ColorV(1.00, 0.91, 0.82, 0.1);
 
 
-    private pos1 =new Vector3(-0.35-2,0.00,0.00)
-    private pos2 =new Vector3(1.29-2,2.21,-1.13)
-    private pos3 =new Vector3(1.68-2,0.91,-0.34)
-    private pos4 =new Vector3(3.0-2,2.00,0.00)
+    private pos1 = new Vector3(-0.35 - 2, 0.00, 0.00)
+    private pos2 = new Vector3(1.29 - 2, 2.21, -1.13)
+    private pos3 = new Vector3(1.68 - 2, 0.91, -0.34)
+    private pos4 = new Vector3(3.0 - 2, 2.00, 0.00)
 
 
     constructor(renderer: Renderer) {
@@ -71,8 +69,6 @@ export default class LightIntroRenderPass extends RenderPass {
     }
 
     init(mainLights: Array<MainLight>) {
-
-
 
 
         this.modelRenderer = new ModelRenderer(this.renderer, "lightModels")
@@ -106,7 +102,7 @@ export default class LightIntroRenderPass extends RenderPass {
 
     }
 
-    public setUniforms(){
+    public setUniforms() {
 
         this.mainLights[0].setPositionV(this.pos1)
         this.mainLights[1].setPositionV(this.pos2)
@@ -131,7 +127,6 @@ export default class LightIntroRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("bottomColor", this.bottomColor.clone())
 
 
-
         this.globalLightMaterial.uniforms.setTexture("shadowCube1", this.renderer.texturesByLabel["ShadowCubeColor1"]);
         this.globalLightMaterial.uniforms.setTexture("shadowCube2", this.renderer.texturesByLabel["ShadowCubeColor2"]);
         this.globalLightMaterial.uniforms.setTexture("shadowCube3", this.renderer.texturesByLabel["ShadowCubeColor3"]);
@@ -144,23 +139,23 @@ export default class LightIntroRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setTexture("gColor", this.renderer.texturesByLabel["GColor"]);
 
     }
+
     onUI() {
-        UI.LVector("p1",this.pos1);
+        UI.LVector("p1", this.pos1);
 
         this.mainLights[0].onDataUI();
-        UI.LVector("p2",this.pos2);
+        UI.LVector("p2", this.pos2);
         this.mainLights[1].onDataUI();
-        UI.LVector("p3",this.pos3);
-       this.mainLights[2].onDataUI();
-        UI.LVector("p4",this.pos4);
-      this.mainLights[3].onDataUI();
+        UI.LVector("p3", this.pos3);
+        this.mainLights[2].onDataUI();
+        UI.LVector("p4", this.pos4);
+        this.mainLights[3].onDataUI();
         this.setUniforms()
     }
 
     draw() {
         //console.log(this.target,this.target.getView() )
         this.blitGlobalLight.draw(this);
-
 
 
     }

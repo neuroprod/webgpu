@@ -6,28 +6,27 @@ import GameModel from "../../public/GameModel";
 import {preloadDrawings} from "../PreloadData";
 
 
-export default class DrawingPreloader{
+export default class DrawingPreloader {
 
-    public drawings:Array<Drawing>=[]
+    public drawings: Array<Drawing> = []
+
     constructor() {
 
     }
 
-    load(renderer:Renderer,preloader:PreLoader) {
-        let drawings =preloadDrawings
+    load(renderer: Renderer, preloader: PreLoader) {
+        let drawings = preloadDrawings
 
-        for(let file of drawings){
+        for (let file of drawings) {
 
-            let name = "drawings/"+file+".bin";
-console.log(name)
-            let drawing =     new DrawingLoader(renderer,preloader,name);
-            GameModel.drawingByLabel[file] =drawing;
+            let name = "drawings/" + file + ".bin";
+
+            let drawing = new DrawingLoader(renderer, preloader, name);
+            GameModel.drawingByLabel[file] = drawing;
             this.drawings.push(drawing)
         }
 
     }
-
-
 
 
 }

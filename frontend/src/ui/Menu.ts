@@ -16,7 +16,7 @@ export default class Menu extends UIBitmapModel {
     private uiScale: number = 1;
     private draggMusicButton: DraggButton;
     private draggFxButton: DraggButton;
-     checkBtn: CheckButton;
+    checkBtn: CheckButton;
     private krisButton: KrisButton;
     private githubButton: GithubButton;
 
@@ -48,24 +48,24 @@ export default class Menu extends UIBitmapModel {
         this.addChild(this.draggFxButton)
 
         this.checkBtn = new CheckButton(renderer, preLoader, "checkBtn");
-        this.checkBtn.setPosition(-159, 33+5, 0);
+        this.checkBtn.setPosition(-159, 33 + 5, 0);
         this.addChild(this.checkBtn)
 
 
         this.krisButton = new KrisButton(renderer, preLoader, "krisMenu")
-        this.krisButton .setPosition(-20, 340, 0);
-        this.addChild( this.krisButton )
-        this.krisButton .onClick = () => {
+        this.krisButton.setPosition(-20, 340, 0);
+        this.addChild(this.krisButton)
+        this.krisButton.onClick = () => {
 
             GameModel.sound.playClick()
             window.open("http://neuroproductions.be/", "_blank");
         }
 
         this.githubButton = new GithubButton(renderer, preLoader, "gitMenu")
-        this.githubButton .setPosition(30, 258, 0);
-        this.githubButton .setScale(0.9,0.9,0.9);
-        this.addChild( this.githubButton )
-        this.githubButton .onClick = () => {
+        this.githubButton.setPosition(30, 258, 0);
+        this.githubButton.setScale(0.9, 0.9, 0.9);
+        this.addChild(this.githubButton)
+        this.githubButton.onClick = () => {
 
             GameModel.sound.playClick()
             window.open("https://github.com/neuroprod/webgpu", "_blank");

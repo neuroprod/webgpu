@@ -6,15 +6,15 @@ export type ColorAttachmentOptions = {
     clearValue: GPUColor
     loadOp: GPULoadOp;
     storeOp: GPUStoreOp
-    baseArrayLayer:GPUIntegerCoordinate,
-    arrayLayerCount :GPUIntegerCoordinate,
+    baseArrayLayer: GPUIntegerCoordinate,
+    arrayLayerCount: GPUIntegerCoordinate,
 }
 export const ColorAttachmentOptionsDefault: ColorAttachmentOptions = {
     clearValue: {r: 0.0, g: 0.0, b: 0.0, a: 0.0},
     loadOp: LoadOp.Clear,
     storeOp: StoreOp.Store,
-    baseArrayLayer:0,
-    arrayLayerCount :1,
+    baseArrayLayer: 0,
+    arrayLayerCount: 1,
 }
 export default class ColorAttachment {
     public options: ColorAttachmentOptions
@@ -36,7 +36,10 @@ export default class ColorAttachment {
 
         // @ts-ignore
         let p: GPURenderPassColorAttachment = {
-            view: this.renderTexture.getView({baseArrayLayer:this.options.baseArrayLayer,arrayLayerCount:this.options.arrayLayerCount}),//.textureGPU.createView(),
+            view: this.renderTexture.getView({
+                baseArrayLayer: this.options.baseArrayLayer,
+                arrayLayerCount: this.options.arrayLayerCount
+            }),//.textureGPU.createView(),
 
             clearValue: this.options.clearValue,
             loadOp: this.options.loadOp,

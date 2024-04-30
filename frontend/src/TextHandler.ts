@@ -33,13 +33,13 @@ export default class TextHandler {
     private fontEdge = new Vector4(0.25, 0.30, 0.45, 0.53);
     private numChars: number;
     private showChars = 10;
-    private keepRight: boolean =false;
-    private adj:number =0;
+    private keepRight: boolean = false;
+    private adj: number = 0;
 
     constructor(renderer: Renderer, preLoader: PreLoader) {
         this.jsonLoader = new JSONLoader("copy", preLoader)
         this.renderer = renderer;
-        if(this.renderer.pixelRatio ==1)this.fontEdge.z =0.33;
+        if (this.renderer.pixelRatio == 1) this.fontEdge.z = 0.33;
     }
 
     public init() {
@@ -66,7 +66,7 @@ export default class TextHandler {
             }
             d.readAll = false;
         }
-      //  console.log("num words" ,this.words);
+        //  console.log("num words" ,this.words);
     }
 
     public wordCount(s: string) {
@@ -83,7 +83,7 @@ export default class TextHandler {
 
     public update() {
         if (this.currentHitText) {
-            this.currentHitText.material.uniforms.setUniform("time",Timer.time)
+            this.currentHitText.material.uniforms.setUniform("time", Timer.time)
             this.currentHitText.setPositionV(this.hitTextTarget)
             this.currentHitText.material.uniforms.setUniform("alpha", this.hitTextAlpha)
             this.currentHitText.material.uniforms.setUniform("fontEdge", this.fontEdge)
@@ -96,10 +96,10 @@ export default class TextHandler {
         }
     }
 
-    showHitTrigger(objectLabel: string,keepRight:boolean=false,adjY=0) {
-this.keepRight = keepRight;
-this.adj = adjY;
-        if(GameModel.characterHandler.isWalking){
+    showHitTrigger(objectLabel: string, keepRight: boolean = false, adjY = 0) {
+        this.keepRight = keepRight;
+        this.adj = adjY;
+        if (GameModel.characterHandler.isWalking) {
             GameModel.characterHandler.setIdleAndTurn()
         }
         //GameModel.sound.playClick(0.2)
@@ -180,12 +180,12 @@ this.adj = adjY;
             d = 0.50 / (p.distance(p2 as NumericArray));
 
 
-            if (p.x > 0 &&  !this.keepRight) {
+            if (p.x > 0 && !this.keepRight) {
                 align = TEXT_ALIGN.RIGHT;
                 offset = -0.5;
             }
 
-            this.hitTextTarget.y = -1.5 + 2.0+this.adj;
+            this.hitTextTarget.y = -1.5 + 2.0 + this.adj;
             this.hitTextTarget.x += offset * 0.8;
         }
 
@@ -264,7 +264,7 @@ this.adj = adjY;
             return true
         }
 
-        this.showHitTrigger(this.objectLabel,this.keepRight,this.adj)
+        this.showHitTrigger(this.objectLabel, this.keepRight, this.adj)
 
         return false;
     }

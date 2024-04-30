@@ -8,25 +8,26 @@ import {Vector4} from "math.gl";
 import MathArray from "@math.gl/core/src/classes/base/math-array";
 
 
-export default class ParticlesGoldShader extends Shader{
+export default class ParticlesGoldShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
-            this.addAttribute("instanceData", ShaderType.vec4,1,"instance");
+            this.addAttribute("instanceData", ShaderType.vec4, 1, "instance");
         }
-        this.addUniform("sett", new Vector4(0.04,0.18,-0.00) as MathArray);
-        this.addUniform("color", new Vector4(1,1,0.67,1) as MathArray);
+        this.addUniform("sett", new Vector4(0.04, 0.18, -0.00) as MathArray);
+        this.addUniform("color", new Vector4(1, 1, 0.67, 1) as MathArray);
         this.addUniform("time", 0);
         this.addUniform("fade", 0);
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -117,7 +118,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) al: vec2f) -> GBufferOutput
               
         `
     }
-
 
 
 }

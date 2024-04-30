@@ -1,24 +1,24 @@
 import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
-import {Vector2} from "math.gl";
 
 
-export default class DebugTextureShader extends Shader{
+export default class DebugTextureShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("rtype",0)
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-       // this.addSampler("mySampler");
+        this.addUniform("rtype", 0)
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        // this.addSampler("mySampler");
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      

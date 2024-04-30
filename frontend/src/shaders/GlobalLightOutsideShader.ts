@@ -7,53 +7,52 @@ import Camera from "../lib/Camera";
 import {TextureViewDimension} from "../lib/WebGPUConstants";
 
 
+export default class GlobalLightOutsideShader extends Shader {
 
 
-export default class GlobalLightOutsideShader extends Shader{
+    init() {
 
-
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("shadowMatrix1",0,GPUShaderStage.FRAGMENT,ShaderType.mat4)
-        this.addUniform("shadowMatrix2",0,GPUShaderStage.FRAGMENT,ShaderType.mat4)
-        this.addUniform("lightDir",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("lightColor",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("pointlightColor",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("pointlightPos",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("topColor",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("midColor",new Vector4(1,1,1,0.05))
-        this.addUniform("bottomColor",new Vector4(1,1,1,0.02))
-        this.addUniform("dof",new Vector4(0.5,0.6,0.0,0.0))
-        this.addUniform("fogColor",new Vector4(0.5,0.6,0.0,0.0))
-        this.addUniform("fogData",new Vector4(0.5,0.6,0.0,0.0))
-        this.addUniform("dayNight",0)
-        this.addTexture("shadowCubeDebug",DefaultTextures.getCube(this.renderer),"float",TextureViewDimension.Cube)
-        this.addTexture("shadow1",DefaultTextures.getDepth(this.renderer),"depth")
-        this.addTexture("shadow2",DefaultTextures.getDepth(this.renderer),"depth")
-        this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gMRA",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("aoTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+        this.addUniform("shadowMatrix1", 0, GPUShaderStage.FRAGMENT, ShaderType.mat4)
+        this.addUniform("shadowMatrix2", 0, GPUShaderStage.FRAGMENT, ShaderType.mat4)
+        this.addUniform("lightDir", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("lightColor", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("pointlightColor", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("pointlightPos", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("topColor", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("midColor", new Vector4(1, 1, 1, 0.05))
+        this.addUniform("bottomColor", new Vector4(1, 1, 1, 0.02))
+        this.addUniform("dof", new Vector4(0.5, 0.6, 0.0, 0.0))
+        this.addUniform("fogColor", new Vector4(0.5, 0.6, 0.0, 0.0))
+        this.addUniform("fogData", new Vector4(0.5, 0.6, 0.0, 0.0))
+        this.addUniform("dayNight", 0)
+        this.addTexture("shadowCubeDebug", DefaultTextures.getCube(this.renderer), "float", TextureViewDimension.Cube)
+        this.addTexture("shadow1", DefaultTextures.getDepth(this.renderer), "depth")
+        this.addTexture("shadow2", DefaultTextures.getDepth(this.renderer), "depth")
+        this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gColor", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gMRA", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("aoTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addSamplerComparison("mySamplerComp");
         this.addSampler("mySampler");
-        this.needsCamera =true;
+        this.needsCamera = true;
 //this.logShaderCode=true;
 
     }
+
     getKernel() {
-        let numSamples =16;
+        let numSamples = 16;
         let s = "const kernel = array<vec3f, " + numSamples + ">(";
         for (let i = 0; i < numSamples; i++) {
             let v = new Vector3(
                 Math.random() * 2.0 - 1.0,
                 Math.random() * 2.0 - 1.0,
-                Math.random()* 2.0 - 1.0
+                Math.random() * 2.0 - 1.0
             );
             v.normalize();
 
@@ -239,7 +238,6 @@ let fogAmount =smoothstep(fMin,fMax,depth);
 ///////////////////////////////////////////////////////////
         `
     }
-
 
 
 }

@@ -7,23 +7,24 @@ import ModelTransform from "../lib/model/ModelTransform";
 import {AddressMode} from "../lib/WebGPUConstants";
 
 
-export default class SmokeShader extends Shader{
+export default class SmokeShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
         this.addUniform("time", 0);
-      this.addTexture("noise",this.renderer.texturesByLabel["noiseTexture.png"],"float");
-        this.addSampler("mySampler",GPUShaderStage.FRAGMENT,AddressMode.Repeat);
+        this.addTexture("noise", this.renderer.texturesByLabel["noiseTexture.png"], "float");
+        this.addSampler("mySampler", GPUShaderStage.FRAGMENT, AddressMode.Repeat);
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -76,7 +77,6 @@ fn mainFragment(@location(0) uv: vec2f) ->   @location(0) vec4f
         
         `
     }
-
 
 
 }

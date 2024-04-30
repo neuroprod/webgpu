@@ -6,7 +6,6 @@ import Camera from "../lib/Camera";
 import {Vector3} from "math.gl";
 
 import Model from "../lib/model/Model";
-import Timer from "../lib/Timer";
 import GameModel from "../../public/GameModel";
 
 
@@ -18,11 +17,12 @@ export default class ShadowCube {
     private colorTarget: RenderTexture;
     private offsets = [new Vector3(-1, 0, 0), new Vector3(1, 0, 0), new Vector3(0, -1, 0), new Vector3(0, 1, 0), new Vector3(0, 0, -1), new Vector3(0, 0, 1)]
     private drawAll: boolean = true;
-public frame =0;
+    public frame = 0;
+
     constructor(renderer: Renderer, depthTarget: RenderTexture, name: string) {
 
         let tSize = 512;
-        this.depthTarget = new RenderTexture(renderer, "ShadowCubeDepth"+name, {
+        this.depthTarget = new RenderTexture(renderer, "ShadowCubeDepth" + name, {
             format: TextureFormat.Depth16Unorm,
             sampleCount: 1,
             scaleToCanvas: false,
@@ -34,7 +34,7 @@ public frame =0;
         this.depthTarget.make()
 
 
-        this.colorTarget = new RenderTexture(renderer, "ShadowCubeColor"+name, {
+        this.colorTarget = new RenderTexture(renderer, "ShadowCubeColor" + name, {
             format: TextureFormat.R16Float,
             sampleCount: 1,
             scaleToCanvas: false,
@@ -73,7 +73,7 @@ public frame =0;
     }
 
     setModels(models: Array<Model>) {
-        this.frame =0;
+        this.frame = 0;
         for (let i = 0; i < 6; i++) {
             this.passes[i].models = models;
         }
@@ -82,21 +82,20 @@ public frame =0;
 
     public add() {
 
-        if (this.frame< 3) {
+        if (this.frame < 3) {
 
             for (let p of this.passes) {
 
                 p.add();
             }
-        }
-        else{
-            let count =this.frame;
+        } else {
+            let count = this.frame;
             for (let p of this.passes) {
-                if(p.camera.modelInFrustum(GameModel.characterHandler.body))p.add()
-                 else if(count%6==0)
-                 {        p.add();
+                if (p.camera.modelInFrustum(GameModel.characterHandler.body)) p.add()
+                else if (count % 6 == 0) {
+                    p.add();
 
-                 }
+                }
             }
         }
         this.frame++;

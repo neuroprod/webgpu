@@ -22,31 +22,30 @@ export default class MailBox {
 
     }
 
-    setState(state: number){
-        this.state=state;
-        if(state==0){
+    setState(state: number) {
+        this.state = state;
+        if (state == 0) {
             this.flag.setEuler(0, 0, 0);
-            this.door.setEuler(0,0,0)
+            this.door.setEuler(0, 0, 0)
             this.package.visible = false;
-            this.mailBox.enableHitTest =true
-            this.package.enableHitTest =false;
-        }
-       else if(state==1){
-            this.flag.setEuler(0, 0, Math.PI/2);
-            this.door.setEuler(0,0,Math.PI*0.95)
+            this.mailBox.enableHitTest = true
+            this.package.enableHitTest = false;
+        } else if (state == 1) {
+            this.flag.setEuler(0, 0, Math.PI / 2);
+            this.door.setEuler(0, 0, Math.PI * 0.95)
             this.package.visible = true;
-            this.mailBox.enableHitTest =false
-            this.flag.enableHitTest =false
-            this.door.enableHitTest =false
-            this.package.enableHitTest =true;
+            this.mailBox.enableHitTest = false
+            this.flag.enableHitTest = false
+            this.door.enableHitTest = false
+            this.package.enableHitTest = true;
 
 
-        } else  if(state==2){
-            this.flag.setEuler(0, 0 , Math.PI/2);
-            this.door.setEuler(0,0,Math.PI*0.95)
+        } else if (state == 2) {
+            this.flag.setEuler(0, 0, Math.PI / 2);
+            this.door.setEuler(0, 0, Math.PI * 0.95)
             this.package.visible = false;
-            this.mailBox.enableHitTest =false
-            this.package.enableHitTest =false;
+            this.mailBox.enableHitTest = false
+            this.package.enableHitTest = false;
         }
     }
 

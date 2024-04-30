@@ -15,7 +15,6 @@ export class HitTriangle {
     constructor(p0: Vector3, p1: Vector3, p2: Vector3) {
 
 
-
         this.p0 = p0;
         this.p1 = p1;
         this.p2 = p2;
@@ -43,8 +42,9 @@ export default class Ray {
     private rayStart: Vector3 = new Vector3();
     private rayDir: Vector3 = new Vector3();
     public hitDistance: number = -1;
-    public hitPos: Vector3=new Vector3();
-    public hitNormal: Vector3=new Vector3();
+    public hitPos: Vector3 = new Vector3();
+    public hitNormal: Vector3 = new Vector3();
+
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -67,7 +67,8 @@ export default class Ray {
         this.rayDir = new Vector3(pos.x - this.rayStart.x, pos.y - this.rayStart.y, pos.z - this.rayStart.z).normalize()
 
     }
-    tempPos =new Vector3()
+
+    tempPos = new Vector3()
 
 
     intersectPlaneLocal(position: Vector3, normal: Vector3) {
@@ -94,7 +95,6 @@ export default class Ray {
         }
 
     }
-
 
 
     intersectPlane(position: Vector3, normal: Vector3) {
@@ -149,8 +149,8 @@ export default class Ray {
 
     }
 
-    tempVP =new Vector3()
-    tempC =new Vector3()
+    tempVP = new Vector3()
+    tempC = new Vector3()
 
     intersectHitTriangel(tri: HitTriangle) {
         this.hit = false;
@@ -162,7 +162,7 @@ export default class Ray {
         this.tempVP.subtract(tri.p0)
         //let vp0 = this.hitPos.clone().subtract(tri.p0);
         this.tempC.from(tri.edge0).cross(this.tempVP)
-       // let C = tri.edge0.clone().cross(vp0);
+        // let C = tri.edge0.clone().cross(vp0);
         if (tri.normal.dot(this.tempC) < 0) {
             return false
         }
@@ -170,8 +170,8 @@ export default class Ray {
         this.tempVP.from(this.hitPos);
         this.tempVP.subtract(tri.p1)
         this.tempC.from(tri.edge1).cross(this.tempVP)
-       // let vp1 = this.hitPos.clone().subtract(tri.p1);
-       // C = tri.edge1.clone().cross(vp1);
+        // let vp1 = this.hitPos.clone().subtract(tri.p1);
+        // C = tri.edge1.clone().cross(vp1);
         if (tri.normal.dot(this.tempC) < 0) {
             return false
         }
@@ -180,11 +180,11 @@ export default class Ray {
 
         this.tempC.from(tri.edge2).cross(this.tempVP)
         //let vp2 = this.hitPos.clone().subtract(tri.p2);
-       // C = tri.edge2.clone().cross(vp2);
+        // C = tri.edge2.clone().cross(vp2);
         if (tri.normal.dot(this.tempC) < 0) {
             return false
         }
-        this.hitNormal=tri.normal.clone();
+        this.hitNormal = tri.normal.clone();
         return true;
     }
 }

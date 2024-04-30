@@ -8,7 +8,6 @@ import ModelRenderer from "../lib/model/ModelRenderer";
 import DrawingRenderer from "../drawing/DrawingRenderer";
 
 
-
 export default class extends RenderPass {
 
     public modelRenderer: ModelRenderer;
@@ -22,13 +21,12 @@ export default class extends RenderPass {
     drawingRenderer: DrawingRenderer;
 
 
-
     constructor(renderer: Renderer) {
 
         super(renderer, "GbufferRenderPass");
 
         this.modelRenderer = new ModelRenderer(renderer)
-        this.drawingRenderer =new DrawingRenderer(renderer);
+        this.drawingRenderer = new DrawingRenderer(renderer);
         this.colorTarget = new RenderTexture(renderer, "GColor", {
             format: TextureFormat.RGBA8Unorm,
             sampleCount: this.sampleCount,
@@ -55,10 +53,7 @@ export default class extends RenderPass {
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
-        this.mraAttachment = new ColorAttachment(this.mraTarget,{ clearValue: {r: 0.0, g: 1.0, b: 0.0, a: 1.0},});
-
-
-
+        this.mraAttachment = new ColorAttachment(this.mraTarget, {clearValue: {r: 0.0, g: 1.0, b: 0.0, a: 1.0},});
 
 
         this.colorAttachments = [this.colorAttachment, this.normalAttachment, this.mraAttachment];
@@ -78,7 +73,7 @@ export default class extends RenderPass {
     draw() {
 
         this.modelRenderer.draw(this);
-        if(this.drawingRenderer.drawings.length>0) this.drawingRenderer.draw(this);
+        if (this.drawingRenderer.drawings.length > 0) this.drawingRenderer.draw(this);
 
     }
 

@@ -4,17 +4,17 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import Renderer from "../lib/Renderer";
 import {TextureDimension} from "../lib/WebGPUConstants";
 import {Vector4} from "math.gl";
 
 export default class GBufferShader extends Shader {
     private needsAlphaClip: boolean = false;
     private alphaClipValue: number = 0;
-    private needsWind: boolean=false;
+    private needsWind: boolean = false;
 
-    private windData: Vector4 =new Vector4(0,1,0.5,0.2)
-    private normalAdj:number =0;
+    private windData: Vector4 = new Vector4(0, 1, 0.5, 0.2)
+    private normalAdj: number = 0;
+
     init() {
 
         if (this.attributes.length == 0) {
@@ -25,10 +25,10 @@ export default class GBufferShader extends Shader {
 
         }
         if (this.needsWind) {
-            this.addUniform("windData",this.windData)
+            this.addUniform("windData", this.windData)
             this.addUniform("time", 0);
 
-            this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
+            this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"], "float", TextureDimension.TwoD, GPUShaderStage.VERTEX)
 
         }
 
@@ -53,11 +53,11 @@ export default class GBufferShader extends Shader {
             this.needsAlphaClip = true;
             this.alphaClipValue = md.alphaClipValue;
         }
-        if(md.needsWind){
-            this.needsWind =true;
-            this.windData =new Vector4( md.windData[0],md.windData[1],md.windData[2],md.windData[3])
+        if (md.needsWind) {
+            this.needsWind = true;
+            this.windData = new Vector4(md.windData[0], md.windData[1], md.windData[2], md.windData[3])
         }
-        this.normalAdj =md.normalAdj;
+        this.normalAdj = md.normalAdj;
     }
 
     getShaderCode(): string {

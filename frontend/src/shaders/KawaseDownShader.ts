@@ -6,22 +6,23 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import {Vector2} from "math.gl";
 
 
-export default class KawaseDownShader extends Shader{
+export default class KawaseDownShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("textureSize",new Vector2(1,100))
-        this.addTexture("inputTexture",DefaultTextures.getWhite(this.renderer),"float");
+        this.addUniform("textureSize", new Vector2(1, 100))
+        this.addTexture("inputTexture", DefaultTextures.getWhite(this.renderer), "float");
         this.addSampler("mySampler")
 
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      

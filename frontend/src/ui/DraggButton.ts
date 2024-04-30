@@ -14,7 +14,7 @@ export default class DraggButton extends UIBitmapModel {
     private scale = 1
     private isDragging: boolean;
     private targetX: number;
-    private currentStep: number =-1;
+    private currentStep: number = -1;
 
     constructor(renderer: Renderer, preLoader: PreLoader, label: string) {
         super(renderer, preLoader, label, "UI/dragg.png");
@@ -27,17 +27,17 @@ export default class DraggButton extends UIBitmapModel {
         super.update();
         this.setScale(this.scale, this.scale, this.scale)
         if (this.isDragging) {
-            this.targetX = (GameModel.mousePos.x- GameModel.screenWidth / 2)/this.parent.getScale().x ;
+            this.targetX = (GameModel.mousePos.x - GameModel.screenWidth / 2) / this.parent.getScale().x;
 
 
             this.placePos.x = clamp(this.targetX, this.minDragg, this.maxDragg);
-            let value = (this.placePos.x - this.minDragg) / (this.maxDragg - this.minDragg) ;
-            let step =Math.round(value*12);
-            if(step!=this.currentStep){
+            let value = (this.placePos.x - this.minDragg) / (this.maxDragg - this.minDragg);
+            let step = Math.round(value * 12);
+            if (step != this.currentStep) {
                 GameModel.sound.playClick(0.1)
-                this.currentStep =step;
+                this.currentStep = step;
             }
-            this.onChange(Math.pow(value* 1.5,2));
+            this.onChange(Math.pow(value * 1.5, 2));
         }
 
         this.setPositionV(this.placePos)

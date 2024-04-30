@@ -1,5 +1,5 @@
-export function getWorldFromUVDepth(){
-return /* wgsl */ `
+export function getWorldFromUVDepth() {
+    return /* wgsl */ `
     fn getWorldFromUVDepth(uv:vec2f,z:f32)->vec3f{
         let uvP =vec2f(uv.x,1.0-uv.y);
         let sPos = vec4(uvP * 2.0 - 1.0, z, 1.0);
@@ -10,7 +10,8 @@ return /* wgsl */ `
 `
 
 }
-export function fresnelSchlickRoughness(){
+
+export function fresnelSchlickRoughness() {
     return /* wgsl */ `
 fn fresnelSchlickRoughness( cosTheta:f32,  F0:vec3f, roughness:f32)-> vec3f
 {
@@ -18,7 +19,8 @@ fn fresnelSchlickRoughness( cosTheta:f32,  F0:vec3f, roughness:f32)-> vec3f
 }
 `
 }
-export function ssr(){
+
+export function ssr() {
     return /* wgsl */ `
 fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)-> vec3f
 {
@@ -110,6 +112,7 @@ fn ssr(world:vec3f,N:vec3f,V:vec3f,metallic:f32,roughness:f32,textureSize:vec2f)
 } 
 `
 }
+
 export function cubeShadow() {
     return   /* wgsl */ `
 fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f,samples:f32) -> f32
@@ -143,9 +146,8 @@ fn cubeShadow(cube:texture_cube<f32>,lightPos:vec3f,world:vec3f,uv0:vec2f,sample
 }
 
 
-
-  export function pointLight(){
-  return   /* wgsl */ `
+export function pointLight() {
+    return   /* wgsl */ `
   
 fn pointLight(lightPos:vec3f ,lightColor:vec4f,albedo:vec3f,world:vec3f,N:vec3f,V:vec3f,F0:vec3f,roughness:f32)->vec3f
 {       let distToLight=distance (lightPos.xyz,world);
@@ -174,8 +176,7 @@ fn pointLight(lightPos:vec3f ,lightColor:vec4f,albedo:vec3f,world:vec3f,N:vec3f,
 }
 
 
-
-export function simplex3D(){
+export function simplex3D() {
 
     return   /* wgsl */ `
 

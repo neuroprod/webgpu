@@ -8,7 +8,7 @@ import DepthStencilAttachment from "../lib/textures/DepthStencilAttachment";
 
 import Material from "../lib/core/Material";
 
-import {Matrix4, Vector2, Vector3, Vector4} from "math.gl";
+import {Matrix4, Vector3, Vector4} from "math.gl";
 
 
 import UI from "../lib/UI/UI";
@@ -17,8 +17,6 @@ import UI from "../lib/UI/UI";
 import Blit from "../lib/Blit";
 
 import ColorV from "../lib/ColorV";
-
-import MainLight from "../MainLight";
 
 import GlobalLightOutsideShader from "../shaders/GlobalLightOutsideShader";
 import RenderSettings from "../RenderSettings";
@@ -35,11 +33,11 @@ export default class LightOutsideRenderPass extends RenderPass {
 
     private globalLightMaterial: Material;
     private blitGlobalLight: Blit;
-    private fogColorDay: ColorV = new ColorV(0.71,0.91,1.00,1.00);
-    public fogDataDay = new Vector4(0.67,1.40,0.00,0.00);
+    private fogColorDay: ColorV = new ColorV(0.71, 0.91, 1.00, 1.00);
+    public fogDataDay = new Vector4(0.67, 1.40, 0.00, 0.00);
 
-    private fogColorNight: ColorV = new ColorV(0.00,0.02,0.04,1.00);
-    public fogDataNight = new Vector4(0.27,0.88,0.00,0.00);
+    private fogColorNight: ColorV = new ColorV(0.00, 0.02, 0.04, 1.00);
+    public fogDataNight = new Vector4(0.27, 0.88, 0.00, 0.00);
     private sunLightColor: ColorV = new ColorV(1.00, 0.83, 0.63, 1.00);
     private sunLightStrength: number = 4.5;
 
@@ -62,7 +60,7 @@ export default class LightOutsideRenderPass extends RenderPass {
 
     public sunDir = new Vector3(-0.172996, -0.694981, -0.697907);
     public lightGrave: Object3D;
-    public lightPos: Vector3 =new Vector3();
+    public lightPos: Vector3 = new Vector3();
     private modelRenderer: ModelRenderer;
     private pointLight: PointLight;
 
@@ -89,10 +87,10 @@ export default class LightOutsideRenderPass extends RenderPass {
 
         this.globalLightMaterial = new Material(this.renderer, "blitGlobalLight", new GlobalLightOutsideShader(this.renderer, "globalLightOutside"))
 
-        let data ={
+        let data = {
             "label": "millLight",
             "position": [
-              0,
+                0,
                 0,
                 0
             ],
@@ -112,7 +110,7 @@ export default class LightOutsideRenderPass extends RenderPass {
             "parentIndex": -1
         }
 
-        this.pointLight = new PointLight(this.renderer,"p",this.modelRenderer,data,[])
+        this.pointLight = new PointLight(this.renderer, "p", this.modelRenderer, data, [])
 
 
         this.globalLightMaterial.blendModes = [
@@ -134,8 +132,9 @@ export default class LightOutsideRenderPass extends RenderPass {
 
 
     }
+
     setUniforms2(matrix2: Matrix4) {
-        if(GameModel.currentPants==4 && GameModel.dayNight==1) {
+        if (GameModel.currentPants == 4 && GameModel.dayNight == 1) {
             let pos = GameModel.characterPos.clone()
             pos.y -= 0.5;
             pos.z += 0.3;
@@ -144,6 +143,7 @@ export default class LightOutsideRenderPass extends RenderPass {
         }
         this.globalLightMaterial.uniforms.setUniform("shadowMatrix2", matrix2);
     }
+
     setUniforms(matrix: Matrix4) {
 
         this.globalLightMaterial.uniforms.setUniform("topColor", this.topColorDay.clone().lerp(this.topColorNight, GameModel.dayNight))
@@ -153,21 +153,19 @@ export default class LightOutsideRenderPass extends RenderPass {
         this.globalLightMaterial.uniforms.setUniform("shadowMatrix1", matrix);
 
 
-
-
         this.sunLightColor.w = this.sunLightStrength;
         this.moonLightColor.w = this.moonLightStrength;
         this.globalLightMaterial.uniforms.setUniform("lightColor", this.sunLightColor.clone().lerp(this.moonLightColor, GameModel.dayNight));
         this.globalLightMaterial.uniforms.setUniform("lightDir", new Vector4(this.sunDir.x, this.sunDir.y, this.sunDir.z, 1));
 
-        this.globalLightMaterial.uniforms.setUniform("fogColor", this.fogColorDay.clone().lerp( this.fogColorNight, GameModel.dayNight));
-        this.globalLightMaterial.uniforms.setUniform("fogData", this.fogDataDay.clone().lerp( this.fogDataNight, GameModel.dayNight));
+        this.globalLightMaterial.uniforms.setUniform("fogColor", this.fogColorDay.clone().lerp(this.fogColorNight, GameModel.dayNight));
+        this.globalLightMaterial.uniforms.setUniform("fogData", this.fogDataDay.clone().lerp(this.fogDataNight, GameModel.dayNight));
 
         this.globalLightMaterial.uniforms.setUniform("dayNight", GameModel.dayNight);
         this.lightColor.w = this.lightStrength * GameModel.dayNight;
         this.lightPos = this.lightGrave.getWorldPos();
         this.globalLightMaterial.uniforms.setUniform("pointlightColor", this.lightColor);
-        this.globalLightMaterial.uniforms.setUniform("pointlightPos",  this.lightPos);
+        this.globalLightMaterial.uniforms.setUniform("pointlightPos", this.lightPos);
         this.globalLightMaterial.uniforms.setTexture("shadow1", this.renderer.texturesByLabel["Shadow1"]);
         this.globalLightMaterial.uniforms.setTexture("shadow2", this.renderer.texturesByLabel["Shadow2"]);
         this.globalLightMaterial.uniforms.setTexture("aoTexture", this.renderer.texturesByLabel["GTAOdenoise"]);
@@ -228,8 +226,8 @@ export default class LightOutsideRenderPass extends RenderPass {
     draw() {
 
         this.blitGlobalLight.draw(this);
-        if(GameModel.currentPants==4 && GameModel.dayNight==1) {
-        this.modelRenderer.draw(this);
+        if (GameModel.currentPants == 4 && GameModel.dayNight == 1) {
+            this.modelRenderer.draw(this);
         }
     }
 

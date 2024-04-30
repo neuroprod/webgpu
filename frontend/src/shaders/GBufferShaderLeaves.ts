@@ -4,18 +4,17 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import Renderer from "../lib/Renderer";
 import {TextureDimension} from "../lib/WebGPUConstants";
 import {Vector4} from "math.gl";
-import TextureLoader from "../lib/textures/TextureLoader";
 
 export default class GBufferShaderLeaves extends Shader {
     private needsAlphaClip: boolean = true;
     private alphaClipValue: number = 0.2;
-    private needsWind: boolean=false;
+    private needsWind: boolean = false;
 
-    private windData: Vector4 =new Vector4(0,1,0.5,0.2)
-    private normalAdj:number =0;
+    private windData: Vector4 = new Vector4(0, 1, 0.5, 0.2)
+    private normalAdj: number = 0;
+
     init() {
 
         if (this.attributes.length == 0) {
@@ -23,16 +22,13 @@ export default class GBufferShaderLeaves extends Shader {
             this.addAttribute("aNormal", ShaderType.vec3);
 
             this.addAttribute("aUV0", ShaderType.vec2);
-            this.addAttribute("instancePos", ShaderType.vec4,1,"instance");
-            this.addAttribute("instanceRot", ShaderType.vec4,1,"instance");
+            this.addAttribute("instancePos", ShaderType.vec4, 1, "instance");
+            this.addAttribute("instanceRot", ShaderType.vec4, 1, "instance");
         }
 
-            this.addUniform("time", 0);
+        this.addUniform("time", 0);
 
-            this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"],"float",TextureDimension.TwoD,GPUShaderStage.VERTEX)
-
-
-
+        this.addTexture("noiseTexture", this.renderer.texturesByLabel["noiseTexture.png"], "float", TextureDimension.TwoD, GPUShaderStage.VERTEX)
 
 
         if (this.needsAlphaClip) {
@@ -40,7 +36,7 @@ export default class GBufferShaderLeaves extends Shader {
             this.addTexture("opTexture", this.renderer.texturesByLabel["leaveAlpha.png"])
         }
 
-        this.addTexture("colorTexture",this.renderer.texturesByLabel["leaveColor.png"])
+        this.addTexture("colorTexture", this.renderer.texturesByLabel["leaveColor.png"])
         this.addTexture("mraTexture", DefaultTextures.getMRE(this.renderer))
         this.addTexture("normalTexture", DefaultTextures.getNormal(this.renderer))
         this.addSampler("mySampler", GPUShaderStage.FRAGMENT, "repeat")
@@ -54,11 +50,11 @@ export default class GBufferShaderLeaves extends Shader {
             this.needsAlphaClip = true;
             this.alphaClipValue = md.alphaClipValue;
         }
-        if(md.needsWind){
-            this.needsWind =true;
-            this.windData =new Vector4( md.windData[0],md.windData[1],md.windData[2],md.windData[3])
+        if (md.needsWind) {
+            this.needsWind = true;
+            this.windData = new Vector4(md.windData[0], md.windData[1], md.windData[2], md.windData[3])
         }
-        this.normalAdj =md.normalAdj;
+        this.normalAdj = md.normalAdj;
     }
 
     getShaderCode(): string {
@@ -184,8 +180,6 @@ fn mainFragment(@location(0) uv0: vec2f,@location(1) normal: vec3f) -> GBufferOu
         return `let a= textureSample(opTexture, mySampler,  uv0).x;
         if(a<uniforms.alphaClipValue){discard;}`
     }
-
-
 
 
 }

@@ -3,33 +3,33 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 
 
+export default class PostShader extends Shader {
 
-export default class PostShader extends Shader{
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform( "exposure",0);
-        this.addUniform("contrast" ,0);
-        this.addUniform("brightness",0);
-        this.addUniform("vibrance",0);
-        this.addUniform("saturation",0);
-        this.addUniform("black",1);
-        this.addUniform("falloff",0.0);
-        this.addUniform("amount",0.0);
-        this.addUniform("bloom_strength",0.0)
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer),"float")
-        this.addTexture("bloomTexture",DefaultTextures.getWhite(this.renderer),"float")
-        this.addTexture("outlineTexture",DefaultTextures.getWhite(this.renderer),"float")
-        this.addTexture("outlineBlurTexture",DefaultTextures.getWhite(this.renderer),"float")
-         this.addSampler("mySampler");
+        this.addUniform("exposure", 0);
+        this.addUniform("contrast", 0);
+        this.addUniform("brightness", 0);
+        this.addUniform("vibrance", 0);
+        this.addUniform("saturation", 0);
+        this.addUniform("black", 1);
+        this.addUniform("falloff", 0.0);
+        this.addUniform("amount", 0.0);
+        this.addUniform("bloom_strength", 0.0)
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer), "float")
+        this.addTexture("bloomTexture", DefaultTextures.getWhite(this.renderer), "float")
+        this.addTexture("outlineTexture", DefaultTextures.getWhite(this.renderer), "float")
+        this.addTexture("outlineBlurTexture", DefaultTextures.getWhite(this.renderer), "float")
+        this.addSampler("mySampler");
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -118,7 +118,6 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 ///////////////////////////////////////////////////////////
         `
     }
-
 
 
 }

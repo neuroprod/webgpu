@@ -245,8 +245,7 @@ export function createNoise3D(random: RandomFn = Math.random): NoiseFunction3D {
                 j2 = 0;
                 k2 = 1;
             } // Z X Y order
-        }
-        else { // x0<y0
+        } else { // x0<y0
             if (y0 < z0) {
                 i1 = 0;
                 j1 = 0;

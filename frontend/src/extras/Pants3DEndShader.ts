@@ -1,13 +1,10 @@
 import Shader from "../lib/core/Shader";
-
-import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {pointLight} from "../shaders/ShaderChunks";
 
 export default class Pants3DEndShader extends Shader {
-
 
 
     init() {
@@ -23,7 +20,6 @@ export default class Pants3DEndShader extends Shader {
         }
 
 
-
         this.addUniform("lineThickness", 0);
         this.addUniform("shading", 0);
         this.addUniform("text", 0);
@@ -34,9 +30,8 @@ export default class Pants3DEndShader extends Shader {
 
         this.needsTransform = true;
         this.needsCamera = true;
-        this.logShaderCode =true
+        this.logShaderCode = true
     }
-
 
 
     getShaderCode(): string {
@@ -170,7 +165,6 @@ fn mainFragment(@location(0) color: vec3f,@location(1) uv0: vec2f,@location(2) n
         
         `
     }
-
 
 
 }

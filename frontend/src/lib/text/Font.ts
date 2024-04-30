@@ -3,19 +3,20 @@ import PreLoader from "../PreLoader";
 import TextureLoader from "../textures/TextureLoader";
 import Mesh from "../core/Mesh";
 import {Vector2} from "math.gl";
+
 //https://www.npmjs.com/package/msdf-bmfont-xml
 
 class Char {
-    w: number=0;
-    h: number=0;
-    uvSize: Vector2 =new Vector2();
-    uvPos: Vector2=new Vector2();
-    xadvance: number=0;
-    xOffset: number=0;
-    yOffset: number=0;
+    w: number = 0;
+    h: number = 0;
+    uvSize: Vector2 = new Vector2();
+    uvPos: Vector2 = new Vector2();
+    xadvance: number = 0;
+    xOffset: number = 0;
+    yOffset: number = 0;
 
     constructor(data: any) {
-if(!data)return;
+        if (!data) return;
         this.w = data.width / 300;
         this.h = data.height / 300;
         this.xadvance = data.xadvance / 300;
@@ -30,11 +31,13 @@ if(!data)return;
     }
 
 }
+
 export enum TEXT_ALIGN {
     LEFT,
     CENTER,
     RIGHT,
 }
+
 export default class Font {
     private json: any;
     private renderer: Renderer;
@@ -63,9 +66,9 @@ export default class Font {
 
     }
 
-    getMesh(text: string,align:TEXT_ALIGN=TEXT_ALIGN.LEFT,spacing:number =0) {
+    getMesh(text: string, align: TEXT_ALIGN = TEXT_ALIGN.LEFT, spacing: number = 0) {
 
-        spacing*=0.01;
+        spacing *= 0.01;
         let lines = text.split("\n");
         let textLength = 0;
         for (let l of lines) {
@@ -79,31 +82,33 @@ export default class Font {
         let verticesCount = 0;
         let uvCount = 0;
         let indicesCount = 0;
-        let indicesPos =0;
-        let yPos =0;
-        let isBold =0;
+        let indicesPos = 0;
+        let yPos = 0;
+        let isBold = 0;
         for (let l of lines) {
             let lineLength = l.length;
-            let lineSize=0
+            let lineSize = 0
 
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
-                if(c==42){continue}
+                if (c == 42) {
+                    continue
+                }
                 let char = this.charArray[c];
 
-                lineSize+=char.xadvance+spacing
+                lineSize += char.xadvance + spacing
             }
 
 
-            let xPos =0;
-            if(align==TEXT_ALIGN.CENTER) xPos=-lineSize/2 ;
-            if(align==TEXT_ALIGN.RIGHT) xPos=-lineSize ;
+            let xPos = 0;
+            if (align == TEXT_ALIGN.CENTER) xPos = -lineSize / 2;
+            if (align == TEXT_ALIGN.RIGHT) xPos = -lineSize;
 
             for (let i = 0; i < lineLength; i++) {
                 let c = l.charCodeAt(i);
-                if(c==42){
+                if (c == 42) {
                     isBold++;
-                    isBold%=2;
+                    isBold %= 2;
                     continue
                 }
                 let char = this.charArray[c];
@@ -112,37 +117,37 @@ export default class Font {
                 let offY = char.yOffset;
 
                 vertices[verticesCount++] = xPos + offX;
-                vertices[verticesCount++] = -offY+yPos;
+                vertices[verticesCount++] = -offY + yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x;
                 uv[uvCount++] = char.uvPos.y;
                 uv[uvCount++] = isBold;
-                uv[uvCount++] =  xPos + offX;
+                uv[uvCount++] = xPos + offX;
                 vertices[verticesCount++] = char.w + xPos + offX;
-                vertices[verticesCount++] = -offY+yPos;
+                vertices[verticesCount++] = -offY + yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x + char.uvSize.x;
                 uv[uvCount++] = char.uvPos.y;
                 uv[uvCount++] = isBold;
-                uv[uvCount++] =  xPos + offX;
+                uv[uvCount++] = xPos + offX;
                 vertices[verticesCount++] = xPos + offX;
-                vertices[verticesCount++] = -char.h - offY+yPos;
+                vertices[verticesCount++] = -char.h - offY + yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x;
                 uv[uvCount++] = char.uvPos.y + char.uvSize.y;
                 uv[uvCount++] = isBold;
-                uv[uvCount++] =  xPos + offX;
+                uv[uvCount++] = xPos + offX;
                 vertices[verticesCount++] = char.w + xPos + offX;
-                vertices[verticesCount++] = -char.h - offY+yPos;
+                vertices[verticesCount++] = -char.h - offY + yPos;
                 vertices[verticesCount++] = 0;
 
                 uv[uvCount++] = char.uvPos.x + char.uvSize.x;
                 uv[uvCount++] = char.uvPos.y + char.uvSize.y;
                 uv[uvCount++] = isBold;
-                uv[uvCount++] =  xPos + offX;
+                uv[uvCount++] = xPos + offX;
 
 
                 indices[indicesCount++] = indicesPos;
@@ -154,10 +159,10 @@ export default class Font {
                 indices[indicesCount++] = 1 + indicesPos;
 
                 indices[indicesCount++] = 2 + indicesPos;
-                indicesPos+=4;
-                xPos += char.xadvance+spacing;
+                indicesPos += 4;
+                xPos += char.xadvance + spacing;
             }
-            yPos-=50/300;
+            yPos -= 50 / 300;
         }
 
         let m = new Mesh(this.renderer, "fontText");

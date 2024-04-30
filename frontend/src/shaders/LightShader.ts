@@ -4,38 +4,38 @@ import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import {Vector2, Vector3, Vector4} from "math.gl";
+import {Vector4} from "math.gl";
 import {getWorldFromUVDepth} from "./ShaderChunks";
 
-export default class LightShader extends Shader{
+export default class LightShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
 
 
         }
-        this.addUniform("position",new Vector4(0,-1.5,-3,1));
-        this.addUniform("color",new Vector4(1,1,1,1));
-        this.addUniform("shadow",new Vector4(1,20,1,1));
+        this.addUniform("position", new Vector4(0, -1.5, -3, 1));
+        this.addUniform("color", new Vector4(1, 1, 1, 1));
+        this.addUniform("shadow", new Vector4(1, 20, 1, 1));
 
-       // this.addUniform("textureSize",new Vector2(10,10));
-      //  this.addUniform("size",20.0);
+        // this.addUniform("textureSize",new Vector2(10,10));
+        //  this.addUniform("size",20.0);
 
 
-
-        this.addTexture("gDepth",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gNormal",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gMRA",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("ao",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gMRA", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("gColor", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("ao", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.needsTransform = true;
+        this.needsCamera = true;
 
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      

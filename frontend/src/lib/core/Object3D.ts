@@ -1,8 +1,7 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
-import {Euler, Matrix4, NumericArray, Quaternion, Vector3, Vector4} from "math.gl";
+import {Matrix4, NumericArray, Quaternion, Vector3, Vector4} from "math.gl";
 import UI from "../UI/UI";
-import Group, {GroupSettings} from "../UI/components/Group";
 import {ButtonGroupSettings} from "../UI/components/ButtonGroup";
 
 export default class Object3D extends ObjectGPU {
@@ -14,8 +13,9 @@ export default class Object3D extends ObjectGPU {
     private _scale = new Vector3(1, 1, 1);
     private _rotation = new Quaternion(0, 0, 0, 1);
 
-    public worldMatrixInv: Matrix4=new Matrix4();
-    public buttonGroupSetting =new ButtonGroupSettings()
+    public worldMatrixInv: Matrix4 = new Matrix4();
+    public buttonGroupSetting = new ButtonGroupSettings()
+
     constructor(renderer: Renderer, label: string = "") {
         super(renderer, label);
         this.buttonGroupSetting.color.setHex("#534741")
@@ -40,48 +40,55 @@ export default class Object3D extends ObjectGPU {
 
     }
 
-    public getWorldPos(localPos=new Vector3(0,0,0))
-    {
+    public getWorldPos(localPos = new Vector3(0, 0, 0)) {
 
-        let temp =new Vector4(localPos.x,localPos.y,localPos.z,1)
+        let temp = new Vector4(localPos.x, localPos.y, localPos.z, 1)
         temp.applyMatrix4(this.worldMatrix);
-        return new Vector3(temp.x,temp.y,temp.z);
+        return new Vector3(temp.x, temp.y, temp.z);
     }
+
     setPositionV(target: Vector3) {
-        if(this._position.equals(target))return
+        if (this._position.equals(target)) return
         this._position.from(target);
         this.setDirty();
     }
+
     public setPosition(x: number, y: number, z: number) {
-        if(this._position.equals([x,y,z]))return
+        if (this._position.equals([x, y, z])) return
         this._position.set(x, y, z)
         this.setDirty();
     }
+
     public setScaler(val: number) {
-       this.setScale(val,val,val);
+        this.setScale(val, val, val);
     }
+
     public setScale(x: number, y: number, z: number) {
-       if(this._scale.equals([x,y,z]))return
+        if (this._scale.equals([x, y, z])) return
         this._scale.set(x, y, z)
         this.setDirty();
     }
+
     setRotationQ(newRot: Quaternion) {
-        if(this._rotation.equals(newRot as NumericArray))return
+        if (this._rotation.equals(newRot as NumericArray)) return
         this._rotation.from(newRot)
         this.setDirty();
     }
+
     public setRotation(x: number, y: number, z: number, w: number) {
 
-        if(this._rotation.equals([x,y,z,w]))return
+        if (this._rotation.equals([x, y, z, w])) return
         this._rotation.set(x, y, z, w)
         this.setDirty();
     }
+
     public setEuler(x: number, y: number, z: number) {
         this._rotation.identity()
         this._rotation.rotateZ(z).rotateY(y).rotateX(x);
 
         this.setDirty();
     }
+
     public addChild(child: Object3D) {
 
         if (child.parent) child.parent.removeChild(child);
@@ -99,7 +106,7 @@ export default class Object3D extends ObjectGPU {
     }
 
     protected updateMatrices() {
-        if(!this._dirty )return
+        if (!this._dirty) return
 
         this._localMatrix.identity();
         this._localMatrix.translate(this._position);
@@ -139,24 +146,25 @@ export default class Object3D extends ObjectGPU {
     getPosition() {
         return this._position;
     }
-    onDataUI(){
-        UI.LText(this.label,"name");
+
+    onDataUI() {
+        UI.LText(this.label, "name");
 
     }
+
     onUI() {
 
         this.buttonGroupSetting.hasChildren = this.children.length > 0;
-        if(UI.pushButtonGroup(this.label,this.buttonGroupSetting)){
-        this.renderer.selectedUIObject =this;
+        if (UI.pushButtonGroup(this.label, this.buttonGroupSetting)) {
+            this.renderer.selectedUIObject = this;
         }
 
         for (let c of this.children) {
             c.onUI()
         }
-       // this.onDataUI()
+        // this.onDataUI()
         UI.popGroup();
     }
-
 
 
 }

@@ -25,7 +25,6 @@ import SparkShader from "./extras/SparkShader";
 import Timer from "./lib/Timer";
 import gsap from "gsap";
 import {NumericArray, Vector3} from "math.gl";
-import UI from "./lib/UI/UI";
 
 export default class Room extends Scene {
     leftHolder: Object3D;
@@ -58,9 +57,10 @@ export default class Room extends Scene {
     private pot: Model;
     private posterLab: Model;
     private spark: Model;
-    public nextSparkTime =3;
-    private sparkScale: number =0;
-testPos =new Vector3()
+    public nextSparkTime = 3;
+    private sparkScale: number = 0;
+    testPos = new Vector3()
+
     constructor(renderer: Renderer, preloader: PreLoader) {
 
         super(renderer, preloader, "room")
@@ -79,9 +79,6 @@ testPos =new Vector3()
     }
 
     init() {
-
-
-
 
 
         this.modelRenderer = new ModelRenderer(this.renderer, "room");
@@ -159,10 +156,10 @@ testPos =new Vector3()
         //   this.windowOutside = new WindowOutside(this.renderer, this.glFTLoader.objectsByName["windowIn"]);
         //  this.modelRenderer.addModel(this.windowOutside);
 
-        this.spark = new Model(this.renderer,"spark")
-        this.spark.material =new Material(this.renderer,"sparkMaterial", new SparkShader(this.renderer,"spark"))
+        this.spark = new Model(this.renderer, "spark")
+        this.spark.material = new Material(this.renderer, "sparkMaterial", new SparkShader(this.renderer, "spark"))
 
-        this.spark.material.depthWrite =false;
+        this.spark.material.depthWrite = false;
 
         this.spark.mesh = new Plane(this.renderer)
 
@@ -170,7 +167,7 @@ testPos =new Vector3()
 
     makeTransParent() {
 
-this.modelRenderer.addModel(this.mill.millControlePanel)
+        this.modelRenderer.addModel(this.mill.millControlePanel)
         for (let m of this.glFTLoader.modelsGlass) {
 
             m.material.uniforms.setTexture("gDepth", this.renderer.texturesByLabel["GDepth"])
@@ -184,9 +181,9 @@ this.modelRenderer.addModel(this.mill.millControlePanel)
     }
 
     update() {
-   /* UI.pushWindow("test")
-UI.LVector("pos",this.testPos)
-        UI.popWindow()*/
+        /* UI.pushWindow("test")
+     UI.LVector("pos",this.testPos)
+             UI.popWindow()*/
         let w = Math.max(this.renderer.ratio * 3, GameModel.minRoomSize);
 
 
@@ -229,57 +226,57 @@ UI.LVector("pos",this.testPos)
         this.machine.update();
         this.updateSparks()
     }
-    setSpark()
-    {
 
-        if(GameModel.stateFashion==StateFasion.CAN_MAKE_TRIANGLE   ){
-            this.spark.setPositionV(this.laptopScreen.getWorldPos(new Vector3(-0.55,0.1,-0.4)))
-            return true;
-        }
-        if(GameModel.stateGrandpa ==StateGrandpa.START  ){
-            this.spark.setPositionV(GameModel.renderer.modelByLabel["fishFood"].getWorldPos().add(new Vector3(0,0.1,0.1) as NumericArray ));
-            return true;
-        }
-        if( GameModel.stateHighTech ==StateHighTech.PICK_FLOWER){
+    setSpark() {
 
-            this.spark.setPositionV(GameModel.renderer.modelByLabel["coffeeMaker"].getWorldPos().add(new Vector3( 0.00,0.32,0.19) as NumericArray ));
+        if (GameModel.stateFashion == StateFasion.CAN_MAKE_TRIANGLE) {
+            this.spark.setPositionV(this.laptopScreen.getWorldPos(new Vector3(-0.55, 0.1, -0.4)))
+            return true;
+        }
+        if (GameModel.stateGrandpa == StateGrandpa.START) {
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["fishFood"].getWorldPos().add(new Vector3(0, 0.1, 0.1) as NumericArray));
+            return true;
+        }
+        if (GameModel.stateHighTech == StateHighTech.PICK_FLOWER) {
+
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["coffeeMaker"].getWorldPos().add(new Vector3(0.00, 0.32, 0.19) as NumericArray));
             return true;
         }
 
-        if( GameModel.stateGold ==StateGold.FINISH_KEY){
-            this.spark.setPositionV(GameModel.renderer.modelByLabel["key"].getWorldPos().add(new Vector3(0.09,0.03,0.15) as NumericArray ));
+        if (GameModel.stateGold == StateGold.FINISH_KEY) {
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["key"].getWorldPos().add(new Vector3(0.09, 0.03, 0.15) as NumericArray));
             return true;
         }
-        if(GameModel.stateGold ==StateGold.HAS_KEY || GameModel.stateGold ==StateGold.START){
-            this.spark.setPositionV(GameModel.renderer.modelByLabel["bookCaseDoorLeft"].getWorldPos().add(new Vector3(0.60,0.07,0.12) as NumericArray ));
+        if (GameModel.stateGold == StateGold.HAS_KEY || GameModel.stateGold == StateGold.START) {
+            this.spark.setPositionV(GameModel.renderer.modelByLabel["bookCaseDoorLeft"].getWorldPos().add(new Vector3(0.60, 0.07, 0.12) as NumericArray));
             return true;
         }
         return false;
     }
-    updateSparks()
-    {
-        if(!GameModel.currentTransition) this.nextSparkTime-=Timer.delta;
-        if(this.nextSparkTime<0 ){
+
+    updateSparks() {
+        if (!GameModel.currentTransition) this.nextSparkTime -= Timer.delta;
+        if (this.nextSparkTime < 0) {
 
 
-            this.nextSparkTime =4+Math.random()*4;
-            if(!this.setSpark())return;
+            this.nextSparkTime = 4 + Math.random() * 4;
+            if (!this.setSpark()) return;
             let tl = gsap.timeline()
-            tl.set(this,{sparkScale:0.0},0);
-            tl.to(this,{sparkScale:0.17,duration:0.15},0);
-            tl.to(this,{sparkScale:0.0,duration:0.2},0.4);
+            tl.set(this, {sparkScale: 0.0}, 0);
+            tl.to(this, {sparkScale: 0.17, duration: 0.15}, 0);
+            tl.to(this, {sparkScale: 0.0, duration: 0.2}, 0.4);
         }
 
 
-        if(this.sparkScale<=0.001){
-            this.spark.visible =false;
-        }else{
-            this.spark.visible =true;
+        if (this.sparkScale <= 0.001) {
+            this.spark.visible = false;
+        } else {
+            this.spark.visible = true;
         }
-        if(this.spark.visible) {
+        if (this.spark.visible) {
 
-            this.spark.setEuler(Math.PI / 2, 0, -Timer.time*5);
-            this.spark.setScale(this.sparkScale,this.sparkScale,this.sparkScale);
+            this.spark.setEuler(Math.PI / 2, 0, -Timer.time * 5);
+            this.spark.setScale(this.sparkScale, this.sparkScale, this.sparkScale);
         }
     }
 

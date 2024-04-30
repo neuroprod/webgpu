@@ -3,22 +3,23 @@ import {ShaderType} from "../core/ShaderTypes";
 import DefaultTextures from "./DefaultTextures";
 
 
-export default class MipMapShader extends Shader{
+export default class MipMapShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
 
-        this.addTexture("inputTexture",DefaultTextures.getWhite(this.renderer),"float");
+        this.addTexture("inputTexture", DefaultTextures.getWhite(this.renderer), "float");
         this.addSampler("samp")
 
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      

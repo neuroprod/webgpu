@@ -8,15 +8,16 @@ export default class DOFPass {
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
-        this.horizontalPass =new DOFRenderPass(this.renderer,"DOFH");
-        this.verticalPass =new DOFRenderPass(this.renderer,"DOF");
+        this.horizontalPass = new DOFRenderPass(this.renderer, "DOFH");
+        this.verticalPass = new DOFRenderPass(this.renderer, "DOF");
     }
-    public init()
-    {
-        this.horizontalPass.init(true,"CombinePass")
-        this.verticalPass.init(false,"DOFH")
+
+    public init() {
+        this.horizontalPass.init(true, "CombinePass")
+        this.verticalPass.init(false, "DOFH")
     }
-    add(){
+
+    add() {
         this.horizontalPass.add()
         this.verticalPass.add()
     }

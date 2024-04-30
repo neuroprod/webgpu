@@ -17,48 +17,46 @@ export default class KawasePass extends RenderPass {
     public colorAttachment: ColorAttachment;
 
 
-
     private blitMaterial: Material;
     private blit: Blit;
     private a: boolean;
 
 
-    constructor(renderer: Renderer,target:RenderTexture,input:Texture,down:boolean=true,add:boolean=false) {
+    constructor(renderer: Renderer, target: RenderTexture, input: Texture, down: boolean = true, add: boolean = false) {
 
         super(renderer, "KawasePass");
         this.a = add;
-        this.colorAttachment= new ColorAttachment(target);
-        if(add)
-        {
-            this.colorAttachment.options.loadOp =LoadOp.Load;
-           this.colorAttachment.options.storeOp =StoreOp.Store;
+        this.colorAttachment = new ColorAttachment(target);
+        if (add) {
+            this.colorAttachment.options.loadOp = LoadOp.Load;
+            this.colorAttachment.options.storeOp = StoreOp.Store;
 
         }
         this.colorAttachments = [this.colorAttachment];
 
-if(down){
-    this.blitMaterial = new Material(this.renderer, "kawaseDown",   new KawaseDownShader(this.renderer, "kawaseDown"))
-}else{
-    this.blitMaterial = new Material(this.renderer, "kawaseUp",   new KawaseUpShader(this.renderer, "kawaseUp"))
-}
+        if (down) {
+            this.blitMaterial = new Material(this.renderer, "kawaseDown", new KawaseDownShader(this.renderer, "kawaseDown"))
+        } else {
+            this.blitMaterial = new Material(this.renderer, "kawaseUp", new KawaseUpShader(this.renderer, "kawaseUp"))
+        }
 
-        if(add){
-          this.blitMaterial.blendModes =[{
-                    color: {
-                        srcFactor: "one",
-                        dstFactor: "one",
-                        operation: "add",
-                    },
-                    alpha: {
-                        srcFactor: "one",
-                        dstFactor: "one",
-                        operation: "add",
-                    },
-                }];
+        if (add) {
+            this.blitMaterial.blendModes = [{
+                color: {
+                    srcFactor: "one",
+                    dstFactor: "one",
+                    operation: "add",
+                },
+                alpha: {
+                    srcFactor: "one",
+                    dstFactor: "one",
+                    operation: "add",
+                },
+            }];
         }
 
 
-        this.blitMaterial.uniforms.setTexture("inputTexture",input)
+        this.blitMaterial.uniforms.setTexture("inputTexture", input)
 
 
         this.blit = new Blit(renderer, 'Kawase', this.blitMaterial)
@@ -70,9 +68,6 @@ if(down){
 
 
     }
-
-
-
 
 
 }

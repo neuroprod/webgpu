@@ -7,24 +7,25 @@ import ModelTransform from "../lib/model/ModelTransform";
 import {Vector4} from "math.gl";
 
 
-export default class LightMeshShader extends Shader{
+export default class LightMeshShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
 
 
         }
 
-        this.addUniform("color",new Vector4(1,1,1,1));
+        this.addUniform("color", new Vector4(1, 1, 1, 1));
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -61,7 +62,6 @@ fn mainFragment() -> @location(0) vec4f
         
         `
     }
-
 
 
 }

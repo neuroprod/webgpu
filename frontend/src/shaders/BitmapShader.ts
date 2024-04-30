@@ -5,23 +5,24 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
 
-export default class BitmapShader extends Shader{
+export default class BitmapShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("alpha",1);
-        this.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer));
+        this.addUniform("alpha", 1);
+        this.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer));
         this.addSampler("mySampler");
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -60,7 +61,6 @@ let t = textureSample(colorTexture, mySampler,  uv0) ;
               
         `
     }
-
 
 
 }

@@ -1,46 +1,45 @@
 import Shader from "../lib/core/Shader";
-
-import DefaultTextures from "../lib/textures/DefaultTextures";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
-import {cubeShadow, fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
+import {cubeShadow, getWorldFromUVDepth} from "./ShaderChunks";
 import {Vector3, Vector4} from "math.gl";
 import {AddressMode, TextureViewDimension} from "../lib/WebGPUConstants";
 
-export default class FogShader extends Shader{
+export default class FogShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aNormal", ShaderType.vec3);
 
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform("pointlightPos",new Vector4(1,0.7,0.7,0.1))
-        this.addUniform("pointlightColor",new Vector4(1,0.7,0.7,0.1))
+        this.addUniform("pointlightPos", new Vector4(1, 0.7, 0.7, 0.1))
+        this.addUniform("pointlightColor", new Vector4(1, 0.7, 0.7, 0.1))
         this.addUniform("time", 0);
-        this.addTexture("shadowCubeDebug",this.renderer.texturesByLabel["ShadowCubeColor1"],"float",TextureViewDimension.Cube)
-        this.addTexture("gDepth",this.renderer.texturesByLabel["GDepth"],"unfilterable-float");
-        this.addTexture("fog",this.renderer.texturesByLabel["fog.png"],"float");
-        this.addTexture("noise",this.renderer.texturesByLabel["noiseTexture.png"],"float");
-        this.addSampler("mySampler",GPUShaderStage.FRAGMENT,AddressMode.MirrorRepeat);
+        this.addTexture("shadowCubeDebug", this.renderer.texturesByLabel["ShadowCubeColor1"], "float", TextureViewDimension.Cube)
+        this.addTexture("gDepth", this.renderer.texturesByLabel["GDepth"], "unfilterable-float");
+        this.addTexture("fog", this.renderer.texturesByLabel["fog.png"], "float");
+        this.addTexture("noise", this.renderer.texturesByLabel["noiseTexture.png"], "float");
+        this.addSampler("mySampler", GPUShaderStage.FRAGMENT, AddressMode.MirrorRepeat);
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getKernel() {
-        let numSamples =16;
+        let numSamples = 16;
         let s = "const kernel = array<vec3f, " + numSamples + ">(";
         for (let i = 0; i < numSamples; i++) {
             let v = new Vector3(
                 Math.random() * 2.0 - 1.0,
                 Math.random() * 2.0 - 1.0,
-                Math.random()* 2.0 - 1.0
+                Math.random() * 2.0 - 1.0
             );
             v.normalize();
 
@@ -52,6 +51,7 @@ export default class FogShader extends Shader{
         s += " );";
         return s;
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -132,7 +132,6 @@ alpha*=smoothstep(0.0,0.2,uv0.x)*smoothstep(0.0,0.2,1.0-uv0.x)*0.1;
               
         `
     }
-
 
 
 }

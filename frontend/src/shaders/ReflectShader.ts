@@ -1,7 +1,7 @@
 import Shader from "../lib/core/Shader";
 import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
-import {Vector3, Vector4} from "math.gl";
+import {Vector4} from "math.gl";
 import Camera from "../lib/Camera";
 import {fresnelSchlickRoughness, getWorldFromUVDepth, ssr} from "./ShaderChunks";
 
@@ -22,13 +22,12 @@ export default class ReflectShader extends Shader {
         this.addTexture("gDepth", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("gNormal", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("gMRA", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
-        this.addTexture("gColor",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+        this.addTexture("gColor", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         this.addTexture("reflectTexture", DefaultTextures.getWhite(this.renderer), "float")
         this.addSampler("mySampler");
         this.needsCamera = true;
 
     }
-
 
 
     getShaderCode(): string {

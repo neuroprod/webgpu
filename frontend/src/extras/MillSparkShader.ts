@@ -6,23 +6,24 @@ import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 
 
-export default class MillSparkShader extends Shader{
+export default class MillSparkShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
-            this.addAttribute("instanceData", ShaderType.vec4,1,"instance");
+            this.addAttribute("instanceData", ShaderType.vec4, 1, "instance");
         }
-       // this.addUniform("refSettings1", new Vector4());
+        // this.addUniform("refSettings1", new Vector4());
 
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -90,7 +91,6 @@ fn mainFragment(@location(0) uv0: vec2f) -> @location(0) vec4f
               
         `
     }
-
 
 
 }

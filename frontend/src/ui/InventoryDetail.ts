@@ -68,7 +68,6 @@ export default class InventoryDetail extends UIModel {
         this.items.push(item6)
 
 
-
     }
 
     update() {
@@ -94,7 +93,7 @@ export default class InventoryDetail extends UIModel {
         })
     }
 
-    show(data: any,hasClose:boolean =false) {
+    show(data: any, hasClose: boolean = false) {
         this.id = data as number
         for (let i = 0; i < this.items.length; i++) {
             let vis = false
@@ -103,7 +102,7 @@ export default class InventoryDetail extends UIModel {
 
 
         }
-        this.closeButton.visible =hasClose;
+        this.closeButton.visible = hasClose;
 
         gsap.killTweensOf(this);
         this.yOff = -50;

@@ -3,28 +3,28 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 
 
+export default class CombineShader extends Shader {
 
-export default class CombineShader extends Shader{
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
-        this.addUniform( "threshold",1);
-        this.addUniform( "softThreshold",0.1);
-        this.addUniform("pantsOffset",-1);
+        this.addUniform("threshold", 1);
+        this.addUniform("softThreshold", 0.1);
+        this.addUniform("pantsOffset", -1);
 
-        this.addTexture("glassTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("refTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("lightTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
-        this.addTexture("pantsTexture",DefaultTextures.getWhite(this.renderer),"unfilterable-float")
+        this.addTexture("glassTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("refTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("lightTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
+        this.addTexture("pantsTexture", DefaultTextures.getWhite(this.renderer), "unfilterable-float")
         // this.addSampler("mySampler");
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -104,7 +104,6 @@ fn mainFragment(@location(0)  uv0: vec2f) -> ColorOutput
 ///////////////////////////////////////////////////////////
         `
     }
-
 
 
 }

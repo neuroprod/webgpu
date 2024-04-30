@@ -1,106 +1,108 @@
 export default class TextBatchMaterial {
-  private device: GPUDevice;
-  private shader: GPUShaderModule;
-  public pipeLine!: GPURenderPipeline;
-  private pipelineLayout: GPUPipelineLayout;
-  private presentationFormat: GPUTextureFormat;
-  private needsDepth: boolean = true;
+    private device: GPUDevice;
+    private shader: GPUShaderModule;
+    public pipeLine!: GPURenderPipeline;
+    private pipelineLayout: GPUPipelineLayout;
+    private presentationFormat: GPUTextureFormat;
+    private needsDepth: boolean = true;
 
-  constructor(
-    device: GPUDevice,
-    presentationFormat: GPUTextureFormat,
-    mvpBindGroupLayout: GPUBindGroupLayout,
-    fontBindGroupLayout: GPUBindGroupLayout
-  ) {
-    this.device = device;
-    this.presentationFormat = presentationFormat;
-    this.shader = this.device.createShaderModule({
-      label: "UI_Shader_TextBatchMaterial",
-      code: this.getShader(),
-    });
-    this.pipelineLayout = this.device.createPipelineLayout({
-      label: "UI_PipelineLayout_TextBatchMaterial",
-      bindGroupLayouts: [mvpBindGroupLayout, fontBindGroupLayout],
-    });
-  }
-  makePipeline(needsDepth: boolean) {
-    if (this.pipeLine && this.needsDepth == needsDepth) return;
-
-    this.needsDepth = needsDepth;
-
-    let desc: GPURenderPipelineDescriptor = {
-      label: "UI_Pipeline_TextBatchMaterial",
-      layout: this.pipelineLayout,
-      vertex: {
-        module: this.shader,
-        entryPoint: "mainVertex",
-        buffers: [
-          {
-            arrayStride: 32,
-            attributes: [
-              {
-                // position
-                shaderLocation: 0,
-                offset: 0,
-                format: "float32x2",
-              },
-              {
-                // uv
-                shaderLocation: 1,
-                offset: 8,
-                format: "float32x2",
-              },
-              {
-                // color
-                shaderLocation: 2,
-                offset: 16,
-                format: "float32x4",
-              },
-            ],
-          },
-        ],
-      },
-      fragment: {
-        module: this.shader,
-        entryPoint: "mainFragment",
-        targets: [
-          {
-            format: this.presentationFormat,
-            blend: {
-              color: {
-                srcFactor: "one",
-                dstFactor: "one-minus-src-alpha",
-                operation: "add",
-              },
-              alpha: {
-                srcFactor: "one",
-                dstFactor: "one-minus-src-alpha",
-                operation: "add",
-              },
-            },
-          },
-        ],
-      },
-      primitive: {
-        topology: "triangle-list",
-      },
-
-      multisample: {
-        count: 4,
-      },
-    };
-    if (needsDepth) {
-      desc.depthStencil = {
-        depthWriteEnabled: false,
-        depthCompare: "less",
-
-        format: "depth16unorm",
-      };
+    constructor(
+        device: GPUDevice,
+        presentationFormat: GPUTextureFormat,
+        mvpBindGroupLayout: GPUBindGroupLayout,
+        fontBindGroupLayout: GPUBindGroupLayout
+    ) {
+        this.device = device;
+        this.presentationFormat = presentationFormat;
+        this.shader = this.device.createShaderModule({
+            label: "UI_Shader_TextBatchMaterial",
+            code: this.getShader(),
+        });
+        this.pipelineLayout = this.device.createPipelineLayout({
+            label: "UI_PipelineLayout_TextBatchMaterial",
+            bindGroupLayouts: [mvpBindGroupLayout, fontBindGroupLayout],
+        });
     }
-    this.pipeLine = this.device.createRenderPipeline(desc);
-  }
-  getShader() {
-    return /* wgsl */ `
+
+    makePipeline(needsDepth: boolean) {
+        if (this.pipeLine && this.needsDepth == needsDepth) return;
+
+        this.needsDepth = needsDepth;
+
+        let desc: GPURenderPipelineDescriptor = {
+            label: "UI_Pipeline_TextBatchMaterial",
+            layout: this.pipelineLayout,
+            vertex: {
+                module: this.shader,
+                entryPoint: "mainVertex",
+                buffers: [
+                    {
+                        arrayStride: 32,
+                        attributes: [
+                            {
+                                // position
+                                shaderLocation: 0,
+                                offset: 0,
+                                format: "float32x2",
+                            },
+                            {
+                                // uv
+                                shaderLocation: 1,
+                                offset: 8,
+                                format: "float32x2",
+                            },
+                            {
+                                // color
+                                shaderLocation: 2,
+                                offset: 16,
+                                format: "float32x4",
+                            },
+                        ],
+                    },
+                ],
+            },
+            fragment: {
+                module: this.shader,
+                entryPoint: "mainFragment",
+                targets: [
+                    {
+                        format: this.presentationFormat,
+                        blend: {
+                            color: {
+                                srcFactor: "one",
+                                dstFactor: "one-minus-src-alpha",
+                                operation: "add",
+                            },
+                            alpha: {
+                                srcFactor: "one",
+                                dstFactor: "one-minus-src-alpha",
+                                operation: "add",
+                            },
+                        },
+                    },
+                ],
+            },
+            primitive: {
+                topology: "triangle-list",
+            },
+
+            multisample: {
+                count: 4,
+            },
+        };
+        if (needsDepth) {
+            desc.depthStencil = {
+                depthWriteEnabled: false,
+                depthCompare: "less",
+
+                format: "depth16unorm",
+            };
+        }
+        this.pipeLine = this.device.createRenderPipeline(desc);
+    }
+
+    getShader() {
+        return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
 struct VertexOutput{
     @builtin(position) position : vec4f,
@@ -141,5 +143,5 @@ fn mainFragment(
 }
 ///////////////////////////////////////////////////////////
 `;
-  }
+    }
 }

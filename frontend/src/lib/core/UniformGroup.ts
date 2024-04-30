@@ -37,7 +37,7 @@ type StorageTextureUniform = {
     access: GPUStorageTextureAccess,
     dimension: GPUTextureViewDimension,
     baseMipLevel: number,
-    format:GPUTextureFormat,
+    format: GPUTextureFormat,
 }
 type SamplerUniform = {
     name: string,
@@ -50,7 +50,7 @@ export default class UniformGroup extends ObjectGPU {
     public static instance: UniformGroup
     public bindGroupLayout: GPUBindGroupLayout;
     public bindGroup: GPUBindGroup;
-   private isBufferDirty: boolean = true;
+    private isBufferDirty: boolean = true;
     public isBindGroupDirty: boolean = true;
     public uniforms: Array<Uniform> = [];
     public textureUniforms: Array<TextureUniform> = [];
@@ -58,7 +58,7 @@ export default class UniformGroup extends ObjectGPU {
     public samplerUniforms: Array<SamplerUniform> = [];
 
     public buffer!: GPUBuffer;
-    public visibility: GPUShaderStageFlags = GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT| GPUShaderStage.COMPUTE;
+    public visibility: GPUShaderStageFlags = GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT | GPUShaderStage.COMPUTE;
     private bufferData: Float32Array;
     private nameInShader: string;
     private typeInShader: string;
@@ -98,12 +98,13 @@ export default class UniformGroup extends ObjectGPU {
             offset: 0,
             usage: usage,
             dirty: true,
-            isSet:false,
+            isSet: false,
         }
 
         this.uniforms.push(u);
     }
-    addStorageTexture(name:string, value: Texture,format:GPUTextureFormat=TextureFormat.RGBA8Unorm,baseMipLevel=0){
+
+    addStorageTexture(name: string, value: Texture, format: GPUTextureFormat = TextureFormat.RGBA8Unorm, baseMipLevel = 0) {
         this.storageTextureUniforms.push({
 
             name: name,
@@ -111,10 +112,11 @@ export default class UniformGroup extends ObjectGPU {
             usage: GPUShaderStage.COMPUTE,
             access: "write-only",
             dimension: TextureDimension.TwoD,
-            format:format,
-            baseMipLevel:baseMipLevel
-        } )
+            format: format,
+            baseMipLevel: baseMipLevel
+        })
     }
+
     addTexture(name: string, value: Texture, sampleType: GPUTextureSampleType, dimension: GPUTextureViewDimension, usage: GPUShaderStageFlags) {
 
         value.useCount++;
@@ -135,16 +137,23 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addSampler(name: string, usage= GPUShaderStage.FRAGMENT,filter:GPUFilterMode=FilterMode.Linear,addressMode=AddressMode.ClampToEdge,maxAnisotropy:number=4) {
-        let sampler = this.renderer.device.createSampler({magFilter: filter, minFilter: filter,mipmapFilter:filter,addressModeU:addressMode,addressModeV:addressMode,maxAnisotropy:maxAnisotropy})
-        this.samplerUniforms.push({name: name, sampler: sampler, usage:  usage, compare: false})
+    addSampler(name: string, usage = GPUShaderStage.FRAGMENT, filter: GPUFilterMode = FilterMode.Linear, addressMode = AddressMode.ClampToEdge, maxAnisotropy: number = 4) {
+        let sampler = this.renderer.device.createSampler({
+            magFilter: filter,
+            minFilter: filter,
+            mipmapFilter: filter,
+            addressModeU: addressMode,
+            addressModeV: addressMode,
+            maxAnisotropy: maxAnisotropy
+        })
+        this.samplerUniforms.push({name: name, sampler: sampler, usage: usage, compare: false})
 
 
         //let sampler =this.renderer.device.createSampler({magFilter:"linear",minFilter:"linear" })
         //this.samplerUniforms.push({name:name,sampler:sampler,usage:GPUShaderStage.FRAGMENT})
     }
 
-    setUniform(name: string, value:Float32Array | MathArray | number) {
+    setUniform(name: string, value: Float32Array | MathArray | number) {
         const found = this.uniforms.find((element) => element.name == name);
 
         if (found) {
@@ -161,11 +170,11 @@ export default class UniformGroup extends ObjectGPU {
                     this.bufferData.set(found.data as ArrayLike<number>, found.offset)
 
                 }
-                found.isSet =true;
+                found.isSet = true;
             }
 
         } else {
-            console.log("uniform not found", name, value,this.label)
+            console.log("uniform not found", name, value, this.label)
         }
 
     }
@@ -178,14 +187,14 @@ export default class UniformGroup extends ObjectGPU {
             found.texture = value;
             this.isBindGroupDirty = true;
         } else {
-            console.log("uniform texture not found", name, value,this.label)
+            console.log("uniform texture not found", name, value, this.label)
         }
 
     }
 
     update() {
 
-       this.updateData();
+        this.updateData();
 
         for (let t of this.textureUniforms) {
             if (!t.texture) {
@@ -203,13 +212,13 @@ export default class UniformGroup extends ObjectGPU {
 
 
         }
-        if (!this.bindGroup  ) {
+        if (!this.bindGroup) {
             this.makeBuffer();
             this.makeBindGroupLayout()
             this.updateBindGroup()
 
 
-        } else if(this.buffer) {
+        } else if (this.buffer) {
 
             if (this.isBufferDirty) {
 
@@ -269,11 +278,9 @@ struct ${this.typeInShader}
                 } else if (s.dimension == TextureViewDimension.TwoD) {
                     if (s.sampleType == "depth") {
                         textureType = "texture_depth_2d"
-                    }
-                    else if(s.sampleType=="uint"){
+                    } else if (s.sampleType == "uint") {
                         textureType = "texture_2d<u32>"
-                    }
-                    else {
+                    } else {
 
                         textureType = "texture_2d<f32>"
                     }
@@ -336,13 +343,13 @@ struct ${this.typeInShader}
             })
             bindingCount++;
         }
-       for (let t of this.storageTextureUniforms) {
+        for (let t of this.storageTextureUniforms) {
             entriesLayout.push({
                 binding: bindingCount,
                 visibility: t.usage,
                 storageTexture: {
                     access: t.access,
-                    format:t.format,
+                    format: t.format,
                     viewDimension: t.dimension,
 
 
@@ -451,7 +458,11 @@ struct ${this.typeInShader}
             entries.push(
                 {
                     binding: bindingCount,
-                    resource: t.texture.textureGPU.createView({dimension: t.dimension,mipLevelCount:1,baseMipLevel:t.baseMipLevel}),
+                    resource: t.texture.textureGPU.createView({
+                        dimension: t.dimension,
+                        mipLevelCount: 1,
+                        baseMipLevel: t.baseMipLevel
+                    }),
 
                 }
             )

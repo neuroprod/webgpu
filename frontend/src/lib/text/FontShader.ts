@@ -1,33 +1,32 @@
 import Shader from "../core/Shader";
 import {ShaderType} from "../core/ShaderTypes";
-
-import DefaultTextures from "../textures/DefaultTextures";
 import Camera from "../Camera";
 import ModelTransform from "../model/ModelTransform";
 import {Vector4} from "math.gl";
 
 
-export default class FontShader extends Shader{
+export default class FontShader extends Shader {
 
 
-    init(){
+    init() {
 
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aTangent", ShaderType.vec4);
 
         }
-        this.addUniform("fontEdge",new Vector4());
-        this.addUniform("alpha",1);
-        this.addUniform("time",0);
-        this.addTexture("colorTexture",this.renderer.texturesByLabel["Font.png"]);
+        this.addUniform("fontEdge", new Vector4());
+        this.addUniform("alpha", 1);
+        this.addUniform("time", 0);
+        this.addTexture("colorTexture", this.renderer.texturesByLabel["Font.png"]);
 
         this.addSampler("mySampler");
 
-        this.needsTransform =true;
-        this.needsCamera=true;
+        this.needsTransform = true;
+        this.needsCamera = true;
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -77,7 +76,6 @@ fn mainFragment(@location(0) uv0: vec3f) -> @location(0) vec4f
               
         `
     }
-
 
 
 }

@@ -3,22 +3,22 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 
 
+export default class FXAAShader extends Shader {
 
-export default class FXAAShader extends Shader{
 
+    init() {
 
-    init(){
-
-        if(this.attributes.length==0) {
+        if (this.attributes.length == 0) {
             this.addAttribute("aPos", ShaderType.vec3);
             this.addAttribute("aUV0", ShaderType.vec2);
 
         }
 
-        this.addTexture("screenTexture",DefaultTextures.getWhite(this.renderer),"float")
+        this.addTexture("screenTexture", DefaultTextures.getWhite(this.renderer), "float")
         this.addSampler("samp");
 
     }
+
     getShaderCode(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////      
@@ -276,7 +276,6 @@ fn mainFragment(@location(0)  uv0: vec2f) -> @location(0) vec4f
 ///////////////////////////////////////////////////////////
         `
     }
-
 
 
 }

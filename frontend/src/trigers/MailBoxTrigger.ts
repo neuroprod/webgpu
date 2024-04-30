@@ -1,30 +1,31 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGold, StateHighTech, Transitions} from "../../public/GameModel";
+import GameModel, {Transitions} from "../../public/GameModel";
 import {CURSOR} from "../ui/Cursor";
-import {Vector3} from "math.gl";
 
-export default class MailBoxTrigger extends HitTrigger{
+export default class MailBoxTrigger extends HitTrigger {
 
 
     protected click() {
         GameModel.sound.playClick(0.2)
-            GameModel.setTransition(Transitions.TEXT_INFO,"noMail")
-            return;
+        GameModel.setTransition(Transitions.TEXT_INFO, "noMail")
+        return;
 
 
     }
-    onCompleteWalk(){
+
+    onCompleteWalk() {
         // GameModel.setTransition(Transitions.PICK_FLOWER);
 
     }
+
     public over() {
-        GameModel.outlinePass.setModel( GameModel.renderer.modelByLabel["mailBox"]);
+        GameModel.outlinePass.setModel(GameModel.renderer.modelByLabel["mailBox"]);
         GameModel.gameUI.cursor.show(CURSOR.LOOK)
 
     }
 
     public out() {
-        GameModel.outlinePass.setModel( null);
+        GameModel.outlinePass.setModel(null);
         GameModel.gameUI.cursor.hide()
 
     }

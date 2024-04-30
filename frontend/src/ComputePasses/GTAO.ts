@@ -24,35 +24,33 @@ export default class GTAO {
         this.uniformGroup = new UniformGroup(this.renderer, "GTAO", "uniforms")
 
 
-
-
         this.texture = new RenderTexture(renderer, "GTAO", {
             usage: GPUTextureUsage.COPY_DST |
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
-            scaleToCanvas :true,
-            sizeMultiplier:1,
+            scaleToCanvas: true,
+            sizeMultiplier: 1,
 
-            format:TextureFormat.R32Float,
+            format: TextureFormat.R32Float,
         })
         this.textureDepth = new RenderTexture(renderer, "GTAODepth", {
             usage: GPUTextureUsage.COPY_DST |
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
-            scaleToCanvas :true,
-            sizeMultiplier:1,
+            scaleToCanvas: true,
+            sizeMultiplier: 1,
 
-            format:TextureFormat.R32Uint,
+            format: TextureFormat.R32Uint,
         })
 
-        this.uniformGroup.addUniform("aoSettings",new Vector4(2,3,1,0)as MathArray);
-        this.uniformGroup.addTexture("noise",DefaultTextures.getMagicNoise(this.renderer),"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-      //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-        this.uniformGroup.addTexture("preprocessed_depth",this.renderer.texturesByLabel["AOPreprocessedDepth"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-        this.uniformGroup.addTexture("normals",this.renderer.texturesByLabel["GNormal"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addUniform("aoSettings", new Vector4(2, 3, 1, 0) as MathArray);
+        this.uniformGroup.addTexture("noise", DefaultTextures.getMagicNoise(this.renderer), "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addTexture("preprocessed_depth", this.renderer.texturesByLabel["AOPreprocessedDepth"], "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
+        this.uniformGroup.addTexture("normals", this.renderer.texturesByLabel["GNormal"], "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addStorageTexture("ambient_occlusion", this.texture, TextureFormat.R32Float);
         this.uniformGroup.addStorageTexture("depth_differences", this.textureDepth, TextureFormat.R32Uint);
-        this.uniformGroup.addSampler("point_clamp_sampler",GPUShaderStage.COMPUTE,FilterMode.Linear)
+        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Linear)
 
     }
 
@@ -65,17 +63,17 @@ export default class GTAO {
         );
         this.passEncoder.setPipeline(this.getPipeLine());
         this.passEncoder.setBindGroup(0, this.uniformGroup.bindGroup);
-        this.passEncoder.setBindGroup(1,this.renderer.camera.bindGroup)
+        this.passEncoder.setBindGroup(1, this.renderer.camera.bindGroup)
         this.passEncoder.dispatchWorkgroups(Math.ceil(this.texture.options.width / 8), Math.ceil(this.texture.options.height / 8), 1);
 
         this.passEncoder.end();
     }
 
     getPipeLine() {
-        if(this.computePipeline)return this.computePipeline
+        if (this.computePipeline) return this.computePipeline
         this.pipeLineLayout = this.renderer.device.createPipelineLayout({
             label: "Compute_pipelineLayout_",
-            bindGroupLayouts: [this.uniformGroup.bindGroupLayout,this.renderer.camera.bindGroupLayout],
+            bindGroupLayouts: [this.uniformGroup.bindGroupLayout, this.renderer.camera.bindGroupLayout],
         });
 
         let shaderCode = this.getShaderCode()
