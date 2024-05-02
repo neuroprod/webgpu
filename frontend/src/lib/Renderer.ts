@@ -169,7 +169,7 @@ export default class Renderer {
     }
 
     private updateSize() {
-
+        //this.pixelRatio =1;
         if (this.width != this.canvas.width || this.height != this.canvas.height) {
             this.width = this.canvas.width;
             this.height = this.canvas.height;
