@@ -182,7 +182,7 @@ export default class Renderer {
                     t.resize(this.width, this.height);
                 } else {
                     let op = t.options as BaseRenderTextureOptions
-                    t.resize(this.width *op.sizeMultiplier  , this.height* op.sizeMultiplier);
+                    t.resize(this.width  , this.height);
                 }
             }
             this.notifyResizables()
