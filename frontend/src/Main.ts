@@ -125,7 +125,8 @@ export default class Main {
     private outsideCount: number = 0;
     private updateShadowOutside: boolean = false;
     private pants3D: Pants3D;
-
+    private highPerformance: boolean =true;
+    private performanceCount: number =0;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -565,6 +566,15 @@ export default class Main {
             //RenderSettings.onChange()
         }
 
+        if(Timer.fps<30 && this.highPerformance){
+           this.performanceCount++;
+         if(this.performanceCount>100){
+             this.highPerformance =false;
+             this.renderer.setLowPerformance();
+                      }
+        }else {
+            this.performanceCount =0;
+        }
         if (GameModel.debug)
             this.updateUI();
 

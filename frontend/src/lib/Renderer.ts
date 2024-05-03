@@ -45,6 +45,7 @@ export default class Renderer {
     public skin: Skin;
     public mipmapQueue: MipMapQueue
     selectedUIObject: Object3D;
+    private factor: number =1;
 
     constructor() {
     }
@@ -163,8 +164,13 @@ export default class Renderer {
             if (t.label == "canvasColor" || t.label == "canvasDepth") {
                 t.resize(this.width, this.height);
             } else {
-                t.resize(this.width , this.height );
+                t.resize(this.width/this.factor , this.height/this.factor );
             }
+
+        }
+        this.notifyResizables()
+        for (let t of this.scaleToCanvasTextures) {
+            t.make()
 
         }
     }
@@ -182,7 +188,7 @@ export default class Renderer {
                     t.resize(this.width, this.height);
                 } else {
                     let op = t.options as BaseRenderTextureOptions
-                    t.resize(this.width  , this.height);
+                    t.resize(this.width /this.factor , this.height/this.factor);
                 }
             }
             this.notifyResizables()
@@ -224,6 +230,17 @@ export default class Renderer {
         if (index >= 0)
             this.modelLabels = this.modelLabels.splice(index, 1)
         //this.modelLabels.push(model.label);
+    }
+
+    setLowPerformance() {
+        this.factor =this.pixelRatio;
+        this.forceRescaleTextures()
+
+    }
+    setHighPerformance() {
+        this.factor =1;
+        this.forceRescaleTextures()
+
     }
 }
 
