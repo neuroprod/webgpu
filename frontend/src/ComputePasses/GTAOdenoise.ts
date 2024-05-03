@@ -25,7 +25,7 @@ export default class GTAOdenoise {
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
             scaleToCanvas: true,
-            sizeMultiplier: 1,
+            sizeMultiplier:1,
 
             format: TextureFormat.R32Float,
         })

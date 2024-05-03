@@ -1,7 +1,7 @@
 import Texture from "./textures/Texture";
 import Material from "./core/Material";
 
-import RenderTexture from "./textures/RenderTexture";
+import RenderTexture, {BaseRenderTextureOptions} from "./textures/RenderTexture";
 
 
 import ColorAttachment from "./textures/ColorAttachment";
@@ -181,7 +181,8 @@ export default class Renderer {
                 if (t.label == "canvasColor" || t.label == "canvasDepth") {
                     t.resize(this.width, this.height);
                 } else {
-                    t.resize(this.width , this.height);
+                    let op = t.options as BaseRenderTextureOptions
+                    t.resize(this.width *op.sizeMultiplier  , this.height* op.sizeMultiplier);
                 }
             }
             this.notifyResizables()
