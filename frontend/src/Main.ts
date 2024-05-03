@@ -127,6 +127,7 @@ export default class Main {
     private pants3D: Pants3D;
     private highPerformance: boolean =true;
     private performanceCount: number =0;
+    private forcePerformance: boolean =false;
 
     constructor(canvas: HTMLCanvasElement) {
 
@@ -599,6 +600,17 @@ export default class Main {
                 gsap.globalTimeline.timeScale(1);
             }
         }
+        if(this.highPerformance || this.forcePerformance ){
+            UI.LText('HIGH',"Performance")
+        }else{
+            UI.LText('LOW',"Performance")
+            if (UI.LButton("Force High performance")) {
+                this.highPerformance =false;
+                this.forcePerformance =true;
+                this.renderer.setHighPerformance();
+            }
+        }
+
 
         if (UI.LButton("Hide Dev windows")) {
             GameModel.debug = false;
@@ -610,9 +622,9 @@ export default class Main {
             localStorage.removeItem("devData");
             UI.clearLocalData();
         }
-        UI.LVector("temp1", GameModel.temp1);
-        UI.LVector("temp2", GameModel.temp2);
-        UI.LColor("tempC", GameModel.tempC);
+      //  UI.LVector("temp1", GameModel.temp1);
+       // UI.LVector("temp2", GameModel.temp2);
+       // UI.LColor("tempC", GameModel.tempC);
         UI.separator("Windows");
 
         UIData.performance = (UI.LBool("Preformance", UIData.performance));
