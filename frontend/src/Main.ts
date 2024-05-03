@@ -604,7 +604,7 @@ export default class Main {
             UI.LText('HIGH',"Performance")
         }else{
             UI.LText('LOW',"Performance")
-            if (UI.LButton("Force High performance")) {
+            if (UI.LButton("Force HIGH performance")) {
                 this.highPerformance =false;
                 this.forcePerformance =true;
                 this.renderer.setHighPerformance();

@@ -25,7 +25,7 @@ class RenderSettings {
     public ref_settings1: Vector4 = new Vector4(1, 0, 0.01, 1.4);
     public ref_settings2: Vector4 = new Vector4(20, 10, 1, 0);
 
-    public dof_Settings: Vector4 = new Vector4(0.47, 0.8, 3, 1.5);
+    public dof_Settings: Vector4 = new Vector4(0.47, 0.8, 3, 3);
     public ao: GTAO;
     private aoLayers: number = 3;
     private aoSamples: number = 2;
