@@ -16,8 +16,8 @@ export default class CanvasManager {
     resize() {
         this.canvas.style.width = window.innerWidth + "px";
         this.canvas.style.height = window.innerHeight + "px";
-        this.canvas.width = window.innerWidth * this.pixelRatio;
-        this.canvas.height = window.innerHeight * this.pixelRatio;
+        this.canvas.width =Math.floor( window.innerWidth * this.pixelRatio);
+        this.canvas.height = Math.floor(window.innerHeight * this.pixelRatio);
         UI.setSize(this.canvas.width, this.canvas.height)
     }
 

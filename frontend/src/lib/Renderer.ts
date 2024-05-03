@@ -70,6 +70,7 @@ export default class Renderer {
         for (let a of adapter.features.keys()) {
             console.log(a)
         }
+        console.log(window.devicePixelRatio)
         //console.log("timestamps?", this.useTimeStampQuery)
         //let limits={
         //  maxUniformBufferBindingSize: Math.pow(2,18)
@@ -162,7 +163,7 @@ export default class Renderer {
             if (t.label == "canvasColor" || t.label == "canvasDepth") {
                 t.resize(this.width, this.height);
             } else {
-                t.resize(this.width / this.pixelRatio, this.height / this.pixelRatio);
+                t.resize(this.width , this.height );
             }
 
         }
@@ -211,7 +212,7 @@ export default class Renderer {
 
 
     removeModel(model: Model) {
-        console.log(this.uniformGroups.length)
+       
         let index = this.models.indexOf(model)
         if (index >= 0)
             this.models = this.models.splice(index, 1)
