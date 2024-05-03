@@ -212,7 +212,7 @@ export default class Renderer {
 
 
     removeModel(model: Model) {
-       
+
         let index = this.models.indexOf(model)
         if (index >= 0)
             this.models = this.models.splice(index, 1)
