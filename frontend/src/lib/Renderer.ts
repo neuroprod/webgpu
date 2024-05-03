@@ -180,7 +180,7 @@ export default class Renderer {
                 if (t.label == "canvasColor" || t.label == "canvasDepth") {
                     t.resize(this.width, this.height);
                 } else {
-                    t.resize(this.width / this.pixelRatio, this.height / this.pixelRatio);
+                    t.resize(this.width , this.height);
                 }
             }
             this.notifyResizables()
