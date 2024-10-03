@@ -34,7 +34,7 @@
       "object": "pictureFrame2",
       "copy": [
         "The legendary\n*GOLDEN UNDERPANTS*\nof Emperor Zhangzong.",
-        "They where stolen by\nGenghis Khan\nand are lost ever since.",
+        "They were stolen by\nGenghis Khan\nand lost ever since.",
         "Grandpa was obsessed by them."
       ]
     },
@@ -43,7 +43,7 @@
       "object": "pictureFrame1",
       "copy": [
         "Grandpa visiting\nthe Mongolian steppe",
-        "Looking for the\n*GOLDEN UNDERPANTS*"
+        "Looking for the\n*GOLDEN UNDERPANTS*."
       ]
     },
     {
@@ -75,7 +75,7 @@
       "copy": [
         "Two years have passed\nsince *GRANDPA* Died.",
         "He always went\non adventures.",
-        "Looking for the\n*GOLDEN UNDERPANTS*\nof Genghis Khan",
+        "Looking for the\n*GOLDEN UNDERPANTS*\nof Genghis Khan.",
         "I just spend my days\nmaking websites.",
         "Very little ever\nhappens to me."
       ]
@@ -98,7 +98,7 @@
       "copy": [
         "An\n*UNDERWEAR SIMULATOR*\n?",
         "...",
-        "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*",
+        "The AD AGENCY wants\nme to make an\n*UNDERWEAR SIMULATOR*.",
         "Oh well..."
       ]
     },
@@ -117,7 +117,7 @@
     {
       "object": "makeTriangleFirst",
       "copy": [
-        "I should should start\nworking on the\n*UNDERWEAR SIMULATOR*"
+        "I should should start\nworking on the\n*UNDERWEAR SIMULATOR*."
       ]
     },
     {
@@ -125,10 +125,10 @@
       "copy": [
         "First things first!\nLet's start with\nrendering a triangle!",
         "The building block\nof worlds!",
-        "and\n*UNDERWEAR\nSIMULATORS*",
+        "and\n*UNDERWEAR\nSIMULATORS*.",
         "Now slap on\nsome textures.",
         "Add shading!",
-        "and its done."
+        "and it's done."
       ]
     },
 
@@ -150,13 +150,13 @@
         "They liked\nthe simulator!",
         "And the Ad Agency\nwon a lot of *AWARDS*.",
         "They seem to like that.",
-        "Ow,\nthey send me a *PACKAGE*?"
+        "Ow,\nthey sent me a *PACKAGE*?"
       ]
     },
     {
       "object": "checkMailBox",
       "copy": [
-        "Let's check the *MAILBOX*.\nMaybe it already arrived."
+        "Let's check the *MAILBOX*.\nMaybe it has already arrived."
       ]
     },
     {
@@ -178,14 +178,14 @@
         "Here lies Grandpa.",
         "He died the\nway he lived.",
         "...",
-        "... ?"
+        "...?"
       ]
     },
     {
       "object": "findHunter",
       "copy": [
         "Looks like some\nnice underpants!",
-        "A hunter must have lost it\nwhile roaming this woods.",
+        "A hunter must have lost them\nwhile roaming these woods.",
         "I'll take them!"
       ]
     },
@@ -194,7 +194,7 @@
       "copy": [
         "Grandpa kept his notes\nin that bookcase.",
         "But it's locked.",
-        "Maybe I should\n*make a KEY* for it!"
+        "Maybe I should\n*Make a KEY* for it!"
       ]
     },
     {
@@ -213,7 +213,7 @@
       "object": "millRun",
       "copy": [
         "So, let's make that *KEY*.",
-        "It's going to take a\nwhile before its finished.",
+        "It's going to take a\nwhile before it's finished.",
         "Let's do some other things\nin the meantime."
       ]
     },
@@ -221,8 +221,8 @@
       "random": true,
       "object": "millWait",
       "copy": [
-        "It's running",
-        "It's going to take a while"
+        "It's still running.",
+        "It's going to take a while."
       ]
     },
     {
@@ -240,13 +240,13 @@
     {
       "object": "findNote",
       "copy": [
-        "A letter from grandpa!"
+        "A letter from Grandpa!"
       ]
     },
     {
       "object": "findNoteEnd",
       "copy": [
-        "Let's go check that *GRAVE*!"
+        "Let's go check out that *GRAVE*!"
       ]
     },
     {
@@ -264,7 +264,7 @@
     {
       "object": "diggHand",
       "copy": [
-        "I'm not going to dig\nhim up with my hands."
+        "I'm not going to dig\nhim up with my bare hands."
       ]
     },
     {
@@ -276,7 +276,7 @@
     {
       "object": "flowerPreBloom",
       "copy": [
-        "the *GLOWING FLOWER* plant\nIt can bloom any time now."
+        "The *GLOWING FLOWER* plant\nIt can bloom any time now."
       ]
     },
     {
@@ -289,7 +289,7 @@
     {
       "object": "pickFlower",
       "copy": [
-        "Finally, this will\nhelp me finish\nmy *INVENTION*",
+        "Finally, this will\nhelp me finish\nmy *INVENTION*.",
         "I'll take it!"
       ]
     },
@@ -302,7 +302,7 @@
     {
       "object": "machineDone",
       "copy": [
-        "I think its done!"
+        "I think it's done!"
       ]
     },
     {
@@ -350,7 +350,7 @@
       "object": "findGrandpaPants",
       "copy": [
         "The fish left me a gift!",
-        "It's the old underpants\nof grandpa!",
+        "It's the old underpants\nof Grandpa!",
         "I assumed he was\nburied in them?"
       ]
     },
@@ -369,7 +369,7 @@
       ]
     },
     {
-      "object": " birdHouseFixLater",
+      "object": "birdHouseFixLater",
       "copy": [
         "I'll fix it\nlater."
       ]
@@ -429,7 +429,7 @@
     {
       "object": "shouldFixBirdhouse",
       "copy": [
-        "I should try to fix\nthat *BIRDHOUSE*"
+        "I should try to fix\nthat *BIRDHOUSE*."
       ]
     },
     {
