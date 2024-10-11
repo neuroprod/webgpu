@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateGrandpa} from "../../public/GameModel";
+import GameModel, {StateGrandpa} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class TakeFishFood extends Transition {

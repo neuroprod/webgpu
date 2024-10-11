@@ -20,7 +20,7 @@ import ColorV from "../lib/ColorV";
 
 import GlobalLightOutsideShader from "../shaders/GlobalLightOutsideShader";
 import RenderSettings from "../RenderSettings";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 import Object3D from "../lib/core/Object3D";
 import ModelRenderer from "../lib/model/ModelRenderer";
 import PointLight from "./PointLight";

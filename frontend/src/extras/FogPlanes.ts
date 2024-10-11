@@ -7,7 +7,7 @@ import Timer from "../lib/Timer";
 import {Vector4} from "math.gl";
 import Object3D from "../lib/core/Object3D";
 import {BlendFactor, BlendOperation} from "../lib/WebGPUConstants";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 
 export default class FogPlanes {
     private renderer: Renderer;

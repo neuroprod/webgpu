@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {MillState, StateGold} from "../../public/GameModel";
+import GameModel, {MillState, StateGold} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class StartMill extends Transition {

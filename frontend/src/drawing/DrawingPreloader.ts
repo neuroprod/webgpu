@@ -2,7 +2,7 @@ import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import DrawingLoader from "./DrawingLoader";
 import Drawing from "./Drawing";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 import {preloadDrawings} from "../PreloadData";
 
 

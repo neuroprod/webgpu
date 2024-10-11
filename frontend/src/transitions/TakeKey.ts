@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateGold} from "../../public/GameModel";
+import GameModel, {StateGold} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class TakeKey extends Transition {

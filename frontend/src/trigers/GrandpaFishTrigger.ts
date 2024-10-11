@@ -1,5 +1,5 @@
 import Trigger from "./Trigger";
-import GameModel, {Scenes, StateGrandpa} from "../../public/GameModel";
+import GameModel, {Scenes, StateGrandpa} from "../GameModel";
 
 export default class GrandpaFishTrigger extends Trigger {
     constructor(scene: Scenes) {

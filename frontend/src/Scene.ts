@@ -2,7 +2,7 @@ import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
 import GLFTLoader from "./GLFTLoader";
 import Ray from "./lib/Ray";
-import GameModel, {Scenes} from "../public/GameModel";
+import GameModel, {Scenes} from "./GameModel";
 import {Vector3} from "math.gl";
 
 export default class Scene {

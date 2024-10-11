@@ -15,7 +15,7 @@ import Clock from "./extras/Clock";
 import {Osc2Screen} from "./extras/Osc2Screen";
 import {Osc1Screen} from "./extras/Osc1Screen";
 import Machine from "./extras/Machine";
-import GameModel, {StateFasion, StateGold, StateGrandpa, StateHighTech} from "../public/GameModel";
+import GameModel, {StateFasion, StateGold, StateGrandpa, StateHighTech} from "./GameModel";
 
 
 import Model from "./lib/model/Model";

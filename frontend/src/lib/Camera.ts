@@ -3,7 +3,7 @@ import Renderer from "./Renderer";
 import {lerp, Matrix4, Vector2, Vector3, Vector4} from "math.gl";
 import UI from "./UI/UI";
 import Model from "./model/Model";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 
 export default class Camera extends UniformGroup {
     public static instance: Camera;

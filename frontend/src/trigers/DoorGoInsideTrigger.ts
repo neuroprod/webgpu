@@ -7,7 +7,7 @@ import GameModel, {
     StateHighTech,
     StateHunter,
     Transitions
-} from "../../public/GameModel";
+} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 

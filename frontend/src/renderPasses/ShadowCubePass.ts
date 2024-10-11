@@ -8,7 +8,7 @@ import ModelRenderer from "../lib/model/ModelRenderer";
 import Model from "../lib/model/Model";
 
 import Camera from "../lib/Camera";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 
 
 export default class ShadowCubePass extends RenderPass {

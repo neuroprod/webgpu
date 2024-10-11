@@ -10,7 +10,7 @@ import UI from "../lib/UI/UI";
 import Timer from "../lib/Timer";
 import gsap from "gsap";
 import {NumericArray, Quaternion} from "math.gl";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 import Pants3DEndShader from "./Pants3DEndShader";
 
 export enum PantsState {

@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGold, Transitions} from "../../public/GameModel";
+import GameModel, {StateGold, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class DigGraveTrigger extends HitTrigger {

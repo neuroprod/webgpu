@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateHighTech, Transitions} from "../../public/GameModel";
+import GameModel, {StateHighTech, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class HighTechPantsTrigger extends HitTrigger {

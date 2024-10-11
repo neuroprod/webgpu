@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {Transitions} from "../../public/GameModel";
+import GameModel, {Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class StickTrigger extends HitTrigger {

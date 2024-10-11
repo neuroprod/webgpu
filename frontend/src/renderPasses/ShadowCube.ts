@@ -6,7 +6,7 @@ import Camera from "../lib/Camera";
 import {Vector3} from "math.gl";
 
 import Model from "../lib/model/Model";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 
 
 export default class ShadowCube {

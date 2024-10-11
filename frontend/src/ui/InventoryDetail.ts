@@ -1,7 +1,7 @@
 import UIBitmapModel from "../lib/model/UIBitmapModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
-import GameModel, {UIState} from "../../public/GameModel";
+import GameModel, {UIState} from "../GameModel";
 import gsap from "gsap";
 import CloseButton from "./CloseButton";
 import UseButton from "./UseButton";

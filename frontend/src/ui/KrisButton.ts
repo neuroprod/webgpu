@@ -2,7 +2,7 @@ import UIBitmapModel from "../lib/model/UIBitmapModel";
 import Renderer from "../lib/Renderer";
 import PreLoader from "../lib/PreLoader";
 import gsap from "gsap";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 
 
 export default class KrisButton extends UIBitmapModel {

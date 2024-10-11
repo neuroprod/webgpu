@@ -1,7 +1,7 @@
 import Camera from "./lib/Camera";
 import {Vector2, Vector3} from "math.gl";
 import Renderer from "./lib/Renderer";
-import GameModel, {Scenes, StateGold} from "../public/GameModel";
+import GameModel, {Scenes, StateGold} from "./GameModel";
 import Timer from "./lib/Timer";
 
 export default class GameCamera {

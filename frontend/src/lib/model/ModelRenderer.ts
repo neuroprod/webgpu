@@ -1,7 +1,7 @@
 import Model from "./Model";
 import RenderPass from "../core/RenderPass";
 import Renderer from "../Renderer";
-import GameModel from "../../../public/GameModel";
+import GameModel from "../../GameModel";
 
 export default class ModelRenderer {
 

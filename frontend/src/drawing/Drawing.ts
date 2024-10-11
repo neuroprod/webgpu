@@ -43,6 +43,7 @@ export default class Drawing extends Model {
     }
 
     update() {
+
         if (this.visible) {
 
             let target = this.offset.clone();
@@ -57,6 +58,10 @@ export default class Drawing extends Model {
 
         this.firstDrawInstances = Math.floor(this.start * this.numDrawInstancesMax);
         this.numDrawInstances = Math.floor(this.progress * this.numDrawInstancesMax) - this.firstDrawInstances;
+       // if(this.label=='drawings/intro_world.bin' && this.progress!=1&& this.progress!=0)
+         //   console.log(this.progress, this.numDrawInstances,this.label)
+        //this.numDrawInstances =0
+//Math.min(  this.numDrawInstances,this.numDrawInstancesMax);
         super.update()
     }
 

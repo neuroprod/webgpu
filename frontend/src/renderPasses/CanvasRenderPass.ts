@@ -13,7 +13,7 @@ import SelectItem from "../lib/UI/math/SelectItem";
 import RenderSettings from "../RenderSettings";
 
 import FontMeshRenderer from "../lib/text/FontMeshRenderer";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 
 

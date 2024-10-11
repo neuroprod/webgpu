@@ -48,7 +48,7 @@ export default class DrawingRenderer {
                 }
             }
 
-            if (model.mesh.hasIndices) {
+            if (model.mesh.hasIndices && model.mesh.indexBuffer ) {
 
                 passEncoder.setIndexBuffer(model.mesh.indexBuffer, model.mesh.indexFormat);
                 passEncoder.drawIndexed(

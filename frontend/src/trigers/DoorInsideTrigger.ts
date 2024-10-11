@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateFasion, Transitions} from "../../public/GameModel";
+import GameModel, {StateFasion, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class DoorInsideTrigger extends HitTrigger {

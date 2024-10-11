@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {Pants, StateGold, Transitions} from "../../public/GameModel";
+import GameModel, {Pants, StateGold, Transitions} from "../GameModel";
 import {Vector3} from "math.gl";
 import {CURSOR} from "../ui/Cursor";
 

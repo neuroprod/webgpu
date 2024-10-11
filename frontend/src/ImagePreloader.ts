@@ -2,7 +2,7 @@ import Renderer from "./lib/Renderer";
 import PreLoader from "./lib/PreLoader";
 import {preloadImages} from "./PreloadData";
 import TextureLoader from "./lib/textures/TextureLoader";
-import GameModel from "../public/GameModel";
+import GameModel from "./GameModel";
 
 
 class ImagePreloader {

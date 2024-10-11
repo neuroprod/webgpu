@@ -5,7 +5,7 @@ import UI from "../lib/UI/UI";
 import Drawing from "./Drawing";
 import Renderer from "../lib/Renderer";
 import SelectItem from "../lib/UI/math/SelectItem";
-import GameModel from "../../public/GameModel";
+import GameModel from "../GameModel";
 import ColorV from "../lib/ColorV";
 import gsap from "gsap";
 import {saveToBinFile} from "../lib/SaveUtils";

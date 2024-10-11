@@ -6,7 +6,7 @@ import JSONLoader from "./JSONLoader";
 import Model from "./lib/model/Model";
 import Font, {TEXT_ALIGN} from "./lib/text/Font";
 import FontMeshRenderer from "./lib/text/FontMeshRenderer";
-import GameModel from "../public/GameModel";
+import GameModel from "./GameModel";
 import Material from "./lib/core/Material";
 import FontShader from "./lib/text/FontShader";
 import {BlendFactor, BlendOperation} from "./lib/WebGPUConstants";

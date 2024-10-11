@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {Scenes} from "../../public/GameModel";
+import GameModel, {Scenes} from "../GameModel";
 import Timeline from "gsap";
 import RenderSettings from "../RenderSettings";
 import {CURSOR} from "../ui/Cursor";

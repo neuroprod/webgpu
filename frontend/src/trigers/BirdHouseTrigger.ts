@@ -1,5 +1,5 @@
 import HitTrigger from "./HitTrigger";
-import GameModel, {StateGirl, Transitions} from "../../public/GameModel";
+import GameModel, {StateGirl, Transitions} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 
 export default class BirdHouseTrigger extends HitTrigger {

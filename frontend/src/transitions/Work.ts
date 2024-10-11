@@ -1,5 +1,5 @@
 import Transition from "./Transition";
-import GameModel, {StateFasion, StateGirl, StateHighTech} from "../../public/GameModel";
+import GameModel, {StateFasion, StateGirl, StateHighTech} from "../GameModel";
 import {CURSOR} from "../ui/Cursor";
 import {PantsState} from "../extras/Pants3D";
 
