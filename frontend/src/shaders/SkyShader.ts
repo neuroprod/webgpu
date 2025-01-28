@@ -3,7 +3,7 @@ import {ShaderType} from "../lib/core/ShaderTypes";
 import Camera from "../lib/Camera";
 import ModelTransform from "../lib/model/ModelTransform";
 import {Vector4} from "math.gl";
-import {MathArray} from "@math.gl/core/src/classes/base/math-array";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 
 export default class SkyShader extends Shader {
 

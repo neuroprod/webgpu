@@ -2,7 +2,7 @@ import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
 import Attribute from "./Attribute";
 import UniformGroup from "./UniformGroup";
-import {MathArray} from "@math.gl/core/src/classes/base/math-array";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 import Material from "./Material";
 import Texture from "../textures/Texture";
 import {AddressMode, FilterMode, TextureDimension} from "../WebGPUConstants";

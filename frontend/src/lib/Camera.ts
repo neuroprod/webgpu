@@ -4,7 +4,7 @@ import {lerp, Matrix4, NumericArray, Vector2, Vector3, Vector4} from "math.gl";
 import UI from "./UI/UI";
 import Model from "./model/Model";
 import GameModel from "../GameModel";
-import {MathArray} from "@math.gl/core/src/classes/base/math-array";
+
 
 export default class Camera extends UniformGroup {
     public static instance: Camera;

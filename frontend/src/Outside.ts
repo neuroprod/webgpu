@@ -22,7 +22,7 @@ import GlassGlowShader from "./shaders/GlassGlowShader";
 
 import SkyShader from "./shaders/SkyShader";
 import RenderSettings from "./RenderSettings";
-import {MathArray} from "@math.gl/core/src/classes/base/math-array";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 import SparkShader from "./extras/SparkShader";
 import Plane from "./lib/meshes/Plane";
 import gsap from "gsap";

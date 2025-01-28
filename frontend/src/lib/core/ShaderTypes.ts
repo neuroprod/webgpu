@@ -1,4 +1,4 @@
-import {MathArray} from "@math.gl/core/src/classes/base/math-array";
+import MathArray from "@math.gl/core/src/classes/base/math-array";
 
 
 export const ShaderType = {
