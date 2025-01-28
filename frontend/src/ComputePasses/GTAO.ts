@@ -6,7 +6,7 @@ import RenderTexture from "../lib/textures/RenderTexture";
 import Camera from "../lib/Camera";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector4} from "math.gl";
-import MathArray   from "@math.gl/core/src/classes/base/math-array";
+
 
 export default class GTAO {
     private renderer: Renderer;
@@ -43,7 +43,7 @@ export default class GTAO {
             format: TextureFormat.R32Uint,
         })
 
-        this.uniformGroup.addUniform("aoSettings", new Vector4(2, 3, 1, 0) as MathArray);
+        this.uniformGroup.addUniform("aoSettings", new Vector4(2, 3, 1, 0) );
         this.uniformGroup.addTexture("noise", DefaultTextures.getMagicNoise(this.renderer), "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addTexture("preprocessed_depth", this.renderer.texturesByLabel["AOPreprocessedDepth"], "float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
