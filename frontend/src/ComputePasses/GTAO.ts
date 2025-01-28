@@ -6,7 +6,7 @@ import RenderTexture from "../lib/textures/RenderTexture";
 import Camera from "../lib/Camera";
 import DefaultTextures from "../lib/textures/DefaultTextures";
 import {Vector4} from "math.gl";
-import MathArray from "@math.gl/core/src/classes/base/math-array";
+import { MathArray }  from "@math.gl/core/src/classes/base/math-array";
 
 export default class GTAO {
     private renderer: Renderer;

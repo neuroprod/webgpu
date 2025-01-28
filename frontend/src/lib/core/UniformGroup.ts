@@ -1,6 +1,6 @@
 import ObjectGPU from "./ObjectGPU";
 import Renderer from "../Renderer";
-import MathArray from "@math.gl/core/src/classes/base/math-array";
+import {MathArray} from "@math.gl/core/src/classes/base/math-array";
 import Texture from "../textures/Texture";
 import {
     AddressMode,
@@ -11,12 +11,13 @@ import {
     TextureViewDimension
 } from "../WebGPUConstants";
 import {getSizeForShaderType, ShaderType} from "./ShaderTypes";
+import {NumericArray} from "math.gl";
 
 type Uniform = {
     isSet: boolean,
     name: string,
     size: number,
-    data: MathArray | number | Float32Array,
+    data: MathArray | number | Float32Array| NumericArray,
     offset: number,
     usage: GPUShaderStageFlags,
     dirty: boolean
@@ -73,7 +74,7 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    addUniform(name: string, value: MathArray | number | Float32Array, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
+    addUniform(name: string, value: MathArray|NumericArray | number | Float32Array, usage: GPUShaderStageFlags = GPUShaderStage.FRAGMENT, format = ShaderType.auto, arraySize = 1) {
         const found = this.uniforms.find((element) => element.name == name);
         if (found) {
             console.log("uniform already exist " + this.label + " " + name)
@@ -154,7 +155,7 @@ export default class UniformGroup extends ObjectGPU {
         //this.samplerUniforms.push({name:name,sampler:sampler,usage:GPUShaderStage.FRAGMENT})
     }
 
-    setUniform(name: string, value: Float32Array | MathArray | number) {
+    setUniform(name: string, value: Float32Array | MathArray|NumericArray | number) {
         const found = this.uniforms.find((element) => element.name == name);
 
         if (found) {

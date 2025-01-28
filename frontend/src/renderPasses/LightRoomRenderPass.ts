@@ -19,7 +19,7 @@ import MainLight from "../MainLight";
 import Object3D from "../lib/core/Object3D";
 import GameModel from "../GameModel";
 import RenderSettings from "../RenderSettings";
-import MathArray from "@math.gl/core/src/classes/base/math-array";
+import {MathArray} from "@math.gl/core/src/classes/base/math-array";
 
 export default class LightRoomRenderPass extends RenderPass {
 

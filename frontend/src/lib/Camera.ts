@@ -1,9 +1,10 @@
 import UniformGroup from "./core/UniformGroup";
 import Renderer from "./Renderer";
-import {lerp, Matrix4, Vector2, Vector3, Vector4} from "math.gl";
+import {lerp, Matrix4, NumericArray, Vector2, Vector3, Vector4} from "math.gl";
 import UI from "./UI/UI";
 import Model from "./model/Model";
 import GameModel from "../GameModel";
+import {MathArray} from "@math.gl/core/src/classes/base/math-array";
 
 export default class Camera extends UniformGroup {
     public static instance: Camera;
@@ -32,11 +33,11 @@ export default class Camera extends UniformGroup {
     constructor(renderer: Renderer, label: string) {
         super(renderer, label, "camera");
 
-        this.addUniform("viewProjectionMatrix", this.viewProjection)
-        this.addUniform("inverseViewProjectionMatrix", this.viewProjection)
-        this.addUniform("inverseViewMatrix", this.viewInv)
-        this.addUniform("inverseProjectionMatrix", this.projectionInv)
-        this.addUniform("projectionMatrix", this.projection)
+        this.addUniform("viewProjectionMatrix", this.viewProjection as NumericArray)
+        this.addUniform("inverseViewProjectionMatrix", this.viewProjection as NumericArray)
+        this.addUniform("inverseViewMatrix", this.viewInv as NumericArray)
+        this.addUniform("inverseProjectionMatrix", this.projectionInv as NumericArray)
+        this.addUniform("projectionMatrix", this.projection as NumericArray)
         this.addUniform("worldPosition", this.cameraWorldU)
 
 
