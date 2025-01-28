@@ -43,7 +43,7 @@ type SamplerUniform = {
     name: string,
     sampler: GPUSampler;
     usage: GPUShaderStageFlags,
-    compare: boolean
+    bindingType :GPUSamplerBindingType
 
 }
 export default class UniformGroup extends ObjectGPU {
@@ -133,12 +133,13 @@ export default class UniformGroup extends ObjectGPU {
 
     addSamplerComparison(name) {
         let sampler = this.renderer.device.createSampler({compare: 'less',})
-        this.samplerUniforms.push({name: name, sampler: sampler, usage: GPUShaderStage.FRAGMENT, compare: true})
+        this.samplerUniforms.push({name: name, sampler: sampler, usage: GPUShaderStage.FRAGMENT, bindingType: SamplerBindingType.Comparison})
 
     }
 
-    addSampler(name: string, usage = GPUShaderStage.FRAGMENT, filter: GPUFilterMode = FilterMode.Linear, addressMode = AddressMode.ClampToEdge, maxAnisotropy: number = 4) {
+    addSampler(name: string, usage = GPUShaderStage.FRAGMENT, filter: GPUFilterMode = FilterMode.Linear, addressMode = AddressMode.ClampToEdge, maxAnisotropy: number = 4,bindingType=SamplerBindingType.Filtering) {
         let sampler = this.renderer.device.createSampler({
+            label:this.label+"_"+name,
             magFilter: filter,
             minFilter: filter,
             mipmapFilter: filter,
@@ -146,7 +147,7 @@ export default class UniformGroup extends ObjectGPU {
             addressModeV: addressMode,
             maxAnisotropy: maxAnisotropy
         })
-        this.samplerUniforms.push({name: name, sampler: sampler, usage: usage, compare: false})
+        this.samplerUniforms.push({name: name, sampler: sampler, usage: usage, bindingType:bindingType})
 
 
         //let sampler =this.renderer.device.createSampler({magFilter:"linear",minFilter:"linear" })
@@ -302,7 +303,7 @@ struct ${this.typeInShader}
         if (this.samplerUniforms.length) {
             for (let s of this.samplerUniforms) {
 
-                if (s.compare) {
+                if (s.bindingType == SamplerBindingType.Comparison) {
                     textureText += `@group(${id}) @binding(${bindingCount})  var ` + s.name + `:sampler_comparison;` + "\n";
                 } else {
                     textureText += `@group(${id}) @binding(${bindingCount})  var ` + s.name + `:sampler;` + "\n";
@@ -358,15 +359,15 @@ struct ${this.typeInShader}
             bindingCount++;
         }
         for (let t of this.samplerUniforms) {
-            let s: GPUSamplerBindingLayout = {type: SamplerBindingType.Filtering}
-            if (t.compare) {
-                s = {type: SamplerBindingType.Comparison}
-            }
+
             entriesLayout.push({
                 binding: bindingCount,
                 visibility: t.usage,
-                sampler: s,
+                sampler:{type: t.bindingType},
             })
+            if(t.sampler.label=='GTAOdenoise_point_clamp_sampler'){
+                console.log(t)
+            }
             bindingCount++;
         }
         let bindGroupLayoutDescriptor: GPUBindGroupLayoutDescriptor = {

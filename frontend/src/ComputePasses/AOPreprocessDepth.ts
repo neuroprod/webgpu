@@ -1,7 +1,7 @@
 import Renderer from "../lib/Renderer";
 import UniformGroup from "../lib/core/UniformGroup";
 import Texture from "../lib/textures/Texture";
-import {FilterMode, TextureDimension, TextureFormat} from "../lib/WebGPUConstants";
+import {AddressMode, FilterMode, SamplerBindingType, TextureDimension, TextureFormat} from "../lib/WebGPUConstants";
 import RenderTexture from "../lib/textures/RenderTexture";
 
 export default class AOPreprocessDepth {
@@ -36,7 +36,7 @@ export default class AOPreprocessDepth {
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip1", this.texture, TextureFormat.R32Float, 1);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip2", this.texture, TextureFormat.R32Float, 2);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip3", this.texture, TextureFormat.R32Float, 3);
-        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Linear)
+        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Nearest,AddressMode.ClampToEdge,1,SamplerBindingType.NonFiltering)
 
     }
 

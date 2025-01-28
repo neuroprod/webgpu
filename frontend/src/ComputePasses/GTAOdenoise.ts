@@ -1,7 +1,7 @@
 import Renderer from "../lib/Renderer";
 import UniformGroup from "../lib/core/UniformGroup";
 import Texture from "../lib/textures/Texture";
-import {FilterMode, TextureDimension, TextureFormat} from "../lib/WebGPUConstants";
+import {AddressMode, FilterMode, SamplerBindingType, TextureDimension, TextureFormat} from "../lib/WebGPUConstants";
 import RenderTexture from "../lib/textures/RenderTexture";
 
 export default class GTAOdenoise {
@@ -36,7 +36,7 @@ export default class GTAOdenoise {
         this.uniformGroup.addTexture("depth_differences", this.renderer.texturesByLabel["GTAODepth"], "uint", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
         this.uniformGroup.addStorageTexture("ambient_occlusion", this.texture, TextureFormat.R32Float);
 
-        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Linear)
+        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Nearest,AddressMode.ClampToEdge,1,SamplerBindingType.NonFiltering)
 
     }
 
